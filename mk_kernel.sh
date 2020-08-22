@@ -10,19 +10,23 @@
 # export KERNEL_VER=5.8
 # export KERNEL_TARGET="zImage modules dtbs"
 # export CROSS_COMPILE=arm-linux-gnueabihf-
-# export BUILD_ARGS="-j$(nproc) O=./build"
 # export INSTALL_MOD_PATH=./install
 # export DTB_FILE=sun7i-a20-m2
 
 source_env(){
 	SCRIPT_NAME=${0##*/}
-	SCRIPT_PATH=$(cd "$(dirname "$0")"; pwd)
+	# SCRIPT_PATH=$(cd "$(dirname "$0")"; pwd -P)
+	SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
 
 	source ${ENV_FILE}
 
 	# Other Environment Variable
-	XZ_DEFAULTS="-T 0"
+	export XZ_DEFAULTS="-T 0"
+	export INSTALL_MOD_PATH=./install
+	BUILD_DIR=./.build
+	BUILD_ARGS="-j$(nproc) O=${BUILD_DIR}"
+	INSTALL_DIR=${BUILD_DIR}/${INSTALL_MOD_PATH}
 }
 
 build_info(){
@@ -44,33 +48,36 @@ build_kernel(){
 
 install_kernel(){
 	# Install Modules
-	make modules_install
-
+	make modules_install ${BUILD_ARGS}
+	
 	if [ $ARCH == "arm64" ]; then
 		# Generate uImage
-		mkimage -A ${ARCH} -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d arch/${ARCH}/boot/Image ${INSTALL_MOD_PATH}/uImage
+		mkimage -A ${ARCH} -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${BUILD_DIR}/arch/${ARCH}/boot/Image ${INSTALL_DIR}/uImage
 	elif [ $ARCH == "arm" ]; then
-		# copy zImage
-		cp arch/${ARCH}/boot/zImage ${INSTALL_MOD_PATH}
+		# Copy zImage
+		cp ${BUILD_DIR}/arch/${ARCH}/boot/zImage ${INSTALL_DIR}
 	fi
 
 	# Copy dtb
-	cp ./arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_MOD_PATH}
+	cp ${BUILD_DIR}/arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_DIR}
+	# Copy dts
+	cp ./arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_DIR}
 	# Copy .config
-	cp ./.config ${INSTALL_MOD_PATH}/config
+	cp ${BUILD_DIR}/.config ${INSTALL_DIR}/config
 }
 
 archive_kernel(){
 	# Input log
 	read -p "Input Package Log:" PACK_INFO
-	echo $PACK_INFO > ${INSTALL_MOD_PATH}/info
+	echo $PACK_INFO > ${INSTALL_DIR}/info
 
 	# Package
 	#cd $KDIR
 	PACK_DATE=`date +%Y%m%d_%H%M`
 	PACK_NAME=linux-${KERNEL_VER}_${PACK_DATE}.xz.tar
 	# mkdir ${PACK_DIR} > /dev/null 2>&1
-	tar cJfp ${PACK_NAME} ${INSTALL_MOD_PATH}
+	cd ${BUILD_DIR}
+	tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
 	echo "Package To ${PACK_NAME}"
 }
 
@@ -86,10 +93,10 @@ show_menu(){
 	read -p "Please Select: >> " OPT
 	case ${OPT} in
 		"1")
-			make defconfig
+			make defconfig ${BUILD_ARGS}
 			;;
 		"2")
-			make menuconfig -j
+			make menuconfig ${BUILD_ARGS}
 			;;
 		"3")
 			build_kernel
@@ -103,6 +110,10 @@ show_menu(){
 		"6")
 			make clean ${BUILD_ARGS}
 			rm ${INSTALL_MOD_PATH}/* -rf
+			;;
+		"mrproper")
+			# Hide Option
+			make mrproper
 			;;
 		*)
 			echo "Not Support Option: [${OPT}]"
