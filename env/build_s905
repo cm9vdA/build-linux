@@ -1,0 +1,11 @@
+export BOARD_NAME=Q5
+export CPU_INFO=Amlogic S905
+
+export PATH=$PATH:/home/overlay/opt/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin/
+export ARCH=arm64
+export KERNEL_VER=5.8
+export BUILD_ARGS="-j$(nproc) O=./build"
+export INSTALL_MOD_PATH=./install
+export KERNEL_TARGET="Image modules dtbs"
+export CROSS_COMPILE=aarch64-linux-gnu-
+export DTB_FILE=amlogic/meson-gxbb-p201

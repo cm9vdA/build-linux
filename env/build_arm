@@ -1,0 +1,4 @@
+export ARCH=arm
+export TARGET_ARCH=arm
+export TARGET_VERSION=buster
+export TARGET_FS=debian_${TARGET_VERSION}

@@ -1,0 +1,11 @@
+export BOARD_NAME=M2
+export CPU_INFO=Allwinner A20
+
+export PATH=$PATH:/home/overlay/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/
+export ARCH=arm
+export KERNEL_VER=5.8
+export BUILD_ARGS="-j$(nproc) O=./build"
+export INSTALL_MOD_PATH=./install
+export KERNEL_TARGET="zImage modules dtbs"
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export DTB_FILE=sun7i-a20-m2
