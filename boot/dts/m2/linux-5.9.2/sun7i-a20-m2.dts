@@ -49,6 +49,34 @@
 
 };
 
+&cpu0 {
+	operating-points = <
+	/* kHz	  uV */
+	1080000	1450000
+	912000	1400000
+	864000	1300000
+	792000	1250000
+	720000	1200000
+	624000	1150000
+	528000	1100000
+	312000	1050000
+	>;
+};
+
+&cpu1 {
+	operating-points = <
+	/* kHz	  uV */
+	1080000	1450000
+	912000	1400000
+	864000	1300000
+	792000	1250000
+	720000	1200000
+	624000	1150000
+	528000	1100000
+	312000	1050000
+	>;
+};
+
 &ahci {
 	target-supply = <&reg_ahci_5v>;
 	status = "okay";
@@ -100,6 +128,23 @@
 	};
 };
 
+/* I2C
+* NO: SCL,	SDA
+*  0: PB00, PB01
+*  1: PB18, PB19
+*  2: PB20, PB21
+*  3: PI00, PI01
+*  4: PI02, PI03
+*/
+
+&pio {
+	/omit-if-no-ref/
+	i2c4_pins: i2c4-pins {
+		pins = "PI2", "PI3";
+		function = "i2c4";
+	};
+};
+
 &i2c0 {
 	status = "okay";
 
@@ -115,19 +160,40 @@
 };
 
 &i2c1 {
-	pinctrl-names = "default";
 	status = "okay";
 };
 
+// touch screen
 &i2c2 {
 	status = "okay";
 };
+
+/*
+&i2c3 {
+	status = "okay";
+};
+
+&i2c4 {
+	pinctrl-0 = <&i2c4_pins>;
+	status = "okay";
+};
+*/
+
+/*
+// PH02 IRQ_TYPE_LEVEL_LOW / GPIO_ACTIVE_LOW
+#include "axp209.dtsi"
+
+&ac_power_supply {
+	status = "okay";
+};
+
 /*
 &i2s2 {
 	status = "okay";
 };
 */
-/* maybe useful for i2s2*/
+
+// maybe useful for i2s2
 /*
 &spi2 {
 	pinctrl-names = "default";
@@ -136,6 +202,7 @@
 	status = "okay";
 };
 */
+
 &ir0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&ir0_rx_pin>;
@@ -192,12 +259,25 @@
 	status = "disabled";
 };
 */
+
+/* UART
+* NO: TX,	RX	, RTS,	CTS
+*  0: PB22, PB23
+*  1: 
+*  2: PI18, PI19
+*  3: PG06, PG07, PG08, PG09
+*  4: PG10, PG11
+*  5: PI10, PI11
+*  6: PI12, PI13
+*/
+
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_pb_pins>;
 	status = "okay";
 };
-/*
+
+// SP3485E: DI, RO
 &uart2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart2_pi_pins>;
@@ -206,7 +286,7 @@
 
 &uart3 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart3_pg_pins>;
+	pinctrl-0 = <&uart3_pg_pins>, <&uart3_cts_rts_pg_pins>;
 	status = "okay";
 };
 
@@ -216,24 +296,29 @@
 	status = "okay";
 };
 
+// MAX3232: T1, R1
 &uart5 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart5_pi_pins>;
 	status = "okay";
 };
 
+// MAX3232: T2, R2
 &uart6{
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart6_pi_pins>;
 	status = "okay";
 };
 
+
+// maybe used for 3g module
 &uart7 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart7_pi_pins>;
 	status = "okay";
 };
-*/
+
+
 &usb_otg {
 	dr_mode = "otg";
 	status = "okay";
@@ -244,3 +329,13 @@
 	usb2_vbus-supply = <&reg_usb2_vbus>;
 	status = "okay";
 };
+
+/* GPIO
+*  PI05
+*  PI06
+*  PI07
+*  PI08
+*  PI09
+*  PH21, X-/INT
+*  PB13, Y+/WAKE
+*/
