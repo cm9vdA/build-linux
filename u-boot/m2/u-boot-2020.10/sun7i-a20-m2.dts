@@ -112,7 +112,7 @@
 	status = "okay";
 };
 
-&gmac_mdio {
+&gmac {
         phy1: ethernet-phy@1 {
                 reg = <1>;
         };
@@ -229,6 +229,12 @@
 		compatible = "mmc-card";
 		broken-hpi;
 	};
+};
+
+&pwm {
+      pinctrl-names = "default";
+      pinctrl-0 = <&pwm0_pin>, <&pwm1_pin>;
+      status = "okay";
 };
 
 &ohci0 {
