@@ -87,7 +87,7 @@
 };
 
 &codec {
-	allwinner,pa = <&pio 7 25 GPIO_ACTIVE_HIGH>;
+	//PAM8620: PH25, Low: enable output, High: disable output
 	allwinner,pa-gpios = <&pio 7 25 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 };
