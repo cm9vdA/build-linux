@@ -17,5 +17,5 @@ u-boot：u-boot编译构建相关的配置以及生成的bin文件
   2. 修改[build_linux_m2](https://github.com/HIWLYF/build-linux/blob/master/env/build_linux_m2)中的PATH参数，根据实际情况设置交叉编译工具路径
   3. 在内核源码目录下创建软链接到[mk_kernel.sh](https://github.com/HIWLYF/build-linux/blob/master/mk_kernel.sh)，软链接的名字是build_linux_m2， 因为mk_kernel.sh脚本是根据调用时的文件名来自动选择对应的环境变量文件，所以要以环境变量文件的名字来命名
   4. 【可选步骤】拷贝[sun7i-a20-m2.dts](https://github.com/HIWLYF/build-linux/blob/master/boot/dts/m2/linux-5.9.2/sun7i-a20-m2.dts) 到linux源码目录下对应位置并修改Makefile
-  5. 拷贝[config](https://github.com/HIWLYF/build-linux/blob/master/boot/config/m2/config_5.9.2)文件到linux源码目录下的 .build 目录下边 ，如果该目录不存在可手动创建
+  5. 拷贝[config](https://github.com/HIWLYF/build-linux/blob/master/boot/config/m2/config_5.9.2)文件到linux源码目录下的 .build 目录下边，并重命名为.config，如果该目录不存在可手动创建
   6. 运行./build_linux_m2，使用选项3开始编译
