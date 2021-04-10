@@ -1,0 +1,12 @@
+TOOLCHAIN_DIR=/home/user/arm/toolchain
+TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu
+
+export BOARD_NAME=CumeBox/Q5
+export CPU_INFO=Amlogic S905
+
+export PATH=$PATH:${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin
+export ARCH=arm64
+export KERNEL_VER=5.11.12
+export KERNEL_TARGET="Image modules dtbs"
+export CROSS_COMPILE=aarch64-none-linux-gnu-
+export DTB_FILE=amlogic/meson-*
