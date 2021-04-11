@@ -1,0 +1,222 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2016 Endless Computers, Inc.
+ * Author: Carlo Caione <carlo@endlessm.com>
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/leds/common.h>
+#include "meson-gxl-s905x-p212.dtsi"
+
+/ {
+	compatible = "amlogic,p212", "amlogic,s905x", "amlogic,meson-gxl";
+	model = "CumeBox";
+
+	hdmi-connector {
+		compatible = "hdmi-connector";
+		type = "a";
+
+		port {
+			hdmi_connector_in: endpoint {
+				remote-endpoint = <&hdmi_tx_tmds_out>;
+			};
+		};
+	};
+
+	otg_5v: regulator-hdmi-5v {
+		compatible = "regulator-fixed";
+
+		regulator-name = "OTG_5V";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+
+		gpio = <&gpio GPIOH_5 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		/*
+			purple: red + blue
+			yellow: red + green
+			white:  red + green + blue
+		*/
+		led-blue {
+			label = "blue";
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&gpio GPIODV_24 GPIO_ACTIVE_HIGH>; // 73
+			linux,default-trigger = "timer";
+		};
+
+		led-red {
+			label = "red";
+			color = <LED_COLOR_ID_RED>;
+			function = LED_FUNCTION_DISK_ACTIVITY;
+			gpios = <&gpio GPIODV_26 GPIO_ACTIVE_HIGH>; // 75
+			panic-indicator;
+		};
+
+		led-green {
+			label = "green";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_DISK_ACTIVITY;
+			gpios = <&gpio GPIODV_27 GPIO_ACTIVE_HIGH>; // 76
+			//linux,default-trigger = "heartbeat";
+		};
+	};
+
+	gpio_fan: gpio-fan {
+		#cooling-cells = <2>;
+		compatible = "gpio-fan";
+		gpio-fan,speed-map = <0 0 4500 1>;
+		gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+
+};
+
+
+/*
+&cpu_passive {
+	temperature = <20000>;
+	hysteresis = <2000>;
+	type = "passive";
+};
+&cpu_hot {
+	temperature = <30000>;
+	hysteresis = <2000>;
+	type = "hot";
+};
+&cpu_critical {
+	temperature = <80000>;
+	hysteresis = <2000>;
+	type = "critical";
+};
+
+&cpu_cooling_maps {
+	map0 {
+		trip = <&cpu_passive>;
+		cooling-device = <&gpio_fan 0 0>,
+				 <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+	};
+	map1 {
+		trip = <&cpu_hot>;
+		cooling-device = <&gpio_fan 1 1>,
+				 <&cpu0 1 1>,
+				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+	};
+};
+*/
+/*
+&pwm_AO_ab {
+	pinctrl-0 = <&pwm_ao_a_3_pins>;
+	pinctrl-names = "Fan";
+	clocks = <&clkc CLKID_FCLK_DIV4>;
+	clock-names = "clkin0";
+	status = "okay";
+};
+*/
+&usb2_phy0 {
+	// Enable the hub which is connected to this port 
+	phy-supply = <&otg_5v>;
+};
+
+&cec_AO {
+	status = "okay";
+	pinctrl-0 = <&ao_cec_pins>;
+	pinctrl-names = "default";
+	hdmi-phandle = <&hdmi_tx>;
+};
+
+&hdmi_tx {
+	status = "okay";
+	pinctrl-0 = <&hdmi_hpd_pins>, <&hdmi_i2c_pins>;
+	pinctrl-names = "default";
+	hdmi-supply = <&hdmi_5v>;
+};
+
+&hdmi_tx_tmds_port {
+	hdmi_tx_tmds_out: endpoint {
+		remote-endpoint = <&hdmi_connector_in>;
+	};
+};
+
+/* This UART is brought out to the DB9 connector */
+&uart_AO {
+	status = "okay";
+};
+
+&internal_phy {
+	pinctrl-0 = <&eth_link_led_pins>, <&eth_act_led_pins>;
+	pinctrl-names = "default";
+};
+
+&ir {
+	status = "okay";
+	pinctrl-0 = <&remote_input_ao_pins>;
+	pinctrl-names = "default";
+};
+
+// enable I2C
+/*
+&i2c_A {
+	status = "okay";
+        pinctrl-0 = <&i2c_a_pins>;
+        pinctrl-names = "default";
+};
+
+&i2c_B {
+	status = "okay";
+	pinctrl-0 = <&i2c_b_pins>;
+        pinctrl-names = "default";
+};
+&i2c_C {
+	status = "okay";
+        pinctrl-0 = <&i2c_c_pins>;
+        pinctrl-names = "default";
+};
+*/
+&i2c_AO {
+	status = "okay";
+        pinctrl-0 = <&i2c_ao_pins>;
+        pinctrl-names = "default";
+
+	ssd1306: oled@3c {
+		//status = "disabled";
+		compatible = "solomon,ssd1306fb-i2c";
+		reg = < 0x3c >;
+		solomon,width = < 128 >;
+		solomon,height = < 64 >;
+		solomon,page-offset = < 0 >;
+		solomon,com-invdir;
+		//reset-gpios = < &gpio 1 0 GPIO_ACTIVE_HIGH>;
+		//reset-gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
+	};
+};
+/*
+&sd_emmc_a {
+	brcmf: wifi@1 {
+		reg = <1>;
+		compatible = "brcm,bcm4329-fmac";
+	};
+};
+
+&uart_A {
+	bluetooth {
+		compatible = "brcm,bcm43438-bt";
+		shutdown-gpios = <&gpio GPIOX_17 GPIO_ACTIVE_HIGH>;
+		max-speed = <2000000>;
+		clocks = <&wifi32k>;
+		clock-names = "lpo";
+	};
+};
+*/
