@@ -7,6 +7,7 @@
 /dts-v1/;
 
 #include <dt-bindings/leds/common.h>
+#include <dt-bindings/input/input.h>
 #include "meson-gxl-s905x-p212.dtsi"
 
 / {
@@ -75,6 +76,28 @@
 		gpio-fan,speed-map = <0 0 4500 1>;
 		gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
 		status = "okay";
+	};
+	gpio-keys-polled {
+		compatible = "gpio-keys-polled";
+		poll-interval = <100>;
+
+		power-button {
+			label = "power";
+			linux,code = <KEY_POWER>;
+			gpios = <&gpio_ao GPIOAO_2 GPIO_ACTIVE_LOW>;
+		};
+/*
+		reset-button {
+			label = "reset";
+			linux,code = <KEY_POWER>;
+			gpios = <&gpio_ao GPIOAO_9 GPIO_ACTIVE_LOW>;
+		};
+		ap-button {
+			label = "ap";
+			linux,code = <KEY_POWER>;
+			gpios = <&gpio_ao GPIOAO_6 GPIO_ACTIVE_LOW>;
+		};
+*/
 	};
 
 };
@@ -189,16 +212,16 @@
 	status = "okay";
         pinctrl-0 = <&i2c_ao_pins>;
         pinctrl-names = "default";
+	clock-frequency = < 400000 >;
 
 	ssd1306: oled@3c {
-		//status = "disabled";
+		status = "disabled";
 		compatible = "solomon,ssd1306fb-i2c";
 		reg = < 0x3c >;
 		solomon,width = < 128 >;
 		solomon,height = < 64 >;
 		solomon,page-offset = < 0 >;
 		solomon,com-invdir;
-		//reset-gpios = < &gpio 1 0 GPIO_ACTIVE_HIGH>;
 		//reset-gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
 	};
 };
