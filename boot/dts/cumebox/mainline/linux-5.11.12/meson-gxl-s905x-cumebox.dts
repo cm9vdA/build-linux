@@ -86,68 +86,20 @@
 			linux,code = <KEY_POWER>;
 			gpios = <&gpio_ao GPIOAO_2 GPIO_ACTIVE_LOW>;
 		};
-/*
 		reset-button {
 			label = "reset";
-			linux,code = <KEY_POWER>;
+			linux,code = <KEY_FN_F1>;
 			gpios = <&gpio_ao GPIOAO_9 GPIO_ACTIVE_LOW>;
 		};
 		ap-button {
 			label = "ap";
-			linux,code = <KEY_POWER>;
+			linux,code = <KEY_FN_F2>;
 			gpios = <&gpio_ao GPIOAO_6 GPIO_ACTIVE_LOW>;
 		};
-*/
 	};
 
 };
 
-
-/*
-&cpu_passive {
-	temperature = <20000>;
-	hysteresis = <2000>;
-	type = "passive";
-};
-&cpu_hot {
-	temperature = <30000>;
-	hysteresis = <2000>;
-	type = "hot";
-};
-&cpu_critical {
-	temperature = <80000>;
-	hysteresis = <2000>;
-	type = "critical";
-};
-
-&cpu_cooling_maps {
-	map0 {
-		trip = <&cpu_passive>;
-		cooling-device = <&gpio_fan 0 0>,
-				 <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-	};
-	map1 {
-		trip = <&cpu_hot>;
-		cooling-device = <&gpio_fan 1 1>,
-				 <&cpu0 1 1>,
-				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-	};
-};
-*/
-/*
-&pwm_AO_ab {
-	pinctrl-0 = <&pwm_ao_a_3_pins>;
-	pinctrl-names = "Fan";
-	clocks = <&clkc CLKID_FCLK_DIV4>;
-	clock-names = "clkin0";
-	status = "okay";
-};
-*/
 &usb2_phy0 {
 	// Enable the hub which is connected to this port 
 	phy-supply = <&otg_5v>;
@@ -190,28 +142,10 @@
 };
 
 // enable I2C
-/*
-&i2c_A {
-	status = "okay";
-        pinctrl-0 = <&i2c_a_pins>;
-        pinctrl-names = "default";
-};
-
-&i2c_B {
-	status = "okay";
-	pinctrl-0 = <&i2c_b_pins>;
-        pinctrl-names = "default";
-};
-&i2c_C {
-	status = "okay";
-        pinctrl-0 = <&i2c_c_pins>;
-        pinctrl-names = "default";
-};
-*/
 &i2c_AO {
 	status = "okay";
-        pinctrl-0 = <&i2c_ao_pins>;
-        pinctrl-names = "default";
+	pinctrl-0 = <&i2c_ao_pins>;
+	pinctrl-names = "default";
 	clock-frequency = < 400000 >;
 
 	ssd1306: oled@3c {
@@ -225,6 +159,26 @@
 		//reset-gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
 	};
 };
+
+/*
+&i2c_A {
+	status = "okay";
+	pinctrl-0 = <&i2c_a_pins>;
+	pinctrl-names = "default";
+};
+
+&i2c_B {
+	status = "okay";
+	pinctrl-0 = <&i2c_b_pins>;
+	pinctrl-names = "default";
+};
+&i2c_C {
+	status = "okay";
+	pinctrl-0 = <&i2c_c_pins>;
+	pinctrl-names = "default";
+};
+*/
+
 /*
 &sd_emmc_a {
 	brcmf: wifi@1 {
@@ -241,5 +195,32 @@
 		clocks = <&wifi32k>;
 		clock-names = "lpo";
 	};
+};
+
+&cpu_cooling_maps {
+	map0 {
+		trip = <&cpu_passive>;
+		cooling-device = <&gpio_fan 0 0>,
+				 <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+	};
+	map1 {
+		trip = <&cpu_hot>;
+		cooling-device = <&gpio_fan 1 1>,
+				 <&cpu0 1 1>,
+				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+	};
+};
+
+&pwm_AO_ab {
+	pinctrl-0 = <&pwm_ao_a_3_pins>;
+	pinctrl-names = "Fan";
+	clocks = <&clkc CLKID_FCLK_DIV4>;
+	clock-names = "clkin0";
+	status = "okay";
 };
 */
