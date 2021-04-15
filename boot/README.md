@@ -11,7 +11,7 @@
 - RAM: 1G DDR3
 - ROM: 8G EMMC
 - Ethernet: 100Mb/s
-- WiFi: AP6212
+- WiFi: CYW43455
 
 ## 美睿M2 数字标牌主板
 - CPU: Allwinner A20
