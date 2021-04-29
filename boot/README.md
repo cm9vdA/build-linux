@@ -5,7 +5,7 @@
 - ROM: 8G EMMC
 - USB: 2.0 x 2
 - HDMI: x 1
-- Ethernet: 100Mbs
+- Ethernet: 100Mbps
 - WiFi: RTL8189ETV(SDIO)
 
 ## 私家云2代 CumeBox
@@ -14,7 +14,7 @@
 - ROM: 8G EMMC
 - USB: 2.0 x 2
 - HDMI: x 1
-- Ethernet: 100Mbs
+- Ethernet: 100Mbps
 - WiFi: CYW43455(SDIO)
 - SATA: JMS561(2.5in x 2, Support RAID 0/1)
 
@@ -25,7 +25,7 @@
 - USB: 2.0 x 2
 - HDMI: x 1
 - VGA: x 1
-- Ethernet: 100Mbs
+- Ethernet: 100Mbps
 - WiFi: RTL8188ETV(USB)
 - SATA: x 1
 
@@ -35,5 +35,5 @@
 - ROM: 8G EMMC
 - USB: 2.0 x 1, 3.0 x1
 - HDMI: x 1(Internal)
-- Ethernet: 1000Mbs
+- Ethernet: 1000Mbps
 - WiFi: None
