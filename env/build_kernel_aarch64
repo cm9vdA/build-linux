@@ -6,7 +6,6 @@ export CPU_INFO=Amlogic S905
 
 export PATH=$PATH:${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin
 export ARCH=arm64
-export KERNEL_VER=5.11.12
 export KERNEL_TARGET="Image modules dtbs"
 export CROSS_COMPILE=aarch64-none-linux-gnu-
-export DTB_FILE=amlogic/meson-*
+export DTB_FILE=amlogic/meson-meson-gxbb-p201-q5* amlogic/meson-gxl-s905x-cumebox*

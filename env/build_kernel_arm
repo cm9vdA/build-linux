@@ -6,7 +6,6 @@ export CPU_INFO=Allwinner A20
 
 export PATH=$PATH:${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin
 export ARCH=arm
-export KERNEL_VER=5.11.12
 export KERNEL_TARGET="dtbs zImage modules"
 export CROSS_COMPILE=arm-linux-gnueabihf-
-export DTB_FILE=sun7i-a20-m2
+export DTB_FILE=sun7i-a20-m2*

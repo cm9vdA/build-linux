@@ -7,7 +7,6 @@
 
 # export PATH=$PATH:/home/overlay/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/
 # export ARCH=arm
-# export KERNEL_VER=5.8
 # export KERNEL_TARGET="zImage modules dtbs"
 # export CROSS_COMPILE=arm-linux-gnueabihf-
 # export INSTALL_MOD_PATH=./install
@@ -35,7 +34,6 @@ build_info(){
 	echo -e "CPU_INFO:         ${CPU_INFO}"
 	echo -e "DTB_FILE:         ${DTB_FILE}"
 	echo -e "ARCH:             ${ARCH}"
-	echo -e "KERNEL_VER:       ${KERNEL_VER}"
 	echo -e "KERNEL_TARGET:    ${KERNEL_TARGET}"
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
@@ -61,7 +59,9 @@ install_kernel(){
 	# Copy dtb
 	cp ${BUILD_DIR}/arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_DIR}
 	# Copy dts
-	cp ./arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_DIR}
+	cd ./arch/${ARCH}/boot/dts/
+	cp ${DTB_FILE} ${INSTALL_DIR}
+	cd -
 	# Copy .config
 	cp ${BUILD_DIR}/.config ${INSTALL_DIR}/config
 }
@@ -74,7 +74,7 @@ archive_kernel(){
 	# Package
 	#cd $KDIR
 	PACK_DATE=`date +%Y%m%d_%H%M`
-	PACK_NAME=linux-${KERNEL_VER}_${PACK_DATE}.xz.tar
+	PACK_NAME=linux-$(basename "$PWD")_${PACK_DATE}.xz.tar
 	# mkdir ${PACK_DIR} > /dev/null 2>&1
 	cd ${BUILD_DIR}
 	tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
