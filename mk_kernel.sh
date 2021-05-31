@@ -23,7 +23,7 @@ source_env(){
 	# Other Environment Variable
 	export XZ_DEFAULTS="-T 0"
 	export INSTALL_MOD_PATH=./install
-	BUILD_DIR=./.build
+	BUILD_DIR=${PWD}/.build
 	BUILD_ARGS="-j$(nproc) O=${BUILD_DIR}"
 	INSTALL_DIR=${BUILD_DIR}/${INSTALL_MOD_PATH}
 }
@@ -57,9 +57,13 @@ install_kernel(){
 	fi
 
 	# Copy dtb
-	cp ${BUILD_DIR}/arch/${ARCH}/boot/dts/${DTB_FILE}.* ${INSTALL_DIR}
+	cd ${BUILD_DIR}/arch/${ARCH}/boot/dts/
+	echo $PWD
+	cp ${DTB_FILE} ${INSTALL_DIR}
+	cd -
 	# Copy dts
 	cd ./arch/${ARCH}/boot/dts/
+	echo $PWD
 	cp ${DTB_FILE} ${INSTALL_DIR}
 	cd -
 	# Copy .config
@@ -74,7 +78,7 @@ archive_kernel(){
 	# Package
 	#cd $KDIR
 	PACK_DATE=`date +%Y%m%d_%H%M`
-	PACK_NAME=linux-$(basename "$PWD")_${PACK_DATE}.xz.tar
+	PACK_NAME=linux-$(basename "$PWD")_${PACK_DATE}.tar.xz
 	# mkdir ${PACK_DIR} > /dev/null 2>&1
 	cd ${BUILD_DIR}
 	tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
