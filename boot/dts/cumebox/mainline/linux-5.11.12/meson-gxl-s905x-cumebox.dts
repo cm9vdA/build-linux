@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
- * Copyright (c) 2016 Endless Computers, Inc.
- * Author: Carlo Caione <carlo@endlessm.com>
+ * CumeBox
  */
 
 /dts-v1/;
@@ -48,15 +47,13 @@
 		led-blue {
 			label = "blue";
 			color = <LED_COLOR_ID_BLUE>;
-			function = LED_FUNCTION_STATUS;
 			gpios = <&gpio GPIODV_24 GPIO_ACTIVE_HIGH>; // 73
-			linux,default-trigger = "timer";
+			//linux,default-trigger = "timer";
 		};
 
 		led-red {
 			label = "red";
 			color = <LED_COLOR_ID_RED>;
-			function = LED_FUNCTION_DISK_ACTIVITY;
 			gpios = <&gpio GPIODV_26 GPIO_ACTIVE_HIGH>; // 75
 			panic-indicator;
 		};
@@ -64,9 +61,8 @@
 		led-green {
 			label = "green";
 			color = <LED_COLOR_ID_GREEN>;
-			function = LED_FUNCTION_DISK_ACTIVITY;
+			default-state = "on";
 			gpios = <&gpio GPIODV_27 GPIO_ACTIVE_HIGH>; // 76
-			//linux,default-trigger = "heartbeat";
 		};
 	};
 
@@ -77,6 +73,7 @@
 		gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
+
 	gpio-keys-polled {
 		compatible = "gpio-keys-polled";
 		poll-interval = <100>;
@@ -179,8 +176,8 @@
 };
 */
 
-/*
 &sd_emmc_a {
+	max-frequency = <200000000>;
 	brcmf: wifi@1 {
 		reg = <1>;
 		compatible = "brcm,bcm4329-fmac";
@@ -197,25 +194,7 @@
 	};
 };
 
-&cpu_cooling_maps {
-	map0 {
-		trip = <&cpu_passive>;
-		cooling-device = <&gpio_fan 0 0>,
-				 <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-	};
-	map1 {
-		trip = <&cpu_hot>;
-		cooling-device = <&gpio_fan 1 1>,
-				 <&cpu0 1 1>,
-				 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-				 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-	};
-};
-
+/*
 &pwm_AO_ab {
 	pinctrl-0 = <&pwm_ao_a_3_pins>;
 	pinctrl-names = "Fan";

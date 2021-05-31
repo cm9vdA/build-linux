@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * CumeBox, disable WiFi.
+ */
+
+/dts-v1/;
+
+#include "meson-gxl-s905x-cumebox.dts"
+
+
+/* Wireless SDIO Module */
+&sd_emmc_a {
+	status = "disabled";
+};
