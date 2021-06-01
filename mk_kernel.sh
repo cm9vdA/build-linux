@@ -41,12 +41,12 @@ build_info(){
 }
 
 build_kernel(){
-	make ${KERNEL_TARGET} ${BUILD_ARGS}
+	TIME="Total Time: %E\tExit:%x" time make ${KERNEL_TARGET} ${BUILD_ARGS}
 }
 
 install_kernel(){
 	# Install Modules
-	make modules_install ${BUILD_ARGS}
+	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 	
 	if [ $ARCH == "arm64" ]; then
 		# Generate uImage
@@ -81,7 +81,7 @@ archive_kernel(){
 	PACK_NAME=linux-$(basename "$PWD")_${PACK_DATE}.tar.xz
 	# mkdir ${PACK_DIR} > /dev/null 2>&1
 	cd ${BUILD_DIR}
-	tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
+	TIME="Total Time: %E\tExit:%x" time tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
 	echo "Package To ${PACK_NAME}"
 }
 
