@@ -113,7 +113,7 @@ show_menu(){
 			;;
 		"6")
 			make clean ${BUILD_ARGS}
-			rm ${INSTALL_MOD_PATH}/* -rf
+			rm ${INSTALL_DIR}/* -rf
 			;;
 		"mrproper")
 			# Hide Option
