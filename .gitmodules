@@ -1,0 +1,3 @@
+[submodule "resource/allwinner/sunxi-tools"]
+	path = resource/allwinner/sunxi-tools
+	url = https://github.com/linux-sunxi/sunxi-tools.git
