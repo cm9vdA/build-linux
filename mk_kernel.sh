@@ -1,31 +1,26 @@
 #!/bin/bash
 
-# Environment Variable File
+# Other Environment Variable
+export XZ_DEFAULTS="-T 0"
 
-# export BOARD_NAME=M2
-# export CPU_INFO=Allwinner A20
-
-# export PATH=$PATH:/home/overlay/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/
-# export ARCH=arm
-# export KERNEL_TARGET="zImage modules dtbs"
-# export CROSS_COMPILE=arm-linux-gnueabihf-
-# export INSTALL_MOD_PATH=./install
-# export DTB_FILE=sun7i-a20-m2
+WORKSPACE_PATH=${PWD}
+KERNEL_SRC=${WORKSPACE_PATH}/linux
 
 source_env(){
 	SCRIPT_NAME=${0##*/}
-	# SCRIPT_PATH=$(cd "$(dirname "$0")"; pwd -P)
 	SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
 
 	source ${ENV_FILE}
 
-	# Other Environment Variable
-	export XZ_DEFAULTS="-T 0"
-	export INSTALL_MOD_PATH=./install
-	BUILD_DIR=${PWD}/.build
-	BUILD_ARGS="-j$(nproc) O=${BUILD_DIR}"
-	INSTALL_DIR=${BUILD_DIR}/${INSTALL_MOD_PATH}
+	# Common Variable
+	export INSTALL_MOD_PATH=${WORKSPACE_PATH}/install
+
+	BUILD_PATH=${WORKSPACE_PATH}/.build
+	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
+
+	cd ${KERNEL_SRC}
+	KERNEL_VERSION=`make kernelversion`
 }
 
 build_info(){
@@ -34,63 +29,87 @@ build_info(){
 	echo -e "CPU_INFO:         ${CPU_INFO}"
 	echo -e "DTB_FILE:         ${DTB_FILE}"
 	echo -e "ARCH:             ${ARCH}"
-	echo -e "KERNEL_TARGET:    ${KERNEL_TARGET}"
+	echo -e "KERNEL_VERSION:   ${KERNEL_VERSION}"
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
 	echo -e "INSTALL_MOD_PATH: ${INSTALL_MOD_PATH}"
 }
 
-build_kernel(){
-	TIME="Total Time: %E\tExit:%x" time make ${KERNEL_TARGET} ${BUILD_ARGS}
+check_path(){
+	if [ ! -e "${KERNEL_SRC}" ]; then
+		echo "Please link the kernel source directory to 'linux'."
+		exit 1
+	fi
 }
 
-install_kernel(){
+build_kernel(){
+	case $1 in
+	"kernel")
+		TIME="Total Time: %E\tExit:%x" time make ${KERNEL_TARGET} ${BUILD_ARGS}
+		;;
+	"modules")
+		TIME="Total Time: %E\tExit:%x" time make modules ${BUILD_ARGS}
+		;;
+	"dtbs")
+		TIME="Total Time: %E\tExit:%x" time make dtbs ${BUILD_ARGS}
+		;;
+	*)
+		echo "Invalid Parmameter: [$1]"
+		;;
+	esac
+}
+
+install_modules(){
 	# Install Modules
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 	
 	if [ $ARCH == "arm64" ]; then
 		# Generate uImage
-		mkimage -A ${ARCH} -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${BUILD_DIR}/arch/${ARCH}/boot/Image ${INSTALL_DIR}/uImage
+		mkimage -A ${ARCH} -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${BUILD_PATH}/arch/${ARCH}/boot/Image ${INSTALL_MOD_PATH}/uImage
 	elif [ $ARCH == "arm" ]; then
 		# Copy zImage
-		cp ${BUILD_DIR}/arch/${ARCH}/boot/zImage ${INSTALL_DIR}
+		cp ${BUILD_PATH}/arch/${ARCH}/boot/${KERNEL_TARGET} ${INSTALL_MOD_PATH}
 	fi
 
 	# Copy dtb
-	cd ${BUILD_DIR}/arch/${ARCH}/boot/dts/
+	cd ${BUILD_PATH}/arch/${ARCH}/boot/dts/
 	echo $PWD
-	cp ${DTB_FILE} ${INSTALL_DIR}
-	cd -
+	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
+	cd ${WORKSPACE_PATH}
 	# Copy dts
-	cd ./arch/${ARCH}/boot/dts/
+	cd ${KERNEL_SRC}/arch/${ARCH}/boot/dts/
 	echo $PWD
-	cp ${DTB_FILE} ${INSTALL_DIR}
-	cd -
+	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
+	cd ${WORKSPACE_PATH}
 	# Copy .config
-	cp ${BUILD_DIR}/.config ${INSTALL_DIR}/config
+	cp ${BUILD_PATH}/.config ${INSTALL_MOD_PATH}/config
 }
 
 archive_kernel(){
 	# Input log
 	read -p "Input Package Log:" PACK_INFO
-	echo $PACK_INFO > ${INSTALL_DIR}/info
+	echo $PACK_INFO > ${INSTALL_MOD_PATH}/info
 
 	# Package
 	#cd $KDIR
 	PACK_DATE=`date +%Y%m%d_%H%M`
-	PACK_NAME=linux-$(basename "$PWD")_${PACK_DATE}.tar.xz
-	# mkdir ${PACK_DIR} > /dev/null 2>&1
-	cd ${BUILD_DIR}
-	TIME="Total Time: %E\tExit:%x" time tar cJfp ../${PACK_NAME} ${INSTALL_MOD_PATH}
+	PACK_NAME=linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz
+	cd ${INSTALL_MOD_PATH}
+	TIME="Total Time: %E\tExit:%x" time tar cJfp ../${PACK_NAME} *
 	echo "Package To ${PACK_NAME}"
 }
 
 show_menu(){
+	cd ${KERNEL_SRC}
+
 	echo "================ Menu Option ================"
 	echo -e "\t[1]. Use Default Config"
 	echo -e "\t[2]. Menu Config"
-	echo -e "\t[3]. Build Kernel"
-	echo -e "\t[4]. Install Kernel"
+	echo -e "\t[3]. Build All"
+	echo -e "\t[31] ├─Build Kernel"
+	echo -e "\t[32] ├─Build Modules"
+	echo -e "\t[33] └─Build DTB"
+	echo -e "\t[4]. Install Modules"
 	echo -e "\t[5]. Archive Kernel"
 	echo -e "\t[6]. Clean"
 
@@ -103,21 +122,36 @@ show_menu(){
 			make menuconfig ${BUILD_ARGS}
 			;;
 		"3")
-			build_kernel
+			build_kernel kernel
+			build_kernel modules
+			build_kernel dtbs
+			;;
+		"31")
+			build_kernel kernel
+			;;
+		"32")
+			build_kernel modules
+			;;
+		"33")
+			build_kernel dtbs
 			;;
 		"4")
-			install_kernel
+			install_modules
 			;;
 		"5")
 			archive_kernel
 			;;
 		"6")
 			make clean ${BUILD_ARGS}
-			rm ${INSTALL_DIR}/* -rf
+			rm ${INSTALL_MOD_PATH}/* -rf
 			;;
 		"mrproper")
 			# Hide Option
 			make mrproper
+			;;
+		"0")
+			# Hide Option
+			echo "apt install flex bison time bc kmod libncurses5-dev libgmp-dev libmpc-dev libssl-dev"
 			;;
 		*)
 			echo "Not Support Option: [${OPT}]"
@@ -126,6 +160,7 @@ show_menu(){
 }
 
 main(){
+	check_path
 	source_env $0
 	build_info
 	show_menu

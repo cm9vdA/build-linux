@@ -1,0 +1,8 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME=CumeBox
+PACK_NAME="cumebox"
+CPU_INFO="Amlogic S905 Family"
+DTB_FILE="amlogic/meson-gxl-s905x-cumebox*"
