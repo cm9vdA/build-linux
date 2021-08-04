@@ -13,6 +13,16 @@ source_env(){
 
 	source ${ENV_FILE}
 
+	HOST_ARCH=`uname -m`
+
+	# No use cross compile toolchain on same platform
+	if [ ${HOST_ARCH} == "aarch64" ] && [ ${ARCH} == "arm64" ]; then
+		unset CROSS_COMPILE
+	fi
+	if [ ${HOST_ARCH:0:3} == "arm" ] && [ ${ARCH} == "arm" ]; then
+		unset CROSS_COMPILE
+	fi
+
 	# Common Variable
 	export INSTALL_MOD_PATH=${WORKSPACE_PATH}/install
 
@@ -73,12 +83,12 @@ install_modules(){
 
 	# Copy dtb
 	cd ${BUILD_PATH}/arch/${ARCH}/boot/dts/
-	echo $PWD
+	#echo $PWD
 	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
 	cd ${WORKSPACE_PATH}
 	# Copy dts
 	cd ${KERNEL_SRC}/arch/${ARCH}/boot/dts/
-	echo $PWD
+	#echo $PWD
 	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
 	cd ${WORKSPACE_PATH}
 	# Copy .config
@@ -92,8 +102,8 @@ archive_kernel(){
 
 	# Package
 	#cd $KDIR
-	PACK_DATE=`date +%Y%m%d_%H%M`
-	PACK_NAME=linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz
+	local PACK_DATE=`date +%Y%m%d_%H%M`
+	local PACK_NAME=linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz
 	cd ${INSTALL_MOD_PATH}
 	TIME="Total Time: %E\tExit:%x" time tar cJfp ../${PACK_NAME} *
 	echo "Package To ${PACK_NAME}"
@@ -151,7 +161,7 @@ show_menu(){
 			;;
 		"0")
 			# Hide Option
-			echo "apt install flex bison time bc kmod libncurses5-dev libgmp-dev libmpc-dev libssl-dev"
+			echo "apt install flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev"
 			;;
 		*)
 			echo "Not Support Option: [${OPT}]"
