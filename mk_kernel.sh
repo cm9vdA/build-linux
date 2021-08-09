@@ -4,32 +4,35 @@
 export XZ_DEFAULTS="-T 0"
 
 WORKSPACE_PATH=${PWD}
-KERNEL_SRC=${WORKSPACE_PATH}/linux
+KERNEL_SRC="${WORKSPACE_PATH}/linux"
 
 source_env(){
 	SCRIPT_NAME=${0##*/}
 	SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
-	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
+	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
 	source ${ENV_FILE}
 
 	HOST_ARCH=`uname -m`
 
-	# No use cross compile toolchain on same platform
-	if [ ${HOST_ARCH} == "aarch64" ] && [ ${ARCH} == "arm64" ]; then
-		unset CROSS_COMPILE
-	fi
-	if [ ${HOST_ARCH:0:3} == "arm" ] && [ ${ARCH} == "arm" ]; then
-		unset CROSS_COMPILE
+	if [ "${NO_CROSS_COMPILE}" == "1" ]; then
+		# No use cross compile toolchain on same platform
+		if [ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]; then
+			unset CROSS_COMPILE
+		fi
+		if [ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]; then
+			unset CROSS_COMPILE
+		fi
 	fi
 
 	# Common Variable
-	export INSTALL_MOD_PATH=${WORKSPACE_PATH}/install
+	export PATH="${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin:$PATH"
+	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 
-	BUILD_PATH=${WORKSPACE_PATH}/.build
+	BUILD_PATH="${WORKSPACE_PATH}/.build"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 
-	cd ${KERNEL_SRC}
+	cd "${KERNEL_SRC}"
 	KERNEL_VERSION=`make kernelversion`
 }
 
@@ -73,44 +76,44 @@ install_modules(){
 	# Install Modules
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 	
-	if [ $ARCH == "arm64" ]; then
+	if [ "$ARCH" == "arm64" ]; then
 		# Generate uImage
-		mkimage -A ${ARCH} -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${BUILD_PATH}/arch/${ARCH}/boot/Image ${INSTALL_MOD_PATH}/uImage
-	elif [ $ARCH == "arm" ]; then
+		mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d "${BUILD_PATH}/arch/${ARCH}/boot/Image" "${INSTALL_MOD_PATH}/uImage"
+	elif [ "$ARCH" == "arm" ]; then
 		# Copy zImage
-		cp ${BUILD_PATH}/arch/${ARCH}/boot/${KERNEL_TARGET} ${INSTALL_MOD_PATH}
+		cp "${BUILD_PATH}/arch/${ARCH}/boot/${KERNEL_TARGET}" "${INSTALL_MOD_PATH}"
 	fi
 
 	# Copy dtb
-	cd ${BUILD_PATH}/arch/${ARCH}/boot/dts/
+	cd "${BUILD_PATH}/arch/${ARCH}/boot/dts/"
 	#echo $PWD
-	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
-	cd ${WORKSPACE_PATH}
+	cp ${DTB_FILE} "${INSTALL_MOD_PATH}"
+	cd "${WORKSPACE_PATH}"
 	# Copy dts
-	cd ${KERNEL_SRC}/arch/${ARCH}/boot/dts/
+	cd "${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
 	#echo $PWD
-	cp ${DTB_FILE} ${INSTALL_MOD_PATH}
-	cd ${WORKSPACE_PATH}
+	cp ${DTB_FILE} "${INSTALL_MOD_PATH}"
+	cd "${WORKSPACE_PATH}"
 	# Copy .config
-	cp ${BUILD_PATH}/.config ${INSTALL_MOD_PATH}/config
+	cp "${BUILD_PATH}/.config" "${INSTALL_MOD_PATH}/config"
 }
 
 archive_kernel(){
 	# Input log
 	read -p "Input Package Log:" PACK_INFO
-	echo $PACK_INFO > ${INSTALL_MOD_PATH}/info
+	echo "$PACK_INFO" > "${INSTALL_MOD_PATH}/info"
 
 	# Package
 	#cd $KDIR
 	local PACK_DATE=`date +%Y%m%d_%H%M`
-	local PACK_NAME=linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz
-	cd ${INSTALL_MOD_PATH}
-	TIME="Total Time: %E\tExit:%x" time tar cJfp ../${PACK_NAME} *
+	local PACK_NAME="linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz"
+	cd "${INSTALL_MOD_PATH}"
+	TIME="Total Time: %E\tExit:%x" time tar cJfp "../${PACK_NAME}" *
 	echo "Package To ${PACK_NAME}"
 }
 
 show_menu(){
-	cd ${KERNEL_SRC}
+	cd "${KERNEL_SRC}"
 
 	echo "================ Menu Option ================"
 	echo -e "\t[1]. Use Default Config"

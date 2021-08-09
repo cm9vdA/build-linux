@@ -1,7 +1,6 @@
 TOOLCHAIN_DIR=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-aarch64-arm-none-linux-gnueabihf
 
-export PATH=$PATH:${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin
 export ARCH=arm
 export KERNEL_TARGET="zImage"
 export CROSS_COMPILE=arm-none-linux-gnueabihf-
