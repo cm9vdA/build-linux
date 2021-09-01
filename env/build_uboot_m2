@@ -1,0 +1,7 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_arm
+
+# Board Info
+BOARD_NAME="Merrii M2"
+CPU_INFO="Allwinner A20"
+DEVICE_CONFIG="Merrii_M2_defconfig"

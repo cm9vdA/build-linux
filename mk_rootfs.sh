@@ -3,7 +3,8 @@
 source_env(){
 	SCRIPT_NAME=${0##*/}
 	# SCRIPT_PATH=$(cd "$(dirname "$0")"; pwd)
-	SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
+	# SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
+	SCRIPT_PATH=$(dirname $(readlink -f $0))
 	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
 
 	source ${ENV_FILE}

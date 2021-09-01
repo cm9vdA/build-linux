@@ -1,0 +1,7 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="Q5"
+CPU_INFO="Amlogic S905 Family"
+DEVICE_CONFIG="p201_defconfig"
