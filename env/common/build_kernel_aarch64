@@ -1,7 +1,7 @@
 TOOLCHAIN_DIR=/home/${USER}/arm/toolchain
-TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu
+TOOLCHAIN_NAME=gcc-arm-11.2-2021.08-aarch64-aarch64-none-linux-gnu
 
 KERNEL_TARGET="Image"
 
 export ARCH=arm64
-export CROSS_COMPILE=aarch64-none-linux-gnu-
+export CROSS_COMPILE=aarch64-linux-gnu-

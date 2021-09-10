@@ -1,0 +1,10 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="LX-R3S"
+PACK_NAME="r3s"
+CPU_INFO="Rockchip RK3399"
+DTB_FILE="rockchip/rk3399-lx-r3s*"
+CONFIG_NAME=r3s
+NO_CROSS_COMPILE=1
