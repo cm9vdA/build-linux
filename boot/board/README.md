@@ -33,8 +33,17 @@
 - CPU: RockChip RK3328
 - RAM: 1G DDR3
 - ROM: 8G EMMC
-- USB: 2.0 x 1, 3.0 x1
+- USB: 2.0 x 1, 3.0 x 1
 - HDMI: x 1 (Internal)
 - Ethernet: 1000Mbps
 - WiFi: None
 - SATA: GL3321G (3.5in/2.5in x 1)
+
+## 联智通达 LX-R3S
+- CPU: RockChip RK3399
+- RAM: 2G DDR3
+- ROM: 16G EMMC
+- USB: 2.0 x 1, 3.0 x 1, Type-C x 1
+- HDMI: x 1 (Internal)
+- Ethernet: 1000Mbps
+- WiFi: AP6255
