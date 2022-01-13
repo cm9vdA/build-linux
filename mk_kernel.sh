@@ -18,10 +18,7 @@ source_env(){
 
 	if [ "${NO_CROSS_COMPILE}" == "1" ]; then
 		# No use cross compile toolchain on same platform
-		if [ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]; then
-			unset CROSS_COMPILE
-		fi
-		if [ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]; then
+		if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
 			unset CROSS_COMPILE
 		fi
 	fi

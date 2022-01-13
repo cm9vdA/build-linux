@@ -6,13 +6,14 @@ source_env(){
 	# SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 	SCRIPT_PATH=$(dirname $(readlink -f $0))
 	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
+	HOST_ARCH=`uname -m`
 
 	source ${ENV_FILE}
 
 	# Other Environment Variable
 	XZ_DEFAULTS="-T 0"
 	MIRROR_URL=http://mirrors.ustc.edu.cn/debian/
-	DEBOOTSTRAP_ENV="DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C"
+	DEBOOTSTRAP_ENV="LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true"
 }
 
 build_info(){
@@ -25,7 +26,11 @@ build_info(){
 }
 
 install_software(){
-	SOFTWARE_LIST="binfmt-support qemu qemu-user-static debootstrap"
+	if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
+		SOFTWARE_LIST="binfmt-support debootstrap"
+	else 
+		SOFTWARE_LIST="binfmt-support qemu qemu-user-static debootstrap"
+	fi
 	echo "Install [${SOFTWARE_LIST}]"
 	apt install ${SOFTWARE_LIST}
 }
@@ -40,13 +45,22 @@ create_base_fs(){
 	echo "Create directory [${TARGET_FS}]"
 	mkdir $TARGET_FS
 	echo "Stage 1:"
-	debootstrap --arch=${ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL} 
-	echo "Copy qemu-${TARGET_ARCH}-static"
-	cp /usr/bin/qemu-${TARGET_ARCH}-static ${TARGET_FS}/usr/bin/
+	debootstrap --arch=${ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL}
+
+	if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
+		echo "No need copy qemu-${TARGET_ARCH}-static"
+	else
+		echo "Copy qemu-${TARGET_ARCH}-static"
+		cp /usr/bin/qemu-${TARGET_ARCH}-static ${TARGET_FS}/usr/bin/
+	fi
+
 	echo "Stage 2:"
 	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} /debootstrap/debootstrap --second-stage
 	echo "Configure Package"
 	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} dpkg --configure -a
+	echo "Install Package"
+	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} apt install -y sudo vim openssh-server bash-completion ca-certificates htop locales wget curl
+	# dpkg-reconfigure locales
 	echo "End Build Base File System"
 }
 
