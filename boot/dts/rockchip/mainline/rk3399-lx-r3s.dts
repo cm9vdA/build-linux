@@ -3,6 +3,21 @@
  * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
  */
 
+/*
+ Supported:
+	USB: 2.0 x 6, 2.0 x 1, 3.0 x 1, Type-C x 1
+	Ethernet
+	HDMI-OUT
+	TF
+	RTC
+
+ Unknow:
+	Headset
+	LVDS
+	EDP
+
+ */
+
 /dts-v1/;
 
 #include <dt-bindings/pwm/pwm.h>
@@ -687,6 +702,11 @@
 	status = "okay";
 };
 
+// IR
+&pwm3 {
+	status = "okay";
+};
+
 &saradc {
 	vref-supply = <&vcca1v8_s3>;
 	status = "okay";
@@ -809,7 +829,6 @@
 
 &uart0 {
 	pinctrl-names = "default";
-	// pinctrl-0 = <&uart0_xfer &uart0_rts &uart0_cts>;
 	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
 	status = "okay";
 
@@ -830,6 +849,10 @@
 };
 
 &uart2 {
+	status = "okay";
+};
+
+&uart4 {
 	status = "okay";
 };
 
@@ -865,6 +888,10 @@
 &usbdrd_dwc3_1 {
 	status = "okay";
 	dr_mode = "host";
+};
+
+&spdif {
+	status = "okay";
 };
 
 &vopb {
