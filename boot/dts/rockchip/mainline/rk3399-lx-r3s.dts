@@ -193,6 +193,83 @@
 		startup-delay-us = <20000>;
 	};
 */
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio2a2_pin>, <&gpio2a3_pin>, <&gpio2a4_pin>, <&gpio2a5_pin>, <&gpio2a6_pin>;
+					// <&gpio3d4_pin>, <&gpio3d5_pin>, <&gpio3d6_pin>;
+
+		gpio2a2_led: led-gpio2a2 {
+			label = "gpio2a2";
+			default-state = "off";
+			gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
+		};
+		gpio2a3_led: led-gpio2a3 {
+			label = "gpio2a3";
+			default-state = "off";
+			gpios = <&gpio2 RK_PA3 GPIO_ACTIVE_LOW>;
+		};
+		gpio2a4_led: led-gpio2a4 {
+			label = "gpio2a4";
+			default-state = "off";
+			gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_LOW>;
+		};
+		gpio2a5_led: led-gpio2a5 {
+			label = "gpio2a5";
+			default-state = "off";
+			gpios = <&gpio2 RK_PA5 GPIO_ACTIVE_LOW>;
+		};
+		gpio2a6_led: led-gpio2a6 {
+			label = "gpio2a6";
+			default-state = "off";
+			gpios = <&gpio2 RK_PA6 GPIO_ACTIVE_LOW>;
+		};
+
+		// gpio3d4_led: led-gpio3d4 {
+		// 	label = "gpio3d4";
+		// 	default-state = "off";
+		// 	gpios = <&gpio3 RK_PD4 GPIO_ACTIVE_LOW>;
+		// };
+		// gpio3d5_led: led-gpio3d5 {
+		// 	label = "gpio3d5";
+		// 	default-state = "off";
+		// 	gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_LOW>;
+		// };
+		// gpio3d6_led: led-gpio3d6 {
+		// 	label = "gpio3d6";
+		// 	default-state = "off";
+		// 	gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_LOW>;
+		// };
+	};
+
+	rt5640-sound {
+		status = "okay";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "rockchip,rt5640-codec";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,widgets =
+			"Microphone", "Mic Jack",
+			"Headphone", "Headphone Jack";
+		simple-audio-card,routing =
+			"Mic Jack", "MICBIAS1",
+			"IN1P", "Mic Jack",
+			"IN1N", "Mic Jack",
+			// "Headphone Jack", "LOUTL",
+			// "Headphone Jack", "LOUTR";
+			"Headphone Jack", "HPOL",
+			"Headphone Jack", "HPOR";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&rt5640>;
+		};
+	};
+
 };
 
 &cpu_l0 {
@@ -495,16 +572,23 @@
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
 
-	// rt5640: rt5640@1c {
-	// 	compatible = "realtek,rt5640";
-	// 	reg = <0x1c>;
-	// 	clocks = <&cru SCLK_I2S_8CH_OUT>;
-	// 	clock-names = "mclk";
-	// 	realtek,in1-differential;
-	// 	#sound-dai-cells = <0>;
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&i2s_8ch_mclk &rt5640_hpcon &rt5640_auxdet>;
-	// };
+	rt5640: rt5640@1c {
+		compatible = "realtek,rt5640";
+		reg = <0x1c>;
+		clocks = <&cru SCLK_I2S_8CH_OUT>;
+		clock-names = "mclk";
+		realtek,in1-differential;
+		#sound-dai-cells = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&rt5640_hpcon &rt5640_auxdet>;
+		hp-con-gpio = < &gpio4 RK_PC5 GPIO_ACTIVE_HIGH >;
+		spk-con-gpio = < &gpio0 RK_PB3 GPIO_ACTIVE_HIGH >;
+		hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_LOW >;
+		aux-det-gpio = < &gpio4 RK_PD2 GPIO_ACTIVE_LOW >;
+		io-channels = <&saradc 4>;
+		hp-det-adc-value = <500>;
+		status = "okay";
+	};
 };
 
 &i2c2 {
@@ -581,19 +665,14 @@
 	};
 };
 
+// ALC5640
 &i2s0 {
-	pinctrl-0 = <&i2s0_2ch_bus>;
-	rockchip,capture-channels = <2>;
-	rockchip,playback-channels = <2>;
+	rockchip,capture-channels = <8>;
+	rockchip,playback-channels = <8>;
 	status = "okay";
 };
 
-&i2s1 {
-	rockchip,playback-channels = <2>;
-	rockchip,capture-channels = <2>;
-	status = "okay";
-};
-
+// HDMI SOUND
 &i2s2 {
 	status = "okay";
 };
@@ -691,6 +770,34 @@
 		chg_cc_int_l: chg-cc-int-l {
 			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
+	};
+
+	leds {
+		gpio2a2_pin: gpio2a2-pin {
+			rockchip,pins = <2 RK_PA2 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio2a3_pin: gpio2a3-pin {
+			rockchip,pins = <2 RK_PA3 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio2a4_pin: gpio2a4-pin {
+			rockchip,pins = <2 RK_PA4 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio2a5_pin: gpio2a5-pin {
+			rockchip,pins = <2 RK_PA5 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio2a6_pin: gpio2a6-pin {
+			rockchip,pins = <2 RK_PA6 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+
+		// gpio3d4_pin: gpio3d4-pin {
+		// 	rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_down>;
+		// };
+		// gpio3d5_pin: gpio3d5-pin {
+		// 	rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_down>;
+		// };
+		// gpio3d6_pin: gpio3d6-pin {
+		// 	rockchip,pins = <3 RK_PD6 RK_FUNC_GPIO &pcfg_pull_down>;
+		// };
 	};
 };
 
@@ -890,9 +997,9 @@
 	dr_mode = "host";
 };
 
-&spdif {
-	status = "okay";
-};
+// &spdif {
+// 	status = "okay";
+// };
 
 &vopb {
 	status = "okay";
