@@ -39,7 +39,7 @@
 	chosen {
 		stdout-path = "serial2:115200n8";
 	};
-
+/*
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		brightness-levels = <
@@ -80,7 +80,7 @@
 		pwms = <&pwm0 0 25000 0>;
 		status = "okay";
 	};
-
+*/
 	clkin_gmac: external-gmac-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
@@ -197,8 +197,8 @@
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&gpio2a2_pin>, <&gpio2a3_pin>, <&gpio2a4_pin>, <&gpio2a5_pin>, <&gpio2a6_pin>;
-					// <&gpio3d4_pin>, <&gpio3d5_pin>, <&gpio3d6_pin>;
+		pinctrl-0 = <&gpio2a2_pin>, <&gpio2a3_pin>, <&gpio2a4_pin>, <&gpio2a5_pin>, <&gpio2a6_pin>,
+					<&gpio3d4_pin>, <&gpio3d5_pin>, <&gpio3d6_pin>;
 
 		gpio2a2_led: led-gpio2a2 {
 			label = "gpio2a2";
@@ -226,38 +226,38 @@
 			gpios = <&gpio2 RK_PA6 GPIO_ACTIVE_LOW>;
 		};
 
-		// gpio3d4_led: led-gpio3d4 {
-		// 	label = "gpio3d4";
-		// 	default-state = "off";
-		// 	gpios = <&gpio3 RK_PD4 GPIO_ACTIVE_LOW>;
-		// };
-		// gpio3d5_led: led-gpio3d5 {
-		// 	label = "gpio3d5";
-		// 	default-state = "off";
-		// 	gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_LOW>;
-		// };
-		// gpio3d6_led: led-gpio3d6 {
-		// 	label = "gpio3d6";
-		// 	default-state = "off";
-		// 	gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_LOW>;
-		// };
+		gpio3d4_led: led-gpio3d4 {
+			label = "gpio3d4";
+			default-state = "off";
+			gpios = <&gpio3 RK_PD4 GPIO_ACTIVE_LOW>;
+		};
+		// maybe used to enable usb 2.0
+		gpio3d5_led: led-gpio3d5 {
+			label = "gpio3d5";
+			default-state = "off";
+			gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_LOW>;
+		};
+		gpio3d6_led: led-gpio3d6 {
+			label = "gpio3d6";
+			default-state = "off";
+			gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_LOW>;
+		};
 	};
 
 	rt5640-sound {
-		status = "okay";
+		// status = "okay";
+		status = "disabled";
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "rockchip,rt5640-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_LOW >;
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
 			"Headphone", "Headphone Jack";
 		simple-audio-card,routing =
 			"Mic Jack", "MICBIAS1",
 			"IN1P", "Mic Jack",
-			"IN1N", "Mic Jack",
-			// "Headphone Jack", "LOUTL",
-			// "Headphone Jack", "LOUTR";
 			"Headphone Jack", "HPOL",
 			"Headphone Jack", "HPOR";
 
@@ -572,6 +572,7 @@
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
 
+	// 放弃
 	rt5640: rt5640@1c {
 		compatible = "realtek,rt5640";
 		reg = <0x1c>;
@@ -580,21 +581,25 @@
 		realtek,in1-differential;
 		#sound-dai-cells = <0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&rt5640_hpcon &rt5640_auxdet>;
-		hp-con-gpio = < &gpio4 RK_PC5 GPIO_ACTIVE_HIGH >;
-		spk-con-gpio = < &gpio0 RK_PB3 GPIO_ACTIVE_HIGH >;
-		hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_LOW >;
-		aux-det-gpio = < &gpio4 RK_PD2 GPIO_ACTIVE_LOW >;
-		io-channels = <&saradc 4>;
-		hp-det-adc-value = <500>;
-		status = "okay";
+		pinctrl-0 = <&rt5640_hpcon>;
+		// pinctrl-0 = <&rt5640_hpcon &rt5640_auxdet>;
+		// hp-con-gpio = < &gpio4 RK_PC5 GPIO_ACTIVE_HIGH >;
+		// spk-con-gpio = < &gpio0 RK_PB3 GPIO_ACTIVE_HIGH >;
+		// hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_LOW >;
+		// aux-det-gpio = < &gpio4 RK_PD2 GPIO_ACTIVE_LOW >;
+		// io-channels = <&saradc 4>;
+		// hp-det-adc-value = <500>;
+		// status = "okay";
+		status = "disabled";
 	};
 };
 
+// Used for wk2132
 &i2c2 {
 	status = "okay";
 };
 
+// Used for HDMI
 &i2c3 {
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
@@ -607,21 +612,21 @@
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
 
-	mpu6500@68 {
-		compatible = "invensense,mpu6500";
-		reg = <0x68>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PC6 IRQ_TYPE_EDGE_RISING>;
+/*
+	mma8452: mma8452@1d {
+		compatible = "fsl,mma8452";
+		reg = <0x1d>;
+		interrupt-parent = <&gpio8>;
+		interrupts = <RK_PA0 IRQ_TYPE_EDGE_RISING>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&gsensor_int_l>;
-		vddio-supply = <&vcc3v3_s3>;
+		pinctrl-0 = <&gsensor_int>;
 	};
-
+*/
 	fusb302@22 {
 		compatible = "fcs,fusb302";
 		reg = <0x22>;
 		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>; // bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&chg_cc_int_l>;
 		vbus-supply = <&vbus_typec>;
@@ -667,12 +672,13 @@
 
 // ALC5640
 &i2s0 {
-	rockchip,capture-channels = <8>;
-	rockchip,playback-channels = <8>;
-	status = "okay";
+	pinctrl-0 = <&i2s0_2ch_bus>;
+	rockchip,capture-channels = <2>;
+	rockchip,playback-channels = <2>;
+	// status = "okay";
 };
 
-// HDMI SOUND
+// HDMI SOUND OUT
 &i2s2 {
 	status = "okay";
 };
@@ -750,25 +756,19 @@
 		};
 	};
 
-	mpu6500 {
-		gsensor_int_l: gsensor-int-l {
-			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
-	};
-
 	rt5640 {
 		rt5640_hpcon: rt5640-hpcon {
-			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 
 		rt5640_auxdet: rt5640-auxdet {
-			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 	};
 
 	fusb302 {
 		chg_cc_int_l: chg-cc-int-l {
-			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
 		};
 	};
 
@@ -789,16 +789,17 @@
 			rockchip,pins = <2 RK_PA6 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
 
-		// gpio3d4_pin: gpio3d4-pin {
-		// 	rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_down>;
-		// };
-		// gpio3d5_pin: gpio3d5-pin {
-		// 	rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_down>;
-		// };
-		// gpio3d6_pin: gpio3d6-pin {
-		// 	rockchip,pins = <3 RK_PD6 RK_FUNC_GPIO &pcfg_pull_down>;
-		// };
+		gpio3d4_pin: gpio3d4-pin {
+			rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio3d5_pin: gpio3d5-pin {
+			rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+		gpio3d6_pin: gpio3d6-pin {
+			rockchip,pins = <3 RK_PD6 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
 	};
+
 };
 
 &pwm0 {
@@ -996,10 +997,6 @@
 	status = "okay";
 	dr_mode = "host";
 };
-
-// &spdif {
-// 	status = "okay";
-// };
 
 &vopb {
 	status = "okay";
