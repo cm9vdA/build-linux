@@ -5,6 +5,8 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 BOARD_NAME="LX-R3S"
 PACK_NAME="r3s"
 CPU_INFO="Rockchip RK3399"
-DTB_FILE="rockchip/rk3399-lx-r3s*"
-CONFIG_NAME=r3s
-NO_CROSS_COMPILE=1
+VENDOR="rockchip"
+DT_FILE="rk3399-lx-r3s"
+
+# Build Config
+NO_CROSS_COMPILE=0

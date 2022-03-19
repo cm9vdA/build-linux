@@ -1,4 +1,4 @@
-TOOLCHAIN_DIR=/home/${USER}/arm/toolchain
+TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-aarch64-arm-none-linux-gnueabihf
 
 KERNEL_TARGET="zImage"

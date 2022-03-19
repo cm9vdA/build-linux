@@ -5,4 +5,9 @@ source ${SCRIPT_PATH}/env/common/build_kernel_arm
 BOARD_NAME="Merrii M2"
 PACK_NAME="m2"
 CPU_INFO="Allwinner A20"
-DTB_FILE="sun7i-a20-m2*"
+VENDOR="allwinner"
+DT_FILE="sun7i-a20-m2"
+
+# Build Config
+NO_CROSS_COMPILE=0
+DEFCONFIG=sun7i_defconfig

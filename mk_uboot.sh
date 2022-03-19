@@ -17,7 +17,7 @@ source_env(){
 	HOST_ARCH=`uname -m`
 
 	# Common Variable
-	export PATH="${TOOLCHAIN_DIR}/${TOOLCHAIN_NAME}/bin:$PATH"
+	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:$PATH"
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"

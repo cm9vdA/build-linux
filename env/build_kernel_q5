@@ -5,4 +5,8 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 BOARD_NAME="Q5"
 PACK_NAME="q5"
 CPU_INFO="Amlogic S905 Family"
-DTB_FILE="amlogic/meson-gxbb-q5*"
+VENDOR="amlogic"
+DT_FILE="meson-gxbb-q5"
+
+# Build Config
+NO_CROSS_COMPILE=0
