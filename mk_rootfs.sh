@@ -13,7 +13,11 @@ source_env(){
 	# Other Environment Variable
 	XZ_DEFAULTS="-T 0"
 	MIRROR_URL=http://mirrors.ustc.edu.cn/debian/
-	DEBOOTSTRAP_ENV="LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true"
+	LC_ALL=en_US.UTF-8
+	LANGUAGE=en_US.UTF-8
+	LANG=en_US.UTF-8
+	DEBIAN_FRONTEND=noninteractive
+	DEBCONF_NONINTERACTIVE_SEEN=true
 }
 
 build_info(){
@@ -45,21 +49,26 @@ create_base_fs(){
 	echo "Create directory [${TARGET_FS}]"
 	mkdir $TARGET_FS
 	echo "Stage 1:"
-	debootstrap --arch=${ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL}
+	debootstrap --arch=${TARGET_ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL}
 
-	if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
-		echo "No need copy qemu-${TARGET_ARCH}-static"
+	if [ "${TARGET_ARCH}" == "aarch64" ]; then
+		QEMU_BIN=qemu-aarch64-static
 	else
-		echo "Copy qemu-${TARGET_ARCH}-static"
-		cp /usr/bin/qemu-${TARGET_ARCH}-static ${TARGET_FS}/usr/bin/
+		QEMU_BIN=qemu-arm-static
+	fi
+	if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
+		echo "No need copy ${QEMU_BIN}"
+	else
+		echo "Copy ${QEMU_BIN}"
+		cp /usr/bin/${QEMU_BIN} ${TARGET_FS}/usr/bin/
 	fi
 
 	echo "Stage 2:"
-	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} /debootstrap/debootstrap --second-stage
+	chroot ${TARGET_FS} /debootstrap/debootstrap --second-stage
 	echo "Configure Package"
-	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} dpkg --configure -a
+	chroot ${TARGET_FS} dpkg --configure -a
 	echo "Install Package"
-	${DEBOOTSTRAP_ENV} chroot ${TARGET_FS} apt install -y sudo vim openssh-server bash-completion ca-certificates htop locales wget curl
+	chroot ${TARGET_FS} apt install -y sudo vim openssh-server bash-completion ca-certificates htop locales wget curl
 	# dpkg-reconfigure locales
 	echo "End Build Base File System"
 }
