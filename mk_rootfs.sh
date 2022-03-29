@@ -13,9 +13,9 @@ source_env(){
 	# Other Environment Variable
 	XZ_DEFAULTS="-T 0"
 	MIRROR_URL=http://mirrors.ustc.edu.cn/debian/
-	LC_ALL=en_US.UTF-8
-	LANGUAGE=en_US.UTF-8
-	LANG=en_US.UTF-8
+	# LC_ALL=en_US.UTF-8
+	# LANGUAGE=en_US.UTF-8
+	# LANG=en_US.UTF-8
 	DEBIAN_FRONTEND=noninteractive
 	DEBCONF_NONINTERACTIVE_SEEN=true
 }
