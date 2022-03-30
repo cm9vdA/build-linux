@@ -95,7 +95,9 @@ build_kernel() {
 		TIME="Total Time: %E\tExit:%x" time make modules ${BUILD_ARGS}
 		;;
 	"dtbs")
-		TIME="Total Time: %E\tExit:%x" time make dtbs ${BUILD_ARGS}
+		if [ "${DT_FILE}" != "" ]; then
+			TIME="Total Time: %E\tExit:%x" time make dtbs ${BUILD_ARGS}
+		fi
 		;;
 	*)
 		echo "Invalid Parmameter: [$1]"
@@ -117,14 +119,16 @@ install_kernel() {
 	fi
 
 	# Copy dts/dtb
-	if [ "$ARCH" == "arm64" ]; then
-		local _DT_PATH="arch/${ARCH}/boot/dts/${VENDOR}"
-	elif [ "$ARCH" == "arm" ]; then
-		local _DT_PATH="arch/${ARCH}/boot/dts/"
+	if [ "${DT_FILE}" != "" ]; then
+		if [ "$ARCH" == "arm64" ]; then
+			local _DT_PATH="arch/${ARCH}/boot/dts/${VENDOR}"
+		elif [ "$ARCH" == "arm" ]; then
+			local _DT_PATH="arch/${ARCH}/boot/dts/"
+		fi
+
+		cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}"
+		cp -f "${BUILD_PATH}/${_DT_PATH}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}"
 	fi
-	
-	cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}"
-	cp -f "${BUILD_PATH}/${_DT_PATH}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}"
 
 	cd "${WORKSPACE_PATH}"
 	# Copy .config
@@ -211,18 +215,21 @@ show_menu() {
 
 build_probe() {
 	# link dts
-	DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/${DT_FILE}"
-	if [ "$ARCH" == "arm64" ]; then
-		DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
-	elif [ "$ARCH" == "arm" ]; then
-		DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
+	if [ "${DT_FILE}" != "" ]; then
+		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/${DT_FILE}"
+		if [ "$ARCH" == "arm64" ]; then
+			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
+		elif [ "$ARCH" == "arm" ]; then
+			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
+		fi
+		check_path DTS "${DT_PATH}.dts"
+		ln -s -f "${DT_PATH}.dts" ${DT_PATH_LINK}
 	fi
-	check_path DTS "${DT_PATH}.dts"
-	ln -s -f "${DT_PATH}.dts" ${DT_PATH_LINK}
 
 	# link defconfig
-	DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${DEFCONFIG}"
-	if [ "${DEFCONFIG}" != "" ] && [ -f "${DEFCONFIG_PATH}" ]; then
+	if [ "${DEFCONFIG}" != "" ]; then
+		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${DEFCONFIG}"
+		check_path "DEFCONFIG" "${DEFCONFIG_PATH}"
 		ln -s -f ${DEFCONFIG_PATH} "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 }
