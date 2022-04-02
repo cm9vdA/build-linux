@@ -1,5 +1,6 @@
 TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-aarch64-aarch64-none-elf
+ARM_TOOLCHAIN_NAME=gcc-arm-10.2-2020.11-aarch64-arm-none-eabi
 
 export ARCH=arm
 export CROSS_COMPILE=aarch64-none-elf-

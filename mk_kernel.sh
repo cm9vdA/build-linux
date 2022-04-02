@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Other Environment Variable
-export XZ_DEFAULTS="-T 0"
-
 WORKSPACE_PATH=${PWD}
 KERNEL_SRC="${WORKSPACE_PATH}/linux"
+
 SCRIPT_NAME=${0##*/}
 # SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 SCRIPT_PATH=$(dirname $(readlink -f $0))
+source ${SCRIPT_PATH}/common.sh
 
 init() {
 	# Check kernel source
@@ -29,7 +28,7 @@ init() {
 	fi
 
 	# Common Variable
-	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:$PATH"
+	export PATH="${PATH}:${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build"
@@ -37,24 +36,6 @@ init() {
 
 	cd "${KERNEL_SRC}"
 	KERNEL_VERSION=$(make kernelversion)
-}
-
-check_var() {
-	local name=$1
-	local value=$2
-	if [ "$value" == "" ]; then
-		echo "Missing var: $name"
-		exit 1
-	fi
-}
-
-check_path() {
-	local name=$1
-	local path=$2
-	if [ ! -e "$path" ]; then
-		echo "Missing file/dir: $name"
-		exit 1
-	fi
 }
 
 check_env() {
