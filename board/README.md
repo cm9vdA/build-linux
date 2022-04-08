@@ -48,7 +48,7 @@
 - Ethernet: 1000Mbps
 - WiFi: AP6255
 
-## RK3399 Core Board
+## BL-RK3399-A(BLEDUK)
 - CPU: RockChip RK3399
 - RAM: 2GB LPDDR3
 - Storage: 16GB EMMC

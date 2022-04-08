@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="Core Board"
+CPU_INFO="Rockchip RK3399"
+DEFCONFIG="core-board-rk3399_defconfig"
+
+# ATF
+# git clone https://github.com/ARM-software/arm-trusted-firmware.git
+# make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3399
+export BL31=${SCRIPT_PATH}/u-boot/bin/rockchip/rk3399_bl31.elf
