@@ -2,11 +2,14 @@
 source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 
 # Board Info
-BOARD_NAME="Core Board"
+BOARD_NAME="BL-RK3399-A"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="core-board-rk3399_defconfig"
+DEFCONFIG="bleduk-rk3399_defconfig"
+VENDOR="rockchip"
+DT_FILE="rk3399-bleduk"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git
 # make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3399
-export BL31=${SCRIPT_PATH}/u-boot/bin/rockchip/rk3399_bl31.elf
+ATF_PLAT="rk3399"
+export BL31=${SCRIPT_PATH}/u-boot/rockchip/common/rk3399_bl31.elf
