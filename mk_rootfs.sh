@@ -49,7 +49,7 @@ create_base_fs(){
 	echo "Create directory [${TARGET_FS}]"
 	mkdir $TARGET_FS
 	echo "Stage 1:"
-	debootstrap --arch=${TARGET_ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL}
+	debootstrap --arch=${ARCH} --foreign ${TARGET_VERSION} ${TARGET_FS}/ ${MIRROR_URL}
 
 	if [ "${TARGET_ARCH}" == "aarch64" ]; then
 		QEMU_BIN=qemu-aarch64-static

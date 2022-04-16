@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="BL-RK3399-A"
+PACK_NAME="bleduk"
+CPU_INFO="Rockchip RK3399"
+VENDOR="rockchip"
+DT_FILE="rk3399-bleduk"
+
+# Build Config
+NO_CROSS_COMPILE=0
