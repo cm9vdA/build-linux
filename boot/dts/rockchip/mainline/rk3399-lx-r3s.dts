@@ -11,8 +11,10 @@
 	TF
 	RTC
 
- Unknow:
-	Headset
+ Unsupport:
+    Headset
+
+ Unknown:
 	LVDS
 	EDP
 
