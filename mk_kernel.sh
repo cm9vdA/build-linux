@@ -84,6 +84,7 @@ build_kernel() {
 		echo "Invalid Parmameter: [$1]"
 		;;
 	esac
+	return $?
 }
 
 install_kernel() {
@@ -158,7 +159,13 @@ show_menu() {
 		;;
 	"3")
 		build_kernel kernel
+		if [ $? != 0 ]; then
+			exit -1
+		fi
 		build_kernel modules
+		if [ $? != 0 ]; then
+			exit -1
+		fi
 		build_kernel dtbs
 		;;
 	"31")
