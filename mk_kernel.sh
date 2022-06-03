@@ -28,7 +28,7 @@ init() {
 	fi
 
 	# Common Variable
-	export PATH="${PATH}:${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
+	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}"
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build"
