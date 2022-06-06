@@ -30,6 +30,7 @@ init() {
 	# Common Variable
 	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}"
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
+	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
@@ -65,6 +66,7 @@ build_info() {
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
 	echo -e "INSTALL_MOD_PATH: ${INSTALL_MOD_PATH}"
+	echo -e "INSTALL_HDR_PATH: ${INSTALL_HDR_PATH}"
 }
 
 build_kernel() {
@@ -88,6 +90,7 @@ build_kernel() {
 }
 
 install_kernel() {
+	cd "${KERNEL_SRC}"
 	rm -rf ${INSTALL_MOD_PATH}
 	# Install Modules
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
@@ -117,6 +120,12 @@ install_kernel() {
 	cp -f "${BUILD_PATH}/.config" "${INSTALL_MOD_PATH}/config"
 }
 
+install_headers() {
+	cd "${KERNEL_SRC}"
+	# Install Headers
+	TIME="Total Time: %E\tExit:%x" time make headers_install ${BUILD_ARGS} INSTALL_HDR_PATH=${INSTALL_HDR_PATH}
+}
+
 archive_kernel() {
 	# Input log
 	read -p "Input Package Log:" PACK_INFO
@@ -141,7 +150,9 @@ show_menu() {
 	echo -e "\t[31] ├─Build Kernel"
 	echo -e "\t[32] ├─Build Modules"
 	echo -e "\t[33] └─Build DTB"
-	echo -e "\t[4]. Install Kernel"
+	echo -e "\t[4]. Install All"
+	echo -e "\t[41] ├─Install Kernel And Modules"
+	echo -e "\t[42] └─Install Headers"
 	echo -e "\t[5]. Archive Kernel"
 	echo -e "\t[6]. Clean"
 
@@ -179,6 +190,13 @@ show_menu() {
 		;;
 	"4")
 		install_kernel
+		install_headers
+		;;
+	"41")
+		install_kernel
+		;;
+	"42")
+		install_headers
 		;;
 	"5")
 		archive_kernel
