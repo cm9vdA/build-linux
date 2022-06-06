@@ -21,7 +21,7 @@
     2. 解压要编译的Linux内核源码到`arm`目录下。【通常我使用的都是主线内核，地址：<https://www.kernel.org/>】
     3. 修改`build-linux/env/common/build_kernel_arm`中的PATH参数，根据实际情况填写交叉编译工具路径和工具链名，如果是64位的板子，需要改`build_kernel_aarch64`。
     4. 在`arm`目录下创建M2的工作目录，比如`workspace`。
-    5. 进入`workspace`目录，创建软链接到`build-linux/mk_kernel.sh`，软链接的名字是`build_kernel_m2`（也就是与env目录下的环境变量文件同名），因为`mk_kernel.sh`脚本是  根  据调用时的文件名来选择对应的环境变量文件，所以要以环境变量文件的名字来命名。
+    5. 进入`workspace`目录，创建软链接到`build-linux/mk_kernel.sh`，软链接的名字是`build_kernel_m2`（也就是与env目录下的环境变量文件同名），因为`mk_kernel.sh`脚本是根据调用时的文件名来选择对应的环境变量文件，所以要以环境变量文件的名字来命名。
     6. 运行`./build_kernel_m2`，根据菜单提示项进行编译和打包。【第一次编译时，需要将目标板的dtb文件名添加到内核dtb目录下的Makefile里，这样才会编译生成dtb】
 
   - 菜单说明
@@ -43,7 +43,9 @@
             [31] ├─Build Kernel                                 # 仅编译内核
             [32] ├─Build Modules                                # 仅编译内核模块
             [33] └─Build DTB                                    # 仅编译dtb
-            [4]. Install Kernel                                 # 安装内核和模块文件到INSTALL_MOD_PATH指定的位置
+            [4]. Install All
+            [41] ├─Install Kernel And Modules                   # 安装内核和模块文件到INSTALL_MOD_PATH指定的位置
+            [42] └─Install Headers                              # 安装内核头文件到INSTALL_HDR_PATH指定的位置
             [5]. Archive Kernel                                 # 将INSTALL_MOD_PATH位置的内核文件打包
             [6]. Clean                                          # 清理编译生成的文件
     Please Select: >>
