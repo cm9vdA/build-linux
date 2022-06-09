@@ -116,7 +116,7 @@ copy_fs(){
 	fi
 
 	echo "Start Copy [${TARGET_FS}] To ${TF_PATH}"
-	cp -pr ${TARGET_FS}/* ${TF_PATH}
+	cp -dpr ${TARGET_FS}/* ${TF_PATH}
 	sync
 	echo "End Copy"
 }
