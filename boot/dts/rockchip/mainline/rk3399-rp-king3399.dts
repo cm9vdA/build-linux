@@ -192,25 +192,68 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	rt5651-sound { // bsp copy
+	// rt5651-sound { // bsp copy
+	// 	status = "okay";
+	// 	compatible = "simple-audio-card";
+
+	// 	simple-audio-card,name = "realtek,rt5651-codec";
+	// 	simple-audio-card,format = "i2s";
+	// 	simple-audio-card,mclk-fs = <256>;
+	// 	simple-audio-card,widgets =
+	// 		"Microphone", "Mic Jack",
+	// 		"Headphone", "Headphone Jack";
+	// 	simple-audio-card,routing =
+	// 		"Mic Jack", "micbias1",
+	// 		"IN1P", "Mic Jack",
+	// 		"Headphone Jack", "HPOL",
+	// 		"Headphone Jack", "HPOR";
+	// 	simple-audio-card,cpu {
+	// 		sound-dai = <&i2s0>;
+	// 	};
+	// 	simple-audio-card,codec {
+	// 		sound-dai = <&rt5651>;
+	// 	};
+	// };
+
+	rt5651-sound {
+		status = "okay";
 		compatible = "simple-audio-card";
+		pinctrl-names = "default";
+		pinctrl-0 = <&hp_det>;
+
 		simple-audio-card,name = "realtek,rt5651-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphone Jack";
+			"Headphone", "Headphones",
+			"Speaker", "Speaker";
 		simple-audio-card,routing =
-			"Mic Jack", "MICBIAS1",
-			"IN1P", "Mic Jack",
-			"Headphone Jack", "HPOL",
-			"Headphone Jack", "HPOR";
+			"Mic Jack", "micbias1",
+			"Headphones", "HPOL",
+			"Headphones", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
 		};
 		simple-audio-card,codec {
 			sound-dai = <&rt5651>;
 		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spk_ctl>;
+		enable-gpios = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Speaker Amplifier";
+		VCC-supply = <&vcc5v0_sys>;
 	};
 
 	leds {
@@ -360,12 +403,16 @@
 };
 
 &i2s0 {
-	rockchip,playback-channels = <8>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2s_8ch_mclk_pin>, <&i2s0_2ch_bus>;
+	#sound-dai-cells = <0>;
 	rockchip,capture-channels = <8>;
+	rockchip,playback-channels = <8>;
 	status = "okay";
 };
 
 &i2s2 {
+	#sound-dai-cells = <0>;
 	status = "okay";
 };
 
@@ -602,15 +649,24 @@
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
 
-	rt5651: rt5651@1a { // bsp copy
-		compatible = "rockchip,rt5651";
+	rt5651: rt5651@1a {
+		#sound-dai-cells = <0>;
+		compatible = "realtek,rt5651";
 		reg = <0x1a>;
 		clocks = <&cru SCLK_I2S_8CH_OUT>;
 		clock-names = "mclk";
-		hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
-		spk-con-gpio = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
-		#sound-dai-cells = <0>;
+		status = "okay";
 	};
+
+	// rt5651: rt5651@1a {
+	// 	compatible = "realtek,rt5651";
+	// 	reg = <0x1a>;
+	// 	clocks = <&cru SCLK_I2S_8CH_OUT>;
+	// 	clock-names = "mclk";
+	// 	hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
+	// 	spk-con-gpio = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+	// 	#sound-dai-cells = <0>;
+	// };
 };
 
 &i2c2 {
@@ -701,7 +757,7 @@
 	pmu1830-supply = <&vcc_1v8>;
 };
 
-&hdmi { // bsp sapphire
+&hdmi { // bsp
 	ddc-i2c-bus = <&i2c3>;
 	status = "okay";
 };
@@ -801,9 +857,24 @@
 		};
 	};
 
+	headphone {
+		hp_det: hp-det {
+			rockchip,pins = <4 RK_PD4 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+		spk_ctl: spk-ctl {
+			rockchip,pins = <0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+
 	mma8452 {
 		gsensor_int: gsensor-int {
 			rockchip,pins = <1 RK_PC7 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
+		};
+	};
+
+	i2s0 {
+		i2s_8ch_mclk_pin: i2s-8ch-mclk-pin {
+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
 		};
 	};
 };
