@@ -127,7 +127,7 @@
 		regulator-min-microvolt = <3000000>;
 		regulator-name = "vcc3v0_sd";
 		vin-supply = <&vcc3v3_sys>;
-		};
+	};
 
 	vcc3v3_sys: vcc3v3-sys {
 		compatible = "regulator-fixed";
@@ -139,12 +139,23 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_host: vcc5v0-host-regulator {
+	vcc3v3_gsm: vcc3v3-4g-regulator { // 4G Module
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>; // bsp
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc3v3_gsm_en>;
+		regulator-name = "vcc3v3_gsm";
+		// regulator-always-on;
+		vin-supply = <&dc_12v>;
+	};
+
+	vcc5v0_host: vcc5v0-host-regulator { // vdd 5v
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>; // bsp
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc5v0_host_en>;
+		pinctrl-0 = <&vcc5v0_host_en &hub_rst>;
 		regulator-name = "vcc5v0_host";
 		regulator-always-on;
 		vin-supply = <&vcc5v0_sys>;
@@ -205,23 +216,13 @@
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&breathe_led_pin &hub_rst_pin &gsm_power_pin>;
+		pinctrl-0 = <&breathe_led_pin>;
 
 		breathe_led: led-breathe-led { // bsp
 			label = "breathe_led";
 			linux,default-trigger = "heartbeat";
 			default-state = "off";
 			gpios = <&gpio4 RK_PD0 GPIO_ACTIVE_LOW>;
-		};
-		hub_rst: hub-rst { // bsp
-			label = "hub_rst";
-			default-state = "on";
-			gpios = <&gpio1 RK_PD0 GPIO_ACTIVE_HIGH>;
-		};
-		gsm_power: gsm-power { // bsp
-			label = "gsm_power";
-			default-state = "on";
-			gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -738,20 +739,21 @@
 
 	sd {
 		sdmmc0_pwr_h: sdmmc0-pwr-h {
-			rockchip,pins =
-				<0 RK_PA1 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+			rockchip,pins = <0 RK_PA1 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 	};
 
 	usb2 {
 		vcc5v0_host_en: vcc5v0-host-en {
-			rockchip,pins =
-				<4 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+			rockchip,pins = <4 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 
 		vcc5v0_typec_en: vcc5v0-typec-en {
-			rockchip,pins =
-				<4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+
+		hub_rst: hub-rst {
+			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_output_high>;
 		};
 	};
 
@@ -791,10 +793,10 @@
 		breathe_led_pin: breathe-led-pin {
 			rockchip,pins = <4 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
-		hub_rst_pin: hub-rst-pin {
-			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
-		};
-		gsm_power_pin: gsm-power-pin {
+	};
+
+	gsm {
+		vcc3v3_gsm_en: vcc3v3-gsm-en {
 			rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 	};
