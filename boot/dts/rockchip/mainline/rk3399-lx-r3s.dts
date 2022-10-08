@@ -311,6 +311,36 @@
 	assigned-clocks = <&cru SCLK_RMII_SRC>;
 	assigned-clock-parents = <&clkin_gmac>;
 	clock_in_out = "input";
+	phy-supply = <&vcc3v3_s3>;
+	phy-mode = "rgmii";
+	phy-handle = <&rtl8211e>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&rgmii_pins>, <&phy_intb>, <&phy_rstb>;
+	tx_delay = <0x28>;
+	rx_delay = <0x11>;
+	status = "okay";
+
+	mdio {
+		compatible = "snps,dwmac-mdio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		rtl8211e: ethernet-phy@1 {
+			reg = <1>;
+			interrupt-parent = <&gpio3>;
+			interrupts = <RK_PB2 IRQ_TYPE_LEVEL_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <30000>;
+			reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
+		};
+	};
+};
+
+/*
+&gmac {
+	assigned-clocks = <&cru SCLK_RMII_SRC>;
+	assigned-clock-parents = <&clkin_gmac>;
+	clock_in_out = "input";
 	phy-supply = <&vcc_lan>;
 	phy-mode = "rgmii";
 	pinctrl-names = "default";
@@ -322,6 +352,7 @@
 	rx_delay = <0x11>;
 	status = "okay";
 };
+*/
 
 &hdmi {
 	ddc-i2c-bus = <&i2c3>;
@@ -717,6 +748,16 @@
 		sdmmc0_pwr_h: sdmmc0-pwr-h {
 			rockchip,pins =
 				<0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+	};
+
+	gmac {
+		phy_intb: phy-intb {
+			rockchip,pins = <3 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>; // verify
+		};
+
+		phy_rstb: phy-rstb {
+			rockchip,pins = <3 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>; // verify
 		};
 	};
 
