@@ -140,6 +140,40 @@ archive_kernel() {
 	echo "Package To ${PACK_NAME}"
 }
 
+create_deb() {
+	local deb_name=${DT_FILE}-kernel
+	local deb_version=${KERNEL_VERSION}-$(date +%Y%m%d%H%M)
+	cd "${WORKSPACE_PATH}"
+
+	rm -rf deb/${deb_name}
+	mkdir -p deb/${deb_name}
+	cd deb/${deb_name}
+
+	mkdir -p DEBIAN
+	mkdir -p boot
+	cp -dpr ${INSTALL_MOD_PATH}/lib ./
+	cp ${INSTALL_MOD_PATH}/${DT_FILE}.dtb ./boot/dtb.img
+	cp ${INSTALL_MOD_PATH}/uImage ./boot
+
+	cat <<EOF >DEBIAN/control
+Package: ${deb_name}
+Version: ${deb_version}
+Architecture: ${ARCH}
+Maintainer: test
+Installed-Size: $(du -ks | cut -f 1)
+Section: test
+Priority: optional
+Description: kernel for ${BOARD_NAME}
+
+EOF
+	# 	cat <<EOF >DEBIAN/postinst
+
+	# EOF
+	# 	chmod 775 DEBIAN/postinst
+	cd ..
+	dpkg -b ${deb_name} ${deb_name}_${KERNEL_VERSION}_${ARCH}.deb
+}
+
 show_menu() {
 	cd "${KERNEL_SRC}"
 
@@ -153,8 +187,9 @@ show_menu() {
 	echo -e "\t[4]. Install All"
 	echo -e "\t[41] ├─Install Kernel And Modules"
 	echo -e "\t[42] └─Install Headers"
-	echo -e "\t[5]. Archive Kernel"
-	echo -e "\t[6]. Clean"
+	echo -e "\t[5]. Create deb"
+	echo -e "\t[6]. Archive Kernel"
+	echo -e "\t[7]. Clean"
 
 	read -p "Please Select: >> " OPT
 	case ${OPT} in
@@ -199,9 +234,12 @@ show_menu() {
 		install_headers
 		;;
 	"5")
-		archive_kernel
+		create_deb
 		;;
 	"6")
+		archive_kernel
+		;;
+	"7")
 		make clean ${BUILD_ARGS}
 		rm ${INSTALL_MOD_PATH}/* -rf
 		;;
