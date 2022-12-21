@@ -28,25 +28,26 @@ init() {
 	fi
 
 	# Common Variable
-	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}"
+	export PATH=${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
 
-	BUILD_PATH="${WORKSPACE_PATH}/.build"
+	BUILD_PATH=${WORKSPACE_PATH}/.build
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 
-	cd "${KERNEL_SRC}"
+	cd ${KERNEL_SRC}
 	KERNEL_VERSION=$(make kernelversion)
+	cd ${WORKSPACE_PATH}
 }
 
 check_env() {
 	# Check Env
-	if [ "$ARCH" != "arm64" ] && [ "$ARCH" != "arm" ]; then
+	if [ "${ARCH}" != "arm64" ] && [ "$ARCH" != "arm" ]; then
 		echo "Invalid arch: ${ARCH}"
 		exit 1
 	fi
 
-	if [ "$ARCH" == "arm64" ]; then
+	if [ "${ARCH}" == "arm64" ]; then
 		check_var VENDOR "${VENDOR}"
 	fi
 	# if [ "$ARCH" == "arm" ]; then
@@ -70,6 +71,7 @@ build_info() {
 }
 
 build_kernel() {
+	cd ${KERNEL_SRC}
 	case $1 in
 	"kernel")
 		TIME="Total Time: %E\tExit:%x" time make ${KERNEL_TARGET} ${BUILD_ARGS}
@@ -127,14 +129,14 @@ install_headers() {
 }
 
 archive_kernel() {
+	local pack_info
 	# Input log
-	read -p "Input Package Log:" PACK_INFO
-	echo "$PACK_INFO" >"${INSTALL_MOD_PATH}/info"
+	read -p "Input Package Log:" pack_info
+	echo "${pack_info}" >"${INSTALL_MOD_PATH}/info"
 
 	# Package
 	#cd $KDIR
-	local PACK_DATE=$(date +%Y%m%d_%H%M)
-	local PACK_NAME="linux_${PACK_NAME}_${KERNEL_VERSION}_${PACK_DATE}.tar.xz"
+	local PACK_NAME="linux_${PACK_NAME}_${KERNEL_VERSION}_$(date +%Y%m%d_%H%M).tar.xz"
 	cd "${INSTALL_MOD_PATH}"
 	TIME="Total Time: %E\tExit:%x" time tar cJfp "../${PACK_NAME}" *
 	echo "Package To ${PACK_NAME}"
@@ -194,6 +196,7 @@ show_menu() {
 	read -p "Please Select: >> " OPT
 	case ${OPT} in
 	"1")
+		cd ${KERNEL_SRC}
 		if [ "${DEFCONFIG}" != "" ]; then
 			make ${DEFCONFIG} ${BUILD_ARGS}
 		else
@@ -201,6 +204,7 @@ show_menu() {
 		fi
 		;;
 	"2")
+		cd ${KERNEL_SRC}
 		make menuconfig ${BUILD_ARGS}
 		;;
 	"3")
@@ -240,10 +244,12 @@ show_menu() {
 		archive_kernel
 		;;
 	"7")
+		cd ${KERNEL_SRC}
 		make clean ${BUILD_ARGS}
 		rm ${INSTALL_MOD_PATH}/* -rf
 		;;
 	"mrproper")
+		cd ${KERNEL_SRC}
 		# Hide Option
 		make mrproper
 		;;
