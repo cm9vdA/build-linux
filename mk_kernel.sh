@@ -274,6 +274,11 @@ build_probe() {
 		fi
 		check_path DTS "${DT_PATH}.dts"
 		ln -s -f "${DT_PATH}.dts" ${DT_PATH_LINK}
+		# add dtb to Makefile
+		grep -q ${DT_FILE} ${DT_PATH_LINK}/Makefile
+		if [ $? -ne 0 ]; then
+			echo "dtb-y += ${DT_FILE}.dtb" >>${DT_PATH_LINK}/Makefile
+		fi
 	fi
 
 	# link defconfig
