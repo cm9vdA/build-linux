@@ -1,6 +1,7 @@
 # Build-Linux
 > 用于构建嵌入式板子的内核、U-Boot和根文件系统
 
+> 交叉编译工具链下载地址 https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
 
 ## 目录说明：
 - board：一些板子的参数信息以及图片存档
