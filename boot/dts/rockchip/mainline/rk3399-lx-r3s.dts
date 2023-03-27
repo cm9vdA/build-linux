@@ -252,18 +252,26 @@
 		// status = "okay";
 		status = "disabled";
 		compatible = "simple-audio-card";
-		simple-audio-card,name = "rockchip,rt5640-codec";
+		pinctrl-names = "default";
+		pinctrl-0 = <&rt5640_hpdet>;
+
+		simple-audio-card,name = "rt5640-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-		simple-audio-card,hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_LOW >;
+		simple-audio-card,hp-det-gpio = < &gpio4 RK_PD0 GPIO_ACTIVE_HIGH >;
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphone Jack";
+			"Headphone", "Headphone Jack",
+			"Speaker", "Speaker";
 		simple-audio-card,routing =
 			"Mic Jack", "MICBIAS1",
 			"IN1P", "Mic Jack",
 			"Headphone Jack", "HPOL",
-			"Headphone Jack", "HPOR";
+			"Headphone Jack", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
@@ -272,6 +280,16 @@
 		simple-audio-card,codec {
 			sound-dai = <&rt5640>;
 		};
+	};
+
+	speaker_amp: speaker-amplifier { // verify
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&rt5640_spkcon>;
+		enable-gpios = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Speaker Amplifier";
+		// VCC-supply = <&vcc5v0_sys>;
+		status = "disabled";
 	};
 
 };
@@ -803,7 +821,15 @@
 
 	rt5640 {
 		rt5640_hpcon: rt5640-hpcon {
-			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
+		};
+
+		rt5640_spkcon: rt5640-spkcon {
+			rockchip,pins = <0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
+		};
+
+		rt5640_hpdet: rt5640-hpdet {
+			rockchip,pins = <4 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 
 		rt5640_auxdet: rt5640-auxdet {
