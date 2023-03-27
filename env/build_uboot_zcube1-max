@@ -2,11 +2,11 @@
 source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 
 # Board Info
-BOARD_NAME="KING3399"
+BOARD_NAME="ZCube1 Max"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="zm-rk3399_defconfig"
+DEFCONFIG="zcube1-max-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-hugsun-zm"
+DT_FILE="rk3399-zcube1-max"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

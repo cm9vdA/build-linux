@@ -7,8 +7,8 @@
 #include "rk3399-opp.dtsi"
 
 / {
-	model = "ZM-RK3399";
-	compatible = "rockchip,rk3399-hugsun-zm", "rockchip,rk3399";
+	model = "ZCuble1 Max";
+	compatible = "rockchip,rk3399-zcube1-max", "rockchip,rk3399";
 
 	aliases {
 		mmc0 = &sdio0;

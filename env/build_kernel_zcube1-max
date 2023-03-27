@@ -2,11 +2,11 @@
 source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
-BOARD_NAME="ZM-RK3399"
-PACK_NAME="zm"
+BOARD_NAME="ZCube1 Max"
+PACK_NAME="zcube1-max"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-hugsun-zm"
+DT_FILE="rk3399-zcube1-max"
 
 # Build Config
 NO_CROSS_COMPILE=0
