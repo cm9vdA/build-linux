@@ -769,8 +769,8 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	sd-uhs-sdr104;
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";
- // status = "disabled";
+	// status = "okay";
+	status = "disabled";
 
 	brcmf: wifi@1 {
 		compatible = "brcm,bcm4329-fmac";
@@ -780,8 +780,8 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 		interrupt-names = "host-wake";
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_host_wake_l>;
-		status = "okay";
-	 // status = "disabled";
+		// status = "okay";
+		status = "disabled";
 	};
 };
 
