@@ -150,47 +150,47 @@
 	};
 
 	adc-keys { // verify
-			compatible = "adc-keys";
-			io-channels = <&saradc 1>;
-			io-channel-names = "buttons";
-			keyup-threshold-microvolt = <1800000>;
-			poll-interval = <100>;
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1800000>;
+		poll-interval = <100>;
 
-			vol-up {
-					label = "Volume Up";
-					linux,code = <KEY_VOLUMEUP>;
-					press-threshold-microvolt = <18000>;
-			};
-			vol-down {
-					label = "Volume Down";
-					linux,code = <KEY_VOLUMEDOWN>;
-					press-threshold-microvolt = <18000>;
-			};
-			power {
-					label = "Power";
-					linux,code = <KEY_POWER>;
-					press-threshold-microvolt = <18000>;
-			};
-			menu {
-					label = "Menu";
-					linux,code = <KEY_F1>;
-					press-threshold-microvolt = <18000>;
-			};
-			home {
-					label = "Home";
-					linux,code = <KEY_HOME>;
-					press-threshold-microvolt = <18000>;
-			};
-			back {
-					label = "Back";
-					linux,code = <KEY_BACK>;
-					press-threshold-microvolt = <18000>;
-			};
-			camera {
-					label = "Camera";
-					linux,code = <KEY_CAMERA>;
-					press-threshold-microvolt = <18000>;
-			};
+		vol-up {
+				label = "Volume Up";
+				linux,code = <KEY_VOLUMEUP>;
+				press-threshold-microvolt = <18000>;
+		};
+		vol-down {
+				label = "Volume Down";
+				linux,code = <KEY_VOLUMEDOWN>;
+				press-threshold-microvolt = <18000>;
+		};
+		power {
+				label = "Power";
+				linux,code = <KEY_POWER>;
+				press-threshold-microvolt = <18000>;
+		};
+		menu {
+				label = "Menu";
+				linux,code = <KEY_F1>;
+				press-threshold-microvolt = <18000>;
+		};
+		home {
+				label = "Home";
+				linux,code = <KEY_HOME>;
+				press-threshold-microvolt = <18000>;
+		};
+		back {
+				label = "Back";
+				linux,code = <KEY_BACK>;
+				press-threshold-microvolt = <18000>;
+		};
+		camera {
+				label = "Camera";
+				linux,code = <KEY_CAMERA>;
+				press-threshold-microvolt = <18000>;
+		};
 	};
 };
 

@@ -179,7 +179,7 @@
 	};
 
 /*
-	// unused
+	// Unused DSI
 	vcc_lcd: vcc-lcd { // bsp
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -194,6 +194,109 @@
 		vin-supply = <&vcc_sys>;
 	};
 */
+
+	rt5651-sound {
+		// status = "okay";
+		status = "disabled";
+		compatible = "simple-audio-card";
+		pinctrl-names = "default";
+		pinctrl-0 = <&rt5651_hpdet>;
+
+		simple-audio-card,name = "realtek,rt5651-codec";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
+		simple-audio-card,widgets =
+			"Microphone", "Mic Jack",
+			"Headphone", "Headphones",
+			"Speaker", "Speaker";
+		simple-audio-card,routing =
+			"Mic Jack", "micbias1",
+			"Headphones", "HPOL",
+			"Headphones", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&rt5651>;
+		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&rt5651_spkcon>;
+		enable-gpios = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Speaker Amplifier";
+		// VCC-supply = <&vcc5v0_sys>;
+		status = "disabled";
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		autorepeat;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pwrbtn>;
+
+		key-power {
+			debounce-interval = <100>;
+			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>; // bsp
+			label = "GPIO Key Power";
+			linux,code = <KEY_POWER>;
+			wakeup-source;
+		};
+	};
+
+	adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1800000>;
+		poll-interval = <100>;
+
+		vol-up {
+				label = "Volume Up";
+				linux,code = <KEY_VOLUMEUP>;
+				press-threshold-microvolt = <18000>;
+		};
+		vol-down {
+				label = "Volume Down";
+				linux,code = <KEY_VOLUMEDOWN>;
+				press-threshold-microvolt = <18000>;
+		};
+		power {
+				label = "Power";
+				linux,code = <KEY_POWER>;
+				press-threshold-microvolt = <18000>;
+		};
+		menu {
+				label = "Menu";
+				linux,code = <KEY_F1>;
+				press-threshold-microvolt = <18000>;
+		};
+		home {
+				label = "Home";
+				linux,code = <KEY_HOME>;
+				press-threshold-microvolt = <18000>;
+		};
+		back {
+				label = "Back";
+				linux,code = <KEY_BACK>;
+				press-threshold-microvolt = <18000>;
+		};
+		camera {
+				label = "Camera";
+				linux,code = <KEY_CAMERA>;
+				press-threshold-microvolt = <18000>;
+		};
+	};
+
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
@@ -511,29 +614,17 @@
 	i2c-scl-rising-time-ns = <300>;
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
-/*
-	rt5651@1a {
-		#sound-dai-cells = <0x00>;
-		clock-names = "mclk";
-		clocks = <&cru SCLK_I2S_8CH_OUT>;
-		compatible = "rockchip,rt5651";
-		hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
-		// pinctrl-0 = <&i2s_8ch_mclk>;
-		pinctrl-names = "default";
+
+	rt5651: rt5651@1a {
+		#sound-dai-cells = <0>;
+		compatible = "realtek,rt5651";
 		reg = <0x1a>;
-		spk-con-gpio = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
-		status = "okay";
+		clocks = <&cru SCLK_I2S_8CH_OUT>;
+		clock-names = "mclk";
+		// status = "okay";
+		status = "disabled";
 	};
-
-	gsl3673@40 {
-		compatible = "GSL,GSL3673";
-		irq_gpio_number = <&gpio1 RK_PC4 IRQ_TYPE_LEVEL_LOW>;
-		reg = <0x40>;
-		rst_gpio_number = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
-		screen_max_x = <1536>;
-		screen_max_y = <2048>;
-	};
-
+/*
 	// HDMI IN
 	tc358749x@0f {
 		compatible = "toshiba,tc358749x";
@@ -556,30 +647,6 @@
 	i2c-scl-rising-time-ns = <600>;
 	i2c-scl-falling-time-ns = <20>;
 	status = "okay";
-/*
-	ilitek@41 {
-		compatible = "tchip,ilitek";
-		ilitek,irq-gpio = <&gpio1 RK_PC4 IRQ_TYPE_LEVEL_LOW>;
-		ilitek,reset-gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
-		reg = <0x41>;
-	};
-	sensor@22 {
-		compatible = "gs_stk8313";
-		irq_enable = <0x00>;
-		layout = <0x01>;
-		poll_delay_ms = <30>;
-		reg = <0x22>;
-		type = <0x02>;
-	};
-	ts@55 {
-		compatible = "goodix,gt9xx";
-		max-x = <0x500>;
-		max-y = <0x320>;
-		reg = <0x5d>;
-		reset-gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
-		touch-gpio = <&gpio1 RK_PC4 IRQ_TYPE_LEVEL_LOW>;
-	};
-*/
 };
 
 // Used for HDMI
@@ -652,11 +719,12 @@
 */
 };
 
+// ALC5651
 &i2s0 {
-	pinctrl-0 = <&i2s0_2ch_bus>;
-	rockchip,capture-channels = <2>;
-	rockchip,playback-channels = <2>;
-	status = "okay";
+	rockchip,playback-channels = <8>;
+	rockchip,capture-channels = <8>;
+	// status = "okay";
+	status = "disabled";
 };
 
 // HDMI SOUND OUT
@@ -671,19 +739,19 @@
 	sdmmc-supply = <&vcc_sdio>; // bsp
 	gpio1830-supply = <&vcc_3v0>; // bsp
 };
-/*
-&mipi_dsi {
-	enable-gpios = <&gpio2 RK_PB1 GPIO_ACTIVE_HIGH>;
-	reset-gpios = <&gpio4 RK_PA7 GPIO_ACTIVE_LOW>;
-	reset-names = "apb";
-}
-*/
+
 &pmu_io_domains {
 	status = "okay";
 	pmu1830-supply = <&vcc_3v0>;
 };
 
 &pinctrl {
+	buttons {
+		pwrbtn: pwrbtn {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
+		};
+	};
+
 	pmic {
 		cpu_b_sleep: cpu-b-sleep {
 			rockchip,pins = <1 RK_PC1 RK_FUNC_GPIO &pcfg_pull_down>; // bsp
@@ -783,6 +851,24 @@
 		lcd_panel_reset: lcd-panel-reset {
 			rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
+
+		mipi_dsi_en: mipi-dsi-en{
+			rockchip,pins = <2 RK_PB1 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+
+		mipi_dsi_reset: mipi-dsi-reset {
+			rockchip,pins = <4 RK_PA7 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+	};
+
+	touchscreen {
+		touch_int_l: touch-int-l {
+			rockchip,pins = <1 RK_PC4 RK_FUNC_GPIO &pcfg_pull_up>; // bsp
+		};
+
+		touch_reset_l: touch-reset-l {
+			rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
 	};
 
 /*
@@ -874,6 +960,21 @@
 		user_io04: user-io04 {
 			rockchip,pins = <1 RK_PB2 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
+	};
+
+	wiegand {
+		data0_pin: data0-pin {
+			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+		data0_send_pin: data0-send-pin {
+			rockchip,pins = <1 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+		data1_pin: data1-pin {
+			rockchip,pins = <2 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+		data1_send_pin: data2-send-pin {
+			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};	
 	};
 };
 
