@@ -393,7 +393,7 @@
 		interrupt-parent = <&gpio1>;
 		interrupts = <RK_PC5 IRQ_TYPE_LEVEL_LOW>;
 		#clock-cells = <1>;
-		clock-output-names = "rk808-clkout1", "rk808-clkout2"; // bsp
+		clock-output-names = "xin32k", "rk808-clkout2"; // bsp
 		pinctrl-names = "default";
 		// pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
 		pinctrl-0 = <&pmic_int_l>;
@@ -735,7 +735,7 @@
 &io_domains {
 	status = "okay";
 	bt656-supply = <&vcc1v8_s0>; // bsp
-	audio-supply = <&vcca1v8_codec>; // bsp
+	// audio-supply = <&vcca1v8_codec>; // bsp
 	sdmmc-supply = <&vcc_sdio>; // bsp
 	gpio1830-supply = <&vcc_3v0>; // bsp
 };
@@ -1039,7 +1039,7 @@
 	bus-width = <4>;
 	cap-mmc-highspeed;
 	cap-sd-highspeed;
-	cd-gpios = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>;
+	cd-gpios = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>; // bsp
 	clock-frequency = <150000000>;
 	disable-wp;
 	max-frequency = <150000000>;
