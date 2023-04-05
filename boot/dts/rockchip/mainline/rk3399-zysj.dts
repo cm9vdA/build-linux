@@ -352,8 +352,8 @@
 	phy-handle = <&rtl8211e>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&rgmii_pins>, <&phy_intb>, <&phy_rstb>;
-	tx_delay = <0x28>;
-	rx_delay = <0x11>;
+	tx_delay = <0x30>;
+	rx_delay = <0x20>;
 	status = "okay";
 
 	mdio {
