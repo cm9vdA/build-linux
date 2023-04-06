@@ -23,7 +23,7 @@
     3. 修改`build-linux/env/common/build_kernel_arm`中的PATH参数，根据实际情况填写交叉编译工具路径和工具链名，如果是64位的板子，需要改`build_kernel_aarch64`。
     4. 在`arm`目录下创建M2的工作目录，比如`workspace`。
     5. 进入`workspace`目录，创建软链接到`build-linux/mk_kernel.sh`，软链接的名字是`build_kernel_m2`（也就是与env目录下的环境变量文件同名），因为`mk_kernel.sh`脚本是根据调用时的文件名来选择对应的环境变量文件，所以要以环境变量文件的名字来命名。
-    6. 运行`./build_kernel_m2`，根据菜单提示项进行编译和打包。【第一次编译时，需要将目标板的dtb文件名添加到内核dtb目录下的Makefile里，这样才会编译生成dtb】
+    6. 运行`./build_kernel_m2`，根据菜单提示项进行编译和打包。
 
   - 菜单说明
     ```
