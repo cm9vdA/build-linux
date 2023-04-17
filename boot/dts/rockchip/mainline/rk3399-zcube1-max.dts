@@ -196,6 +196,17 @@
 		sound-name-prefix = "Speaker Amp";
 		VCC-supply = <&vcc5v0_sys>;
 	};
+
+	// UART4: RX -> SDA, TX -> SCL
+	i2c9 {
+		compatible = "i2c-gpio";
+		sda-gpios = <&gpio1 RK_PA7 GPIO_ACTIVE_HIGH>;
+		scl-gpios = <&gpio1 RK_PB0 GPIO_ACTIVE_HIGH>;
+		i2c-gpio,delay-us = <5>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
 };
 
 &cpu_l0 {
@@ -848,8 +859,13 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	};
 };
 
+// Debug TTL
 &uart2 {
 	status = "okay";
+};
+
+&uart4 {
+	// status = "okay";
 };
 
 &usb_host0_ehci {
