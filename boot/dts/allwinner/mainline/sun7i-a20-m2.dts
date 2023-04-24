@@ -27,29 +27,10 @@
 			};
 		};
 	};
-/*
-	sound {
-		compatible = "simple-audio-card";
-		simple-audio-card,name = "On-board SPDIF";
-
-		simple-audio-card,cpu {
-			sound-dai = <&spdif>;
-		};
-
-		simple-audio-card,codec {
-			sound-dai = <&spdif_out>;
-		};
-	};
-
-	spdif_out: spdif-out {
-		#sound-dai-cells = <0>;
-		compatible = "linux,spdif-dit";
-	};
-*/
-
 };
 
 &cpu0 {
+	cpu-supply = <&reg_dcdc2>;
 	operating-points = <
 	/* kHz	  uV */
 	1080000	1450000
@@ -64,6 +45,7 @@
 };
 
 &cpu1 {
+	cpu-supply = <&reg_dcdc2>;
 	operating-points = <
 	/* kHz	  uV */
 	1080000	1450000
@@ -128,6 +110,13 @@
 	};
 };
 
+// LVDS
+// &pwm {
+// 	pinctrl-names = "default";
+// 	pinctrl-0 = <&pwm0_pin>; /* PB02 */
+// 	status = "okay";
+// };
+
 /* I2C
 * NO: SCL,	SDA
 *  0: PB00, PB01
@@ -136,18 +125,9 @@
 *  3: PI00, PI01
 *  4: PI02, PI03
 */
-
-&pio {
-	/omit-if-no-ref/
-	i2c4_pins: i2c4-pins {
-		pins = "PI2", "PI3";
-		function = "i2c4";
-	};
-};
-
 &i2c0 {
 	status = "okay";
-
+/*
 	axp209: pmic@34 {
 		compatible = "x-powers,axp209";
 		reg = <0x34>;
@@ -156,6 +136,12 @@
 
 		interrupt-controller;
 		#interrupt-cells = <1>;
+	};
+*/
+	axp209: pmic@34 {
+		reg = <0x34>;
+		interrupt-parent = <&nmi_intc>;
+		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
 	};
 };
 
@@ -168,9 +154,17 @@
 	status = "okay";
 };
 
-/*
 &i2c3 {
 	status = "okay";
+};
+
+/*
+&pio {
+	/omit-if-no-ref/
+	i2c4_pins: i2c4-pins {
+		pins = "PI2", "PI3";
+		function = "i2c4";
+	};
 };
 
 &i2c4 {
@@ -179,36 +173,13 @@
 };
 */
 
-/*
-// PH02 IRQ_TYPE_LEVEL_LOW / GPIO_ACTIVE_LOW
-#include "axp209.dtsi"
-
-&ac_power_supply {
-	status = "okay";
-};
-
-/*
-&i2s2 {
-	status = "okay";
-};
-*/
-
-// maybe useful for i2s2
-/*
-&spi2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&spi2_pb_pins>,
-		    <&spi2_cs0_pb_pin>;
-	status = "okay";
-};
-*/
-
 &ir0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&ir0_rx_pin>;
+	pinctrl-0 = <&ir0_rx_pin>; /* PB04 */
 	status = "okay";
 };
 
+// TF
 &mmc0 {
 	vmmc-supply = <&reg_vcc3v3>;
 	bus-width = <4>;
@@ -216,6 +187,15 @@
 	status = "okay";
 };
 
+// EMMC
+/*
+/ {
+	mmc2_pwrseq: mmc2_pwrseq {
+		compatible = "mmc-pwrseq-emmc";
+		reset-gpios = <&pio 2 16 GPIO_ACTIVE_LOW>;
+	};
+};
+*/
 &mmc2 {
 	vmmc-supply = <&reg_vcc3v3>;
 	vqmmc-supply = <&reg_vcc3v3>;
@@ -252,25 +232,19 @@
 	status = "okay";
 };
 
-/*
-&spdif {
-	pinctrl-names = "default";
-	pinctrl-0 = <&spdif_tx_pin>;
-	status = "disabled";
-};
-*/
-
 /* UART
 * NO: TX,	RX	, RTS,	CTS
 *  0: PB22, PB23
-*  1: 
+*  1: None
 *  2: PI18, PI19
 *  3: PG06, PG07, PG08, PG09
 *  4: PG10, PG11
 *  5: PI10, PI11
 *  6: PI12, PI13
+*  7: PI20, PI21
 */
 
+// debug
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_pb_pins>;
@@ -310,21 +284,70 @@
 	status = "okay";
 };
 
-
-// maybe used for 3g module
+// LTE
 &uart7 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart7_pi_pins>;
 	status = "okay";
 };
 
-
 &usb_otg {
 	dr_mode = "otg";
 	status = "okay";
 };
 
+// PH02 IRQ_TYPE_LEVEL_LOW / GPIO_ACTIVE_LOW
+#include "axp209.dtsi"
+
+&ac_power_supply {
+	status = "okay";
+};
+
+&reg_dcdc2 {
+	regulator-always-on;
+	regulator-min-microvolt = <1000000>;
+	regulator-max-microvolt = <1450000>;
+	regulator-name = "vdd-cpu";
+};
+
+&reg_dcdc3 {
+	regulator-always-on;
+	regulator-min-microvolt = <1000000>;
+	regulator-max-microvolt = <1400000>;
+	regulator-name = "vdd-int-dll";
+};
+
+&reg_ldo1 {
+	regulator-name = "vdd-rtc";
+};
+
+&reg_ldo2 {
+	regulator-always-on;
+	regulator-min-microvolt = <3000000>;
+	regulator-max-microvolt = <3000000>;
+	regulator-name = "avcc";
+};
+
+&reg_usb0_vbus {
+	status = "okay";
+};
+
+&reg_usb1_vbus {
+	status = "okay";
+};
+
+&reg_usb2_vbus {
+	status = "okay";
+};
+
+&usb_power_supply {
+	status = "okay";
+};
+
 &usbphy {
+	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH04 */
+	usb0_vbus_power-supply = <&usb_power_supply>;
+	usb0_vbus-supply = <&reg_usb0_vbus>;
 	usb1_vbus-supply = <&reg_usb1_vbus>;
 	usb2_vbus-supply = <&reg_usb2_vbus>;
 	status = "okay";

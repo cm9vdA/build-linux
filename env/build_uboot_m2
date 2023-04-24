@@ -4,6 +4,6 @@ source ${SCRIPT_PATH}/env/common/build_uboot_arm
 # Board Info
 BOARD_NAME="Merrii M2"
 CPU_INFO="Allwinner A20"
-DEFCONFIG="Merrii_M2_defconfig"
+DEFCONFIG="merrii_m2_defconfig"
 VENDOR="allwinner"
 DT_FILE="sun7i-a20-m2"
