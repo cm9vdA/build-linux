@@ -111,11 +111,11 @@
 };
 
 // LVDS
-// &pwm {
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&pwm0_pin>; /* PB02 */
-// 	status = "okay";
-// };
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm0_pin>; /* PB02 */
+	status = "okay";
+};
 
 /* I2C
 * NO: SCL,	SDA
