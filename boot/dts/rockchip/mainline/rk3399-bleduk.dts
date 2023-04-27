@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
- * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
- */
-
-/*
  Supported:
 	USB: 2.0 x 1, 3.0 x 1, 
 	TF
+	WiFi
 
  Unsupport:
 	USB: Type-C x 1
