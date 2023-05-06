@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="TN3399_V3"
+PACK_NAME="tn3399"
+CPU_INFO="Rockchip RK3399"
+VENDOR="rockchip"
+DT_FILE="rk3399-tn3399-v3"
+
+# Build Config
+NO_CROSS_COMPILE=0
