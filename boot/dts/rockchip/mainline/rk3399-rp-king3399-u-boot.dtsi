@@ -7,7 +7,8 @@
 		u-boot,spl-boot-order = "same-as-spl", &sdhci, &sdmmc;
 	};
 };
-
+/*
 &vdd_log {
 	regulator-init-microvolt = <950000>;
 };
+*/

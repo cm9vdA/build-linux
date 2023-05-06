@@ -391,8 +391,8 @@
 		#clock-cells = <1>;
 		clock-output-names = "xin32k", "rk808-clkout2"; // bsp
 		pinctrl-names = "default";
-		// pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
-		pinctrl-0 = <&pmic_int_l>;
+		pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
+		// pinctrl-0 = <&pmic_int_l>;
 		rockchip,system-power-controller;
 		wakeup-source;
 
