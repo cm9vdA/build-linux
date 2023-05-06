@@ -128,7 +128,7 @@
 		regulator-min-microvolt = <3000000>;
 		regulator-name = "vcc3v0_sd";
 		vin-supply = <&vcc3v3_sys>;
-		};
+	};
 
 	vcc3v3_sys: vcc3v3-sys {
 		compatible = "regulator-fixed";

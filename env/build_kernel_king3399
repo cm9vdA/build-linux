@@ -3,7 +3,7 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
 BOARD_NAME="KING3399"
-PACK_NAME="r3s"
+PACK_NAME="king3399"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
 DT_FILE="rk3399-rp-king3399"
