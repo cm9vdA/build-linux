@@ -208,6 +208,14 @@
 		#size-cells = <0>;
 		status = "disabled";
 	};
+
+	virtual_pd: virtual-pd {
+		compatible = "linux,extcon-usbc-virtual-pd";
+		det-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
+		vpd-data-role = "display-port";
+		vpd-super-speed;
+		// vpd-polarity;
+	};
 };
 
 &cpu_l0 {
@@ -277,10 +285,6 @@
 dp-det-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
 hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 */
-
-// &cdn_dp {
-// 	status = "okay";
-// };
 
 &i2c0 {
 	status = "okay";
@@ -905,6 +909,8 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 
 &vopb {
 	status = "okay";
+	// assigned-clocks = <&cru DCLK_VOP0_DIV>;
+	// assigned-clock-parents = <&cru PLL_VPLL>;
 };
 
 &vopb_mmu {
@@ -913,8 +919,30 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 
 &vopl {
 	status = "okay";
+	// assigned-clocks = <&cru DCLK_VOP1_DIV>;
+	// assigned-clock-parents = <&cru PLL_CPLL>;
 };
 
 &vopl_mmu {
 	status = "okay";
 };
+/*
+// for DP, not verify
+&dp_in_vopl {
+	status = "disabled";
+};
+
+&hdmi_in_vopb {
+	status = "disabled";
+};
+
+&cdn_dp {
+	status = "okay";
+	phys = <&tcphy0_dp>;
+	extcon = <&virtual_pd>;
+};
+
+&tcphy0 {
+	extcon = <&virtual_pd>;
+};
+*/
