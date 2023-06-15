@@ -6,8 +6,6 @@
 #include <dt-bindings/usb/pd.h>
 #include "rk3399.dtsi"
 #include "rk3399-opp.dtsi"
-// 降频opp
-// #include "rk3399-t-opp.dtsi"
 
 / {
 	model = "ZYSJ RK3399";
