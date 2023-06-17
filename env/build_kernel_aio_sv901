@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="AIO SV901"
+PACK_NAME="aio-sv901"
+CPU_INFO="Rockchip RK3399"
+VENDOR="rockchip"
+DT_FILE="rk3399-aio-sv901"
+
+# Build Config
+NO_CROSS_COMPILE=0
