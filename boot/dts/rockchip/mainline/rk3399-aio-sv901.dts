@@ -232,8 +232,8 @@
 
 &gmac {
 	assigned-clocks = <&cru SCLK_RMII_SRC>;
-	assigned-clock-parents = <&clkin_gmac>;
-	clock_in_out = "input";
+	// assigned-clock-parents = <&clkin_gmac>;
+	// clock_in_out = "input";
 	phy-supply = <&vcc3v3_s3>;
 	phy-mode = "rgmii";
 	phy-handle = <&rtl8367s>;
@@ -243,6 +243,18 @@
 	rx_delay = <0x11>;
 	status = "okay";
 
+	assigned-clock-parents = <&cru SCLK_MAC>;
+	assigned-clock-rates = <125000000>;
+	clock_in_out = "output";
+	// snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
+	// snps,reset-active-low;
+	// snps,reset-delays-us = <0 20000 100000>;
+
+	fixed-link {
+		speed = <1000>;
+		full-duplex;
+	};
+
 	mdio {
 		compatible = "snps,dwmac-mdio";
 		#address-cells = <1>;
@@ -251,8 +263,8 @@
 		rtl8367s: switch@29 {
 			compatible = "realtek,rtl8365mb";
 			reg = <29>;
-			mdc-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_HIGH>; // not require
-			mdio-gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_HIGH>; // not require
+			// mdc-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_HIGH>; // not require
+			// mdio-gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_HIGH>; // not require
 			reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
 
 			switch_intc3: interrupt-controller {
@@ -286,13 +298,12 @@
 					reg = <3>;
 					label = "lan3";
 				};
-/*
-				// RTL8153B
+
 				port@4 {
 					reg = <4>;
-					label = "lan5";
+					label = "lan4";
 				};
-*/
+
 				port@7 {
 					reg = <7>;
 					label = "cpu";
