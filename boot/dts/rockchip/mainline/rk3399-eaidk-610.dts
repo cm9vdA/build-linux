@@ -105,7 +105,7 @@
 		};
 
 		user_led: led-1 {
-			label = "read:user";
+			label = "red:user";
 			default-state = "off";
 			gpios = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>;
 		};
@@ -132,24 +132,50 @@
 	};
 
 	rt5651-sound {
+		status = "okay";
 		compatible = "simple-audio-card";
+		pinctrl-names = "default";
+		pinctrl-0 = <&hp_det>;
+
 		simple-audio-card,name = "realtek,rt5651-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
-			"Microphone", "Mic Jack",
-			"Headphone", "Headphone Jack";
+			"Microphone", "Headset Microphone",
+			"Microphone", "Internal Microphone",
+			"Headphone", "Headphones",
+			"Speaker", "Speaker";
 		simple-audio-card,routing =
-			"Mic Jack", "MICBIAS1",
-			"IN1P", "Mic Jack",
-			"Headphone Jack", "HPOL",
-			"Headphone Jack", "HPOR";
+			"Headphones", "HPOL",
+			"Headphones", "HPOR",
+
+			"Internal Microphone", "micbias1",
+			"IN2P", "Internal Microphone",
+			"IN2N", "Internal Microphone",
+			"IN1P", "Headset Microphone",
+
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
 		simple-audio-card,cpu {
 			sound-dai = <&i2s1>;
 		};
 		simple-audio-card,codec {
 			sound-dai = <&rt5651>;
 		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spk_ctl>;
+		enable-gpios = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Speaker Amplifier";
+		VCC-supply = <&vcc5v0_sys>;
 	};
 
 	sdio_pwrseq: sdio-pwrseq {
@@ -541,16 +567,14 @@
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
 
-	rt5651: audio-codec@1a {
-		compatible = "rockchip,rt5651";
+	rt5651: rt5651@1a {
+		#sound-dai-cells = <0>;
+		compatible = "realtek,rt5651";
 		reg = <0x1a>;
 		clocks = <&cru SCLK_I2S_8CH_OUT>;
 		clock-names = "mclk";
-		hp-det-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
-		spk-con-gpio = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
-		#sound-dai-cells = <0>;
+		status = "okay";
 	};
-
 };
 
 &i2c3 {
@@ -614,10 +638,10 @@
 	};
 };
 
+// SCLK_I2SOUT_SRC 64
+
 &i2s1 {
-	rockchip,playback-channels = <2>;
-	rockchip,capture-channels = <2>;
-	status = "okay";
+    assigned-clocks = <&cru 64>;
 };
 
 &i2s2 {
@@ -710,9 +734,13 @@
 		};
 	};
 
-	rt5651 {
-		rt5651_hpcon: rt5640-hpcon {
+	headphone {
+		hp_det: hp-det {
 			rockchip,pins = <4 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		spk_ctl: spk-ctl {
+			rockchip,pins = <0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 
@@ -741,6 +769,12 @@
 	wifi {
 		wifi_host_wake_l: wifi-host-wake-l {
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	i2s1 {
+		i2s_8ch_mclk_pin: i2s-8ch-mclk-pin {
+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
 		};
 	};
 };

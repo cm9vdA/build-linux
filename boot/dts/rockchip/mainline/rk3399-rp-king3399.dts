@@ -261,7 +261,7 @@
 		pinctrl-0 = <&spk_ctl>;
 		enable-gpios = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
 		sound-name-prefix = "Speaker Amplifier";
-		VCC-supply = <&vcc5v0_sys>;
+		vcc-supply = <&vcc5v0_sys>;
 	};
 
 	leds {
