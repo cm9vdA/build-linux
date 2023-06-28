@@ -298,7 +298,7 @@
 		keep-power-in-suspend;
 		phy-mode = "rgmii";
 		clock_in_out = "input";
-		snps,reset-gpio = <0x18 0x0f 0x01>;
+		snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
 		snps,reset-active-low;
 		snps,reset-delays-us = <0x00 0x2710 0xc350>;
 		assigned-clocks = <0x08 0xa6>;
@@ -610,7 +610,7 @@
 			reg = <0x40>;
 			regulator-compatible = "fan53555-reg";
 			pinctrl-0 = <0x32>;
-			vsel-gpios = <0x33 0x11 0x00>;
+			vsel-gpios = <&gpio1 RK_PC1 GPIO_ACTIVE_HIGH>;
 			regulator-name = "vdd_cpu_b";
 			regulator-min-microvolt = <0xadf34>;
 			regulator-max-microvolt = <0x16e360>;
@@ -632,7 +632,7 @@
 			reg = <0x41>;
 			regulator-compatible = "fan53555-reg";
 			pinctrl-0 = <0x35>;
-			vsel-gpios = <0x33 0x0e 0x00>;
+			vsel-gpios = <&gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;
 			regulator-name = "vdd_gpu";
 			regulator-min-microvolt = <0xadf34>;
 			regulator-max-microvolt = <0x16e360>;
@@ -883,7 +883,7 @@
 			clock-names = "mclk";
 			pinctrl-names = "default";
 			pinctrl-0 = <0x3a>;
-			spk-con-gpio = <0x3b 0x15 0x00>;
+			spk-con-gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
 			linux,phandle = <0xd6>;
 			phandle = <0xd6>;
 		};
@@ -1559,8 +1559,8 @@
 			reg = <0x22>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x81>;
-			vbus-5v-gpios = <0x33 0x03 0x01>;
-			int-n-gpios = <0x33 0x02 0x00>;
+			vbus-5v-gpios = <&gpio1 RK_PA3 GPIO_ACTIVE_LOW>;
+			int-n-gpios = <&gpio1 RK_PA2 GPIO_ACTIVE_HIGH>;
 			status = "okay";
 			linux,phandle = <0x27>;
 			phandle = <0x27>;
@@ -1571,8 +1571,8 @@
 			reg = <0x70>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x82 0x83>;
-			wk2xxx_irq_pin = <0x3b 0x1a 0x01>;
-			wk2xxx_cs_pin = <0x3b 0x19 0x00>;
+			wk2xxx_irq_pin = <&gpio4 RK_PD2 GPIO_ACTIVE_LOW>;
+			wk2xxx_cs_pin = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
 			status = "okay";
 		};
 	};
@@ -3365,7 +3365,7 @@
 		headphone {
 
 			hp-det {
-				rockchip,pins = <0x04 0x1c 0x00 0xb8>;
+				rockchip,pins = <0x04 RK_PD4 0x00 0xb8>;
 				linux,phandle = <0xde>;
 				phandle = <0xde>;
 			};
@@ -3374,7 +3374,7 @@
 		wk2xxx {
 
 			wk2xxx-irq-pin-en {
-				rockchip,pins = <0x04 0x1a 0x00 0xb8>;
+				rockchip,pins = <0x04 RK_PD2 0x00 0xb8>;
 				linux,phandle = <0x82>;
 				phandle = <0x82>;
 			};
@@ -3404,37 +3404,37 @@
 		ryd_gpio {
 
 			hub-en-gpio {
-				rockchip,pins = <0x04 0x18 0x00 0xb8>;
+				rockchip,pins = <0x04 RK_PD0 0x00 0xb8>;
 				linux,phandle = <0xdf>;
 				phandle = <0xdf>;
 			};
 
 			pwr-hold {
-				rockchip,pins = <0x01 0x0d 0x00 0xb8>;
+				rockchip,pins = <0x01 RK_PB5 0x00 0xb8>;
 				linux,phandle = <0xe0>;
 				phandle = <0xe0>;
 			};
 
 			led-ctl-g {
-				rockchip,pins = <0x03 0x1c 0x00 0xb8>;
+				rockchip,pins = <0x03 RK_PD4 0x00 0xb8>;
 				linux,phandle = <0xe1>;
 				phandle = <0xe1>;
 			};
 
 			human-induction {
-				rockchip,pins = <0x01 0x00 0x00 0xc1>;
+				rockchip,pins = <0x01 RK_PA0 0x00 0xc1>;
 				linux,phandle = <0xe2>;
 				phandle = <0xe2>;
 			};
 
 			infrared-test {
-				rockchip,pins = <0x04 0x16 0x00 0xb8>;
+				rockchip,pins = <0x04 RK_PC6 0x00 0xb8>;
 				linux,phandle = <0xe3>;
 				phandle = <0xe3>;
 			};
 
 			heartbeat-test {
-				rockchip,pins = <0x01 0x14 0x00 0xb8>;
+				rockchip,pins = <0x01 RK_PC4 0x00 0xb8>;
 				linux,phandle = <0xe4>;
 				phandle = <0xe4>;
 			};
@@ -3443,7 +3443,7 @@
 		fusb30x {
 
 			fusb0-int {
-				rockchip,pins = <0x01 0x02 0x00 0xb8>;
+				rockchip,pins = <0x01 RK_PA2 0x00 0xb8>;
 				linux,phandle = <0x81>;
 				phandle = <0x81>;
 			};
@@ -3452,7 +3452,7 @@
 		sdio-pwrseq {
 
 			wifi-enable-h {
-				rockchip,pins = <0x00 0x0a 0x00 0xba>;
+				rockchip,pins = <0x00 RK_PB2 0x00 0xba>;
 				linux,phandle = <0xda>;
 				phandle = <0xda>;
 			};
@@ -3461,7 +3461,7 @@
 		wireless-bluetooth {
 
 			uart0-gpios {
-				rockchip,pins = <0x02 0x13 0x00 0xba>;
+				rockchip,pins = <0x02 RK_PB5 0x00 0xba>;
 				linux,phandle = <0xdd>;
 				phandle = <0xdd>;
 			};
@@ -3470,7 +3470,7 @@
 		usb2 {
 
 			host-vbus-drv {
-				rockchip,pins = <0x04 0x19 0x00 0xba>;
+				rockchip,pins = <0x04 RK_PD1 0x00 0xba>;
 				linux,phandle = <0xd3>;
 				phandle = <0xd3>;
 			};
@@ -3479,19 +3479,19 @@
 		pmic {
 
 			pmic-int-l {
-				rockchip,pins = <0x01 0x15 0x00 0xb8>;
+				rockchip,pins = <0x01 RK_PC5 0x00 0xb8>;
 				linux,phandle = <0x36>;
 				phandle = <0x36>;
 			};
 
 			vsel1-gpio {
-				rockchip,pins = <0x01 0x11 0x00 0xc1>;
+				rockchip,pins = <0x01 RK_PC1 0x00 0xc1>;
 				linux,phandle = <0x32>;
 				phandle = <0x32>;
 			};
 
 			vsel2-gpio {
-				rockchip,pins = <0x01 0x0e 0x00 0xc1>;
+				rockchip,pins = <0x01 RK_PB6 0x00 0xc1>;
 				linux,phandle = <0x35>;
 				phandle = <0x35>;
 			};
@@ -3506,7 +3506,7 @@
 		rockchip,sleep-mode-config = <0xde>;
 		rockchip,wakeup-config = <0x804>;
 		rockchip,pwm-regulator-config = <0x04>;
-		rockchip,power-ctrl = <0x33 0x11 0x00 0x33 0x0e 0x00>;
+		rockchip,power-ctrl = <&gpio  GPIO_ACTIVE_HIGH &gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;
 	};
 
 	chosen {
@@ -3590,7 +3590,7 @@
 		};
 
 		power-key {
-			gpios = <0xc5 0x05 0x01>;
+			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
 			linux,code = <0x74>;
 			label = "power";
 			gpio-key,wakeup;
@@ -3639,7 +3639,7 @@
 		rockchip,isp,dsiphy,reg = <0xff968000 0x8000>;
 		rockchip,grf = <0x15>;
 		rockchip,cru = <0x08>;
-		rockchip,gpios = <0x33 0x03 0x00>;
+		rockchip,gpios = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
 		rockchip,isp,iommu-enable = <0x01>;
 		power-domains = <0x16 0x13>;
 		iommus = <0xcb>;
@@ -3664,7 +3664,7 @@
 		rockchip,isp,dsiphy,reg = <0xff968000 0x8000>;
 		rockchip,grf = <0x15>;
 		rockchip,cru = <0x08>;
-		rockchip,gpios = <0x33 0x03 0x00>;
+		rockchip,gpios = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
 		rockchip,isp,iommu-enable = <0x01>;
 		power-domains = <0x16 0x14>;
 		iommus = <0xcc>;
@@ -4037,7 +4037,7 @@
 	vcc5v0-host-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x3b 0x19 0x00>;
+		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xd3>;
 		regulator-name = "vcc5v0_host";
@@ -4074,7 +4074,7 @@
 		simple-audio-card,format = "i2s";
 		simple-audio-card,name = "realtekrt5651co";
 		simple-audio-card,mclk-fs = <0x100>;
-		simple-audio-card,spk-con-gpio = <0x3b 0x15 0x00>;
+		simple-audio-card,spk-con-gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
 
 		simple-audio-card,cpu {
 			sound-dai = <0xd5>;
@@ -4113,7 +4113,7 @@
 		clock-names = "ext_clock";
 		pinctrl-names = "default";
 		pinctrl-0 = <0xda>;
-		reset-gpios = <0xc5 0x0a 0x01>;
+		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
 		linux,phandle = <0x1b>;
 		phandle = <0x1b>;
 	};
@@ -4124,7 +4124,7 @@
 		rockchip,grf = <0x15>;
 		wifi_chip_type = "ap6356S";
 		sdio_vref = <0x708>;
-		WIFI,host_wake_irq = <0xc5 0x03 0x00>;
+		WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 
@@ -4132,13 +4132,13 @@
 		compatible = "bluetooth-platdata";
 		clocks = <0xd9 0x01>;
 		clock-names = "ext_clock";
-		uart_rts_gpios = <0xdb 0x13 0x01>;
+		uart_rts_gpios = <&gpio2 RK_PC3 GPIO_ACTIVE_LOW>;
 		pinctrl-names = "default\0rts_gpio";
 		pinctrl-0 = <0xdc>;
 		pinctrl-1 = <0xdd>;
-		BT,reset_gpio = <0xc5 0x09 0x00>;
-		BT,wake_gpio = <0xdb 0x1a 0x00>;
-		BT,wake_host_irq = <0xc5 0x04 0x00>;
+		BT,reset_gpio = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
+		BT,wake_gpio = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
+		BT,wake_host_irq = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 
@@ -4148,13 +4148,13 @@
 
 	rk_wakeonlan {
 		compatible = "rockchip,rk3399-wakeon";
-		gpio-int = <0x18 0x10 0x01>;
+		gpio-int = <&gpio3 RK_PC0 GPIO_ACTIVE_LOW>;
 		status = "okay";
 	};
 
 	rk_headset {
 		compatible = "rockchip_headset";
-		headset_gpio = <0x3b 0x1c 0x01>;
+		headset_gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xde>;
 		io-channels = <0xc4 0x02>;
@@ -4162,13 +4162,13 @@
 
 	ryd_gpio {
 		compatible = "rockchip,rk3399-ryd-gpio";
-		usb3.0,hub_en = <0x3b 0x18 0x00>;
-		usb30,type-5v = <0xc5 0x0b 0x00>;
-		pwr_hold = <0x33 0x0d 0x00>;
-		led_ctl_g = <0x18 0x1c 0x01>;
-		human_induction = <0x33 0x00 0xc1>;
-		infrared_test = <0x3b 0x16 0xb8>;
-		heartbeat_test = <0x33 0x14 0xb8>;
+		usb3.0,hub_en = <&gpio4 RK_PD0 GPIO_ACTIVE_HIGH>;
+		usb30,type-5v = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+		pwr_hold = <&gpio1 RK_PB5 GPIO_ACTIVE_HIGH>;
+		led_ctl_g = <&gpio3 RK_PD4 GPIO_ACTIVE_LOW>;
+		human_induction = <&gpio1 RK_PA0 0xc1>;
+		infrared_test = <&gpio4 RK_PC6 0xb8>;
+		heartbeat_test = <&gpio1 RK_PC4 0xb8>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xdf 0xe0 0xe1 0xe2 0xe3 0xe4>;
 		status = "okay";
@@ -4177,8 +4177,8 @@
 	watch_dog {
 		compatible = "rockchip,rk3399-watchdog";
 		status = "okay";
-		watchdog_feed = <0x33 0x04 0x00>;
-		watchdog_en = <0x33 0x12 0x01>;
+		watchdog_feed = <&gpio1 RK_PA4 GPIO_ACTIVE_HIGH>;
+		watchdog_en = <&gpio1 RK_PC2 GPIO_ACTIVE_LOW>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xe5 0xe6>;
 	};
@@ -4209,9 +4209,9 @@
 
 	rk_bp_auto {
 		compatible = "rockchip,bp-auto";
-		power_gpio = <0x33 0x16 0x01>;
-		reset_gpio = <0x33 0x18 0x01>;
-		disable_gpio = <0xc5 0x02 0x01>;
-		sim_det = <0x33 0x17 0x01>;
+		power_gpio = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
+		reset_gpio = <&gpio1 RK_PD0 GPIO_ACTIVE_LOW>;
+		disable_gpio = <&gpio0 RK_PA2 GPIO_ACTIVE_LOW>;
+		sim_det = <&gpio1 RK_PC7 GPIO_ACTIVE_LOW>;
 	};
 };
