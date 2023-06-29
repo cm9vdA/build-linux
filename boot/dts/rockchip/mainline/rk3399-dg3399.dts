@@ -243,6 +243,12 @@
 		sound-name-prefix = "Speaker Amplifier";
 		vcc-supply = <&vcc5v0_sys>;
 	};
+/*
+	lcd_bl: lcd-bl {
+			compatible = "gpio-backlight";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+	};
+*/
 };
 
 &cpu_l0 {
@@ -794,15 +800,15 @@
 		gsm_sim_det: gsm-sim-det {
 			rockchip,pins = <1 RK_PC7 RK_FUNC_GPIO &pcfg_pull_down>; // bsp
 		};
-		gpio_1_pin: gpio-1-pin {
+		gpio_a0_pin: gpio-a0-pin {
 			rockchip,pins = <1 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
-		tp_rst_pin: tp-rst-pin {
-			rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
-		tp_int_pin: tp-int-pin {
-			rockchip,pins = <1 RK_PC4 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
+		// tp_rst_pin: tp-rst-pin {
+		// 	rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
+		// };
+		// tp_int_pin: tp-int-pin {
+		// 	rockchip,pins = <1 RK_PC4 RK_FUNC_GPIO &pcfg_pull_none>;
+		// };
 	};
 
 	gmac {
@@ -941,6 +947,16 @@
 // near MIC
 &spi1 {
 	status = "disabled";
+	display@0 {
+			compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
+			reg = <0>;
+			pinctrl-names = "default";
+			spi-max-frequency = <32000000>;
+			dc-gpios = <&gpio1 RK_PC4 GPIO_ACTIVE_HIGH>;
+			reset-gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
+			rotation = <270>;
+			// backlight = <&lcd_bl>;
+	};
 };
 
 &usb_host0_ehci {
