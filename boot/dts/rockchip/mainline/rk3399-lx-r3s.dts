@@ -1,21 +1,4 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-/*
- Supported:
-	USB: 2.0 x 6, 2.0 x 1, 3.0 x 1, Type-C x 1
-	Ethernet
-	HDMI-OUT
-	TF
-	RTC
-
- Unsupport:
-    Headset
-
- Unknown:
-	LVDS
-	EDP
-
- */
-
 /dts-v1/;
 
 #include <dt-bindings/pwm/pwm.h>

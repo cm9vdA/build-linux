@@ -1,12 +1,4 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-/*
- Supported:
-	USB: 3.0 x 2
-	Ethernet
-	TF
-
- */
-
 /dts-v1/;
 
 #include <dt-bindings/pwm/pwm.h>
