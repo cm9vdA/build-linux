@@ -174,6 +174,18 @@
 		regulator-name = "gsm_power_en";
 		regulator-always-on;
 	};
+
+	vcc3v3_pcie: vcc3v3-pcie-regulator {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>; // verify
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie_pwr_en>;
+		regulator-name = "vcc3v3_pcie";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc12v_dcin>;
+	};
 /*
 	watchdog: watchdog-en {
 		compatible = "regulator-fixed";
@@ -196,7 +208,7 @@
 		status = "disabled";
 	};
 */
-
+/*
 	rt5651-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
@@ -243,6 +255,7 @@
 		sound-name-prefix = "Speaker Amplifier";
 		vcc-supply = <&vcc5v0_sys>;
 	};
+*/
 /*
 	lcd_bl: lcd-bl {
 			compatible = "gpio-backlight";
@@ -543,7 +556,7 @@
 	i2c-scl-rising-time-ns = <300>;
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
-
+/*
 	rt5651: rt5651@1a {
 		#sound-dai-cells = <0>;
 		compatible = "realtek,rt5651";
@@ -552,6 +565,7 @@
 		clock-names = "mclk";
 		status = "okay";
 	};
+*/
 };
 
 // HDMI
@@ -588,7 +602,7 @@
 		status = "disabled";
 	};
 };
-
+/*
 &i2s0_8ch_bus {
 	rockchip,pins =
 		<3 RK_PD0 1 &pcfg_pull_none>,
@@ -619,7 +633,7 @@
 	rockchip,playback-channels = <8>;
 	status = "okay";
 };
-
+*/
 // HDMI sound
 &i2s2 {
 	#sound-dai-cells = <0>;
@@ -635,13 +649,13 @@
 	gpio1830-supply = <&vcc_3v0>; // bsp
 };
 
+// not work
 &pcie0 {
-	ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>; // ??
-	num-lanes = <2>;
+	ep-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>; // verify
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie_perst>;
 	vpcie12v-supply = <&vcc12v_dcin>;
-	// vpcie3v3-supply = <&vcc3v3_pcie>;
+	vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
 };
 
@@ -695,11 +709,11 @@
 
 	pcie {
 		pcie_perst: pcie-perst {
-			rockchip,pins = <2 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>; // verify
 		};
 
 		pcie_pwr_en: pcie-pwr-en {
-			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <3 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>; // verify
 		};
 	};
 
