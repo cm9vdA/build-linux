@@ -592,49 +592,11 @@
 		compatible = "fcs,fusb302";
 		reg = <0x22>;
 		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>; // bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&fusb0_int>;
 		vbus-supply = <&vcc5v0_typec>;
-
-		ports {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			port@0 {
-				reg = <0>;
-				usbc0_role_sw: endpoint@0 {
-					remote-endpoint = <&dwc3_0_role_switch>;
-				};
-			};
-		};
-
-		connector {
-			compatible = "usb-c-connector";
-			data-role = "dual";
-			label = "USB-C";
-
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				port@0 {
-					reg = <0>;
-
-					usbc_hs: endpoint {
-						remote-endpoint = <&u2phy0_typec_hs>;
-					};
-				};
-
-				port@1 {
-					reg = <1>;
-
-					usbc_ss: endpoint {
-						remote-endpoint = <&tcphy0_typec_ss>;
-					};
-				};
-			};
-		};
+		status = "okay";
 	};
 };
 
@@ -838,15 +800,6 @@
 	status = "okay";
 };
 
-&tcphy0_usb3 {
-	orientation-switch;
-	port {
-		tcphy0_typec_ss: endpoint {
-			remote-endpoint = <&usbc_ss>;
-		};
-	};
-};
-
 &tcphy1 {
 	status = "okay";
 };
@@ -869,12 +822,6 @@
 	u2phy0_host: host-port {
 		phy-supply = <&vcc5v0_host3>;
 		status = "okay";
-	};
-
-	port {
-		u2phy0_typec_hs: endpoint {
-			remote-endpoint = <&usbc_hs>;
-		};
 	};
 };
 
@@ -937,16 +884,7 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	usb-role-switch;
-
-	port {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		dwc3_0_role_switch: endpoint@0 {
-			reg = <0>;
-			remote-endpoint = <&usbc0_role_sw>;
-		};
-	};
+	dr_mode = "host";
 };
 
 &usbdrd3_1 {

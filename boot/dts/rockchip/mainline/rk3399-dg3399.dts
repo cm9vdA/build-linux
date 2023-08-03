@@ -8,6 +8,7 @@
 #include "dt-bindings/usb/pd.h"
 #include "rk3399.dtsi"
 #include "rk3399-opp.dtsi"
+// #include "rk3399-t-opp.dtsi"
 
 / {
 	model = "DG-3399";
@@ -154,7 +155,7 @@
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1700000>;
 	};
-
+/*
 	usb3_hub: usb3-hub-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -164,7 +165,7 @@
 		regulator-name = "usb3_hub_en";
 		regulator-always-on;
 	};
-
+*/
 	gsm_en: gsm-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -656,11 +657,11 @@
 	pinctrl-0 = <&pcie_perst>;
 	vpcie12v-supply = <&vcc12v_dcin>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
-	status = "okay";
+	// status = "okay";
 };
 
 &pcie_phy {
-	status = "okay";
+	// status = "okay";
 };
 
 &pmu_io_domains {
