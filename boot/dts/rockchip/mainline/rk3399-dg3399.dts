@@ -155,7 +155,7 @@
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1700000>;
 	};
-/*
+
 	usb3_hub: usb3-hub-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -165,7 +165,7 @@
 		regulator-name = "usb3_hub_en";
 		regulator-always-on;
 	};
-*/
+
 	gsm_en: gsm-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -649,21 +649,21 @@
 	sdmmc-supply = <&vcc_sd>; // bsp
 	gpio1830-supply = <&vcc_3v0>; // bsp
 };
-
+/*
 // not work
 &pcie0 {
-	ep-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>; // verify
+	ep-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie_perst>;
 	vpcie12v-supply = <&vcc12v_dcin>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
-	// status = "okay";
+	status = "okay";
 };
 
 &pcie_phy {
-	// status = "okay";
+	status = "okay";
 };
-
+*/
 &pmu_io_domains {
 	pmu1830-supply = <&vcc_3v0>; // bsp
 	status = "okay";
