@@ -45,14 +45,15 @@
 			wakeup-source;
 		};
 	};
-/*
+
+	// pwm3
 	ir-receiver {
 		compatible = "gpio-ir-receiver";
 		gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_LOW>;
 		pinctrl-0 = <&ir_int>;
 		pinctrl-names = "default";
 	};
-*/
+
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
