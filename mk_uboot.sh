@@ -133,7 +133,7 @@ show_menu() {
 		;;
 	"0")
 		# Hide Option
-		echo "apt install flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev"
+		echo "apt install flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev python3-pyelftools libgnutls28-dev uuid-dev"
 		;;
 	*)
 		echo "Not Support Option: [${OPT}]"

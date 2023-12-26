@@ -135,15 +135,6 @@
 		pwms = <&pwm1 0 40000 0>;
 	};
 
-/*
-	fan0: gpio-fan {
-		#cooling-cells = <2>;
-		compatible = "gpio-fan";
-		gpio-fan,speed-map = <0 0 3000 1>;
-		gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};
-*/
 	// pwm3
 	ir-receiver {
 		compatible = "gpio-ir-receiver";
@@ -632,6 +623,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_host_wake_l>;
 		status = "disabled";
+		// status = "okay";
 	};
 };
 
@@ -799,5 +791,9 @@
 };
 
 &vopl_mmu {
+	status = "okay";
+};
+
+&iep_mmu {
 	status = "okay";
 };
