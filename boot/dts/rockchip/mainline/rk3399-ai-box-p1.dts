@@ -748,10 +748,10 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	dr_mode = "host";
 };
 
-&vopb_mmu {
+&vopb {
 	status = "okay";
 };
 
-&vopl_mmu {
+&vopb_mmu {
 	status = "okay";
 };
