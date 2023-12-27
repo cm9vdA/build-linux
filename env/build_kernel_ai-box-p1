@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="AI Box P1"
+PACK_NAME="ai-box-p1"
+CPU_INFO="Rockchip RK3399"
+VENDOR="rockchip"
+DT_FILE="rk3399-ai-box-p1"
+
+# Build Config
+NO_CROSS_COMPILE=0
