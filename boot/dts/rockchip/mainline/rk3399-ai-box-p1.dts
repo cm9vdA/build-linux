@@ -13,7 +13,8 @@
 
 	aliases {
 		mmc0 = &sdio0;
-		mmc1 = &sdhci;
+		mmc1 = &sdmmc;
+		mmc2 = &sdhci;
 	};
 
 	chosen {
@@ -450,29 +451,6 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	};
 };
 
-&i2c1 {
-	i2c-scl-rising-time-ns = <300>;
-	i2c-scl-falling-time-ns = <15>;
-	status = "okay";
-
-	hym8563: rtc@51 {
-		compatible = "haoyu,hym8563";
-		reg = <0x51>;
-		interrupt-parent = <&gpio3>;
-		interrupts = <RK_PB7 IRQ_TYPE_EDGE_FALLING>; // bsp
-		#clock-cells = <0>;
-		clock-output-names = "xin32k";
-		pinctrl-names = "default";
-		pinctrl-0 = <&hym8563_int>;
-	};
-};
-
-&i2c2 {
-	i2c-scl-rising-time-ns = <300>;
-	i2c-scl-falling-time-ns = <15>;
-	status = "okay";
-};
-
 // HDMI
 &i2c3 {
 	i2c-scl-rising-time-ns = <450>;
@@ -498,6 +476,7 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	audio-supply = <&vcc1v8_s0>;
 	bt656-supply = <&vcc1v8_s0>;
 	gpio1830-supply = <&vcc_3v0>;
+	sdmmc-supply = <&vcc_sd>;
 };
 
 &pmu_io_domains {
@@ -603,6 +582,20 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 
 &saradc {
 	vref-supply = <&vcc1v8_s0>;
+	status = "okay";
+};
+
+&sdmmc {
+	clock-frequency = <150000000>;
+	max-frequency = <150000000>;
+	bus-width = <4>;
+	cap-mmc-highspeed;
+	cap-sd-highspeed;
+	disable-wp;
+	vqmmc-supply = <&vcc_sd>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdmmc_clk &sdmmc_cmd &sdmmc_cd &sdmmc_bus4>;
+	card-detect-delay = <800>;
 	status = "okay";
 };
 
