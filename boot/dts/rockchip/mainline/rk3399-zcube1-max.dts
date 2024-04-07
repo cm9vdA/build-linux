@@ -12,6 +12,7 @@
 	compatible = "rockchip,rk3399-zcube1-max", "rockchip,rk3399";
 
 	aliases {
+		ethernet0 = &gmac;
 		mmc0 = &sdio0;
 		mmc1 = &sdhci;
 	};
