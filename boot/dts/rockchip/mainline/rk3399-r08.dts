@@ -146,7 +146,7 @@
 			"Microphone", "Mic Jack",
 			"Headphone", "Headphones";
 		simple-audio-card,routing =
-			"Mic Jack", "MIC1",
+			"Mic Jack", "Bias",
 			"Headphones", "HPOL",
 			"Headphones", "HPOR";
 
@@ -217,8 +217,7 @@
 	status = "okay";
 	ddc-i2c-bus = <&i2c3>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&hdmi_cec>;
-	// pinctrl-0 = <&hdmi_i2c_xfer>;
+	// pinctrl-0 = <&hdmi_cec>;
 };
 
 &hdmi_sound {
@@ -486,7 +485,6 @@
 	};
 };
 
-
 // HDMI
 &i2c3 {
 	status = "okay";
@@ -496,10 +494,6 @@
 	i2c-scl-rising-time-ns = <600>;
 	i2c-scl-falling-time-ns = <40>;
 	status = "okay";
-};
-
-&uart4 {
-	// status = "okay";
 };
 
 &i2s0 {
@@ -653,24 +647,25 @@
 		compatible = "brcm,bcm43455-fmac";
 		reg = <1>;
 		interrupt-parent = <&gpio0>;
-		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
+		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>; // bsp
 		interrupt-names = "host-wake";
 		pinctrl-names = "default";
-		pinctrl-0 = <&wifi_host_wake_l>;
+		pinctrl-0 = <&wifi_host_wake_l>; // bsp
 	};
 };
 
 &sdmmc {
+	status = "okay";
 	bus-width = <4>;
+	cap-mmc-highspeed;
 	cap-sd-highspeed;
-	//cd-gpios = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>;
+	cd-gpios = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>; // bsp
 	disable-wp;
 	sd-uhs-sdr104;
 	max-frequency = <150000000>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&sdmmc_clk &sdmmc_cmd &sdmmc_cd &sdmmc_bus4>;
+	pinctrl-0 = <&sdmmc_clk &sdmmc_cd &sdmmc_cmd &sdmmc_bus4>;
 	vqmmc-supply = <&vcc_sd>;
-	status = "okay";
 };
 
 &sdhci {
@@ -770,7 +765,7 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	dr_mode = "otg";
+	dr_mode = "host";
 };
 
 &usbdrd_dwc3_1 {
