@@ -135,22 +135,29 @@
 	};
 
 	es8316-sound {
+		status = "okay";
 		compatible = "simple-audio-card";
 		pinctrl-names = "default";
 		pinctrl-0 = <&hp_det>;
+
 		simple-audio-card,name = "rockchip,es8316-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-
+		simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphones";
+			"Headphone", "Headphones",
+			"Speaker", "Speaker";
 		simple-audio-card,routing =
 			"Mic Jack", "Bias",
 			"Headphones", "HPOL",
-			"Headphones", "HPOR";
-
-		simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
+			"Headphones", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
@@ -159,6 +166,15 @@
 		simple-audio-card,codec {
 			sound-dai = <&es8316>;
 		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spk_con>;
+		enable-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Speaker Amplifier";
+		vcc-supply = <&vcc5v0_sys>;
 	};
 };
 
