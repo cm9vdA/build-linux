@@ -233,7 +233,7 @@
 	status = "okay";
 	ddc-i2c-bus = <&i2c3>;
 	pinctrl-names = "default";
-	// pinctrl-0 = <&hdmi_cec>;
+	pinctrl-0 = <&hdmi_cec>;
 };
 
 &hdmi_sound {
