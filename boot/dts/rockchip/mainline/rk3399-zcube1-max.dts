@@ -212,7 +212,7 @@
 
 	virtual_pd: virtual-pd {
 		compatible = "linux,extcon-usbc-virtual-pd";
-		det-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
+		det-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; /* DP_HPD */
 		vpd-data-role = "display-port";
 		vpd-super-speed;
 		// vpd-polarity;
@@ -927,7 +927,9 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 &vopl_mmu {
 	status = "okay";
 };
-/*
+
+//dp vopb
+//hdmi vopl
 // for DP, not verify
 &dp_in_vopl {
 	status = "disabled";
