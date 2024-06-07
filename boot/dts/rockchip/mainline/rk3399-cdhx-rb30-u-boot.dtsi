@@ -3,6 +3,9 @@
 #include "rk3399-sdram-ddr3-1333.dtsi"
 
 / {
+	config {
+		sysreset-gpio = <&gpio1 RK_PA6 GPIO_ACTIVE_HIGH>;
+	};
 	chosen {
 		u-boot,spl-boot-order = "same-as-spl", &sdhci, &sdmmc;
 	};

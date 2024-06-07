@@ -24,6 +24,11 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
+	board_info: board-info {
+		compatible = "board-info";
+		pmic-reset = <&gpio1 RK_PA6 GPIO_ACTIVE_HIGH>;
+	};
+
 	clkin_gmac: external-gmac-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
