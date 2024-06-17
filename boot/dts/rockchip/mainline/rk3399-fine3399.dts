@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+// Thank https://github.com/QXY716
 /dts-v1/;
 
 #include <dt-bindings/input/linux-event-codes.h>
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/input/input.h>
 #include "rk3399.dtsi"
-#include "rk3399-opp.dtsi"
+#include "rk3399-op1-opp.dtsi"
 
 
 / {
@@ -130,10 +131,17 @@
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
-		cooling-levels = <0 150 200 255>;
+		cooling-levels = <0 25 50 75 100 150>;
 		#cooling-cells = <2>;
 		fan-supply = <&vcc_sys>;
 		pwms = <&pwm1 0 40000 0>;
+	};
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		brightness-levels = <0 36 72 108 144 180 216 255>;
+		default-brightness-level = <144>;
+		pwms = <&pwm0 0 1000000 0>;
 	};
 
 	// pwm3
@@ -499,6 +507,7 @@
 
 &pcie0 {
 	ep-gpios = <&gpio4 RK_PD3 GPIO_ACTIVE_HIGH>; // sch
+	max-link-speed = <2>;
 	num-lanes = <2>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie_clkreqn_cpm>;
@@ -576,18 +585,17 @@
 		};
 	};
 };
-/*
-// TFT
+
+// LCD
 &pwm0 {
 	status = "okay";
 };
-*/
-/*
+
 // FAN
 &pwm1 {
 	status = "okay";
 };
-*/
+
 &pwm2 {
 	status = "okay";
 };
@@ -597,6 +605,7 @@
 	status = "okay";
 };
 
+// if kernel panic at system boot, try to disable WiFi
 &sdio0 {
 	bus-width = <4>;
 	cap-sd-highspeed;
@@ -612,8 +621,7 @@
 	sd-uhs-sdr104;
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "disabled";
-	// status = "okay";
+	status = "okay";
 
 	brcmf: wifi@1 {
 		reg = <1>;
@@ -621,10 +629,9 @@
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
 		interrupt-names = "host-wake";
+		brcm,drive-strength = <5>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_host_wake_l>;
-		status = "disabled";
-		// status = "okay";
 	};
 };
 
@@ -661,25 +668,30 @@
 	};
 };
 */
-/*
+
 &spi2 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&spi2_clk &spi2_tx &spi2_cs0>;
 
 	panel@0 {
-		compatible = "sitronix,st7789v";
+		compatible = "sitronix,st7735s", "sitronix,st7735r", "sitronix,st7789v", "jianda,jd-t18003-t01";
 		reg = <0>;
-		// backlight = <&pwm0>;
+		rgb;
+		width = <80>;
+		height = <160>;
+		fps = <30>;
+		buswidth = <8>;
+		rotate = <90>;
+		backlight = <&backlight>;
 		dc-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		reset-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
-		led-gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_HIGH>;  
-		spi-max-frequency = <15000000>;
-		spi-cs-high;
-		status = "okay";
+		led-gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_HIGH>;
+		spi-max-frequency = <32000000>;
+		debug = <0>;
+		spi-cpol;
+		spi-cpha;
 	};
 };
-*/
+
 &tcphy0 {
 	status = "okay";
 };
@@ -723,7 +735,7 @@
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
-	status = "disabled";
+	status = "okay";
 
 	bluetooth {
 		compatible = "brcm,bcm43438-bt";
@@ -732,11 +744,11 @@
 		device-wakeup-gpios = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
 		host-wakeup-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
 		shutdown-gpios = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
+		max-speed = <4000000>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&bt_host_wake_l &bt_wake_l &bt_enable_h>;
 		vbat-supply = <&vcc3v3_sys>;
 		vddio-supply = <&vcc_1v8>;
-		status = "disabled";
 	};
 };
 
