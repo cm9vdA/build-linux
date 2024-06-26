@@ -140,7 +140,7 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		brightness-levels = <0 36 72 108 144 180 216 255>;
-		default-brightness-level = <144>;
+		default-brightness-level = <5>;
 		pwms = <&pwm0 0 1000000 0>;
 	};
 
@@ -680,7 +680,7 @@
 		height = <160>;
 		fps = <30>;
 		buswidth = <8>;
-		rotate = <90>;
+		rotate = <270>;
 		backlight = <&backlight>;
 		dc-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		reset-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
