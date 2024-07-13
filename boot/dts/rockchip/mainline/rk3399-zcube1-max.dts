@@ -939,13 +939,25 @@ hdmi-5v-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
 	status = "disabled";
 };
 
-&cdn_dp {
-	status = "okay";
-	phys = <&tcphy0_dp>;
-	extcon = <&virtual_pd>;
-};
+// &cdn_dp {
+// 	status = "okay";
+// 	// phys = <&tcphy0_dp>;
+// 	extcon = <&virtual_pd>;
+// };
 
 &tcphy0 {
 	extcon = <&virtual_pd>;
 };
-*/
+
+// &tcphy1_dp {
+// 	status = "disabled";
+// };
+
+// &vopb {
+// 	assigned-clocks = <&cru DCLK_VOP0_DIV>;
+// 	assigned-clock-parents = <&cru PLL_CPLL>;
+// };
+// &vopl {
+// 	assigned-clocks = <&cru DCLK_VOP1_DIV>;
+// 	assigned-clock-parents = <&cru PLL_VPLL>;
+// };
