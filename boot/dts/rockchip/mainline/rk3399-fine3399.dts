@@ -131,7 +131,7 @@
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
-		cooling-levels = <0 25 50 75 100 150>;
+		cooling-levels = <0 50 100 150 200 255>;
 		#cooling-cells = <2>;
 		fan-supply = <&vcc_sys>;
 		pwms = <&pwm1 0 40000 0>;
@@ -199,18 +199,28 @@
 
 &cpu_thermal {
 	trips {
-		cpu_hot: cpu_hot {
-			hysteresis = <10000>;
+		cpu_warm: cpu_warm {
 			temperature = <55000>;
+			hysteresis = <2000>;
+			type = "active";
+		};
+
+		cpu_hot: cpu_hot {
+			temperature = <65000>;
+			hysteresis = <2000>;
 			type = "active";
 		};
 	};
 
 	cooling-maps {
 		map2 {
-			cooling-device =
-				<&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+			trip = <&cpu_warm>;
+			cooling-device = <&fan0 THERMAL_NO_LIMIT 3>;
+		};
+
+		map3 {
 			trip = <&cpu_hot>;
+			cooling-device = <&fan0 4 THERMAL_NO_LIMIT>;
 		};
 	};
 };
