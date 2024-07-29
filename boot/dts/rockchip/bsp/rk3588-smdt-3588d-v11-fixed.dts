@@ -10101,7 +10101,7 @@
 		reset-names = "rst_a\0rst_p\0rst_ref\0rst_biu";
 		pinctrl-0 = <0x193 0x194 0x195 0x196>;
 		pinctrl-names = "default";
-		status = "okay";
+		status = "disabled";
 		hpd-trigger-level = <0x01>;
 		hdmirx-det-gpios = <0x131 0x1d 0x01>;
 		phandle = <0x457>;
