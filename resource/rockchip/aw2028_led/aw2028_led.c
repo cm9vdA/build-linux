@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <err.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include <linux/types.h>
 #include <linux/i2c.h>
@@ -11,7 +13,6 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 
 #define I2C_DEV "/dev/i2c-2"
 #define AW2028_I2C_ADDR 0x65
@@ -22,7 +23,7 @@ AW2028测试程序
 
 int fd = -1;
 
-static uint8_t aw2028_init(void)
+static int aw2028_init(void)
 {
 	fd = open(I2C_DEV, O_RDWR);
 
@@ -42,7 +43,7 @@ static uint8_t aw2028_init(void)
 	return 0;
 }
 
-static uint8_t i2c_write(uint8_t reg, uint8_t val)
+static int i2c_write(uint8_t reg, uint8_t val)
 {
 	int retries;
 	uint8_t data[2];
@@ -60,7 +61,7 @@ static uint8_t i2c_write(uint8_t reg, uint8_t val)
 	return -1;
 }
 
-static uint8_t i2c_read(uint8_t reg, uint8_t *val)
+static int i2c_read(uint8_t reg, uint8_t *val)
 {
 	int retries;
 
@@ -75,9 +76,9 @@ static uint8_t i2c_read(uint8_t reg, uint8_t *val)
 	return -1;
 }
 
-unsigned char ms2timer(unsigned int time)
+static uint8_t ms2timer(unsigned int time)
 {
-	unsigned char i = 0;
+	uint8_t i = 0;
 	unsigned int ref[16] = {4,	  128,	256,  384,	512,  762,	1024, 1524,
 							2048, 2560, 3072, 4096, 5120, 6144, 7168, 8192};
 
@@ -97,7 +98,7 @@ unsigned char ms2timer(unsigned int time)
 	return 0;
 }
 
-unsigned char AW2028_LED_ON(unsigned char r, unsigned char g, unsigned char b)
+static void AW2028_LED_ON(uint8_t r, uint8_t g, uint8_t b)
 {
 	i2c_write(0x00, 0x55);	// software reset
 
@@ -114,22 +115,18 @@ unsigned char AW2028_LED_ON(unsigned char r, unsigned char g, unsigned char b)
 	i2c_write(0x1C, 0xFF);	// PWM1
 	i2c_write(0x1D, 0xFF);	// PWM2
 	i2c_write(0x1E, 0xFF);	// PWM3
-
-	return 0;
 }
 
-unsigned char AW2028_LED_OFF(void)
+static void AW2028_LED_OFF(void)
 {
 	i2c_write(0x00, 0x55);	// software reset
-	return 0;
 }
 
-unsigned char AW2028_LED_Blink(unsigned char r, unsigned char g,
-							   unsigned char b, unsigned int trise_ms,
-							   unsigned int ton_ms, unsigned int tfall_ms,
-							   unsigned int toff_ms)
+static void AW2028_LED_Blink(uint8_t r, uint8_t g, uint8_t b,
+							 unsigned int trise_ms, unsigned int ton_ms,
+							 unsigned int tfall_ms, unsigned int toff_ms)
 {
-	unsigned char trise, ton, tfall, toff;
+	uint8_t trise, ton, tfall, toff;
 
 	trise = ms2timer(trise_ms);
 	ton = ms2timer(ton_ms);
@@ -155,14 +152,14 @@ unsigned char AW2028_LED_Blink(unsigned char r, unsigned char g,
 
 	i2c_write(0x30, (trise << 4) | ton);   // PAT_T1	Trise & Ton
 	i2c_write(0x31, (tfall << 4) | toff);  // PAT_T2	Tfall & Toff
-	i2c_write(0x32, 0x00);	// PAT_T3	Tdelay
-	i2c_write(0x33, 0x00);	// PAT_T4	PAT_CTR & Color
-	i2c_write(0x34, 0x00);	// PAT_T5	Timer
+	i2c_write(0x32, 0x00);				   // PAT_T3	Tdelay
+	i2c_write(0x33, 0x00);				   // PAT_T4	PAT_CTR & Color
+	i2c_write(0x34, 0x00);				   // PAT_T5	Timer
 
 	i2c_write(0x09, 0x07);	// PAT_RIN
 }
 
-unsigned char AW2028_Audio_Corss_Zero(void)
+static void AW2028_Audio_Corss_Zero(void)
 {
 	i2c_write(0x00, 0x55);	// software reset
 
@@ -187,11 +184,9 @@ unsigned char AW2028_Audio_Corss_Zero(void)
 	i2c_write(0x48, 0x00);	// NOISE
 	i2c_write(0x49, 0x02);	// TIMER
 	i2c_write(0x40, 0x13);	// AUDIO_CTR
-
-	return 0;
 }
 
-unsigned char AW2028_Audio_Timer(void)
+static void AW2028_Audio_Timer(void)
 {
 	i2c_write(0x00, 0x55);	// software reset
 
@@ -216,11 +211,9 @@ unsigned char AW2028_Audio_Timer(void)
 	i2c_write(0x48, 0x00);	// NOISE
 	i2c_write(0x49, 0x00);	// TIMER
 	i2c_write(0x40, 0x0B);	// AUDIO_CTR
-
-	return 0;
 }
 
-unsigned char AW2028_Audio(unsigned char mode)
+static void AW2028_Audio(uint8_t mode)
 {
 	if (mode > 5) {
 		mode = 0;
@@ -248,8 +241,6 @@ unsigned char AW2028_Audio(unsigned char mode)
 	i2c_write(0x48, 0x00);				  // NOISE
 	i2c_write(0x49, 0x00);				  // TIMER
 	i2c_write(0x40, (mode << 3) | 0x03);  // AUDIO_CTR
-
-	return 0;
 }
 
 int main(int argc, char **argv)
