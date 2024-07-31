@@ -3506,7 +3506,7 @@
 		rockchip,sleep-mode-config = <0xde>;
 		rockchip,wakeup-config = <0x804>;
 		rockchip,pwm-regulator-config = <0x04>;
-		rockchip,power-ctrl = <&gpio  GPIO_ACTIVE_HIGH &gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;
+		rockchip,power-ctrl = <&gpio RK_PC1 GPIO_ACTIVE_HIGH &gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;
 	};
 
 	chosen {
