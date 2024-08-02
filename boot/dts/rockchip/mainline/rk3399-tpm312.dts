@@ -308,6 +308,48 @@
 		};
 	};
 
+	es8316-sound {
+		status = "okay";
+		compatible = "simple-audio-card";
+		pinctrl-names = "default";
+		// pinctrl-0 = <&hp_det>;
+
+		simple-audio-card,name = "rockchip,es8316-codec";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <256>;
+		// simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
+		simple-audio-card,widgets =
+			"Microphone", "Mic Jack",
+			// "Headphone", "Headphones",
+			"Speaker", "Speaker";
+		simple-audio-card,routing =
+			"Mic Jack", "Bias",
+			// "Headphones", "HPOL",
+			// "Headphones", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&es8316>;
+		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spk_ctl>;
+		enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
+		sound-name-prefix = "Speaker Amplifier";
+		vcc-supply = <&vcc5v0_sys>;
+	};
 };
 
 &cpu_l0 {
@@ -617,14 +659,30 @@
 	};
 };
 
+// ES8316
 &i2c1 {
-	i2c-scl-rising-time-ns = <450>;
+	i2c-scl-rising-time-ns = <300>;
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
+
+	es8316: codec@10 {
+		compatible = "everest,es8316";
+		reg = <0x10>;
+		clocks = <&cru SCLK_I2S_8CH_OUT>;
+		clock-names = "mclk";
+		#sound-dai-cells = <0>;
+
+		port {
+			es8316_p0_0: endpoint {
+				remote-endpoint = <&i2s0_p0_0>;
+			};
+		};
+	};
 };
 
 // Used for HDMI
 &i2c3 {
+	clock-frequency = <400000>;
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
 	status = "okay";
@@ -637,11 +695,29 @@
 	status = "okay";
 };
 
-// &i2s0 {
-// 	rockchip,playback-channels = <8>;
-// 	rockchip,capture-channels = <8>;
-// 	status = "okay";
-// };
+&i2c6 {
+	clock-frequency = <400000>;
+	i2c-scl-rising-time-ns = <450>;
+	i2c-scl-falling-time-ns = <15>;
+	status = "okay";
+};
+
+&i2s0 {
+	rockchip,playback-channels = <2>;
+	rockchip,capture-channels = <2>;
+	status = "okay";
+	pinctrl-0 = <&i2s0_2ch_bus>;
+	pinctrl-1 = <&i2s0_2ch_bus_bclk_off>;
+
+
+	i2s0_p0: port {
+		i2s0_p0_0: endpoint {
+			dai-format = "i2s";
+			mclk-fs = <256>;
+			remote-endpoint = <&es8316_p0_0>;
+		};
+	};
+};
 
 &io_domains {
 	status = "okay";
@@ -917,5 +993,13 @@
 };
 
 &iep_mmu {
+	status = "okay";
+};
+
+&hdmi_in_vopb {
+	status = "disabled";
+};
+
+&hdmi_in_vopl{
 	status = "okay";
 };
