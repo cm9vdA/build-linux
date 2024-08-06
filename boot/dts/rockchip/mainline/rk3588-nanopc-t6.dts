@@ -136,6 +136,19 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
+    // For NanoPC-T6 LTS
+	vcc5v0_host_20: vcc5v0-host-20 {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio1 RK_PA4 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_host20_en>;
+		regulator-name = "vcc5v0_host_20";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
+	};
+
 	vcc3v3_pcie2x1l0: vcc3v3-pcie2x1l0-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -538,6 +551,10 @@
 		usbc0_int: usbc0-int {
 			rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
+
+		vcc5v0_host20_en: vcc5v0-host20-en {
+			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
 	};
 };
 
@@ -917,6 +934,7 @@
 };
 
 &u2phy3_host {
+	phy-supply = <&vcc5v0_host_20>;
 	status = "okay";
 };
 
