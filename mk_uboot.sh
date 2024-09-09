@@ -17,7 +17,6 @@ init() {
 
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 	source ${ENV_FILE}
-	HOST_ARCH=$(uname -m)
 
 	# Common Variable
 	export PATH="${PATH}:${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
@@ -48,7 +47,7 @@ build_info() {
 	echo -e "UBOOT_VERSION:    ${UBOOT_VERSION}"
 	echo -e "DEFCONFIG:        ${DEFCONFIG}"
 	echo -e "ATF_PLAT:         ${ATF_PLAT}"
-	echo -e "ATF(BL31)"        ${BL31}
+	echo -e "ATF(BL31):        ${BL31}"
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
 }

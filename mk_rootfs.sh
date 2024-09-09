@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source_env(){
+source_env() {
 	SCRIPT_NAME=${0##*/}
 	# SCRIPT_PATH=$(cd "$(dirname "$0")"; pwd)
 	# SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 	SCRIPT_PATH=$(dirname $(readlink -f $0))
-	ENV_FILE=${SCRIPT_PATH}/env/${SCRIPT_NAME}
-	HOST_ARCH=`uname -m`
+	ENV_FILE=${SCRIPT_PATH}/env/common/${SCRIPT_NAME}
+	HOST_ARCH=$(uname -m)
 
 	source ${ENV_FILE}
 
@@ -20,7 +20,7 @@ source_env(){
 	DEBCONF_NONINTERACTIVE_SEEN=true
 }
 
-build_info(){
+build_info() {
 	echo "================ Build Info ================"
 	echo -e "ARCH:            ${ARCH}"
 	echo -e "TARGET_ARCH:     ${TARGET_ARCH}"
@@ -29,17 +29,17 @@ build_info(){
 	echo -e "MIRROR_URL:      ${MIRROR_URL}"
 }
 
-install_software(){
+install_software() {
 	if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
 		SOFTWARE_LIST="binfmt-support debootstrap"
-	else 
+	else
 		SOFTWARE_LIST="binfmt-support qemu qemu-user-static debootstrap"
 	fi
 	echo "Install [${SOFTWARE_LIST}]"
 	apt install ${SOFTWARE_LIST}
 }
 
-create_base_fs(){
+create_base_fs() {
 
 	if [ -e ${TARGET_FS} ]; then
 		echo "[${TARGET_FS}] Exists"
@@ -73,15 +73,15 @@ create_base_fs(){
 	echo "End Build Base File System"
 }
 
-chroot_fs(){
+chroot_fs() {
 	if [ ! -e ${TARGET_FS} ]; then
 		echo "[${TARGET_FS}] Not Exists"
 		return 1
 	fi
-	mount -t proc /proc	${TARGET_FS}/proc
-	mount -t sysfs /sys	${TARGET_FS}/sys
-	mount -o bind /dev	${TARGET_FS}/dev
-	mount -o bind /dev/pts	${TARGET_FS}/dev/pts
+	mount -t proc /proc ${TARGET_FS}/proc
+	mount -t sysfs /sys ${TARGET_FS}/sys
+	mount -o bind /dev ${TARGET_FS}/dev
+	mount -o bind /dev/pts ${TARGET_FS}/dev/pts
 
 	chroot ${TARGET_FS}
 
@@ -91,19 +91,19 @@ chroot_fs(){
 	umount $TARGET_FS/dev
 }
 
-archive_fs(){
+archive_fs() {
 	if [ ! -e ${TARGET_FS} ]; then
 		echo "[${TARGET_FS}] Not Exists"
 		return 1
 	fi
 	echo "Start Archive [${TARGET_FS}]"
-	PACK_DATE=`date +%Y%m%d_%H%M`
+	PACK_DATE=$(date +%Y%m%d_%H%M)
 	PACK_NAME=${TARGET_FS}_${PACK_DATE}.xz.tar
 	tar cJfp ${PACK_NAME} --exclude=$TARGET_FS/usr/bin/qemu-${TARGET_ARCH}-static ${TARGET_FS}
 	echo "End Archive"
 }
 
-copy_fs(){
+copy_fs() {
 	if [ ! -e ${TARGET_FS} ]; then
 		echo "[${TARGET_FS}] Not Exists"
 		return 1
@@ -121,38 +121,38 @@ copy_fs(){
 	echo "End Copy"
 }
 
-show_menu(){
+show_menu() {
 	echo "================ Menu Option ================"
 	echo -e "\t[0]. Install Software"
 	echo -e "\t[1]. Create Base ROOTFS"
 	echo -e "\t[2]. Chroot to ROOTFS"
 	echo -e "\t[3]. Archive ROOTFS"
 	echo -e "\t[4]. Copy ROOTFS"
-	
+
 	read -p "Please Select:" OPT
 	case ${OPT} in
-		"0")
-			install_software
-			;;
-		"1")
-			create_base_fs
-			;;
-		"2")
-			chroot_fs
-			;;
-		"3")
-			archive_fs
-			;;
-		"4")
-			copy_fs
-			;;
-		*)
-			echo "Not Support Option [${OPT}]"
-			;;
+	"0")
+		install_software
+		;;
+	"1")
+		create_base_fs
+		;;
+	"2")
+		chroot_fs
+		;;
+	"3")
+		archive_fs
+		;;
+	"4")
+		copy_fs
+		;;
+	*)
+		echo "Not Support Option [${OPT}]"
+		;;
 	esac
 }
 
-main(){
+main() {
 	source_env $0
 	build_info
 	show_menu

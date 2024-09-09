@@ -1,5 +1,7 @@
-TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
-TOOLCHAIN_NAME=arm-gnu-toolchain-12.3.rel1-aarch64-arm-none-eabi
-
 export ARCH=arm
 export CROSS_COMPILE=arm-none-eabi-
+
+HOST_ARCH=$(uname -m)
+TOOLCHAIN_VERSION=12.3.rel1
+TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
+TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-arm-none-eabi

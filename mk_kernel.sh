@@ -19,7 +19,6 @@ init() {
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 	source ${ENV_FILE}
 
-	HOST_ARCH=$(uname -m)
 	if [ "${NO_CROSS_COMPILE}" == "1" ]; then
 		# No use cross compile toolchain on same platform
 		if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
@@ -189,9 +188,8 @@ show_menu() {
 	echo -e "\t[4]. Install All"
 	echo -e "\t[41] ├─Install Kernel And Modules"
 	echo -e "\t[42] └─Install Headers"
-	echo -e "\t[5]. Create deb"
-	echo -e "\t[6]. Archive Kernel"
-	echo -e "\t[7]. Clean"
+	echo -e "\t[5]. Archive Kernel"
+	echo -e "\t[6]. Clean"
 
 	read -p "Please Select: >> " OPT
 	case ${OPT} in
@@ -238,12 +236,9 @@ show_menu() {
 		install_headers
 		;;
 	"5")
-		create_deb
-		;;
-	"6")
 		archive_kernel
 		;;
-	"7")
+	"6")
 		cd ${KERNEL_SRC}
 		make clean ${BUILD_ARGS}
 		rm ${INSTALL_MOD_PATH}/* -rf
