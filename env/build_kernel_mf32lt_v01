@@ -1,0 +1,14 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="MF32LT_CT_V01"
+PACK_NAME="mf32lt_v01"
+CPU_INFO="Snapdragon 410"
+VENDOR="qcom"
+DT_FILE="msm8916-thwc-mf32lt-v01"
+DT_INC_FILE="msm8916-thwc-mf32"
+ARCH_DEFCONFIG="msm8916_defconfig"
+
+# Build Config
+NO_CROSS_COMPILE=0
