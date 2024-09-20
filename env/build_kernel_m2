@@ -10,4 +10,4 @@ DT_FILE="sun7i-a20-m2"
 
 # Build Config
 NO_CROSS_COMPILE=0
-DEFCONFIG=sun7i_defconfig
+LINK_DEFCONFIG=sun7i_defconfig

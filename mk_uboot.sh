@@ -27,6 +27,13 @@ init() {
 	BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 
+	if [ "${ARCH_DEFCONFIG}" != "" ]; then
+		DEFCONFIG=${ARCH_DEFCONFIG}
+	fi
+	if [ "${LINK_DEFCONFIG}" != "" ]; then
+		DEFCONFIG=${LINK_DEFCONFIG}
+	fi
+
 	if [ "${ATF_PLAT}" != "" ]; then
 		ATF_SRC="${WORKSPACE_PATH}/arm-trusted-firmware"
 		ATF_BIN=${ATF_SRC}/build/${ATF_PLAT}/release/bl31/bl31.elf
@@ -77,20 +84,23 @@ build_atf() {
 build_probe() {
 	# link dts
 	if [ "${DT_FILE}" != "" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/${DT_FILE}"
+		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
 		DT_PATH_LINK="${UBOOT_SRC}/arch/arm/dts/"
-		check_path DTS "${DT_PATH}.dts"
-		ln -s -f "${DT_PATH}.dts" ${DT_PATH_LINK}
-
-		if [ -e "${DT_PATH}-u-boot.dtsi" ]; then
-			ln -s -f "${DT_PATH}-u-boot.dtsi" ${DT_PATH_LINK}
+		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
+		ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_PATH_LINK}
+		if [ "${DT_INC_FILE}" != "" ]; then
+			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
+			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_PATH_LINK}
+		fi
+		if [ -e "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ]; then
+			ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ${DT_PATH_LINK}
 		fi
 	fi
 
 	# link defconfig
-	if [ "${DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${DEFCONFIG}"
-		check_path "DEFCONFIG" "${DEFCONFIG_PATH}"
+	if [ "${LINK_DEFCONFIG}" != "" ]; then
+		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${LINK_DEFCONFIG}"
+		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
 		ln -s -f ${DEFCONFIG_PATH} "${UBOOT_SRC}/configs/"
 	fi
 }

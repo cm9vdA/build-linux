@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="AIO SV901"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="aio-sv901-rk3399_defconfig"
+LINK_DEFCONFIG="aio-sv901-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-aio-sv901"
 

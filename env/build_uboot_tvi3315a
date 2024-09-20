@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="TVI3315A"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="tvi3315a-rk3399_defconfig"
+LINK_DEFCONFIG="tvi3315a-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-tvi3315a"
 

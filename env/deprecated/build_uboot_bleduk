@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="BL-RK3399-A"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="bleduk-rk3399_defconfig"
+LINK_DEFCONFIG="bleduk-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-bleduk"
 

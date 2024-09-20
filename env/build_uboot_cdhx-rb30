@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="CDHX RB30"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="cdhx-rb30-rk3399_defconfig"
+LINK_DEFCONFIG="cdhx-rb30-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-cdhx-rb30"
 

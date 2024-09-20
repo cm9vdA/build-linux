@@ -5,3 +5,4 @@ HOST_ARCH=$(uname -m)
 TOOLCHAIN_VERSION=12.3.rel1
 TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-arm-none-eabi
+ARCH_DEFCONFIG="qemu_arm_defconfig"

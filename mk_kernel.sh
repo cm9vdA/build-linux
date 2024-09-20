@@ -34,32 +34,24 @@ init() {
 	BUILD_PATH=${WORKSPACE_PATH}/.build
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 
+	if [ "${ARCH_DEFCONFIG}" != "" ]; then
+		DEFCONFIG=${ARCH_DEFCONFIG}
+	fi
+
+	if [ "${LINK_DEFCONFIG}" != "" ]; then
+		DEFCONFIG=${LINK_DEFCONFIG}
+	fi
+
 	cd ${KERNEL_SRC}
 	KERNEL_VERSION=$(make kernelversion)
 	cd ${WORKSPACE_PATH}
-}
-
-check_env() {
-	# Check Env
-	if [ "${ARCH}" != "arm64" ] && [ "$ARCH" != "arm" ]; then
-		echo "Invalid arch: ${ARCH}"
-		exit 1
-	fi
-
-	if [ "${ARCH}" == "arm64" ]; then
-		check_var VENDOR "${VENDOR}"
-	fi
-	# if [ "$ARCH" == "arm" ]; then
-
-	# fi
-	check_var DT_PATH "${DT_PATH}"
 }
 
 build_info() {
 	echo "================ Build Info ================"
 	echo -e "BOARD_NAME:       ${BOARD_NAME}"
 	echo -e "CPU_INFO:         ${CPU_INFO}"
-	echo -e "DT_FILE:          ${DT_FILE}"
+	echo -e "DT_FILE:          ${DT_FILE}.dts"
 	echo -e "ARCH:             ${ARCH}"
 	echo -e "KERNEL_VERSION:   ${KERNEL_VERSION}"
 	echo -e "DEFCONFIG:        ${DEFCONFIG}"
@@ -114,6 +106,9 @@ install_kernel() {
 
 		cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}"
 		cp -f "${BUILD_PATH}/${_DT_PATH}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}"
+		if [ "${DT_INC_FILE}" != "" ]; then
+			cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}"
+		fi
 	fi
 
 	cd "${WORKSPACE_PATH}"
@@ -195,11 +190,7 @@ show_menu() {
 	case ${OPT} in
 	"1")
 		cd ${KERNEL_SRC}
-		if [ "${DEFCONFIG}" != "" ]; then
-			make ${DEFCONFIG} ${BUILD_ARGS}
-		else
-			make defconfig ${BUILD_ARGS}
-		fi
+		make ${DEFCONFIG} ${BUILD_ARGS}
 		;;
 	"2")
 		cd ${KERNEL_SRC}
@@ -261,14 +252,18 @@ show_menu() {
 build_probe() {
 	# link dts
 	if [ "${DT_FILE}" != "" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/${DT_FILE}"
+		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
 		if [ "$ARCH" == "arm64" ]; then
 			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
 		elif [ "$ARCH" == "arm" ]; then
 			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
 		fi
-		check_path DTS "${DT_PATH}.dts"
-		ln -s -f "${DT_PATH}.dts" ${DT_PATH_LINK}
+		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
+		ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_PATH_LINK}
+		if [ "${DT_INC_FILE}" != "" ]; then
+			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
+			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_PATH_LINK}
+		fi
 		# add dtb to Makefile
 		grep -q ${DT_FILE} ${DT_PATH_LINK}/Makefile
 		if [ $? -ne 0 ]; then
@@ -277,9 +272,9 @@ build_probe() {
 	fi
 
 	# link defconfig
-	if [ "${DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${DEFCONFIG}"
-		check_path "DEFCONFIG" "${DEFCONFIG_PATH}"
+	if [ "${LINK_DEFCONFIG}" != "" ]; then
+		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${LINK_DEFCONFIG}"
+		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
 		ln -s -f ${DEFCONFIG_PATH} "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 }

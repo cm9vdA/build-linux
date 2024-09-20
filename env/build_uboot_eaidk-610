@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="EAIDK 610"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="eaidk-610-rk3399_defconfig"
+LINK_DEFCONFIG="eaidk-610-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-eaidk-610"
 

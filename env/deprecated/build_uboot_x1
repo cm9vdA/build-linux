@@ -4,6 +4,6 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="Magic Cube X1"
 CPU_INFO="Amlogic A311D Family"
-DEFCONFIG="magic-cube-x1_defconfig"
+LINK_DEFCONFIG="magic-cube-x1_defconfig"
 VENDOR="amlogic"
 DT_FILE="meson-g12b-magic-cube-x1"

@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="LX-R3S"
 CPU_INFO="Rockchip RK3399"
-DEFCONFIG="lx-r3s-rk3399_defconfig"
+LINK_DEFCONFIG="lx-r3s-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-lx-r3s"
 
