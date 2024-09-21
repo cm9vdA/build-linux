@@ -1659,7 +1659,7 @@
 			};
 
 			gpio_keys_default {
-				pins = "gpio37";
+				pins = "gpio34", "gpio107";
 				function = "gpio";
 				drive-strength = <0x08>;
 				input-enable;
@@ -1835,6 +1835,7 @@
 			power-domains = <0x11 0x05>;
 			operating-points-v2 = <0x48>;
 			iommus = <0x49 0x01 0x49 0x02>;
+			status = "disabled";
 
 			opp-table {
 				compatible = "operating-points-v2";
@@ -1859,7 +1860,7 @@
 			clock-names = "core\0iface\0bus";
 			iommus = <0x40 0x05>;
 			memory-region = <0x4a>;
-			status = "okay";
+			status = "disabled";
 
 			video-decoder {
 				compatible = "venus-decoder";
@@ -3100,9 +3101,15 @@
 		pinctrl-0 = <0x98>;
 		label = "GPIO Buttons";
 
+		wps {
+			label = "WPS";
+			gpios = <0x3e 0x6b 0x01>;
+			linux,code = <0x198>;
+		};
+
 		reset {
 			label = "Restart";
-			gpios = <0x3e 0x25 0x01>;
+			gpios = <0x3e 0x22 0x01>;
 			linux,code = <0x198>;
 		};
 	};
