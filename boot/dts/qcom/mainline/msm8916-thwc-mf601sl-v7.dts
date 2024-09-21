@@ -21,7 +21,7 @@
 	led-wan-red {
 		color = <LED_COLOR_ID_RED>;
 		function = LED_FUNCTION_WAN;
-		default-state = "on";
+		default-state = "off";
 		gpios = <&tlmm 115 GPIO_ACTIVE_HIGH>;
 	};
 
@@ -29,6 +29,7 @@
 		color = <LED_COLOR_ID_GREEN>;
 		function = LED_FUNCTION_POWER;
 		default-state = "on";
+		linux,default-trigger = "heartbeat";
 		gpios = <&tlmm 112 GPIO_ACTIVE_HIGH>;
 	};
 
@@ -36,6 +37,7 @@
 		color = <LED_COLOR_ID_RED>;
 		function = LED_FUNCTION_POWER;
 		default-state = "off";
+		linux,default-trigger = "pm8916-lbc-chgr-online";
 		gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
 	};
 
@@ -49,7 +51,7 @@
 	led-message-red {
 		color = <LED_COLOR_ID_RED>;
 		function = LED_FUNCTION_INDICATOR;
-		default-state = "on";
+		default-state = "off";
 		gpios = <&tlmm 121 GPIO_ACTIVE_HIGH>;
 	};
 
@@ -63,7 +65,7 @@
 	led-wifi-red {
 		color = <LED_COLOR_ID_RED>;
 		function = LED_FUNCTION_WLAN;
-		default-state = "on";
+		default-state = "off";
 		gpios = <&tlmm 119 GPIO_ACTIVE_HIGH>;
 	};
 };
