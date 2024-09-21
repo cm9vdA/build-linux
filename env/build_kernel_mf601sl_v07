@@ -9,6 +9,7 @@ VENDOR="qcom"
 DT_FILE="msm8916-thwc-mf601sl-v7"
 DT_INC_FILE="msm8916-thwc-mf601xx"
 ARCH_DEFCONFIG="msm8916_defconfig"
+KERNEL_FMT=gzip
 
 # Build Config
 NO_CROSS_COMPILE=0

@@ -89,8 +89,13 @@ install_kernel() {
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 
 	if [ "$ARCH" == "arm64" ]; then
-		# Generate uImage
-		mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d "${BUILD_PATH}/arch/${ARCH}/boot/Image" "${INSTALL_MOD_PATH}/uImage"
+		local KERNEL_IMG="${BUILD_PATH}/arch/${ARCH}/boot/Image"
+		if [ "${KERNEL_FMT}" == "gzip" ]; then
+			gzip -9cnk ${KERNEL_IMG} > "${INSTALL_MOD_PATH}/Image.gz"
+		else
+			# Generate uImage
+			mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${KERNEL_IMG} "${INSTALL_MOD_PATH}/uImage"
+		fi
 	elif [ "$ARCH" == "arm" ]; then
 		# Copy zImage
 		cp -f "${BUILD_PATH}/arch/${ARCH}/boot/${KERNEL_TARGET}" "${INSTALL_MOD_PATH}"
