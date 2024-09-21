@@ -1,0 +1,15 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="T9"
+CPU_INFO="Rockchip RK3328"
+DEFCONFIG="t9-rk3328_defconfig"
+VENDOR="rockchip"
+DT_FILE="rk3328-t9"
+
+# ATF
+# git clone https://github.com/ARM-software/arm-trusted-firmware.git
+# make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3328
+ATF_PLAT="rk3328"
+export BL31=${SCRIPT_PATH}/u-boot/rockchip/common/rk3328_bl31.elf
