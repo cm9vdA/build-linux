@@ -47,10 +47,11 @@
 
 		label = "GPIO Buttons";
 
-		button-restart {
-			label = "Restart";
+		button-power {
+			label = "GPIO Key Power";
 			gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_RESTART>;
+			linux,code = <KEY_POWER>;
+			wakeup-source;
 		};
 	};
 
