@@ -20,6 +20,7 @@
 		stdout-path = "serial0";
 	};
 
+	// Limit Charge
 	battery: battery {
 		compatible = "simple-battery";
 		voltage-min-design-microvolt = <3400000>;
@@ -38,6 +39,28 @@
 			<3174000 4>, <3096000 3>, <3062000 2>, <3035000 1>,
 			<3000000 0>;
 	};
+
+/*
+	// Full Charge
+	battery: battery {
+		compatible = "simple-battery";
+		voltage-min-design-microvolt = <3400000>;
+		voltage-max-design-microvolt = <4350000>;
+		energy-full-design-microwatt-hours = <7980000>;
+		charge-full-design-microamp-hours = <2100000>;
+
+		ocv-capacity-celsius = <25>;
+		ocv-capacity-table-0 = <4327000 100>, <4264000 95>,
+			<4187000 90>, <4119000 85>, <4069000 80>, <4022000 75>,
+			<3964000 70>, <9624000 65>, <3890000 60>, <3853000 55>,
+			<3801000 50>, <3778000 45>, <3769000 40>, <3766000 35>,
+			<3760000 30>, <3721000 25>, <3660000 20>, <3608000 16>,
+			<3579000 13>, <3563000 11>, <3548000 10>, <3531000 9>,
+			<3520000 8>, <3514000 7>, <3502000 6>, <3495000 5>,
+			<3489000 4>, <3475000 3>, <3460000 2>, <3444000 1>,
+			<3400000 0>;
+	};
+*/
 
 	gpio-keys {
 		compatible = "gpio-keys";
@@ -95,10 +118,6 @@
 
 &mpss_mem {
 	reg = <0x00 0x86800000 0x00 0x5500000>;
-	status = "okay";
-};
-
-&gps_mem {
 	status = "okay";
 };
 
