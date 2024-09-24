@@ -2,12 +2,12 @@
 source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
-BOARD_NAME="MF32LT_CT_V01"
-PACK_NAME="mf32lt_v01"
+BOARD_NAME="MF32LT/MF32T"
+PACK_NAME="mf32"
 CPU_INFO="Snapdragon 410"
 VENDOR="qcom"
-DT_FILE="msm8916-thwc-mf32lt-v01"
-DT_INC_FILE="msm8916-thwc-mf32"
+DT_FILE="msm8916-thwc-mf32"
+DT_INC_FILE="msm8916-thwc-common"
 ARCH_DEFCONFIG="msm8916_defconfig"
 KERNEL_FMT=gzip
 

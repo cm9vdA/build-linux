@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// A common dtsi for MF601xx series LTE modem dongles.
+// A common dtsi for MF32/MF601 series LTE modem dongles.
 // https://github.com/CoiaPrant233/msm8916_linux
 
 #include "msm8916-pm8916.dtsi"
@@ -70,9 +70,9 @@
 
 		label = "GPIO Buttons";
 
-		button-power {
+		power_key: button-power {
 			label = "GPIO Key Power";
-			gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
+			/* "gpios" are board-specific */
 			linux,code = <KEY_POWER>;
 			wakeup-source;
 		};
@@ -85,6 +85,13 @@
 		pinctrl-names = "default";
 
 		/* LEDs are board-specific */
+	};
+
+	usb_id: usb-id {
+		compatible = "linux,extcon-usb-gpio";
+		id-gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb_id_default>;
 	};
 };
 
@@ -146,6 +153,16 @@
 	status = "okay";
 };
 
+/*
+&usb {
+	extcon = <&usb_id>, <&usb_id>;
+};
+
+&usb_hs_phy {
+	extcon = <&usb_id>;
+};
+*/
+
 &usb {
 	extcon = <&pm8916_charger>;
 	usb-role-switch;
@@ -181,43 +198,28 @@
 	button_default: button-default-state {
 		function = "gpio";
 		drive-strength = <2>;
-		pins = "gpio34", "gpio107";
+		/* "pins" are board-specific */
 		bias-pull-up;
 	};
 
 	gpio_leds_default: gpio-leds-default-state {
 		function = "gpio";
 		drive-strength = <2>;
-		pins = "gpio20", "gpio21", "gpio22", "gpio110", "gpio112",
-		       "gpio113", "gpio114", "gpio115", "gpio116", "gpio117",
-		       "gpio118", "gpio119", "gpio120", "gpio121";
+		/* "pins" are board-specific */
 		bias-disable;
 	};
 
 	/* This selects the external SIM card slot by default */
 	sim_ctrl_default: sim-ctrl-default-state {
-		esim-sel-pins {
-			function = "gpio";
-			drive-strength = <2>;
-			pins = "gpio50", "gpio51";
-			bias-disable;
-			output-low;
-		};
+		/* "pins" are board-specific */
+	};
 
-		sim-en-pins {
-			function = "gpio";
-			drive-strength = <2>;
-			pins = "gpio24";
-			bias-disable;
-			output-low;
-		};
+	usb_id_default: usb-id-default {
+		pins = "gpio110";
+		function = "gpio";
 
-		sim-sel-pins {
-			function = "gpio";
-			drive-strength = <2>;
-			pins = "gpio49";
-			bias-disable;
-			output-high;
-		};
+		drive-strength = <8>;
+		input-enable;
+		bias-pull-up;
 	};
 };

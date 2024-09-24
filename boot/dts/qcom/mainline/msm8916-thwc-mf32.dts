@@ -3,11 +3,11 @@
 
 /dts-v1/;
 
-#include "msm8916-thwc-mf32.dtsi"
+#include "msm8916-thwc-common.dtsi"
 
 / {
-	model = "Tong Heng Wei Chuang 4G Modem Stick MF32LT_CT_V01";
-	compatible = "thwc,mf32lt-ct-v1", "qcom,msm8916";
+	model = "Tong Heng Wei Chuang 4G Modem Stick MF32LT/MF32T";
+	compatible = "thwc,mf32lt-v1", "thwc,mf32t-v1", "qcom,msm8916";
 };
 
 &leds {
@@ -35,7 +35,7 @@
 	led-wlan {
 		color = <LED_COLOR_ID_BLUE>;
 		function = LED_FUNCTION_WLAN;
-		default-state = "on";
+		default-state = "off";
 		gpios = <&tlmm 27 GPIO_ACTIVE_HIGH>;
 	};
 
@@ -65,5 +65,43 @@
 		function = LED_FUNCTION_POWER;
 		default-state = "off";
 		gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+&gpio_leds_default {
+	pins = "gpio19", "gpio20", "gpio21", "gpio22", "gpio27", "gpio28", "gpio29", "gpio30";
+};
+
+&power_key {
+	gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
+};
+
+&button_default {
+	pins = "gpio34";
+};
+
+&sim_ctrl_default {
+	esim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio50", "gpio51";
+		bias-disable;
+		output-low;
+	};
+
+	sim-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio24";
+		bias-disable;
+		output-low;
+	};
+
+	sim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio49";
+		bias-disable;
+		output-high;
 	};
 };

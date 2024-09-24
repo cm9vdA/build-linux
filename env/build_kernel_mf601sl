@@ -1,0 +1,15 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="MF601SL"
+PACK_NAME="mf601sl"
+CPU_INFO="Snapdragon 410"
+VENDOR="qcom"
+DT_FILE="msm8916-thwc-mf601sl"
+DT_INC_FILE="msm8916-thwc-common"
+ARCH_DEFCONFIG="msm8916_defconfig"
+KERNEL_FMT=gzip
+
+# Build Config
+NO_CROSS_COMPILE=0

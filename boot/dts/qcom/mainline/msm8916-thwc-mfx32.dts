@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// https://github.com/CoiaPrant233/msm8916_linux
+
+/dts-v1/;
+
+#include "msm8916-thwc-common.dtsi"
+
+/ {
+	model = "Tong Heng Wei Chuang 4G Modem Stick MFX32";
+	compatible = "thwc,mfx32-v2", "qcom,msm8916";
+};
+
+&leds {
+	led-wan-green {
+		color = <LED_COLOR_ID_GREEN>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 72 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-wan-blue {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 71 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-wan-red {
+		color = <LED_COLOR_ID_RED>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 70 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-wlan {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_WLAN;
+		default-state = "off";
+		gpios = <&tlmm 73 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-battery-1 {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_POWER;
+		default-state = "off";
+		gpios = <&tlmm 0 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-battery-2 {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_POWER;
+		default-state = "off";
+		gpios = <&tlmm 91 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-battery-3 {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_POWER;
+		default-state = "off";
+		gpios = <&tlmm 1 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-battery-4 {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_POWER;
+		default-state = "off";
+		gpios = <&tlmm 100 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+&gpio_leds_default {
+	pins = "gpio72", "gpio71", "gpio70", "gpio73", "gpio0", "gpio91", "gpio1", "gpio100";
+};
+
+&power_key {
+	gpios = <&tlmm 37 GPIO_ACTIVE_LOW>;
+};
+
+&button_default {
+	pins = "gpio37";
+};
+
+&sim_ctrl_default {
+	ftest-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio32";
+		bias-disable;
+		output-high;
+	};
+
+	sim-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio119";
+		bias-disable;
+		output-high;
+	};
+
+	esim-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio14", "gpio12";
+		bias-disable;
+		output-low;
+	};
+
+	sim-hotplug-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio114";
+		bias-disable;
+		output-low;
+	};
+};

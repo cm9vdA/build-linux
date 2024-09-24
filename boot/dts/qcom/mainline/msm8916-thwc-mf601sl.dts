@@ -3,7 +3,7 @@
 
 /dts-v1/;
 
-#include "msm8916-thwc-mf601xx.dtsi"
+#include "msm8916-thwc-common.dtsi"
 
 / {
 	model = "Tong Heng Wei Chuang 4G Modem Stick MF601SL_CT_V07";
@@ -43,14 +43,14 @@
 
 	led-message-green {
 		color = <LED_COLOR_ID_GREEN>;
-		function = LED_FUNCTION_INDICATOR;
+		function = "message";
 		default-state = "off";
 		gpios = <&tlmm 22 GPIO_ACTIVE_HIGH>;
 	};
 
 	led-message-red {
 		color = <LED_COLOR_ID_RED>;
-		function = LED_FUNCTION_INDICATOR;
+		function = "message";
 		default-state = "off";
 		gpios = <&tlmm 121 GPIO_ACTIVE_HIGH>;
 	};
@@ -67,5 +67,45 @@
 		function = LED_FUNCTION_WLAN;
 		default-state = "off";
 		gpios = <&tlmm 119 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+&gpio_leds_default {
+	pins = "gpio20", "gpio21", "gpio22", "gpio110", "gpio112", "gpio113",
+		"gpio114", "gpio115", "gpio116", "gpio117", "gpio118", "gpio119",
+		"gpio120", "gpio121";
+};
+
+&power_key {
+	gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
+};
+
+&button_default {
+	pins = "gpio34";
+};
+
+&sim_ctrl_default {
+	esim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio50", "gpio51";
+		bias-disable;
+		output-low;
+	};
+
+	sim-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio24";
+		bias-disable;
+		output-low;
+	};
+
+	sim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio49";
+		bias-disable;
+		output-high;
 	};
 };
