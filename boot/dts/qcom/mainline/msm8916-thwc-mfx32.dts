@@ -8,6 +8,17 @@
 / {
 	model = "Tong Heng Wei Chuang 4G Modem MFX32";
 	compatible = "thwc,mfx32-v2", "qcom,msm8916";
+
+	usb_id: usb-id {
+		compatible = "linux,extcon-usb-gpio";
+		id-gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb_id_default>;
+	};
+};
+
+&usb {
+	extcon = <&pm8916_charger>, <&usb_id>;
 };
 
 &leds {
@@ -111,5 +122,12 @@
 		pins = "gpio114";
 		bias-disable;
 		output-low;
+	};
+
+	usb_id_default: usb-id-default {
+		pins = "gpio110";
+		function = "gpio";
+		drive-strength = <8>;
+		bias-pull-up;
 	};
 };

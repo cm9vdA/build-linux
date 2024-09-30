@@ -86,13 +86,6 @@
 
 		/* LEDs are board-specific */
 	};
-
-	usb_id: usb-id {
-		compatible = "linux,extcon-usb-gpio";
-		id-gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&usb_id_default>;
-	};
 };
 
 &bam_dmux {
@@ -153,16 +146,6 @@
 	status = "okay";
 };
 
-/*
-&usb {
-	extcon = <&usb_id>, <&usb_id>;
-};
-
-&usb_hs_phy {
-	extcon = <&usb_id>;
-};
-*/
-
 &usb {
 	extcon = <&pm8916_charger>;
 	usb-role-switch;
@@ -212,14 +195,5 @@
 	/* This selects the external SIM card slot by default */
 	sim_ctrl_default: sim-ctrl-default-state {
 		/* "pins" are board-specific */
-	};
-
-	usb_id_default: usb-id-default {
-		pins = "gpio110";
-		function = "gpio";
-
-		drive-strength = <8>;
-		input-enable;
-		bias-pull-up;
 	};
 };
