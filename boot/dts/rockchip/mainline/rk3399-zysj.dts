@@ -1015,8 +1015,7 @@
 	sd-uhs-sdr104;
 	#address-cells = <1>;
 	#size-cells = <0>;
-	// status = "okay";
-	status = "disabled";
+	status = "okay";
 
 	brcmf: wifi@1 {
 		reg = <1>;
@@ -1026,7 +1025,7 @@
 		interrupt-names = "host-wake";
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_host_wake_l>;
-		status = "disabled";
+		status = "okay";
 	};
 };
 
@@ -1112,7 +1111,7 @@
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
-	status = "disabled";
+	status = "okay";
 
 	bluetooth {
 		compatible = "brcm,bcm4345c5";
@@ -1125,7 +1124,7 @@
 		pinctrl-0 = <&bt_host_wake_l &bt_wake_l &bt_reg_on_h>;
 		vbat-supply = <&vcc3v3_sys>;
 		vddio-supply = <&vcc_1v8>;
-		status = "disabled";
+		status = "okay";
 	};
 };
 
