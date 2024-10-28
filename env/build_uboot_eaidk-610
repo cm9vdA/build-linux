@@ -7,6 +7,7 @@ CPU_INFO="Rockchip RK3399"
 LINK_DEFCONFIG="eaidk-610-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-eaidk-610"
+DT_LINK=0
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

@@ -83,7 +83,7 @@ build_atf() {
 
 build_probe() {
 	# link dts
-	if [ "${DT_FILE}" != "" ]; then
+	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
 		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
 		DT_PATH_LINK="${UBOOT_SRC}/arch/arm/dts/"
 		check_path DTS "${DT_PATH}/${DT_FILE}.dts"

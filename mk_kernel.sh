@@ -256,7 +256,7 @@ show_menu() {
 
 build_probe() {
 	# link dts
-	if [ "${DT_FILE}" != "" ]; then
+	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
 		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
 		if [ "$ARCH" == "arm64" ]; then
 			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
