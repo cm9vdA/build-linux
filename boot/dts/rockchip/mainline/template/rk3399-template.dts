@@ -8,9 +8,8 @@
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include "rk3399.dtsi"
-#include "rk3399-opp.dtsi"
-// #include "rk3399-t-opp.dtsi" // underclock
-// #include "rk3399-op1-opp.dtsi" // overclock
+// #include "rk3399-t.dtsi" // underclock
+// #include "rk3399-op1.dtsi" // overclock
 
 / {
 	model = "Model";

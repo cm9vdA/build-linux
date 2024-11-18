@@ -8,7 +8,6 @@
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include "rk3399.dtsi"
-#include "rk3399-opp.dtsi"
 
 / {
 	model = "FM XT X1 Pro";
