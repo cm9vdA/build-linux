@@ -2,11 +2,11 @@
 source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
-BOARD_NAME="ZYSJ RK3399"
-PACK_NAME="zysj"
+BOARD_NAME="YSKJ RK3399"
+PACK_NAME="yskj"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-zysj"
+DT_FILE="rk3399-yskj"
 
 # Build Config
 NO_CROSS_COMPILE=0
