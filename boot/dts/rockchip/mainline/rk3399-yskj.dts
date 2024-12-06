@@ -12,6 +12,7 @@
 	compatible = "rockchip,rk3399";
 
 	aliases {
+		// mdio-gpio0 = &gpio_mdio;
 		mmc0 = &sdio0;
 		mmc1 = &sdmmc;
 		mmc2 = &sdhci;
@@ -70,17 +71,7 @@
 		rockchip,pwm_id = <2>;
 		rockchip,pwm_voltage = <1000000>;
 	};
-	vcc_lcd: vcc-lcd {
-		compatible = "regulator-fixed";
-		regulator-name = "vcc_lcd";
-		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-		startup-delay-us = <20000>;
-		enable-active-high;
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-boot-on;
-		vin-supply = <&vcc5v0_sys>;
-	};
+
 	vcc1v8_sys: vccadc-ref {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_sys";
@@ -89,12 +80,23 @@
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <1800000>;
 	};
+/*
 	//应该没驱动
 	wdg_sp7x: wdg {
 		compatible = "wdg_sp7x";
 		power-supply = <&vcc_lcd>;
 		fdg-gpio = <&gpio0 RK_PA7 GPIO_ACTIVE_HIGH>;
 		delay_us = <500>;
+		status = "okay";
+	};
+*/
+
+	// 风扇需要补全相关元件
+	fan0: gpio-fan {
+		#cooling-cells = <2>;
+		compatible = "gpio-fan";
+		gpio-fan,speed-map = <0 0 3000 1>;
+		gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 
@@ -115,6 +117,7 @@
 			debounce-interval = <100>;
 		};
 	};
+/*
 	gpio_leds: gpio-leds {
 		compatible = "gpio-leds";
 
@@ -142,6 +145,7 @@
 			default-state = "on";
 		};
 	};
+
 	adc_keys: adc-keys {
 		compatible = "adc-keys";
 		io-channels = <&saradc 1>;
@@ -173,8 +177,9 @@
 			press-threshold-microvolt = <1314000>;
 		};
 	};
+*/
+/*
 	//todo,完善声卡
-	/*
 	rt5651_sound: rt5651-sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
@@ -190,51 +195,8 @@
 		simple-audio-card,codec {
 			sound-dai = <&rt5651>;
 		};
-	};*/
-
-	spdif-sound {
-		status = "okay";
-		compatible = "simple-audio-card";
-		simple-audio-card,name = "ROCKCHIP,SPDIF";
-
-		simple-audio-card,cpu {
-			sound-dai = <&spdif>;
-		};
-
-		simple-audio-card,codec {
-			sound-dai = <&spdif_out>;
-		};
 	};
-
-	spdif_out: spdif-out {
-		status = "okay";
-		compatible = "linux,spdif-dit";
-		#sound-dai-cells = <0x00>;
-	};
-	/*
-	wireless_wlan: wireless-wlan {
-		compatible = "wlan-platdata";
-		rockchip,grf = <&grf>;
-		wifi_chip_type = "ap6354";
-		sdio_vref = <1800>;
-		WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};*/
-/*
-	wireless_bluetooth: wireless-bluetooth {
-		compatible = "bluetooth-platdata";
-		clocks = <&rk808 1>;
-		clock-names = "ext_clock";
-		uart_rts_gpios = <&gpio2 RK_PC3 GPIO_ACTIVE_LOW>;
-		pinctrl-names = "default\0rts_gpio";
-		pinctrl-0 = <&uart0_rts>;
-		pinctrl-1 = <&uart0_gpios>;
-		BT,reset_gpio = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
-		BT,wake_gpio = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
-		BT,wake_host_irq = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};*/
-
+*/
 	sdio_pwrseq: sdio-pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		clocks = <&rk808 1>;
@@ -243,7 +205,57 @@
 		pinctrl-0 = <&wifi_enable_h>;
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
 	};
+/*
+	// 测试用，无效
+	dummy_eth: dummy_eth {
+		compatible = "ethernet-phy-id1234.dummy";
+		status = "okay";
+	};
+	// 测试用，无效，需要飞线
+	gpio_mdio: mdio {
+		compatible = "virtual,mdio-gpio";
+		gpios = <&gpio1 RK_PB3 GPIO_ACTIVE_HIGH>, // mdc
+				<&gpio1 RK_PB4 GPIO_ACTIVE_HIGH>; // mdio
+		#address-cells = <1>;
+		#size-cells = <0>;
+		switch@1f {
+			compatible = "mediatek,mt7530";
+			reg = <0x1f>;
+			reset-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_LOW>; // 复用风扇控制引脚
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				port@0 {
+					reg = <0>;
+					label = "lan1";
+				};
+				port@1 {
+					reg = <1>;
+					label = "lan2";
+				};
+				port@2 {
+					reg = <2>;
+					label = "lan3";
+				};
+				port@3 {
+					reg = <3>;
+					label = "lan4";
+				};
+				port@4 {
+					reg = <4>;
+					label = "lan5";
+				};
+            port@6 {  // 虚拟的 CPU 端口
+                 reg = <6>;
+                 label = "cpu";
+                 ethernet = <&dummy_eth>;  // 指向一个虚拟的 Ethernet 设备
+             };
+			};
+		};
+	};
+*/
 };
+
 &pinctrl {
 	buttons {
 		pwrbtn: pwrb-tn {
@@ -340,6 +352,23 @@
 	status = "okay";
 };
 
+&cpu_thermal {
+	trips {
+		cpu_hot: cpu_hot {
+			hysteresis = <10000>;
+			temperature = <55000>;
+			type = "active";
+		};
+	};
+
+	cooling-maps {
+		map2 {
+			cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+			trip = <&cpu_hot>;
+		};
+	};
+};
+
 &emmc_phy {
 	status = "okay";
 };
@@ -390,7 +419,8 @@
 		#clock-cells = <1>;
 		clock-output-names = "xin32k", "rk808-clkout2";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
+		// pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
+		pinctrl-0 = <&pmic_int_l>;
 		rockchip,system-power-controller;
 		wakeup-source;
 
@@ -612,7 +642,7 @@
 	i2c-scl-rising-time-ns = <600>;
 	i2c-scl-falling-time-ns = <20>;
 	//没电再说
-	/*
+/*
 	fusb30x@22 {
 		compatible = "fairchild,fusb302";
 		reg = <0x22>;
@@ -635,7 +665,8 @@
 		orientation-y = <0x00>;
 		orientation-z = <0x00>;
 		mpu-debug = <0x01>;
-	};*/
+	};
+*/
 };
 
 
@@ -668,14 +699,6 @@
 	pmu1830-supply = <&vcc_3v0>;
 };
 
-
-/*
-// TFT
-&pwm0 {
-	status = "okay";
-};
-*/
-
 &pwm2 {
 	status = "okay";
 };
@@ -684,7 +707,7 @@
 	vref-supply = <&vcc1v8_sys>;
 	status = "okay";
 };
-
+/*
 &sdio0 {
 	bus-width = <4>;
 	cap-sd-highspeed;
@@ -701,15 +724,16 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
-	/*
-	wireless_wlan: wireless-wlan {
-		compatible = "wlan-platdata";
-		rockchip,grf = <&grf>;
-		wifi_chip_type = "ap6354";
-		sdio_vref = <1800>;
-		WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};*/
+
+	//wireless_wlan: wireless-wlan {
+	//	compatible = "wlan-platdata";
+	//	rockchip,grf = <&grf>;
+	//	wifi_chip_type = "ap6354";
+	//	sdio_vref = <1800>;
+	//	WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
+	//	status = "okay";
+	//};
+
 	brcmf: wifi@1 {
 		reg = <1>;
 		compatible = "brcm,bcm4329-fmac";
@@ -721,7 +745,7 @@
 		pinctrl-0 = <&wifi_host_wake_l>;
 	};
 };
-
+*/
 &sdmmc {
 	bus-width = <4>;
 	cap-sd-highspeed;
@@ -786,24 +810,26 @@
 	};
 };
 
+/*
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
 	status = "okay";
-/*
-	wireless_bluetooth: wireless-bluetooth {
-		compatible = "bluetooth-platdata";
-		clocks = <&rk808 1>;
-		clock-names = "ext_clock";
-		uart_rts_gpios = <&gpio2 RK_PC3 GPIO_ACTIVE_LOW>;
-		pinctrl-names = "default\0rts_gpio";
-		pinctrl-0 = <&uart0_rts>;
-		pinctrl-1 = <&uart0_gpios>;
-		BT,reset_gpio = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
-		BT,wake_gpio = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
-		BT,wake_host_irq = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};*/
+
+	//wireless_bluetooth: wireless-bluetooth {
+	//	compatible = "bluetooth-platdata";
+	//	clocks = <&rk808 1>;
+	//	clock-names = "ext_clock";
+	//	uart_rts_gpios = <&gpio2 RK_PC3 GPIO_ACTIVE_LOW>;
+	//	pinctrl-names = "default\0rts_gpio";
+	//	pinctrl-0 = <&uart0_rts>;
+	//	pinctrl-1 = <&uart0_gpios>;
+	//	BT,reset_gpio = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
+	//	BT,wake_gpio = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
+	//	BT,wake_host_irq = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
+	//	status = "okay";
+	//};
+
 	bluetooth {
 		compatible = "brcm,bcm43438-bt";
 		clocks = <&rk808 1>;
@@ -818,6 +844,7 @@
 		vddio-supply = <&vcc_1v8>;
 	};
 };
+*/
 
 // Debug TTL
 &uart2 {
