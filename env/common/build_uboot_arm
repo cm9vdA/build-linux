@@ -1,4 +1,5 @@
 export ARCH=arm
+export UPSTREAM_ARCH=arm
 export CROSS_COMPILE=arm-none-eabi-
 
 HOST_ARCH=$(uname -m)

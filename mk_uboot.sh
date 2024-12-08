@@ -34,13 +34,13 @@ init() {
 		DEFCONFIG=${LINK_DEFCONFIG}
 	fi
 
-	if [ "${ATF_PLAT}" != "" ]; then
-		ATF_SRC="${WORKSPACE_PATH}/arm-trusted-firmware"
-		ATF_BIN=${ATF_SRC}/build/${ATF_PLAT}/release/bl31/bl31.elf
-		if [ -e "${ATF_BIN}" ]; then
-			export BL31=${ATF_BIN}
-		fi
-	fi
+	# if [ "${ATF_PLAT}" != "" ]; then
+	# 	ATF_SRC="${WORKSPACE_PATH}/arm-trusted-firmware"
+	# 	ATF_BIN=${ATF_SRC}/build/${ATF_PLAT}/release/bl31/bl31.elf
+	# 	if [ -e "${ATF_BIN}" ]; then
+	# 		export BL31=${ATF_BIN}
+	# 	fi
+	# fi
 
 	cd "${UBOOT_SRC}"
 	UBOOT_VERSION=$(make ubootversion)
@@ -55,6 +55,9 @@ build_info() {
 	echo -e "DEFCONFIG:        ${DEFCONFIG}"
 	echo -e "ATF_PLAT:         ${ATF_PLAT}"
 	echo -e "ATF(BL31):        ${BL31}"
+	if [ ! -z "${ROCKCHIP_TPL}" ]; then
+		echo -e "ROCKCHIP_TPL:     ${ROCKCHIP_TPL}"
+	fi
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
 }
@@ -86,14 +89,24 @@ build_probe() {
 	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
 		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
 		DT_PATH_LINK="${UBOOT_SRC}/arch/arm/dts/"
+		DT_UPSTREAM_LINK="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}/"
 		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
 		ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_PATH_LINK}
+		if [ -d "${DT_UPSTREAM_LINK}" ]; then
+			ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_UPSTREAM_LINK}
+		fi
 		if [ "${DT_INC_FILE}" != "" ]; then
 			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
 			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_PATH_LINK}
+			if [ -d "${DT_UPSTREAM_LINK}" ]; then
+				ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_UPSTREAM_LINK}
+			fi
 		fi
 		if [ -e "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ]; then
 			ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ${DT_PATH_LINK}
+			if [ -d "${DT_UPSTREAM_LINK}" ]; then
+				ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ${DT_UPSTREAM_LINK}
+			fi
 		fi
 	fi
 
