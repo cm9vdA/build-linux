@@ -121,8 +121,8 @@ build_probe() {
 show_menu() {
 	cd "${UBOOT_SRC}"
 	echo "================ Menu Option ================"
-	echo -e "\t[0]. Build ATF(arm64 only)"
-	echo -e "\t[1]. Use Default Config"
+	# echo -e "\t[0]. Build ATF(arm64 only)"
+	echo -e "\t[1]. Use Default Config(Specified in env)"
 	echo -e "\t[2]. Menu Config"
 	echo -e "\t[3]. Build U-boot"
 	echo -e "\t[4]. Process"
@@ -130,9 +130,6 @@ show_menu() {
 
 	read -p "Please Select: >> " OPT
 	case ${OPT} in
-	"0")
-		build_atf
-		;;
 	"1")
 		build_probe
 		make ${DEFCONFIG} ${BUILD_ARGS}
@@ -148,6 +145,10 @@ show_menu() {
 		;;
 	"5")
 		make clean ${BUILD_ARGS}
+		;;
+	"atf")
+		# Hide Option
+		build_atf
 		;;
 	"mrproper")
 		# Hide Option

@@ -68,7 +68,6 @@
     BUILD_ARGS:       -j4 O=/home/code/arm/workspace_r3s/.build_uboot
     CROSS_COMPILE:    aarch64-none-elf-
     ================ Menu Option ================
-            [0]. Build ATF(arm64 only)                          # 对于64位的板子需要编译这个arm trust firmware。【Amlogic不需要】
             [1]. Use Default Config                             # 使用defconfig文件生成编译配置，通过DEFCONFIG来指定
             [2]. Menu Config                                    # 在菜单中修改编译配置
             [3]. Build U-boot                                   # 构建
