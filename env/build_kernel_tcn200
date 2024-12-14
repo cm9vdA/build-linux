@@ -1,0 +1,12 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="TCN200"
+PACK_NAME="tcn200"
+CPU_INFO="Rockchip RK3588S"
+VENDOR="rockchip"
+DT_FILE="rk3588s-tcn200"
+
+# Build Config
+NO_CROSS_COMPILE=0

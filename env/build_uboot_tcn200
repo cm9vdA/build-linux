@@ -1,0 +1,19 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="TCN200"
+CPU_INFO="Rockchip RK3588S"
+LINK_DEFCONFIG="tcn200-rk3588s_defconfig"
+VENDOR="rockchip"
+DT_FILE="rk3588s-tcn200"
+
+# ATF
+# git clone https://github.com/ARM-software/arm-trusted-firmware.git
+# make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3588
+ATF_PLAT="rk3588"
+export BL31=${SCRIPT_PATH}/u-boot/rockchip/common/rk3588_bl31.elf
+
+# TPL
+# https://github.com/rockchip-linux/rkbin
+export ROCKCHIP_TPL=${SCRIPT_PATH}/u-boot/rockchip/common/rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.18.bin
