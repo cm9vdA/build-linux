@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# some resource file from http://releases.linaro.org/96boards/
+# referer:
+# https://releases.linaro.org/96boards/dragonboard410c/linaro/debian/21.12/
+# https://releases.linaro.org/96boards/dragonboard845c/linaro/debian/21.12/
+
 PWD_DIR=${PWD}
 TMP_DIR=/dev/shm/.tmp_install
 TMP_KERNEL=${TMP_DIR}/kernel

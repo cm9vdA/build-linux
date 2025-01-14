@@ -32,7 +32,7 @@ init() {
 	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
 
 	BUILD_PATH=${WORKSPACE_PATH}/.build
-	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
+	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} INSTALL_MOD_STRIP=1"
 
 	if [ "${ARCH_DEFCONFIG}" != "" ]; then
 		DEFCONFIG=${ARCH_DEFCONFIG}
