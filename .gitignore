@@ -1,2 +1,4 @@
 .vscode-ctags
 temp
+resource/rockchip/convert_gpio
+resource/rockchip/gpio_convert
