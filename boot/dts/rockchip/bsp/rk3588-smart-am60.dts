@@ -2529,8 +2529,8 @@
 
 	cvte-headset {
 		compatible = "cvte,headset";
-		headset_gpio = <0x183 0x14 0x00>;
-		linein_gpio = <0x183 0x16 0x00>;
+		headset_gpio = <&gpio1 RK_PC4 0x00>;
+		linein_gpio = <&gpio1 RK_PC6 0x00>;
 		phandle = <0x478>;
 		pinctrl-0 = <0x1ab 0x1ac>;
 		pinctrl-names = "default";
@@ -3279,7 +3279,7 @@
 
 		power {
 			debounce-interval = <0x0a>;
-			gpios = <0x123 0x0a 0x01>;
+			gpios = <&gpio0 RK_PB2 0x01>;
 			label = "GPIO Key Power";
 			linux,code = <0x74>;
 			wakeup-source;
@@ -3459,7 +3459,7 @@
 		clock-names = "pclk\0hpd\0earc\0hdmitx_ref\0aud\0dclk_vp0\0dclk_vp1\0dclk_vp2\0dclk_vp3\0hclk_vo1\0link_clk";
 		clocks = <0x02 0x221 0x02 0x265 0x02 0x222 0x02 0x223 0x02 0x246 0x02 0x274 0x02 0x275 0x02 0x276 0x02 0x277 0x05 0xcb>;
 		compatible = "rockchip,rk3588-dw-hdmi";
-		enable-gpios = <0xe3 0x09 0x00>;
+		enable-gpios = <&gpio4 RK_PB1 0x00>;
 		interrupts = <0x00 0xa9 0x04 0x00 0xaa 0x04 0x00 0xab 0x04 0x00 0xac 0x04 0x00 0x168 0x04>;
 		phandle = <0x19b>;
 		phy-names = "hdmi";
@@ -3514,7 +3514,7 @@
 		clock-names = "pclk\0hpd\0earc\0hdmitx_ref\0aud\0dclk_vp0\0dclk_vp1\0dclk_vp2\0dclk_vp3\0hclk_vo1\0link_clk";
 		clocks = <0x02 0x224 0x02 0x266 0x02 0x225 0x02 0x226 0x02 0x24c 0x02 0x274 0x02 0x275 0x02 0x276 0x02 0x277 0x05 0xbe>;
 		compatible = "rockchip,rk3588-dw-hdmi";
-		enable-gpios = <0xe3 0x0a 0x00>;
+		enable-gpios = <&gpio4 RK_PB2 0x00>;
 		interrupts = <0x00 0xad 0x04 0x00 0xae 0x04 0x00 0xaf 0x04 0x00 0xb0 0x04 0x00 0x169 0x04>;
 		phandle = <0x19d>;
 		phy-names = "hdmi";
@@ -3634,8 +3634,8 @@
 		compatible = "rockchip,rk3588-hdmirx-ctrler\0rockchip,hdmirx-ctrler";
 		hdcp1x-enable;
 		hdcp2x-enable;
-		hdmirx-det-gpios = <0x183 0x1d 0x01>;
-		hdmirx-hpd-gpios = <0xe3 0x04 0x00>;
+		hdmirx-det-gpios = <&gpio1 RK_PD5 0x01>;
+		hdmirx-hpd-gpios = <&gpio4 RK_PA4 0x00>;
 		hpd-trigger-level = <0x01>;
 		interrupt-names = "cec\0hdmi\0dma";
 		interrupts = <0x00 0xb1 0x04 0x00 0x1b4 0x04 0x00 0xb3 0x04>;
@@ -3945,7 +3945,7 @@
 			compatible = "rtc,bl5372";
 			phandle = <0x278>;
 			reg = <0x32>;
-			rtc_alarm_irq_pin = <0x123 0x14 0x08>;
+			rtc_alarm_irq_pin = <&gpio0 RK_PC4 0x08>;
 		};
 	};
 
@@ -4727,13 +4727,13 @@
 
 		blue {
 			default-state = "off";
-			gpios = <0x183 0x04 0x00>;
+			gpios = <&gpio1 RK_PA4 0x00>;
 			label = "green";
 		};
 
 		red {
 			default-state = "off";
-			gpios = <0x123 0x13 0x00>;
+			gpios = <&gpio0 RK_PC3 0x00>;
 			label = "red";
 		};
 	};
@@ -4745,7 +4745,7 @@
 		home-key {
 			active-low;
 			default-state = "on";
-			gpios = <0x183 0x04 0x01>;
+			gpios = <&gpio1 RK_PA4 0x01>;
 			label = "emmc_write";
 		};
 	};
@@ -5291,7 +5291,7 @@
 		ranges = <0x800 0x00 0xf2000000 0x00 0xf2000000 0x00 0x100000 0x81000000 0x00 0xf2100000 0x00 0xf2100000 0x00 0x100000 0x82000000 0x00 0xf2200000 0x00 0xf2200000 0x00 0xe00000 0xc3000000 0x09 0x80000000 0x09 0x80000000 0x00 0x40000000>;
 		reg = <0x00 0xfe170000 0x00 0x10000 0x0a 0x40800000 0x00 0x400000>;
 		reg-names = "pcie-apb\0pcie-dbi";
-		reset-gpios = <0x18a 0x09 0x00>;
+		reset-gpios = <&gpio2 RK_PB1 0x00>;
 		reset-names = "pcie\0periph";
 		resets = <0x02 0x20f 0x02 0x21e>;
 		rockchip,perst-inactive-ms = <0x1f4>;
@@ -5376,7 +5376,7 @@
 		ranges = <0x800 0x00 0xf4000000 0x00 0xf4000000 0x00 0x100000 0x81000000 0x00 0xf4100000 0x00 0xf4100000 0x00 0x100000 0x82000000 0x00 0xf4200000 0x00 0xf4200000 0x00 0xe00000 0xc3000000 0x0a 0x00 0x0a 0x00 0x00 0x40000000>;
 		reg = <0x00 0xfe190000 0x00 0x10000 0x0a 0x41000000 0x00 0x400000>;
 		reg-names = "pcie-apb\0pcie-dbi";
-		reset-gpios = <0xee 0x05 0x00>;
+		reset-gpios = <&gpio3 RK_PA5 0x00>;
 		reset-names = "pcie\0periph";
 		resets = <0x02 0x211 0x02 0x220>;
 		rockchip,perst-inactive-ms = <0x1f4>;
@@ -5469,8 +5469,8 @@
 		rockchip,usb-grf = <0x60>;
 		rockchip,usbdpphy-grf = <0x157>;
 		rockchip,vo-grf = <0xdb>;
-		sbu1-dc-gpios = <0xee 0x08 0x00>;
-		sbu2-dc-gpios = <0xee 0x07 0x00>;
+		sbu1-dc-gpios = <&gpio3 RK_PB0 0x00>;
+		sbu2-dc-gpios = <&gpio3 RK_PA7 0x00>;
 		status = "okay";
 		svid = <0xff01>;
 
@@ -6022,7 +6022,7 @@
 			};
 		};
 
-		gpio@fd8a0000 {
+		gpio0: gpio@fd8a0000 {
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
 			clocks = <0x02 0x284 0x02 0x285>;
@@ -6035,7 +6035,7 @@
 			reg = <0x00 0xfd8a0000 0x00 0x100>;
 		};
 
-		gpio@fec20000 {
+		gpio1: gpio@fec20000 {
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
 			clocks = <0x02 0x7d 0x02 0x7e>;
@@ -6048,7 +6048,7 @@
 			reg = <0x00 0xfec20000 0x00 0x100>;
 		};
 
-		gpio@fec30000 {
+		gpio2: gpio@fec30000 {
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
 			clocks = <0x02 0x7f 0x02 0x80>;
@@ -6061,7 +6061,7 @@
 			reg = <0x00 0xfec30000 0x00 0x100>;
 		};
 
-		gpio@fec40000 {
+		gpio3: gpio@fec40000 {
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
 			clocks = <0x02 0x81 0x02 0x82>;
@@ -6074,7 +6074,7 @@
 			reg = <0x00 0xfec40000 0x00 0x100>;
 		};
 
-		gpio@fec50000 {
+		gpio4: gpio@fec50000 {
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
 			clocks = <0x02 0x83 0x02 0x84>;
@@ -10225,7 +10225,7 @@
 
 	sdmmc-regulator {
 		compatible = "regulator-fixed";
-		gpio = <0x123 0x04 0x01>;
+		gpio = <&gpio0 RK_PA4 0x01>;
 		phandle = <0xf7>;
 		pinctrl-0 = <0x1c0>;
 		pinctrl-names = "default";
@@ -11765,7 +11765,7 @@
 	vbus5v0-typec {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0xe3 0x0e 0x01>;
+		gpio = <&gpio4 RK_PB6 0x01>;
 		phandle = <0x11c>;
 		pinctrl-0 = <0x1af>;
 		pinctrl-names = "default";
@@ -11799,7 +11799,7 @@
 	vcc3v3-pcie2x1l0 {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpios = <0x123 0x0f 0x00>;
+		gpios = <&gpio0 RK_PB7 0x00>;
 		phandle = <0x18b>;
 		pinctrl-0 = <0x1c4>;
 		pinctrl-names = "default";
@@ -11812,7 +11812,7 @@
 
 	vcc3v3-pcie2x1l2 {
 		compatible = "regulator-fixed";
-		gpios = <0x18a 0x08 0x01>;
+		gpios = <&gpio2 RK_PB0 0x01>;
 		phandle = <0xef>;
 		pinctrl-0 = <0x1c3>;
 		pinctrl-names = "default";
@@ -12111,13 +12111,13 @@
 	};
 
 	wireless-bluetooth {
-		BT,reset_gpio = <0x123 0x08 0x01>;
+		BT,reset_gpio = <&gpio0 RK_PB0 0x01>;
 		compatible = "bluetooth-platdata";
 		phandle = <0x479>;
 		pinctrl-0 = <0x1c5 0x1c6>;
 		pinctrl-1 = <0x1c7>;
 		pinctrl-names = "default\0rts_gpio";
 		status = "okay";
-		uart_rts_gpios = <0xe3 0x14 0x01>;
+		uart_rts_gpios = <&gpio4 RK_PC4 0x01>;
 	};
 };
