@@ -71,7 +71,7 @@
 			regulator-enable-ramp-delay = <0x640>;
 			compatible = "regulator-fixed";
 			enable-active-high;
-			gpio = <0x4e3 0x0a 0x00>;
+			gpio = <&pmi8998_gpios 0x0a 0x00>;
 			status = "disabled";
 			phandle = <0x549>;
 			pinctrl-0 = <0x4ec>;
@@ -1633,20 +1633,20 @@
 			iommu-map = <0x00 0x28 0x1c10 0x01 0x100 0x28 0x1c11 0x01 0x200 0x28 0x1c12 0x01 0x300 0x28 0x1c13 0x01 0x400 0x28 0x1c14 0x01 0x500 0x28 0x1c15 0x01 0x600 0x28 0x1c16 0x01 0x700 0x28 0x1c17 0x01 0x800 0x28 0x1c18 0x01 0x900 0x28 0x1c19 0x01 0xa00 0x28 0x1c1a 0x01 0xb00 0x28 0x1c1b 0x01 0xc00 0x28 0x1c1c 0x01 0xd00 0x28 0x1c1d 0x01 0xe00 0x28 0x1c1e 0x01 0xf00 0x28 0x1c1f 0x01>;
 			qcom,msm-bus,name = "pcie0";
 			ranges = <0x1000000 0x00 0x60200000 0x60200000 0x00 0x100000 0x2000000 0x00 0x60300000 0x60300000 0x00 0xd00000>;
-			perst-gpio = <0x33 0x23 0x00>;
+			perst-gpio = <&tlmm 35 0x00>;
 			linux,pci-domain = <0x00>;
 			#interrupt-cells = <0x01>;
 			interrupt-parent = <0xa1>;
 			#address-cells = <0x03>;
-			3v3_gpio = <0x33 0x7d 0x00>;
+			3v3_gpio = <&tlmm 125 0x00>;
 			interrupts = <0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25>;
-			1v5_gpio = <0x33 0x06 0x00>;
+			1v5_gpio = <&tlmm 6 0x00>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0x8d 0x00 0x00 0x00 0x00 0x01 0x01 0x00 0x95 0x00 0x00 0x00 0x00 0x02 0x01 0x00 0x96 0x00 0x00 0x00 0x00 0x03 0x01 0x00 0x97 0x00 0x00 0x00 0x00 0x04 0x01 0x00 0x98 0x00 0x00 0x00 0x00 0x05 0x01 0x00 0x8c 0x00 0x00 0x00 0x00 0x06 0x01 0x00 0x2a0 0x00 0x00 0x00 0x00 0x07 0x01 0x00 0x2a1 0x00 0x00 0x00 0x00 0x08 0x01 0x00 0x2a2 0x00 0x00 0x00 0x00 0x09 0x01 0x00 0x2a3 0x00 0x00 0x00 0x00 0x0a 0x01 0x00 0x2a4 0x00 0x00 0x00 0x00 0x0b 0x01 0x00 0x2a5 0x00 0x00 0x00 0x00 0x0c 0x01 0x00 0x2a6 0x00 0x00 0x00 0x00 0x0d 0x01 0x00 0x2a7 0x00 0x00 0x00 0x00 0x0e 0x01 0x00 0x2a8 0x00 0x00 0x00 0x00 0x0f 0x01 0x00 0x2a9 0x00 0x00 0x00 0x00 0x10 0x01 0x00 0x2aa 0x00 0x00 0x00 0x00 0x11 0x01 0x00 0x2ab 0x00 0x00 0x00 0x00 0x12 0x01 0x00 0x2ac 0x00 0x00 0x00 0x00 0x13 0x01 0x00 0x2ad 0x00 0x00 0x00 0x00 0x14 0x01 0x00 0x2ae 0x00 0x00 0x00 0x00 0x15 0x01 0x00 0x2af 0x00 0x00 0x00 0x00 0x16 0x01 0x00 0x2b0 0x00 0x00 0x00 0x00 0x17 0x01 0x00 0x2b1 0x00 0x00 0x00 0x00 0x18 0x01 0x00 0x2b2 0x00 0x00 0x00 0x00 0x19 0x01 0x00 0x2b3 0x00 0x00 0x00 0x00 0x1a 0x01 0x00 0x2b4 0x00 0x00 0x00 0x00 0x1b 0x01 0x00 0x2b5 0x00 0x00 0x00 0x00 0x1c 0x01 0x00 0x2b6 0x00 0x00 0x00 0x00 0x1d 0x01 0x00 0x2b7 0x00 0x00 0x00 0x00 0x1e 0x01 0x00 0x2b8 0x00 0x00 0x00 0x00 0x1f 0x01 0x00 0x2b9 0x00 0x00 0x00 0x00 0x20 0x01 0x00 0x2ba 0x00 0x00 0x00 0x00 0x21 0x01 0x00 0x2bb 0x00 0x00 0x00 0x00 0x22 0x01 0x00 0x2bc 0x00 0x00 0x00 0x00 0x23 0x01 0x00 0x2bd 0x00 0x00 0x00 0x00 0x24 0x01 0x00 0x2be 0x00 0x00 0x00 0x00 0x25 0x01 0x00 0x2bf 0x00>;
 			qcom,use-19p2mhz-aux-clk;
 			#size-cells = <0x02>;
 			vreg-1.8-supply = <0x2d>;
 			phandle = <0xa1>;
-			wake-gpio = <0x33 0x25 0x00>;
+			wake-gpio = <&tlmm 37 0x00>;
 			pinctrl-2 = <0x265>;
 			qcom,vreg-1.8-voltage-level = <0x124f80 0x124f80 0x5dc0>;
 			qcom,aux-clk-sync;
@@ -1694,12 +1694,12 @@
 			phandle = <0x52d>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x52d>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -1716,12 +1716,12 @@
 			phandle = <0x524>;
 			qcom,dsi-ctrl = <0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c3>;
 			linux,phandle = <0x524>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -2162,12 +2162,12 @@
 			regulator-enable-ramp-delay = <0x64>;
 			compatible = "regulator-fixed";
 			enable-active-high;
-			gpio = <0x33 0x1b 0x00>;
+			gpio = <&tlmm 27 0x00>;
 			phandle = <0x4f6>;
-			regulator-min-microvolt = <0x2ab980>;
+			regulator-min-microvolt = <2800000>;
 			vin-supply = <0x34a>;
 			reg = <0x00 0x00>;
-			regulator-max-microvolt = <0x2ab980>;
+			regulator-max-microvolt = <2800000>;
 			regulator-name = "actuator_regulator";
 			linux,phandle = <0x4f6>;
 		};
@@ -2481,18 +2481,18 @@
 
 			lt9611@3b {
 				lt,mipi-ports-type = <0x00>;
-				lt,receiver-enable-gpio = <0x33 0x1f 0x00>;
+				lt,receiver-enable-gpio = <&tlmm 31 0x00>;
 				compatible = "lontium,lt9611";
-				lt,pwr-sys3v3-gpio = <0x33 0x7d 0x00>;
-				lt,pwr-enable-gpio = <0x33 0x32 0x00>;
-				lt,irq-gpio = <0x33 0x2c 0x00>;
-				lt,pwr-sys5v0-gpio = <0x33 0x0a 0x00>;
+				lt,pwr-sys3v3-gpio = <&tlmm 125 0x00>;
+				lt,pwr-enable-gpio = <&tlmm 50 0x00>;
+				lt,irq-gpio = <&tlmm 44 0x00>;
+				lt,pwr-sys5v0-gpio = <&tlmm 10 0x00>;
 				lt,mipi-lanes-type = <0x00>;
-				lt,secondary-hpd-irq-gpio = <0x33 0x34 0x00>;
+				lt,secondary-hpd-irq-gpio = <&tlmm 52 0x00>;
 				lt,video-format-id = <0x04>;
 				reg = <0x3b>;
-				lt,pwr-sys1v8-gpio = <0x33 0x06 0x00>;
-				lt,reset-gpio = <0x33 0x2a 0x00>;
+				lt,pwr-sys1v8-gpio = <&tlmm 6 0x00>;
+				lt,reset-gpio = <&tlmm 42 0x00>;
 			};
 
 			qcom,smb1355@8 {
@@ -3012,9 +3012,9 @@
 
 			sy6288 {
 				compatible = "Sil,sy6288";
-				over-cur-int = <0x33 0x03 0x00>;
+				over-cur-int = <&tlmm 3 0x00>;
 				pinctrl-0 = <0x2b5 0x2b6>;
-				power_enable = <0x33 0x02 0x00>;
+				power_enable = <&tlmm 2 0x00>;
 				pinctrl-names = "sy6288_pin_default";
 			};
 		};
@@ -3114,11 +3114,11 @@
 			phandle = <0x52b>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x52b>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -3146,12 +3146,12 @@
 			phandle = <0x522>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x522>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -3234,7 +3234,7 @@
 				qcom,msm-mi2s-master = <0x01 0x01 0x01 0x01>;
 				qcom,model = "sdm845-tavil-snd-card";
 				qcom,msm-mbhc-gnd-swh = <0x00>;
-				qcom,usbc-analog-en2-gpio = <0x33 0x33 0x00>;
+				qcom,usbc-analog-en2-gpio = <&tlmm 0x33 0x00>;
 				asoc-cpu-names = "msm-dai-q6-hdmi.8\0msm-dai-q6-dp.24608\0msm-dai-q6-mi2s.0\0msm-dai-q6-mi2s.1\0msm-dai-q6-mi2s.2\0msm-dai-q6-mi2s.3\0msm-dai-q6-auxpcm.1\0msm-dai-q6-auxpcm.2\0msm-dai-q6-auxpcm.3\0msm-dai-q6-auxpcm.4\0msm-dai-q6-dev.16384\0msm-dai-q6-dev.16385\0msm-dai-q6-dev.16386\0msm-dai-q6-dev.16387\0msm-dai-q6-dev.16388\0msm-dai-q6-dev.16389\0msm-dai-q6-dev.16390\0msm-dai-q6-dev.16391\0msm-dai-q6-dev.16392\0msm-dai-q6-dev.16393\0msm-dai-q6-dev.16395\0msm-dai-q6-dev.224\0msm-dai-q6-dev.225\0msm-dai-q6-dev.241\0msm-dai-q6-dev.240\0msm-dai-q6-dev.32771\0msm-dai-q6-dev.32772\0msm-dai-q6-dev.32773\0msm-dai-q6-dev.32770\0msm-dai-q6-dev.16394\0msm-dai-q6-dev.16396\0msm-dai-q6-dev.16398\0msm-dai-q6-dev.16399\0msm-dai-q6-dev.16401\0msm-dai-q6-dev.28672\0msm-dai-q6-dev.28673\0msm-dai-q6-tdm.36864\0msm-dai-q6-tdm.36865\0msm-dai-q6-tdm.36880\0msm-dai-q6-tdm.36881\0msm-dai-q6-tdm.36896\0msm-dai-q6-tdm.36897\0msm-dai-q6-tdm.36912\0msm-dai-q6-tdm.36913";
 				pinctrl-4 = <0x43d 0x441>;
 				qcom,hph-en1-gpio = <0x50e>;
@@ -3997,7 +3997,7 @@
 			pinctrl-names = "default";
 
 			vol_up {
-				gpios = <0x2f5 0x06 0x01>;
+				gpios = <&pm8998_gpios 0x06 0x01>;
 				linux,can-disable;
 				debounce-interval = <0x0f>;
 				label = "volume_up";
@@ -4007,7 +4007,7 @@
 			};
 
 			cam_snapshot {
-				gpios = <0x2f5 0x05 0x01>;
+				gpios = <&pm8998_gpios 0x05 0x01>;
 				linux,can-disable;
 				debounce-interval = <0x0f>;
 				label = "cam_snapshot";
@@ -4165,12 +4165,12 @@
 			phandle = <0x520>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x520>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -4536,16 +4536,16 @@
 			nq@28 {
 				compatible = "qcom,nq-nci";
 				pinctrl-1 = <0x465 0x467>;
-				qcom,nq-firm = <0x33 0x3e 0x00>;
-				qcom,nq-irq = <0x33 0x3f 0x00>;
-				qcom,nq-ven = <0x33 0x0c 0x00>;
-				qcom,nq-clkreq = <0x2f5 0x15 0x00>;
+				qcom,nq-firm = <&tlmm 0x3e 0x00>;
+				qcom,nq-irq = <&tlmm 0x3f 0x00>;
+				qcom,nq-ven = <&tlmm 0x0c 0x00>;
+				qcom,nq-clkreq = <&pm8998_gpios 0x15 0x00>;
 				interrupt-parent = <0x33>;
 				interrupts = <0x3f 0x00>;
 				reg = <0x28>;
 				pinctrl-0 = <0x464 0x466 0x2fc>;
 				interrupt-names = "nfc_irq";
-				qcom,nq-esepwr = <0x33 0x74 0x00>;
+				qcom,nq-esepwr = <&tlmm 0x74 0x00>;
 				pinctrl-names = "nfc_active\0nfc_suspend";
 			};
 		};
@@ -4606,7 +4606,7 @@
 			};
 		};
 
-		pinctrl@03400000 {
+		tlmm: pinctrl@03400000 {
 			compatible = "qcom,sdm845-pinctrl-v2";
 			gpio-controller;
 			#interrupt-cells = <0x02>;
@@ -8959,7 +8959,7 @@
 			pinctrl-0 = <0x411>;
 			qcom,dsi-phy = <0x2c2>;
 			linux,phandle = <0x531>;
-			qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 			qcom,dsi-display-active;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
@@ -9009,7 +9009,7 @@
 			iommu-map = <0x00 0x28 0x1c00 0x01 0x100 0x28 0x1c01 0x01 0x200 0x28 0x1c02 0x01 0x300 0x28 0x1c03 0x01 0x400 0x28 0x1c04 0x01 0x500 0x28 0x1c05 0x01 0x600 0x28 0x1c06 0x01 0x700 0x28 0x1c07 0x01 0x800 0x28 0x1c08 0x01 0x900 0x28 0x1c09 0x01 0xa00 0x28 0x1c0a 0x01 0xb00 0x28 0x1c0b 0x01 0xc00 0x28 0x1c0c 0x01 0xd00 0x28 0x1c0d 0x01 0xe00 0x28 0x1c0e 0x01 0xf00 0x28 0x1c0f 0x01>;
 			qcom,msm-bus,name = "pcie1";
 			ranges = <0x1000000 0x00 0x40200000 0x40200000 0x00 0x100000 0x2000000 0x00 0x40300000 0x40300000 0x00 0x1fd00000>;
-			perst-gpio = <0x33 0x66 0x00>;
+			perst-gpio = <&tlmm 102 0x00>;
 			linux,pci-domain = <0x01>;
 			#interrupt-cells = <0x01>;
 			interrupt-parent = <0x268>;
@@ -9020,7 +9020,7 @@
 			#size-cells = <0x02>;
 			vreg-1.8-supply = <0x2d>;
 			phandle = <0x268>;
-			wake-gpio = <0x33 0x0b 0x00>;
+			wake-gpio = <&tlmm 11 0x00>;
 			qcom,vreg-1.8-voltage-level = <0x124f80 0x124f80 0x5dc0>;
 			qcom,aux-clk-sync;
 			reg = <0x1c08000 0x2000 0x1c0a000 0x2000 0x40000000 0xf1d 0x40000f20 0xa8 0x40100000 0x100000 0x40200000 0x100000 0x40300000 0x1fd00000>;
@@ -9200,7 +9200,7 @@
 			sn3193@68 {
 				compatible = "si-en,sn3193";
 				si-en,i2c-pull-up;
-				si-en,sdb-gpio = <0x33 0x68 0x00>;
+				si-en,sdb-gpio = <&tlmm 104 0x00>;
 				reg = <0x68>;
 			};
 		};
@@ -9255,12 +9255,12 @@
 			phandle = <0x51e>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x51e>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -9743,7 +9743,7 @@
 			pinctrl-0 = <0x411>;
 			qcom,dsi-phy = <0x2c3>;
 			linux,phandle = <0x530>;
-			qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -9970,7 +9970,7 @@
 				};
 			};
 
-			qcom,pm8998@0 {
+			pm8998_lsid0: qcom,pm8998@0 {
 				compatible = "qcom,spmi-pmic";
 				#address-cells = <0x02>;
 				#size-cells = <0x00>;
@@ -10013,7 +10013,7 @@
 					linux,phandle = <0x2f4>;
 				};
 
-				qcom,power-on@800 {
+				pm8998_pon: qcom,power-on@800 {
 					qcom,system-reset;
 					compatible = "qcom,qpnp-power-on";
 					qcom,pon-dbc-delay = <0x3d09>;
@@ -10023,7 +10023,7 @@
 					interrupt-names = "kpdpwr\0resin\0resin-bark\0kpdpwr-resin-bark";
 					qcom,store-hard-reset-reason;
 
-					qcom,pon_1 {
+					pm8998_pwrkey: qcom,pon_1 {
 						qcom,s2-type = <0x07>;
 						qcom,s1-timer = <0x1a40>;
 						qcom,support-reset = <0x01>;
@@ -10050,7 +10050,7 @@
 					};
 				};
 
-				vadc@3100 {
+				pm8998_adc: vadc@3100 {
 					qcom,adc-vdd-reference = <0x753>;
 					compatible = "qcom,qpnp-vadc-hc";
 					#address-cells = <0x01>;
@@ -10175,7 +10175,7 @@
 					};
 				};
 
-				vadc@3400 {
+				pm8998_adc_tm: vadc@3400 {
 					qcom,adc-vdd-reference = <0x753>;
 					compatible = "qcom,qpnp-adc-tm-hc";
 					qcom,decimation = <0x00>;
@@ -10274,7 +10274,7 @@
 					qcom,clkdiv-init-freq = <0x124f800>;
 				};
 
-				pinctrl@c000 {
+				pm8998_gpios: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					gpio-controller;
 					qcom,gpios-disallowed = <0x03 0x0f 0x14 0x16 0x18 0x19 0x1a>;
@@ -10431,7 +10431,7 @@
 				reg = <0x03 0x00>;
 				linux,phandle = <0x53a>;
 
-				pwm@b300 {
+				pmi8998_flash: pwm@b300 {
 					compatible = "qcom,qpnp-pwm";
 					reg-names = "qpnp-lpg-channel-base\0qpnp-lpg-lut-base";
 					qcom,channel-id = <0x03>;
@@ -10472,7 +10472,7 @@
 					#pwm-cells = <0x02>;
 				};
 
-				qcom,leds@d800 {
+				pmi8998_wled: qcom,leds@d800 {
 					qcom,boost-duty-ns = <0x1a>;
 					qcom,hyb-thres = <0x271>;
 					compatible = "qcom,qpnp-wled";
@@ -10515,7 +10515,7 @@
 					#pwm-cells = <0x02>;
 				};
 
-				qcom,haptics@c000 {
+				pmi8998_haptics: qcom,haptics@c000 {
 					qcom,lra-auto-res-mode = "qwd";
 					compatible = "qcom,qpnp-haptics";
 					qcom,pmic-misc = <0x4e7>;
@@ -10836,7 +10836,7 @@
 					linux,phandle = <0x304>;
 				};
 
-				pinctrl@c000 {
+				pm8005_gpios: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					gpio-controller;
 					qcom,gpios-disallowed = <0x03 0x04>;
@@ -10859,7 +10859,7 @@
 				};
 			};
 
-			qcom,pm8998@1 {
+			pm8998_lsid1: qcom,pm8998@1 {
 				compatible = "qcom,spmi-pmic";
 				#address-cells = <0x02>;
 				#size-cells = <0x00>;
@@ -10969,7 +10969,7 @@
 
 				qcom,power_red_led@700 {
 					compatible = "qcom,led_red";
-					ctr-gpio = <0x4e3 0x08 0x00>;
+					ctr-gpio = <&pmi8998_gpios 0x08 0x00>;
 					reg = <0xc700 0x100>;
 				};
 
@@ -11050,7 +11050,7 @@
 					interrupt-names = "bcl-high-ibat\0bcl-very-high-ibat\0bcl-low-vbat\0bcl-very-low-vbat\0bcl-crit-low-vbat";
 				};
 
-				rradc@4500 {
+				pmi8998_rradc: rradc@4500 {
 					compatible = "qcom,rradc";
 					qcom,pmic-revid = <0x4dd>;
 					#io-channel-cells = <0x01>;
@@ -11061,7 +11061,7 @@
 					linux,phandle = <0x4dc>;
 				};
 
-				pinctrl@c000 {
+				pmi8998_gpios: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					gpio-controller;
 					qcom,gpios-disallowed = <0x04 0x07 0x0d>;
@@ -11274,9 +11274,9 @@
 			compatible = "regulator-fixed";
 			enable-active-high;
 			phandle = <0x4f9>;
-			regulator-min-microvolt = <0x100590>;
+			regulator-min-microvolt = <1050000>;
 			reg = <0x03 0x00>;
-			regulator-max-microvolt = <0x100590>;
+			regulator-max-microvolt = <1050000>;
 			regulator-name = "camera_vdig_ldo";
 			linux,phandle = <0x4f9>;
 		};
@@ -11698,7 +11698,7 @@
 			status = "ok";
 			#interrupt-cells = <0x01>;
 			interrupt-parent = <0x33>;
-			qcom,gpio-connect = <0x33 0x36 0x00>;
+			qcom,gpio-connect = <&tlmm 54 0x00>;
 			phandle = <0x515>;
 			pinctrl-0 = <0x3ec>;
 			linux,phandle = <0x515>;
@@ -11998,13 +11998,13 @@
 			phandle = <0x52e>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			oled-vdda-supply = <0x345>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x52e>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -12310,7 +12310,7 @@
 					compatible = "qcom,swr-wcd";
 					#address-cells = <0x02>;
 					#size-cells = <0x00>;
-					power_enable = <0x33 0x15 0x00>;
+					power_enable = <&tlmm 21 0x00>;
 
 					wsa881x@20170212 {
 						compatible = "qcom,wsa881x";
@@ -12441,7 +12441,7 @@
 		};
 
 		qcom,cci@ac4a000 {
-			gpios = <0x33 0x11 0x00 0x33 0x12 0x00 0x33 0x13 0x00 0x33 0x14 0x00>;
+			gpios = <&tlmm 0x11 0x00 &tlmm 0x12 0x00 &tlmm 0x13 0x00 &tlmm 0x14 0x00>;
 			clock-rates = <0x00 0x00 0x00 0x00 0x00 0x23c3460>;
 			compatible = "qcom,cci";
 			clocks = <0xa5 0x06 0xa5 0x55 0xa5 0x54 0xa5 0x09 0xa5 0x07 0xa5 0x08>;
@@ -12469,7 +12469,7 @@
 			clock-cntl-level = "lowsvs";
 
 			qcom,cam-sensor@3 {
-				gpios = <0x33 0x10 0x00 0x33 0x09 0x00>;
+				gpios = <&tlmm 0x10 0x00 &tlmm 0x09 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,cam-sensor";
@@ -12553,7 +12553,7 @@
 			};
 
 			qcom,cam-sensor@1 {
-				gpios = <0x33 0x0e 0x00 0x33 0x07 0x00 0x33 0x54 0x00>;
+				gpios = <&tlmm 0x0e 0x00 &tlmm 0x07 0x00 &tlmm 0x54 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,cam-sensor";
@@ -12589,7 +12589,7 @@
 			};
 
 			qcom,eeprom@1 {
-				gpios = <0x33 0x0f 0x00 0x33 0x09 0x00>;
+				gpios = <&tlmm 0x0f 0x00 &tlmm 0x09 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,eeprom";
@@ -12639,7 +12639,7 @@
 			};
 
 			qcom,cam-sensor@2 {
-				gpios = <0x33 0x0f 0x00 0x33 0x0c 0x00 0x33 0x57 0x00 0x33 0x29 0x00>;
+				gpios = <&tlmm 0x0f 0x00 &tlmm 0x0c 0x00 &tlmm 0x57 0x00 &tlmm 0x29 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,cam-sensor";
@@ -12691,7 +12691,7 @@
 			};
 
 			qcom,eeprom@2 {
-				gpios = <0x33 0x0e 0x00 0x33 0x1c 0x00>;
+				gpios = <&tlmm 0x0e 0x00 &tlmm 0x1c 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,eeprom";
@@ -12726,7 +12726,7 @@
 			};
 
 			qcom,cam-sensor@0 {
-				gpios = <0x33 0x0d 0x00 0x33 0x09 0x00 0x33 0x08 0x00>;
+				gpios = <&tlmm 0x0d 0x00 &tlmm 0x09 0x00 &tlmm 0x08 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,cam-sensor";
@@ -12796,7 +12796,7 @@
 			};
 
 			qcom,eeprom@0 {
-				gpios = <0x33 0x0d 0x00 0x33 0x50 0x00 0x33 0x4f 0x00>;
+				gpios = <&tlmm 0x0d 0x00 &tlmm 0x50 0x00 &tlmm 0x4f 0x00>;
 				clock-rates = <0x16e3600>;
 				gpio-no-mux = <0x00>;
 				compatible = "qcom,eeprom";
@@ -12923,11 +12923,11 @@
 			regulator-enable-ramp-delay = <0x87>;
 			compatible = "regulator-fixed";
 			enable-active-high;
-			gpio = <0x2f5 0x0c 0x00>;
+			gpio = <&pm8998_gpios 12 0x00>;
 			phandle = <0x4f7>;
-			regulator-min-microvolt = <0x100590>;
+			regulator-min-microvolt = <1050000>;
 			reg = <0x01 0x00>;
-			regulator-max-microvolt = <0x100590>;
+			regulator-max-microvolt = <1050000>;
 			pinctrl-0 = <0x2fb>;
 			regulator-name = "camera_rear_ldo";
 			linux,phandle = <0x4f7>;
@@ -13325,7 +13325,7 @@
 				qcom,smmu-support;
 				vdd-supply = <0xa2>;
 				qcom,pcie-parent = <0xa1>;
-				qcom,wigig-en = <0x33 0x27 0x00>;
+				qcom,wigig-en = <&tlmm 0x27 0x00>;
 				linux,phandle = <0x311>;
 				qcom,smmu-coherent;
 				qcom,smmu-fast-map;
@@ -13524,12 +13524,12 @@
 			phandle = <0x52c>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x52c>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -13557,12 +13557,12 @@
 			phandle = <0x523>;
 			qcom,dsi-ctrl = <0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c3>;
 			linux,phandle = <0x523>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -16522,12 +16522,12 @@
 			vdda-1p2-supply = <0x2d>;
 			qcom,aux-cfg2-settings = [28 24];
 			gdsc-supply = <0x19>;
-			qcom,usbplug-cc-gpio = <0x33 0x26 0x00>;
+			qcom,usbplug-cc-gpio = <&tlmm 0x26 0x00>;
 			qcom,aux-cfg9-settings = [44 03];
 			interrupt-parent = <0x2b>;
 			interrupts = <0x0c 0x00>;
 			qcom,aux-cfg6-settings = [38 0a];
-			qcom,aux-en-gpio = <0x33 0x2b 0x00>;
+			qcom,aux-en-gpio = <&tlmm 0x2b 0x00>;
 			phandle = <0x2c4>;
 			qcom,aux-cfg3-settings = [2c 00];
 			pinctrl-2 = <0x2fd>;
@@ -16535,7 +16535,7 @@
 			qcom,dp-usbpd-detection = <0x4d9>;
 			qcom,aux-cfg0-settings = [20 00];
 			pinctrl-0 = <0x415 0x417>;
-			qcom,aux-sel-gpio = <0x33 0x33 0x00>;
+			qcom,aux-sel-gpio = <&tlmm 0x33 0x00>;
 			linux,phandle = <0x2c4>;
 			qcom,aux-cfg7-settings = [3c 03];
 			vdda-0p9-supply = <0x2e>;
@@ -16982,18 +16982,18 @@
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-panel-hdr-color-primaries = <0x38a4 0x3c8c 0x7d00 0x4268 0x3c8c 0x7530 0x1f40 0xbb8>;
 				qcom,mdss-dsi-wr-mem-continue = <0x3c>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-panel-blackness-level = <0xc9e>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
-				qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+				qcom,platform-te-gpio = <&tlmm 10 0x00>;
 				qcom,panel-supply-entries = <0x4be>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4c9>;
 				qcom,mdss-dsi-panel-on-check-value = <0x9c>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,adjust-timer-wakeup-ms = <0x01>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -17079,18 +17079,18 @@
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-panel-hdr-color-primaries = <0x38a4 0x3c8c 0x7d00 0x4268 0x3c8c 0x7530 0x1f40 0xbb8>;
 				qcom,mdss-dsi-wr-mem-continue = <0x3c>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-panel-blackness-level = <0xc9e>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
-				qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+				qcom,platform-te-gpio = <&tlmm 10 0x00>;
 				qcom,panel-supply-entries = <0x4be>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4ca>;
 				qcom,mdss-dsi-panel-on-check-value = <0x9c>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,adjust-timer-wakeup-ms = <0x01>;
 				qcom,mdss-dsi-t-clk-post = <0x0b>;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -17162,7 +17162,7 @@
 				qcom,mdss-dsi-panel-status-value = <0x9c>;
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-panel-hdr-color-primaries = <0x38a4 0x3c8c 0x7d00 0x4268 0x3c8c 0x7530 0x1f40 0xbb8>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-panel-blackness-level = <0xc9e>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
@@ -17172,7 +17172,7 @@
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4cb>;
 				qcom,mdss-dsi-panel-on-check-value = <0x9c>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0b>;
 
 				qcom,mdss-dsi-display-timings {
@@ -17245,7 +17245,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d7>;
-				qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-post-init-delay = <0x01>;
 				qcom,mdss-dsi-panel-controller = <0x2c0>;
@@ -17377,7 +17377,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d0>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,adjust-timer-wakeup-ms = <0x01>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,panel-ack-disabled;
@@ -17556,7 +17556,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4cc>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,panel-ack-disabled;
 
@@ -17618,16 +17618,16 @@
 				qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-wr-mem-continue = <0x3c>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
-				qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+				qcom,platform-te-gpio = <&tlmm 10 0x00>;
 				qcom,panel-supply-entries = <0x4be>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d3>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,adjust-timer-wakeup-ms = <0x01>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -17710,7 +17710,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4ce>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0c>;
 				qcom,panel-ack-disabled;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -17855,7 +17855,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d6>;
-				qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-post-init-delay = <0x01>;
 
@@ -17980,7 +17980,7 @@
 				qcom,mdss-dsi-panel-status-value = <0x9c>;
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-panel-hdr-color-primaries = <0x38a4 0x3c8c 0x7d00 0x4268 0x3c8c 0x7530 0x1f40 0xbb8>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-panel-blackness-level = <0xc9e>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
@@ -17990,7 +17990,7 @@
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4c8>;
 				qcom,mdss-dsi-panel-on-check-value = <0x9c>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 
 				qcom,mdss-dsi-display-timings {
@@ -18118,7 +18118,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d8>;
-				qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-post-init-delay = <0x01>;
 
@@ -18185,7 +18185,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4cf>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,panel-ack-disabled;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -18356,7 +18356,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d1>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,panel-ack-disabled;
 				qcom,mdss-dsi-wr-mem-start = <0x2c>;
@@ -18493,7 +18493,7 @@
 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
 				qcom,mdss-pan-physical-height-dimension = <0x83>;
 				qcom,mdss-dsi-panel-hdr-color-primaries = <0x38a4 0x3c8c 0x7d00 0x4268 0x3c8c 0x7530 0x1f40 0xbb8>;
-				qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+				qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 				qcom,mdss-dsi-panel-blackness-level = <0xc9e>;
 				qcom,mdss-dsi-bl-max-level = <0xfff>;
 				qcom,mdss-dsi-lane-1-state;
@@ -18503,7 +18503,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4d2>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 
 				qcom,mdss-dsi-display-timings {
@@ -18633,7 +18633,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x51b>;
-				qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,mdss-dsi-post-init-delay = <0x01>;
 
@@ -18690,7 +18690,7 @@
 				qcom,mdss-dsi-stream = <0x00>;
 				qcom,mdss-dsi-traffic-mode = "non_burst_sync_event";
 				linux,phandle = <0x4cd>;
-				qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 				qcom,mdss-dsi-t-clk-post = <0x0d>;
 				qcom,panel-ack-disabled;
 				qcom,mdss-dsi-panel-broadcast-mode;
@@ -19153,11 +19153,11 @@
 			phandle = <0x521>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x521>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -20157,7 +20157,7 @@
 			pinctrl-0 = <0x411>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x532>;
-			qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -20377,12 +20377,12 @@
 			phandle = <0x51f>;
 			qcom,dsi-ctrl = <0x2c0>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2>;
 			linux,phandle = <0x51f>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -21080,7 +21080,7 @@
 			qcom,vdd-io-voltage-level = <0x1b9680 0x2d2a80>;
 			clock-names = "iface_clk\0core_clk";
 			qcom,bus-width = <0x04>;
-			cd-gpios = <0x33 0x7e 0x01>;
+			cd-gpios = <&tlmm 126 0x01>;
 			qcom,bus-speed-mode = "SDR12\0SDR25\0SDR50\0DDR50\0SDR104";
 			qcom,pm-qos-legacy-latency-us = <0x46 0x46 0x46 0x46>;
 			qcom,clk-rates = <0x61a80 0x1312d00 0x17d7840 0x2faf080 0x5f5e100 0xc02a560>;
@@ -21418,9 +21418,9 @@
 			compatible = "regulator-fixed";
 			enable-active-high;
 			phandle = <0x4fb>;
-			regulator-min-microvolt = <0x2b7cd0>;
+			regulator-min-microvolt = <2850000>;
 			reg = <0x04 0x00>;
-			regulator-max-microvolt = <0x2b7cd0>;
+			regulator-max-microvolt = <2850000>;
 			regulator-name = "camera_vana_ldo";
 			linux,phandle = <0x4fb>;
 		};
@@ -21455,12 +21455,12 @@
 			phandle = <0x51d>;
 			qcom,dsi-ctrl = <0x2c0 0x2c1>;
 			qcom,display-type = "primary";
-			qcom,panel-mode-gpio = <0x33 0x34 0x00>;
+			qcom,panel-mode-gpio = <&tlmm 52 0x00>;
 			pinctrl-0 = <0x411 0x413>;
-			qcom,platform-te-gpio = <0x33 0x0a 0x00>;
+			qcom,platform-te-gpio = <&tlmm 10 0x00>;
 			qcom,dsi-phy = <0x2c2 0x2c3>;
 			linux,phandle = <0x51d>;
-			qcom,platform-reset-gpio = <0x33 0x06 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 6 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -22254,7 +22254,7 @@
 			pinctrl-0 = <0x411>;
 			qcom,dsi-phy = <0x2c2>;
 			linux,phandle = <0x52f>;
-			qcom,platform-reset-gpio = <0x33 0x58 0x00>;
+			qcom,platform-reset-gpio = <&tlmm 88 0x00>;
 			pinctrl-names = "panel_active\0panel_suspend";
 		};
 
@@ -22518,7 +22518,7 @@
 			regulator-enable-ramp-delay = <0xe9>;
 			compatible = "regulator-fixed";
 			enable-active-high;
-			gpio = <0x2f5 0x09 0x00>;
+			gpio = <&pm8998_gpios 9 0x00>;
 			phandle = <0x4f8>;
 			regulator-min-microvolt = <0x100590>;
 			reg = <0x02 0x00>;
@@ -25301,7 +25301,7 @@
 		msm_cdc_pinctrl@64 {
 			compatible = "qcom,msm-cdc-pinctrl";
 			pinctrl-1 = <0x400>;
-			qcom,cdc-rst-n-gpio = <0x33 0x40 0x00>;
+			qcom,cdc-rst-n-gpio = <&tlmm 0x40 0x00>;
 			phandle = <0x516>;
 			pinctrl-0 = <0x401>;
 			linux,phandle = <0x516>;
