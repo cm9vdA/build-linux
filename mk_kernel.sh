@@ -27,12 +27,14 @@ init() {
 	fi
 
 	# Common Variable
+	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
 	export PATH=${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
+	export KERNELRELEASE=${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}
 
 	BUILD_PATH=${WORKSPACE_PATH}/.build
-	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} INSTALL_MOD_STRIP=1"
+	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} INSTALL_MOD_STRIP=1 KERNELRELEASE=${KERNELRELEASE}"
 
 	if [ "${ARCH_DEFCONFIG}" != "" ]; then
 		DEFCONFIG=${ARCH_DEFCONFIG}
@@ -41,10 +43,6 @@ init() {
 	if [ "${LINK_DEFCONFIG}" != "" ]; then
 		DEFCONFIG=${LINK_DEFCONFIG}
 	fi
-
-	cd ${KERNEL_SRC}
-	KERNEL_VERSION=$(make kernelversion)
-	cd ${WORKSPACE_PATH}
 }
 
 build_info() {
@@ -53,6 +51,7 @@ build_info() {
 	echo -e "CPU_INFO:         ${CPU_INFO}"
 	echo -e "DT_FILE:          ${DT_FILE}.dts"
 	echo -e "ARCH:             ${ARCH}"
+	echo -e "KERNEL_URL:       ${KERNEL_URL}"
 	echo -e "KERNEL_VERSION:   ${KERNEL_VERSION}"
 	echo -e "DEFCONFIG:        ${DEFCONFIG}"
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"

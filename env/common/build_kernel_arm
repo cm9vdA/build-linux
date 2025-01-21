@@ -6,5 +6,7 @@ TOOLCHAIN_VERSION=12.3.rel1
 TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-arm-none-eabi
 KERNEL_TARGET="zImage"
+KERNEL_BRANCH="mainline"
+KERNEL_URL="https://www.kernel.org/"
 ARCH_DEFCONFIG="defconfig"
 DT_LINK=1
