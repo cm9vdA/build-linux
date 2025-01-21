@@ -10,7 +10,7 @@ DT_FILE="sda845-thundercomm-ai-kit"
 ARCH_DEFCONFIG="sdm845.config"
 KERNEL_FMT=gzip
 KERNEL_BRANCH="sdm845-mainline"
-KERNEL_URL="https://gitlab.com/sdm845-mainline/linux.git"
+KERNEL_RECOMMEND="https://gitlab.com/sdm845-mainline/linux.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

@@ -27,10 +27,10 @@ init() {
 	fi
 
 	# Common Variable
-	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
 	export PATH=${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
+	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
 	export KERNELRELEASE=${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}
 
 	BUILD_PATH=${WORKSPACE_PATH}/.build
@@ -43,6 +43,11 @@ init() {
 	if [ "${LINK_DEFCONFIG}" != "" ]; then
 		DEFCONFIG=${LINK_DEFCONFIG}
 	fi
+
+	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url)
+	if [ $? -ne 0 ]; then
+		KERNEL_CURRENT="Archive File"
+	fi
 }
 
 build_info() {
@@ -51,8 +56,9 @@ build_info() {
 	echo -e "CPU_INFO:         ${CPU_INFO}"
 	echo -e "DT_FILE:          ${DT_FILE}.dts"
 	echo -e "ARCH:             ${ARCH}"
-	echo -e "KERNEL_URL:       ${KERNEL_URL}"
 	echo -e "KERNEL_VERSION:   ${KERNEL_VERSION}"
+	echo -e "KERNEL_CURRENT:   ${KERNEL_CURRENT}"
+	echo -e "KERNEL_RECOMMEND: ${KERNEL_RECOMMEND}"
 	echo -e "DEFCONFIG:        ${DEFCONFIG}"
 	echo -e "BUILD_ARGS:       ${BUILD_ARGS}"
 	echo -e "CROSS_COMPILE:    ${CROSS_COMPILE}"
