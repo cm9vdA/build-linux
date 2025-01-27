@@ -21,16 +21,7 @@
 	qcom,msm-id = <341 0x20001>;
 	qcom,board-id = <8 0>;
 
-/*
-i2c2:	PI3HDX1204
-i2c5:	IS31FL319
-i2c10:	LT9611
-
-*/
-
 	aliases {
-		i2c0 = &i2c10; // lt9611
-
 		serial0 = &uart9; // debug TTL
 		serial1 = &uart6; // bt
 	};
@@ -135,17 +126,21 @@ i2c10:	LT9611
 		regulator-always-on;
 	};
 
-	ext_5v_boost: ext-5v-boost {
+	usb0_5v0: usb0-5v0 {
 		compatible = "regulator-fixed";
-		regulator-name = "ext_5v_boost";
+		regulator-name = "usb0_5v0";
+
+		vin-supply = <&vdc_5v>;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		regulator-enable-ramp-delay = <1600>;
+		
+		gpio = <&tlmm 49 GPIO_ACTIVE_HIGH>; // test
 		enable-active-high;
-		gpio = <&pmi8998_gpios 10 GPIO_ACTIVE_HIGH>; // bsp
+		regulator-boot-on;
+		regulator-always-on;
+		
 		pinctrl-names = "default";
-		vin-supply = <&vdc_5v>;
-		pinctrl-0 = <&usb2_ext_5v_boost_pin>; // bsp
+		pinctrl-0 = <&usb0_en_pin>;
 	};
 
 	pcie0_1p5v: pcie-0-1p5v-regulator {
@@ -253,7 +248,6 @@ i2c10:	LT9611
 
 &adsp_pas {
 	status = "okay";
-
 	firmware-name = "qcom/sdm845/adsp.mbn";
 };
 
@@ -398,12 +392,6 @@ i2c10:	LT9611
 	};
 };
 
-&camss {
-	status = "okay";
-
-	vdda-phy-supply = <&vreg_l1a_0p875>;
-	vdda-pll-supply = <&vreg_l26a_1p2>;
-};
 
 &cdsp_pas {
 	status = "okay";
@@ -440,6 +428,8 @@ i2c10:	LT9611
 
 &i2c5 {
 	status = "okay";
+	clock-frequency = <400000>;
+
 	led-controller@68 {
 		compatible = "si-en,sn3193";
 		reg = <0x68>;
@@ -695,8 +685,18 @@ i2c10:	LT9611
 };
 
 &pmi8998_gpios {
-	usb2_ext_5v_boost_pin: usb2-ext-5v-boost-pin {
-		pins = "gpio10"; // bsp
+	fan_pin: fan-pin {
+		pins = "gpio4"; // test
+		function = "normal";
+		bias-disable;
+		drive-push-pull;
+		output-low;
+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
+		power-source = <0>;
+	};
+
+	power_red_led_pin: power-red-led-pin {
+		pins = "gpio7"; // test
 		function = "normal";
 		bias-disable;
 		drive-push-pull;
@@ -712,20 +712,24 @@ i2c10:	LT9611
 	qcom,power-source = <1>;
 
 	led@3 {
-		reg = <3>;
-		color = <LED_COLOR_ID_GREEN>;
-		function = LED_FUNCTION_HEARTBEAT;
-		function-enumerator = <3>;
-
-		linux,default-trigger = "heartbeat";
-		default-state = "on";
+		reg = <3>;  // power blue
+		color = <LED_COLOR_ID_BLUE>;
+		function = "power";
+		function-enumerator = <1>;
 	};
 
 	led@4 {
-		reg = <4>;
+		reg = <4>; // power green
 		color = <LED_COLOR_ID_GREEN>;
-		function = LED_FUNCTION_INDICATOR;
-		function-enumerator = <2>;
+		function = "power";
+function-enumerator = <2>;
+	};
+
+	led@5 {
+		reg = <5>; // camera green
+		color = <LED_COLOR_ID_GREEN>;
+		function = "camera";
+		function-enumerator = <3>;
 	};
 };
 
@@ -877,6 +881,18 @@ i2c10:	LT9611
 };
 
 &tlmm {
+usb0_en_pin: usb0-en-pin {
+		pins = "gpio49"; // test
+		function = "gpio";
+		output-high;
+	};
+
+	// usb1_en_pin: usb1-en-pin {
+	// 	pins = "gpio51";
+	// 	function = "gpio";
+	// 	output-high;
+	// };
+
 	actuator_regulator: actuator_regulator_pin {
 		pins = "gpio27"; // bsp
 		function = "gpio";
