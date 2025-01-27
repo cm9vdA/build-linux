@@ -2,7 +2,7 @@ export ARCH=arm64
 export CROSS_COMPILE=aarch64-none-elf-
 
 HOST_ARCH=$(uname -m)
-TOOLCHAIN_VERSION=12.3.rel1
+TOOLCHAIN_VERSION=14.2.rel1
 TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-aarch64-none-elf
 KERNEL_TARGET="Image"

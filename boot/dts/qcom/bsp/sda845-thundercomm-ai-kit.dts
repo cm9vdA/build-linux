@@ -71,7 +71,7 @@
 			regulator-enable-ramp-delay = <0x640>;
 			compatible = "regulator-fixed";
 			enable-active-high;
-			gpio = <&pmi8998_gpios 0x0a 0x00>;
+			gpio = <&pmi8998_gpios 10 0x00>;
 			status = "disabled";
 			phandle = <0x549>;
 			pinctrl-0 = <0x4ec>;
@@ -10969,7 +10969,7 @@
 
 				qcom,power_red_led@700 {
 					compatible = "qcom,led_red";
-					ctr-gpio = <&pmi8998_gpios 0x08 0x00>;
+					ctr-gpio = <&pmi8998_gpios 8 0x00>;
 					reg = <0xc700 0x100>;
 				};
 
