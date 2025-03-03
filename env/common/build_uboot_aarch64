@@ -9,3 +9,4 @@ TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-aarch64-none-
 ARM_TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-arm-none-eabi
 ARCH_DEFCONFIG="qemu_arm64_defconfig"
 DT_LINK=1
+DT_TYPE="mainline"

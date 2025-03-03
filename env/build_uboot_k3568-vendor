@@ -1,0 +1,20 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="LZ-K3568"
+CPU_INFO="Rockchip RK3568"
+LINK_DEFCONFIG="k3568-rk3568_defconfig"
+VENDOR="rockchip"
+DT_FILE="rk3568-lz-k3568"
+DT_TYPE="vendor"
+
+# ATF
+# git clone https://github.com/ARM-software/arm-trusted-firmware.git
+# make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3568
+ATF_PLAT="rk3568"
+export BL31=${SCRIPT_PATH}/u-boot/rockchip/common/rk3568_bl31.elf
+
+# TPL
+# https://github.com/rockchip-linux/rkbin
+export ROCKCHIP_TPL=${SCRIPT_PATH}/u-boot/rockchip/common/rk3568_ddr_1560MHz_v1.23.bin

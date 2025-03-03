@@ -1,37 +1,35 @@
 #!/bin/bash
 
-WORKSPACE_PATH=${PWD}
-UBOOT_SRC="${WORKSPACE_PATH}/uboot"
-
-SCRIPT_NAME=${0##*/}
+WORKSPACE_PATH="${PWD}"
+SCRIPT_NAME="${0##*/}"
 # SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
-SCRIPT_PATH=$(dirname $(readlink -f $0))
+SCRIPT_PATH="$(dirname $(readlink -f $0))"
 
-source ${SCRIPT_PATH}/common.sh
+source "${SCRIPT_PATH}/common.sh"
 
 init() {
-	if [ ! -e "${UBOOT_SRC}" ]; then
-		echo "Please link the uboot source directory to 'uboot'."
-		exit 1
-	fi
-
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
-	source ${ENV_FILE}
+	source "${ENV_FILE}"
 
 	# Common Variable
 	export PATH="${PATH}:${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
 	if [ "${ARM_TOOLCHAIN_NAME}" != "" ]; then
 		export PATH="$PATH:${TOOLCHAIN_PATH}/${ARM_TOOLCHAIN_NAME}/bin"
 	fi
+	if [ "${DT_TYPE}" != "mainline" ]; then 
+		UBOOT_SRC="${WORKSPACE_PATH}/uboot-${DT_TYPE}"
+	else
+		UBOOT_SRC="${WORKSPACE_PATH}/uboot"
+	fi
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 
 	if [ "${ARCH_DEFCONFIG}" != "" ]; then
-		DEFCONFIG=${ARCH_DEFCONFIG}
+		DEFCONFIG="${ARCH_DEFCONFIG}"
 	fi
 	if [ "${LINK_DEFCONFIG}" != "" ]; then
-		DEFCONFIG=${LINK_DEFCONFIG}
+		DEFCONFIG="${LINK_DEFCONFIG}"
 	fi
 
 	# if [ "${ATF_PLAT}" != "" ]; then
@@ -41,6 +39,11 @@ init() {
 	# 		export BL31=${ATF_BIN}
 	# 	fi
 	# fi
+
+	if [ ! -e "${UBOOT_SRC}" ]; then
+		echo "Please link the uboot source directory to '${UBOOT_SRC}'."
+		exit 1
+	fi
 
 	cd "${UBOOT_SRC}"
 	UBOOT_VERSION=$(make ubootversion)
@@ -72,10 +75,10 @@ build_atf() {
 		return
 	fi
 	if [ ! -e "${ATF_SRC}" ]; then
-		git clone https://github.com/ARM-software/arm-trusted-firmware.git ${ATF_SRC}
+		git clone https://github.com/ARM-software/arm-trusted-firmware.git "${ATF_SRC}"
 	fi
 
-	cd ${ATF_SRC}
+	cd "${ATF_SRC}"
 	unset BL31
 
 	make clean
@@ -87,25 +90,25 @@ build_atf() {
 build_probe() {
 	# link dts
 	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
+		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
 		DT_PATH_LINK="${UBOOT_SRC}/arch/arm/dts/"
 		DT_UPSTREAM_LINK="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}/"
 		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
-		ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_PATH_LINK}
+		ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_PATH_LINK}"
 		if [ -d "${DT_UPSTREAM_LINK}" ]; then
-			ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_UPSTREAM_LINK}
+			ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_UPSTREAM_LINK}"
 		fi
 		if [ "${DT_INC_FILE}" != "" ]; then
 			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
-			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_PATH_LINK}
+			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_PATH_LINK}"
 			if [ -d "${DT_UPSTREAM_LINK}" ]; then
-				ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_UPSTREAM_LINK}
+				ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_UPSTREAM_LINK}"
 			fi
 		fi
 		if [ -e "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ]; then
-			ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ${DT_PATH_LINK}
+			ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" "${DT_PATH_LINK}"
 			if [ -d "${DT_UPSTREAM_LINK}" ]; then
-				ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ${DT_UPSTREAM_LINK}
+				ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" "${DT_UPSTREAM_LINK}"
 			fi
 		fi
 	fi
@@ -114,7 +117,7 @@ build_probe() {
 	if [ "${LINK_DEFCONFIG}" != "" ]; then
 		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${LINK_DEFCONFIG}"
 		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
-		ln -s -f ${DEFCONFIG_PATH} "${UBOOT_SRC}/configs/"
+		ln -s -f "${DEFCONFIG_PATH}" "${UBOOT_SRC}/configs/"
 	fi
 }
 

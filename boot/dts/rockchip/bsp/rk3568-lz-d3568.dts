@@ -3483,7 +3483,7 @@
 		rockchip,xpcs = <0xb6>;
 		snps,reset-gpio = <&gpio3 RK_PD0 GPIO_ACTIVE_LOW>;
 		snps,reset-active-low;
-		snps,reset-delays-us = <0x00 0x4e20 0x186a0>;
+		snps,reset-delays-us = <0x00 20000 100000>;
 		assigned-clocks = <0x1f 0x185>;
 		assigned-clock-parents = <0xb7>;
 		pinctrl-names = "default";

@@ -1,0 +1,13 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="LZ-K3568"
+PACK_NAME="lz-k3568"
+CPU_INFO="Rockchip RK3568"
+VENDOR="rockchip"
+DT_FILE="rk3568-lz-k3568"
+DT_TYPE="vendor"
+
+# Build Config
+NO_CROSS_COMPILE=0

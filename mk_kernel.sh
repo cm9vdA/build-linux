@@ -1,23 +1,15 @@
 #!/bin/bash
 
-WORKSPACE_PATH=${PWD}
-KERNEL_SRC="${WORKSPACE_PATH}/linux"
-
-SCRIPT_NAME=${0##*/}
+WORKSPACE_PATH="${PWD}"
+SCRIPT_NAME="${0##*/}"
 # SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
-SCRIPT_PATH=$(dirname $(readlink -f $0))
-source ${SCRIPT_PATH}/common.sh
+SCRIPT_PATH="$(dirname $(readlink -f $0))"
+source "${SCRIPT_PATH}/common.sh"
 
 init() {
-	# Check kernel source
-	if [ ! -e "${KERNEL_SRC}" ]; then
-		echo "Please link the kernel source directory to 'linux'."
-		exit 1
-	fi
-
 	# Source env
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
-	source ${ENV_FILE}
+	source "${ENV_FILE}"
 
 	if [ "${NO_CROSS_COMPILE}" == "1" ]; then
 		# No use cross compile toolchain on same platform
@@ -27,14 +19,27 @@ init() {
 	fi
 
 	# Common Variable
-	export PATH=${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}
+	export PATH="${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin:${PATH}"
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
-	export INSTALL_HDR_PATH=${INSTALL_MOD_PATH}
+	export INSTALL_HDR_PATH="${INSTALL_MOD_PATH}"
 	export INSTALL_MOD_STRIP=1
-	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
-	export KERNELRELEASE=${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}
+	if [ "${DT_TYPE}" != "mainline" ]; then 
+		KERNEL_SRC="${WORKSPACE_PATH}/linux-${DT_TYPE}"
+		BUILD_PATH="${WORKSPACE_PATH}/.build-${DT_TYPE}"
+	else
+		KERNEL_SRC="${WORKSPACE_PATH}/linux"
+		BUILD_PATH="${WORKSPACE_PATH}/.build"
+	fi
 
-	BUILD_PATH=${WORKSPACE_PATH}/.build
+	# Check kernel source
+	if [ ! -e "${KERNEL_SRC}" ]; then
+		echo "Please link the kernel source directory to '${KERNEL_SRC}'."
+		exit 1
+	fi
+
+	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
+	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}"
+
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} KERNELRELEASE=${KERNELRELEASE}"
 
 	if [ "${ARCH_DEFCONFIG}" != "" ]; then
@@ -90,7 +95,7 @@ build_kernel() {
 
 install_kernel() {
 	cd "${KERNEL_SRC}"
-	rm -rf ${INSTALL_MOD_PATH}
+	rm -rf "${INSTALL_MOD_PATH}"
 	# Install Modules
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 
@@ -130,7 +135,7 @@ install_kernel() {
 install_headers() {
 	cd "${KERNEL_SRC}"
 	# Install Headers
-	TIME="Total Time: %E\tExit:%x" time make headers_install ${BUILD_ARGS} INSTALL_HDR_PATH=${INSTALL_HDR_PATH}
+	TIME="Total Time: %E\tExit:%x" time make headers_install ${BUILD_ARGS} INSTALL_HDR_PATH="${INSTALL_HDR_PATH}"
 }
 
 archive_kernel() {
@@ -148,8 +153,8 @@ archive_kernel() {
 }
 
 create_deb() {
-	local deb_name=${DT_FILE}-kernel
-	local deb_version=${KERNEL_VERSION}-$(date +%Y%m%d%H%M)
+	local deb_name="${DT_FILE}-kernel"
+	local deb_version="${KERNEL_VERSION}-$(date +%Y%m%d%H%M)"
 	cd "${WORKSPACE_PATH}"
 
 	rm -rf deb/${deb_name}
@@ -158,9 +163,9 @@ create_deb() {
 
 	mkdir -p DEBIAN
 	mkdir -p boot
-	cp -dpr ${INSTALL_MOD_PATH}/lib ./
-	cp ${INSTALL_MOD_PATH}/${DT_FILE}.dtb ./boot/dtb.img
-	cp ${INSTALL_MOD_PATH}/uImage ./boot
+	cp -dpr "${INSTALL_MOD_PATH}/lib" ./
+	cp "${INSTALL_MOD_PATH}/${DT_FILE}.dtb" ./boot/dtb.img
+	cp "${INSTALL_MOD_PATH}/uImage" ./boot
 
 	cat <<EOF >DEBIAN/control
 Package: ${deb_name}
@@ -241,12 +246,12 @@ show_menu() {
 		archive_kernel
 		;;
 	"6")
-		cd ${KERNEL_SRC}
+		cd "${KERNEL_SRC}"
 		make clean ${BUILD_ARGS}
 		rm ${INSTALL_MOD_PATH}/* -rf
 		;;
 	"mrproper")
-		cd ${KERNEL_SRC}
+		cd "${KERNEL_SRC}"
 		# Hide Option
 		make mrproper
 		;;
@@ -263,22 +268,22 @@ show_menu() {
 build_probe() {
 	# link dts
 	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/mainline/"
+		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
 		if [ "$ARCH" == "arm64" ]; then
 			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
 		elif [ "$ARCH" == "arm" ]; then
 			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
 		fi
 		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
-		ln -s -f "${DT_PATH}/${DT_FILE}.dts" ${DT_PATH_LINK}
+		ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_PATH_LINK}"
 		if [ "${DT_INC_FILE}" != "" ]; then
 			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
-			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" ${DT_PATH_LINK}
+			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_PATH_LINK}"
 		fi
 		# add dtb to Makefile
-		grep -q ${DT_FILE} ${DT_PATH_LINK}/Makefile
+		grep -q "${DT_FILE}" "${DT_PATH_LINK}/Makefile"
 		if [ $? -ne 0 ]; then
-			echo "dtb-y += ${DT_FILE}.dtb" >>${DT_PATH_LINK}/Makefile
+			echo "dtb-y += ${DT_FILE}.dtb" >>"${DT_PATH_LINK}/Makefile"
 		fi
 	fi
 
@@ -286,7 +291,7 @@ build_probe() {
 	if [ "${LINK_DEFCONFIG}" != "" ]; then
 		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${LINK_DEFCONFIG}"
 		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
-		ln -s -f ${DEFCONFIG_PATH} "${KERNEL_SRC}/arch/${ARCH}/configs/"
+		ln -s -f "${DEFCONFIG_PATH}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 }
 
