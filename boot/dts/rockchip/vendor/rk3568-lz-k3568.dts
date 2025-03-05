@@ -7,6 +7,10 @@
 #include <dt-bindings/sensor-dev.h>
 #include "rk3568.dtsi"
 
+#ifdef CONFIG_SPL
+#include "rk3568-u-boot.dtsi"
+#endif
+
 / {
 	model = "LZ-K3568";
 	compatible = "rockchip,rk3568-evb1-v10", "rockchip,rk3568";
@@ -14,9 +18,14 @@
 	aliases {
 		ethernet0 = &gmac0;
 		ethernet1 = &gmac1;
-		mmc0 = &sdmmc0;
-		mmc1 = &sdhci;
+		mmc0 = &sdhci;
+		mmc1 = &sdmmc0;
+		mmc2 = &sdmmc1;
 	};
+
+	// chosen: chosen {
+	// 	bootargs = "earlycon=uart8250,mmio32,0xfe660000 console=ttyFIQ0 root=PARTUUID=614e0000-0000 rw rootwait";
+	// };
 
 	fiq_debugger: fiq-debugger {
 		compatible = "rockchip,fiq-debugger";
@@ -45,10 +54,6 @@
 			<0x0 0xfd90d000 0x0 0x1000>,
 			<0x0 0xfd90e000 0x0 0x1000>,
 			<0x0 0xfd90f000 0x0 0x1000>;
-	};
-
-	chosen: chosen {
-		stdout-path = "serial2:1500000n8";
 	};
 
 	hdmi_sound: hdmi-sound {
@@ -298,7 +303,7 @@
 	status = "okay";
 
 	vdd_cpu: tcs4525@1c {
-		compatible = "tcs,tcs452x";
+		compatible = "tcs,tcs4525";
 		reg = <0x1c>;
 		vin-supply = <&vcc5v0_sys>;
 		regulator-compatible = "fan53555-reg";
@@ -738,11 +743,12 @@
 };
 
 #ifndef CONFIG_SPL
-&bus_npu {
-	bus-supply = <&vdd_logic>;
-	pvtm-supply = <&vdd_cpu>;
-	status = "okay";
-};
+// rockchip-pm-domain fdd90000.power-management:power-controller: failed to get ack on domain 'npu'
+// &bus_npu {
+// 	bus-supply = <&vdd_logic>;
+// 	pvtm-supply = <&vdd_cpu>;
+// 	status = "okay";
+// };
 
 &rknpu {
 	memory-region = <&rknpu_reserved>;
@@ -792,20 +798,20 @@
 	status = "okay";
 };
 
-&uart3 {
-	pinctrl-0 = <&uart3m1_xfer>;
-	status = "okay";
-};
+// &uart3 {
+// 	pinctrl-0 = <&uart3m1_xfer>;
+// 	status = "okay";
+// };
 
-&uart4 {
-	pinctrl-0 = <&uart4m1_xfer>;
-	status = "okay";
-};
+// &uart4 {
+// 	pinctrl-0 = <&uart4m1_xfer>;
+// 	status = "okay";
+// };
 
-&uart8 {
-	pinctrl-0 = <&uart8m0_xfer>;
-	status = "okay";
-};
+// &uart8 {
+// 	pinctrl-0 = <&uart8m0_xfer>;
+// 	status = "okay";
+// };
 
 &tsadc {
 	status = "okay";
@@ -817,7 +823,7 @@
 };
 
 &u2phy0_otg {
-	vbus-supply = <&vcc5v0_otg>;
+	phy-supply = <&vcc5v0_otg>;
 	status = "okay";
 };
 
