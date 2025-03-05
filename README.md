@@ -4,7 +4,6 @@
 > 交叉编译工具链下载地址 https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
 
 ## 目录说明：
-- board：一些板子的参数信息以及图片存档
 - boot：系统启动所需要的文件，包含内核编译配置（configs）、设备树（dts）、内核引导脚本（script）以及从原机系统中提取的启动相关文件（bsp）
 - env：编译构建时所需要的环境变量
 - u-boot：u-boot编译构建相关的配置以及生成的bin文件
