@@ -645,7 +645,6 @@
 };
 
 &pinctrl {
-
 	headphone {
 		hp_det: hp-det {
 			rockchip,pins = <1 RK_PB0 RK_FUNC_GPIO &pcfg_pull_down>;
@@ -707,6 +706,33 @@
 		};
 		lcd_bl1_en: lcd-bl1-en {
 			rockchip,pins = <2 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
+		};
+	};
+
+	msic {
+		gpio_k1: gpio_k1 {
+			rockchip,pins = <2 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k2: gpio_k2 {
+			rockchip,pins = <3 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k3: gpio_k3 {
+			rockchip,pins = <2 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k4: gpio_k4 {
+			rockchip,pins = <3 RK_PB4 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k5: gpio_k5 {
+			rockchip,pins = <2 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k6: gpio_k6 {
+			rockchip,pins = <3 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k7: gpio_k7 {
+			rockchip,pins = <2 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		gpio_k8: gpio_k8 {
+			rockchip,pins = <3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 };
@@ -823,11 +849,13 @@
 	status = "okay"; // bsp
 };
 
+#ifndef CONFIG_SPL
 &uart1 {
 	status = "okay"; // bsp
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1m0_xfer &uart1m0_ctsn>;
 };
+#endif
 
 // conflict with fiq-debugger
 // &uart2 {
@@ -849,6 +877,9 @@
 	status = "okay";
 };
 
+// conflict with TF
+// &uart6 {};
+
 &uart7 {
 	pinctrl-0 = <&uart7m1_xfer>; // bsp
 	status = "okay";
@@ -864,6 +895,15 @@
 	status = "okay";
 };
 
+// &can1 {
+// 	pinctrl-0 = <&can1m1_pins>; // bsp
+// 	status = "okay";
+// };
+
+// &can2 {
+// 	pinctrl-0 = <&can2m0_pins>; // bsp
+// 	status = "okay";
+// };
 
 &tsadc {
 	status = "okay";
