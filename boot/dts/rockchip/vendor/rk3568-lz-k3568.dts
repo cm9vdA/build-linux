@@ -915,7 +915,7 @@
 };
 
 &u2phy0_otg {
-	phy-supply = <&vcc5v0_otg>;
+	vbus-supply = <&vcc5v0_otg>;
 	status = "okay";
 };
 
