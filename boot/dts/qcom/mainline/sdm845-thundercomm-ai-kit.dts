@@ -69,7 +69,7 @@
 		#cooling-cells = <2>;
 		compatible = "gpio-fan";
 		gpio-fan,speed-map = <0 0 3000 1>;
-		gpios = <&pmi8998_gpios 5 GPIO_ACTIVE_HIGH>;
+		gpios = <&pmi8998_gpios 4 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 
 		pinctrl-0 = <&fan_pin>;
@@ -83,10 +83,10 @@
 		pinctrl-0 = <&led_power_red_pin>;
 
 		led-0 {
-			gpios = <&pmi8998_gpios 8 GPIO_ACTIVE_LOW>;
+			label = "red:power";
+			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_RED>;
-			function = "power";
-			linux,default-trigger = "none";
+			gpios = <&pmi8998_gpios 7 GPIO_ACTIVE_LOW>;
 			default-state = "off";
 			panic-indicator;
 		};
@@ -111,23 +111,6 @@
 		};
 	};
 
-	vcc5v0_host0: vcc5v0-host0 {
-		compatible = "regulator-fixed";
-		regulator-name = "vcc5v0_host0";
-
-		vin-supply = <&dc12v>;
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-
-		gpio = <&tlmm 49 GPIO_ACTIVE_HIGH>; // test
-		enable-active-high;
-		regulator-boot-on;
-		regulator-always-on;
-
-		pinctrl-names = "default";
-		pinctrl-0 = <&vcc5v0_host0_en>;
-	};
-
 	lt9611_1v8: pcie0_1v8: vcc1v8_sys: vcc1v8-sys-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_sys";
@@ -148,7 +131,7 @@
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 
-		vin-supply = <&vbat>;
+		vin-supply = <&vdc_3v3>;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 
@@ -158,6 +141,40 @@
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc3v3_sys_h>; // bsp
+	};
+
+	vcc3v3_rtl8111h: vcc3v3-rtl8111h {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_rtl8111h";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&pm8998_gpios 13 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&rtl8111h_3v3_en>;
+	};
+
+	vcc5v0_host0: vcc5v0-host0 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_host0";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+
+		gpio = <&tlmm 49 GPIO_ACTIVE_HIGH>; // verify
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
 
 	vcc5v0_sys: vcc5v0-sys-regulator{
@@ -672,7 +689,7 @@
 
 &pmi8998_gpios {
 	fan_pin: fan-pin {
-		pins = "gpio5"; // test 542
+		pins = "gpio4"; // test 542
 		function = "normal";
 
 		bias-pull-up;
@@ -681,7 +698,7 @@
 	};
 
 	led_power_red_pin: power-red-led-pin {
-		pins = "gpio8"; // test 545
+		pins = "gpio7"; // test 545
 		function = "normal";
 
 		bias-pull-up;
@@ -883,16 +900,16 @@
 		output-high;
 	};
 
-	lt9611_irq_pin: lt9611-irq-state {
-		pins = "gpio44"; // bsp
-		function = "gpio";
-		bias-disable;
-	};
-
 	lt9611_rst_pin: lt9611-rst-state {
 		pins = "gpio42"; // bsp
 		function = "gpio";
 		output-high;
+	};
+
+	lt9611_irq_pin: lt9611-irq-state {
+		pins = "gpio44"; // bsp
+		function = "gpio";
+		bias-disable;
 	};
 
 	pcie0_default_state: pcie0-default-state {
@@ -902,7 +919,7 @@
 			bias-pull-up;
 		};
 
-		perst-n-pins {
+		reset-n-pins {
 			pins = "gpio35"; // bsp
 			function = "gpio";
 

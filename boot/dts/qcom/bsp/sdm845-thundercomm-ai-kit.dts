@@ -1648,7 +1648,7 @@
 			phandle = <0xa1>;
 			wake-gpio = <&tlmm 37 0x00>;
 			pinctrl-2 = <0x265>;
-			qcom,vreg-1.8-voltage-level = <0x124f80 0x124f80 0x5dc0>;
+			qcom,vreg-1.8-voltage-level = <1200000 1200000 0x5dc0>;
 			qcom,aux-clk-sync;
 			reg = <0x1c00000 0x2000 0x1c06000 0x1000 0x60000000 0xf1d 0x60000f20 0xa8 0x60100000 0x100000 0x60200000 0x100000 0x60300000 0xd00000>;
 			pinctrl-0 = <0x260 0x261 0x262>;
@@ -2831,9 +2831,9 @@
 				qcom,ctrl-supply-entry@0 {
 					qcom,supply-name = "vdda-1p2";
 					qcom,supply-disable-load = <0x04>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x5528>;
-					qcom,supply-min-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
 					reg = <0x00>;
 				};
 			};
@@ -3313,7 +3313,7 @@
 			clock-rates = <0x00 0x00 0x00 0x00 0x16e36000 0x00 0x100db355 0x00>;
 			compatible = "qcom,csiphy-v1.0\0qcom,csiphy";
 			clocks = <0xa5 0x06 0xa5 0x55 0xa5 0x54 0xa5 0x09 0xa5 0x0a 0xa5 0x14 0xa5 0x0e 0xa5 0x0d>;
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			reg-names = "csiphy";
 			clock-names = "camnoc_axi_clk\0soc_ahb_clk\0slow_ahb_src_clk\0cpas_ahb_clk\0cphy_rx_clk_src\0csiphy1_clk\0csi1phytimer_clk_src\0csi1phytimer_clk";
 			regulator-names = "gdscr\0refgen";
@@ -9021,7 +9021,7 @@
 			vreg-1.8-supply = <0x2d>;
 			phandle = <0x268>;
 			wake-gpio = <&tlmm 11 0x00>;
-			qcom,vreg-1.8-voltage-level = <0x124f80 0x124f80 0x5dc0>;
+			qcom,vreg-1.8-voltage-level = <1200000 1200000 0x5dc0>;
 			qcom,aux-clk-sync;
 			reg = <0x1c08000 0x2000 0x1c0a000 0x2000 0x40000000 0xf1d 0x40000f20 0xa8 0x40100000 0x100000 0x40200000 0x100000 0x40300000 0x1fd00000>;
 			pinctrl-0 = <0x269 0x26a 0x26b>;
@@ -11649,10 +11649,10 @@
 				qcom,proxy-consumer-enable;
 				qcom,init-mode = <0x05>;
 				phandle = <0x2d>;
-				qcom,init-voltage = <0x124f80>;
-				regulator-min-microvolt = <0x124f80>;
+				qcom,init-voltage = <1200000>;
+				regulator-min-microvolt = <1200000>;
 				qcom,set = <0x03>;
-				regulator-max-microvolt = <0x124f80>;
+				regulator-max-microvolt = <1200000>;
 				regulator-name = "pm8998_l26";
 				linux,phandle = <0x2d>;
 				qcom,proxy-consumer-current = <0xaa50>;
@@ -11663,7 +11663,7 @@
 			clock-rates = <0x00 0x00 0x00 0x00 0x16e36000 0x00 0x100db355 0x00>;
 			compatible = "qcom,csiphy-v1.0\0qcom,csiphy";
 			clocks = <0xa5 0x06 0xa5 0x55 0xa5 0x54 0xa5 0x09 0xa5 0x0a 0xa5 0x16 0xa5 0x12 0xa5 0x11>;
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			reg-names = "csiphy";
 			clock-names = "camnoc_axi_clk\0soc_ahb_clk\0slow_ahb_src_clk\0cpas_ahb_clk\0cphy_rx_clk_src\0csiphy3_clk\0csi3phytimer_clk_src\0csi3phytimer_clk";
 			regulator-names = "gdscr\0refgen";
@@ -11871,9 +11871,9 @@
 				qcom,ctrl-supply-entry@0 {
 					qcom,supply-name = "vdda-1p2";
 					qcom,supply-disable-load = <0x04>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x5528>;
-					qcom,supply-min-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
 					reg = <0x00>;
 				};
 			};
@@ -11966,7 +11966,7 @@
 			clock-rates = <0x00 0x00 0x00 0x00 0x16e36000 0x00 0x100db355 0x00>;
 			compatible = "qcom,csiphy-v1.0\0qcom,csiphy";
 			clocks = <0xa5 0x06 0xa5 0x55 0xa5 0x54 0xa5 0x09 0xa5 0x0a 0xa5 0x13 0xa5 0x0c 0xa5 0x0b>;
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			reg-names = "csiphy";
 			clock-names = "camnoc_axi_clk\0soc_ahb_clk\0slow_ahb_src_clk\0cpas_ahb_clk\0cphy_rx_clk_src\0csiphy0_clk\0csi0phytimer_clk_src\0csi0phytimer_clk";
 			regulator-names = "gdscr\0refgen";
@@ -13102,8 +13102,8 @@
 			regulator-l8 {
 				qcom,init-mode = <0x05>;
 				phandle = <0x33a>;
-				qcom,init-voltage = <0x124f80>;
-				regulator-min-microvolt = <0x124f80>;
+				qcom,init-voltage = <1200000>;
+				regulator-min-microvolt = <1200000>;
 				qcom,set = <0x03>;
 				regulator-max-microvolt = <0x130b00>;
 				regulator-name = "pm8998_l8";
@@ -16565,9 +16565,9 @@
 				qcom,ctrl-supply-entry@0 {
 					qcom,supply-name = "vdda-1p2";
 					qcom,supply-disable-load = <0x04>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x5528>;
-					qcom,supply-min-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
 					reg = <0x00>;
 				};
 			};
@@ -20722,7 +20722,7 @@
 			clock-rates = <0x00 0x00 0x00 0x00 0x16e36000 0x00 0x100db355 0x00>;
 			compatible = "qcom,csiphy-v1.0\0qcom,csiphy";
 			clocks = <0xa5 0x06 0xa5 0x55 0xa5 0x54 0xa5 0x09 0xa5 0x0a 0xa5 0x15 0xa5 0x10 0xa5 0x0f>;
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			reg-names = "csiphy";
 			clock-names = "camnoc_axi_clk\0soc_ahb_clk\0slow_ahb_src_clk\0cpas_ahb_clk\0cphy_rx_clk_src\0csiphy2_clk\0csi2phytimer_clk_src\0csi2phytimer_clk";
 			regulator-names = "gdscr\0refgen";
@@ -20867,10 +20867,10 @@
 			regulator-l2 {
 				qcom,init-mode = <0x05>;
 				phandle = <0x337>;
-				qcom,init-voltage = <0x124f80>;
-				regulator-min-microvolt = <0x124f80>;
+				qcom,init-voltage = <1200000>;
+				regulator-min-microvolt = <1200000>;
 				qcom,set = <0x03>;
-				regulator-max-microvolt = <0x124f80>;
+				regulator-max-microvolt = <1200000>;
 				regulator-always-on;
 				regulator-name = "pm8998_l2";
 				linux,phandle = <0x337>;
@@ -21506,7 +21506,7 @@
 			compatible = "qcom,kgsl-3d0\0qcom,kgsl-3d";
 			qcom,tsens-name = "tsens_tz_sensor12";
 			clocks = <0x1b 0x03 0xa6 0x0a 0x21 0x14 0x21 0x23 0xa6 0x04>;
-			qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0x61a80 0x1a 0x200 0x00 0x927c0 0x1a 0x200 0x00 0xc3500 0x1a 0x200 0x00 0x124f80 0x1a 0x200 0x00 0x192580 0x1a 0x200 0x00 0x2162e0 0x1a 0x200 0x00 0x2990a0 0x1a 0x200 0x00 0x2ee000 0x1a 0x200 0x00 0x3e12a0 0x1a 0x200 0x00 0x4f1a00 0x1a 0x200 0x00 0x5ee8e0 0x1a 0x200 0x00 0x6e1b80>;
+			qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0x61a80 0x1a 0x200 0x00 0x927c0 0x1a 0x200 0x00 0xc3500 0x1a 0x200 0x00 1200000 0x1a 0x200 0x00 0x192580 0x1a 0x200 0x00 0x2162e0 0x1a 0x200 0x00 0x2990a0 0x1a 0x200 0x00 0x2ee000 0x1a 0x200 0x00 0x3e12a0 0x1a 0x200 0x00 0x4f1a00 0x1a 0x200 0x00 0x5ee8e0 0x1a 0x200 0x00 0x6e1b80>;
 			qcom,id = <0x00>;
 			qcom,ubwc-mode = <0x02>;
 			reg-names = "kgsl_3d0_reg_memory\0kgsl_3d0_cx_dbgc_memory";
