@@ -159,7 +159,7 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&pcie0_3v3_en_0>;
+		pinctrl-0 = <&vcc3v3_pcie0_en_0>;
 	};
 
 	vcc3v3_pcie1_0: vcc3v3-pcie1-0 {
@@ -176,7 +176,7 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&pcie1_3v3_en_0>;
+		pinctrl-0 = <&vcc3v3_pcie1_en_0>;
 	};
 
 	vcc3v3_pcie1_1: vcc3v3-pcie1-1 {
@@ -193,7 +193,7 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&pcie1_3v3_en_1>;
+		pinctrl-0 = <&vcc3v3_pcie1_en_1>;
 	};
 
 	vcc5v0_host0: vcc5v0-host0 {
@@ -803,7 +803,7 @@
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
 	};
 
-	pcie1_3v3_en_0: pcie1-3v3-en-0 {
+	vcc3v3_pcie1_en_0: vcc3v3-pcie1-en-0 {
 		pins = "gpio13"; // bsp
 		function = "normal";
 
@@ -1013,13 +1013,13 @@
 };
 
 &tlmm {
-	pcie0_3v3_en_0: pcie0-3v3-en-0 {
+	vcc3v3_pcie0_en_0: vcc3v3-pcie0-en-0 {
 		pins = "gpio1"; // verify
 		function = "gpio";
 		output-high;
 	};
 
-	pcie1_3v3_en_1: pcie1-3v3-en-1 {
+	vcc3v3_pcie1_en_1: vcc3v3-pcie1-en-1 {
 		pins = "gpio25"; // verify
 		function = "gpio";
 		output-high;
