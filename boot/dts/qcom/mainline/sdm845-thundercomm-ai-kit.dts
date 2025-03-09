@@ -740,7 +740,7 @@
 &pcie1 {
 	status = "okay";
 	perst-gpios = <&tlmm 102 GPIO_ACTIVE_LOW>; // bsp
-	wake-gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>; // bsp
+	wake-gpios = <&tlmm 11 GPIO_ACTIVE_LOW>; // bsp
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie1_default_state>; // bsp
@@ -1058,19 +1058,21 @@
 	};
 
 	pcie0_default_state: pcie0-default-state {
-		clkreq-pins {
-			pins = "gpio36"; // bsp
-			function = "pci_e0";
-			bias-pull-up;
-		};
-
-		reset-n-pins {
+		perst-n-pins {
 			pins = "gpio35"; // bsp
 			function = "gpio";
 
 			drive-strength = <2>;
 			output-low;
 			bias-pull-down;
+		};
+
+		clkreq-pins {
+			pins = "gpio36"; // bsp
+			function = "pci_e0";
+
+			drive-strength = <2>;
+			bias-pull-up;
 		};
 
 		wake-n-pins {
@@ -1111,13 +1113,16 @@
 			pins = "gpio102"; // bsp
 			function = "gpio";
 
-			drive-strength = <16>;
-			bias-disable;
+			drive-strength = <2>;
+			output-low;
+			bias-pull-down;
 		};
 
 		clkreq-pins {
 			pins = "gpio103"; // bsp
 			function = "pci_e1";
+
+			drive-strength = <2>;
 			bias-pull-up;
 		};
 
@@ -1126,16 +1131,7 @@
 			function = "gpio";
 
 			drive-strength = <2>;
-			bias-pull-up;
-		};
-
-		reset-n-pins {
-			pins = "gpio75";
-			function = "gpio";
-
-			drive-strength = <16>;
-			bias-pull-up;
-			output-high;
+			bias-pull-down;
 		};
 	};
 
