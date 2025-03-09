@@ -145,9 +145,9 @@
 		pinctrl-0 = <&vcc3v3_sys_h>; // bsp
 	};
 
-	vcc3v3_pcie1_0: vcc3v3-pcie1-0 {
+	vcc3v3_pcie1: vcc3v3-pcie1 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie1_0";
+		regulator-name = "vcc3v3_pcie1";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
@@ -159,7 +159,24 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie1_en_0>;
+		pinctrl-0 = <&vcc3v3_pcie1_en>;
+	};
+
+	vcc1v05_pcie1: vcc1v05-pcie1 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc1v05_pcie1";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <1050000>;
+		regulator-max-microvolt = <1050000>;
+
+		gpio = <&tlmm 0 GPIO_ACTIVE_HIGH>; // verify
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc1v05_pcie1_en>;
 	};
 
 	vcc3v3_pcie0_0: vcc3v3-pcie0-0 {
@@ -648,17 +665,17 @@
 	};
 };
 
-&i2c11 {
-	/* On Low speed expansion */
-	clock-frequency = <100000>;
-	status = "okay";
-};
+// &i2c11 {
+// 	/* On Low speed expansion */
+// 	clock-frequency = <100000>;
+// 	status = "okay";
+// };
 
-&i2c14 {
-	/* On Low speed expansion */
-	clock-frequency = <100000>;
-	status = "okay";
-};
+// &i2c14 {
+// 	/* On Low speed expansion */
+// 	clock-frequency = <100000>;
+// 	status = "okay";
+// };
 
 &mdss {
 	memory-region = <&cont_splash_mem>;
@@ -1015,7 +1032,13 @@
 };
 
 &tlmm {
-	vcc3v3_pcie1_en_0: vcc3v3-pcie1-en-0 {
+	vcc1v05_pcie1_en: vcc1v05-pcie1-en {
+		pins = "gpio0"; // verify
+		function = "gpio";
+		output-high;
+	};
+
+	vcc3v3_pcie1_en: vcc3v3-pcie1-en {
 		pins = "gpio1"; // verify
 		function = "gpio";
 		output-high;
