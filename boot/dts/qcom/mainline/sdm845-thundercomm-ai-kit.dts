@@ -145,26 +145,26 @@
 		pinctrl-0 = <&vcc3v3_sys_h>; // bsp
 	};
 
-	vcc3v3_pcie0_0: vcc3v3-pcie0-0 {
+	vcc3v3_pcie1_0: vcc3v3-pcie1-0 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie0_0";
+		regulator-name = "vcc3v3_pcie1_0";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 
-		gpio = <&tlmm 1 GPIO_ACTIVE_HIGH>; // bsp
+		gpio = <&tlmm 1 GPIO_ACTIVE_HIGH>; // verify
 		enable-active-high;
 		regulator-boot-on;
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie0_en_0>;
+		pinctrl-0 = <&vcc3v3_pcie1_en_0>;
 	};
 
-	vcc3v3_pcie1_0: vcc3v3-pcie1-0 {
+	vcc3v3_pcie0_0: vcc3v3-pcie0-0 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie1_0";
+		regulator-name = "vcc3v3_pcie0_0";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
@@ -176,24 +176,24 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie1_en_0>;
+		pinctrl-0 = <&vcc3v3_pcie0_en_0>;
 	};
 
-	vcc3v3_pcie1_1: vcc3v3-pcie1-1 {
+	vcc3v3_pcie0_1: vcc3v3-pcie0-1 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie1_1";
+		regulator-name = "vcc3v3_pcie0_1";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 
-		gpio = <&tlmm 25 GPIO_ACTIVE_HIGH>; // bsp
+		gpio = <&tlmm 25 GPIO_ACTIVE_HIGH>; // verify
 		enable-active-high;
 		regulator-boot-on;
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie1_en_1>;
+		pinctrl-0 = <&vcc3v3_pcie0_en_1>;
 	};
 
 	vcc5v0_host0: vcc5v0-host0 {
@@ -717,6 +717,7 @@
 	firmware-name = "qcom/sdm845/mba.mbn", "qcom/sdm845/modem.mbn";
 };
 
+// RTL8111H
 &pcie0 {
 	status = "okay";
 	perst-gpios = <&tlmm 35 GPIO_ACTIVE_LOW>; // bsp
@@ -735,6 +736,7 @@
 	vdda-pll-supply = <&vreg_l26a_1p2>;
 };
 
+// UPD720201
 &pcie1 {
 	status = "okay";
 	perst-gpios = <&tlmm 102 GPIO_ACTIVE_LOW>; // bsp
@@ -803,7 +805,7 @@
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
 	};
 
-	vcc3v3_pcie1_en_0: vcc3v3-pcie1-en-0 {
+	vcc3v3_pcie0_en_0: vcc3v3-pcie0-en-0 {
 		pins = "gpio13"; // bsp
 		function = "normal";
 
@@ -1013,13 +1015,13 @@
 };
 
 &tlmm {
-	vcc3v3_pcie0_en_0: vcc3v3-pcie0-en-0 {
+	vcc3v3_pcie1_en_0: vcc3v3-pcie1-en-0 {
 		pins = "gpio1"; // verify
 		function = "gpio";
 		output-high;
 	};
 
-	vcc3v3_pcie1_en_1: vcc3v3-pcie1-en-1 {
+	vcc3v3_pcie0_en_1: vcc3v3-pcie0-en-1 {
 		pins = "gpio25"; // verify
 		function = "gpio";
 		output-high;
