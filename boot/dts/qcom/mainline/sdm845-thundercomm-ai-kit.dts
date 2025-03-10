@@ -306,7 +306,7 @@
 &{/thermal-zones} {
 	/delete-node/ camera-thermal;
 
-	fan-thermal {
+	fan-thermal { // verify
 		polling-delay-passive = <100>;
 		polling-delay = <1000>;
 		thermal-sensors = <&tsens1 5>;
@@ -602,6 +602,7 @@
 	};
 };
 
+/*
 &i2c5 {
 	status = "okay";
 	clock-frequency = <400000>;
@@ -634,6 +635,7 @@
 		};
 	};
 };
+*/
 
 &i2c10 {
 	status = "okay";
