@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="TPM312"
 CPU_INFO="Rockchip RK3399"
-LINK_DEFCONFIG="tpm312-rk3399_defconfig"
+BOARD_DEFCONFIG="tpm312-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-tpm312"
 

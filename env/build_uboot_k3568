@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="LZ-K3568"
 CPU_INFO="Rockchip RK3568"
-LINK_DEFCONFIG="k3568-rk3568_defconfig"
+BOARD_DEFCONFIG="k3568-rk3568_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3568-lz-k3568"
 

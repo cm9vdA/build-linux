@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="Fine3399"
 CPU_INFO="Rockchip RK3399"
-LINK_DEFCONFIG="fine3399-rk3399_defconfig"
+BOARD_DEFCONFIG="fine3399-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-fine3399"
 

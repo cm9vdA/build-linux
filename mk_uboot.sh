@@ -28,8 +28,8 @@ init() {
 	if [ "${ARCH_DEFCONFIG}" != "" ]; then
 		DEFCONFIG="${ARCH_DEFCONFIG}"
 	fi
-	if [ "${LINK_DEFCONFIG}" != "" ]; then
-		DEFCONFIG="${LINK_DEFCONFIG}"
+	if [ "${BOARD_DEFCONFIG}" != "" ]; then
+		DEFCONFIG="${BOARD_DEFCONFIG}"
 	fi
 
 	# if [ "${ATF_PLAT}" != "" ]; then
@@ -114,9 +114,9 @@ build_probe() {
 	fi
 
 	# link defconfig
-	if [ "${LINK_DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${LINK_DEFCONFIG}"
-		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
+	if [ "${BOARD_DEFCONFIG}" != "" ]; then
+		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${BOARD_DEFCONFIG}"
+		check_path "BOARD_DEFCONFIG" "${DEFCONFIG_PATH}"
 		ln -s -f "${DEFCONFIG_PATH}" "${UBOOT_SRC}/configs/"
 	fi
 }

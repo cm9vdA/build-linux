@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="ZCube1 Max"
 CPU_INFO="Rockchip RK3399"
-LINK_DEFCONFIG="zcube1-max-rk3399_defconfig"
+BOARD_DEFCONFIG="zcube1-max-rk3399_defconfig"
 VENDOR="rockchip"
 DT_FILE="rk3399-zcube1-max"
 

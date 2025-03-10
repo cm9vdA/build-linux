@@ -4,6 +4,6 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 # Board Info
 BOARD_NAME="Q5"
 CPU_INFO="Amlogic S905 Family"
-LINK_DEFCONFIG="p201_defconfig"
+BOARD_DEFCONFIG="p201_defconfig"
 VENDOR="amlogic"
 DT_FILE="meson-gxbb-q5"

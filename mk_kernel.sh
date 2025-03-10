@@ -41,13 +41,16 @@ init() {
 	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}"
 
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} KERNELRELEASE=${KERNELRELEASE}"
-
-	if [ "${ARCH_DEFCONFIG}" != "" ]; then
-		DEFCONFIG=${ARCH_DEFCONFIG}
+	if [ "${BOARD_DEFCONFIG}" != "" ]; then
+		DEFCONFIG=${BOARD_DEFCONFIG}
+	else
+		if [ "${ARCH_DEFCONFIG}" != "" ]; then
+			DEFCONFIG=${ARCH_DEFCONFIG}
+		fi
 	fi
-
-	if [ "${LINK_DEFCONFIG}" != "" ]; then
-		DEFCONFIG=${LINK_DEFCONFIG}
+	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${DT_FILE}.config"
+	if [ -f "${ADDITIONAL_CONFIG}" ]; then
+		DEFCONFIG="${DEFCONFIG} ${DT_FILE}.config"
 	fi
 
 	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url)
@@ -288,10 +291,13 @@ build_probe() {
 	fi
 
 	# link defconfig
-	if [ "${LINK_DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${LINK_DEFCONFIG}"
-		check_path "LINK_DEFCONFIG" "${DEFCONFIG_PATH}"
+	if [ "${BOARD_DEFCONFIG}" != "" ]; then
+		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${BOARD_DEFCONFIG}"
+		check_path "BOARD_DEFCONFIG" "${DEFCONFIG_PATH}"
 		ln -s -f "${DEFCONFIG_PATH}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
+	fi
+	if [ -f "${ADDITIONAL_CONFIG}" ]; then
+		ln -s -f "${ADDITIONAL_CONFIG}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 }
 
