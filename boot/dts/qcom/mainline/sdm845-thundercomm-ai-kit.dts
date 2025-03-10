@@ -69,7 +69,7 @@
 		#cooling-cells = <2>;
 		compatible = "gpio-fan";
 		gpio-fan,speed-map = <0 0 3000 1>;
-		gpios = <&pmi8998_gpios 4 GPIO_ACTIVE_HIGH>;
+		gpios = <&pmi8998_gpios 5 GPIO_ACTIVE_HIGH>; // verify
 		status = "okay";
 
 		pinctrl-0 = <&fan_pin>;
@@ -86,7 +86,7 @@
 			label = "red:power";
 			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_RED>;
-			gpios = <&pmi8998_gpios 7 GPIO_ACTIVE_LOW>;
+			gpios = <&pmi8998_gpios 8 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 			panic-indicator;
 		};
@@ -300,6 +300,30 @@
 		regulator-name = "vph_pwr";
 
 		vin-supply = <&vbat_som>;
+	};
+};
+
+&{/thermal-zones} {
+	/delete-node/ camera-thermal;
+
+	fan-thermal {
+		polling-delay-passive = <100>;
+		polling-delay = <1000>;
+		thermal-sensors = <&tsens1 5>;
+
+		trips {
+			cpu_hot: cpu_hot {
+				temperature = <55000>;
+				hysteresis = <2000>;
+				type = "active";
+			};
+		};
+		cooling-maps {
+			map0 {
+				trip = <&cpu_warm>;
+				cooling-device = <&gpio_fan THERMAL_NO_LIMIT 1>;
+			};
+		};
 	};
 };
 
@@ -839,21 +863,19 @@
 
 &pmi8998_gpios {
 	fan_pin: fan-pin {
-		pins = "gpio4"; // test 542
+		pins = "gpio5"; // verify
 		function = "normal";
 
-		bias-pull-up;
-		drive-push-pull;
-		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
+		bias-pull-down;
+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
 	};
 
 	led_power_red_pin: power-red-led-pin {
-		pins = "gpio7"; // test 545
+		pins = "gpio8"; // verify
 		function = "normal";
 
 		bias-pull-up;
-		drive-push-pull;
-		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
 	};
 };
 
