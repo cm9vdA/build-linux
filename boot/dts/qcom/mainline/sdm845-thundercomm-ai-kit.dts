@@ -320,7 +320,7 @@
 		};
 		cooling-maps {
 			map0 {
-				trip = <&cpu_warm>;
+				trip = <&cpu_hot>;
 				cooling-device = <&gpio_fan THERMAL_NO_LIMIT 1>;
 			};
 		};
@@ -896,6 +896,8 @@
 		color = <LED_COLOR_ID_GREEN>;
 		function = "power";
 		function-enumerator = <2>;
+		linux,default-trigger = "heartbeat";
+		default-state = "on";
 	};
 
 	led@5 {
