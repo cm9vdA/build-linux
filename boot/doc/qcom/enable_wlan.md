@@ -4,6 +4,8 @@
   
   > https://xdaforums.com/t/configurations-after-flash-the-ubuntu-images-on-nabu.4610535/
 
+  > https://wiki.postmarketos.org/wiki/Qualcomm_Snapdragon_835_(MSM8998)#WLAN
+
 ## 1. Copy Firmware
   ```
   /lib/firmware/qcom/sdm845/
@@ -12,7 +14,7 @@
 
 ## 2. Install Service
   ```
-  apt install rmtfs qrtr-tools tqftpserv libqrtr-dev liblzma-dev
+  apt install rmtfs qrtr qrtr-tools tqftpserv libqrtr-dev liblzma-dev
   ```
   or
   ```
