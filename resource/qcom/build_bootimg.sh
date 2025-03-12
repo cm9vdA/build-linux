@@ -4,6 +4,7 @@
 # referer:
 # https://releases.linaro.org/96boards/dragonboard410c/linaro/debian/21.12/
 # https://releases.linaro.org/96boards/dragonboard845c/linaro/debian/21.12/
+# https://releases.linaro.org/96boards/rb5/linaro/debian/21.12/
 
 PWD_DIR=${PWD}
 TMP_DIR=/dev/shm/.tmp_install

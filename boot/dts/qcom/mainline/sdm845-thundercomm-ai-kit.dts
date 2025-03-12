@@ -797,6 +797,34 @@
 };
 
 &pm8998_gpios {
+	gpio-line-names =
+		"",
+		"",
+		"WLAN_SW_CTRL",
+		"",
+		"CAM_N",
+		"VOL_UP_N",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"PCIE0_3V3_EN",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"WCSS_PWR_REQ",
+		"",
+		"",
+		"";
+
 	cam0_dvdd_1v2_en_default: cam0-dvdd-1v2-en-state {
 		pins = "gpio9"; // bsp
 		function = "normal";
@@ -909,7 +937,19 @@
 		function-enumerator = <3>;
 	};
 };
+/*
+&q6cvp {
+	status = "okay";
+};
 
+&q6cvs {
+	status = "okay";
+};
+
+&q6mvm {
+	status = "okay";
+};
+*/
 /* QUAT I2S Uses 4 I2S SD Lines for audio on LT9611 HDMI Bridge */
 &q6afedai {
 	dai@22 {
@@ -1235,6 +1275,11 @@
 // debug TTL
 &uart9 {
 	label = "LS-UART1";
+	status = "okay";
+};
+
+&slpi_pas {
+	firmware-name = "qcom/sdm845/Thundercomm/db845c/slpi.mbn";
 	status = "okay";
 };
 
