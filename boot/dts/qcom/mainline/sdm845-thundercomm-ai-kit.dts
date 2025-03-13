@@ -230,7 +230,7 @@
 		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
 
-	vcc5v0_sys: vcc5v0-sys-regulator{
+	lt9611_5v0: vcc5v0_sys: vcc5v0-sys-regulator{
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 
@@ -246,7 +246,41 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_sys_h>; // bsp
 	};
+/*
+	vcc5v0_typec: vcc5v0-typec-regulator{
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_typec";
 
+		vin-supply = <&vdc_5v>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+
+		gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_typec_en>; // bsp
+	};
+
+	vcc5v0_typec_sy6288: vcc5v0-typec-sy6288-regulator{
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_typec_sy6288";
+
+		vin-supply = <&vdc_5v>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+
+		gpio = <&tlmm 2 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&sy6288_en_h>; // bsp
+	};
+*/
 	vbat: vbat-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "vbat";
@@ -649,6 +683,7 @@
 		interrupts-extended = <&tlmm 44 IRQ_TYPE_EDGE_FALLING>; // bsp
 
 		reset-gpios = <&tlmm 42 GPIO_ACTIVE_HIGH>; // bsp
+		// enable-gpios = <&tlmm 50 GPIO_ACTIVE_HIGH>; // verify
 
 		vdd-supply = <&lt9611_1v8>;
 		vcc-supply = <&lt9611_3v3>;
@@ -1122,11 +1157,11 @@
 		output-high;
 	};
 
-	// vcc5v0_host1_en: vcc5v0-host1-en {
-	// 	pins = "gpio51";
-	// 	function = "gpio";
-	// 	output-high;
-	// };
+	vcc5v0_typec_en: vcc5v0-typec-en {
+		pins = "gpio51";
+		function = "gpio";
+		output-high;
+	};
 
 	actuator_regulator: actuator_regulator_pin {
 		pins = "gpio27"; // bsp
@@ -1134,16 +1169,34 @@
 		output-high;
 	};
 
-	lt9611_rst_pin: lt9611-rst-state {
+	lt9611_receiver_en: lt9611-receiver-en {
+		pins = "gpio31"; // bsp
+		function = "gpio";
+		output-high;
+	};
+
+	lt9611_rst_pin: lt9611-rst-pin {
 		pins = "gpio42"; // bsp
 		function = "gpio";
 		output-high;
 	};
 
-	lt9611_irq_pin: lt9611-irq-state {
+	lt9611_irq_pin: lt9611-irq-pin {
 		pins = "gpio44"; // bsp
 		function = "gpio";
 		bias-disable;
+	};
+
+	lt9611_hdp_irq_pin: lt9611-hdp-irq-pin {
+		pins = "gpio52"; // bsp
+		function = "gpio";
+		bias-disable;
+	};
+
+	lt9611_power_en: lt9611-power-en {
+		pins = "gpio50"; // bsp
+		function = "gpio";
+		output-high;
 	};
 
 	pcie0_default_state: pcie0-default-state {
@@ -1194,6 +1247,21 @@
 		function = "gpio";
 
 		drive-strength = <2>;
+		bias-disable;
+	};
+
+	sy6288_en_h: sy6288-en-h {
+		pins = "gpio2"; // bsp
+		function = "gpio";
+
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	// Type-C Over-Current Signal
+	sy6288_int: sy6288-int {
+		pins = "gpio3"; // bsp
+		function = "gpio";
 		bias-disable;
 	};
 
