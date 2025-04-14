@@ -434,7 +434,7 @@
 		clock-output-names = "rk808-clkout1", "rk808-clkout2"; // bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&pmic_int_l &pmic_dvs2>;
-		rockchip,system-power-controller;
+		system-power-controller;
 		wakeup-source;
 
 		vcc1-supply = <&vcc5v0_sys>;
@@ -927,7 +927,7 @@
 		reg = <1>;
 		compatible = "brcm,bcm43455-fmac";
 		interrupt-parent = <&gpio0>;
-		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>; // bsp verify
+		interrupts = <RK_PA3 IRQ_TYPE_LEVEL_HIGH>; // bsp verify
 		interrupt-names = "host-wake";
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_host_wake_l>;
