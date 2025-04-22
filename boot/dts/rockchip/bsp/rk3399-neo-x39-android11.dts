@@ -414,8 +414,8 @@
 		phy-supply = <0x24>;
 		phy-mode = "rgmii";
 		clock_in_out = "input";
-		snps,reset-gpio = <0x25 0x0f 0x00>;
-		phy,control-gpio = <0x26 0x16 0x01>;
+		snps,reset-gpio = <&gpio3 RK_PB7 0x00>;
+		phy,control-gpio = <&gpio1 RK_PC6 0x01>;
 		snps,reset-active-high;
 		snps,reset-delays-us = <0x00 0x2710 0xc350>;
 		assigned-clocks = <0x08 0xa6>;
@@ -662,7 +662,7 @@
 		rockchip,grf = <0x23>;
 		#sound-dai-cells = <0x01>;
 		status = "okay";
-		hpd_inter = <0x3d 0x19 0x01>;
+		hpd_inter = <&gpio4 RK_PD1 0x01>;
 		phandle = <0xdf>;
 
 		ports {
@@ -1453,7 +1453,7 @@
 			vin-supply = <0x87>;
 			regulator-compatible = "fan53555-reg";
 			pinctrl-0 = <0x88>;
-			vsel-gpios = <0x26 0x11 0x00>;
+			vsel-gpios = <&gpio1 RK_PC1 0x00>;
 			regulator-name = "vdd_cpu_b";
 			regulator-min-microvolt = <0xadf34>;
 			regulator-max-microvolt = <0x16e360>;
@@ -1475,7 +1475,7 @@
 			vin-supply = <0x87>;
 			regulator-compatible = "fan53555-reg";
 			pinctrl-0 = <0x89>;
-			vsel-gpios = <0x26 0x0e 0x00>;
+			vsel-gpios = <&gpio1 RK_PB6 0x00>;
 			regulator-name = "vdd_gpu";
 			regulator-min-microvolt = <0xb3718>;
 			regulator-max-microvolt = <0x155cc0>;
@@ -1729,7 +1729,7 @@
 			reg = <0x15>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x8d>;
-			mcu_watchdog_gpio = <0x26 0x01 0x00>;
+			mcu_watchdog_gpio = <&gpio1 RK_PA1 0x00>;
 			status = "okay";
 			phandle = <0x123>;
 		};
@@ -1746,7 +1746,7 @@
 		rtc_hym8563@51 {
 			compatible = "rk,rtc_hym8563";
 			reg = <0x51>;
-			irq_gpio = <0x26 0x12 0x00>;
+			irq_gpio = <&gpio1 RK_PC2 0x00>;
 			phandle = <0x125>;
 		};
 	};
@@ -2096,8 +2096,8 @@
 			status = "okay";
 			pinctrl-names = "default";
 			pinctrl-0 = <0x9f>;
-			mcu_inter = <0x26 0x02 0x00>;
-			mcu_inter_typec_pullout = <0x26 0x00 0x00>;
+			mcu_inter = <&gpio1 RK_PA2 0x00>;
+			mcu_inter_typec_pullout = <&gpio1 RK_PA0 0x00>;
 			phandle = <0x34>;
 
 			host-port {
@@ -2951,7 +2951,7 @@
 		ranges;
 		phandle = <0x157>;
 
-		gpio0@ff720000 {
+		gpio0: gpio0@ff720000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xff720000 0x00 0x100>;
 			clocks = <0x80 0x17>;
@@ -2963,7 +2963,7 @@
 			phandle = <0xcd>;
 		};
 
-		gpio1@ff730000 {
+		gpio1: gpio1@ff730000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xff730000 0x00 0x100>;
 			clocks = <0x80 0x18>;
@@ -2975,7 +2975,7 @@
 			phandle = <0x26>;
 		};
 
-		gpio2@ff780000 {
+		gpio2: gpio2@ff780000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xff780000 0x00 0x100>;
 			clocks = <0x08 0x150>;
@@ -2987,7 +2987,7 @@
 			phandle = <0xe0>;
 		};
 
-		gpio3@ff788000 {
+		gpio3: gpio3@ff788000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xff788000 0x00 0x100>;
 			clocks = <0x08 0x151>;
@@ -2999,7 +2999,7 @@
 			phandle = <0x25>;
 		};
 
-		gpio4@ff790000 {
+		gpio4: gpio4@ff790000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xff790000 0x00 0x100>;
 			clocks = <0x08 0x152>;
@@ -3849,7 +3849,7 @@
 		rockchip,sleep-mode-config = <0xfe>;
 		rockchip,wakeup-config = <0x04>;
 		rockchip,pwm-regulator-config = <0x04>;
-		rockchip,power-ctrl = <0x26 0x11 0x00 0x26 0x0e 0x00>;
+		rockchip,power-ctrl = <&gpio1 RK_PC1 0x00 &gpio1 RK_PB6 0x00>;
 		phandle = <0x186>;
 	};
 
@@ -3920,7 +3920,7 @@
 
 		power {
 			debounce-interval = <0x64>;
-			gpios = <0xcd 0x05 0x01>;
+			gpios = <&gpio0 RK_PA5 0x01>;
 			label = "GPIO Key Power";
 			linux,code = <0x74>;
 			wakeup-source;
@@ -4366,7 +4366,7 @@
 
 	rk-headset {
 		compatible = "rockchip_headset";
-		headset_gpio = <0x3d 0x05 0x01>;
+		headset_gpio = <&gpio4 RK_PA5 0x01>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xd9>;
 		io-channels = <0xd3 0x02>;
@@ -4392,7 +4392,7 @@
 		clock-names = "ext_clock";
 		pinctrl-names = "default";
 		pinctrl-0 = <0xdb>;
-		reset-gpios = <0xcd 0x0a 0x01>;
+		reset-gpios = <&gpio0 RK_PB2 0x01>;
 		phandle = <0x2a>;
 	};
 
@@ -4436,7 +4436,7 @@
 	vcc5v0-host-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x3d 0x1a 0x00>;
+		gpio = <&gpio4 RK_PD2 0x00>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xdc>;
 		regulator-name = "vcc5v0_host";
@@ -4447,7 +4447,7 @@
 	vcc-pwr-1v8-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x26 0x18 0x00>;
+		gpio = <&gpio1 RK_PD0 0x00>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xdd>;
 		regulator-name = "vcc_pwr_1v8";
@@ -4491,7 +4491,7 @@
 		rockchip,grf = <0x23>;
 		wifi_chip_type = "ap6356";
 		sdio_vref = <0x708>;
-		WIFI,host_wake_irq = <0xcd 0x03 0x00>;
+		WIFI,host_wake_irq = <&gpio0 RK_PA3 0x00>;
 		status = "okay";
 	};
 
@@ -4507,32 +4507,32 @@
 		compatible = "bluetooth-platdata";
 		clocks = <0xda 0x01>;
 		clock-names = "ext_clock";
-		uart_rts_gpios = <0xe0 0x13 0x01>;
+		uart_rts_gpios = <&gpio2 RK_PC3 0x01>;
 		pinctrl-names = "default\0rts_gpio";
 		pinctrl-0 = <0xe1>;
 		pinctrl-1 = <0xe2>;
-		BT,reset_gpio = <0xcd 0x09 0x00>;
-		BT,wake_gpio = <0xe0 0x1b 0x00>;
-		BT,wake_host_irq = <0xcd 0x04 0x00>;
+		BT,reset_gpio = <&gpio0 RK_PB1 0x00>;
+		BT,wake_gpio = <&gpio2 RK_PD3 0x00>;
+		BT,wake_host_irq = <&gpio0 RK_PA4 0x00>;
 		status = "okay";
 	};
 
 	jw_io_init {
 		compatible = "jw_io_control";
-		hdmi_5v_gpio = <0x3d 0x1d 0x00>;
-		led_ctl = <0x3d 0x1c 0x00>;
-		hub_rst_gpio = <0x3d 0x1e 0x00>;
-		power_hold_gpio = <0xcd 0x08 0x00>;
-		mic_switch_gpio = <0x3d 0x06 0x00>;
-		audio_switch_gpio = <0x3d 0x07 0x00>;
-		pwm_gpio = <0x3d 0x16 0x00>;
+		hdmi_5v_gpio = <&gpio4 RK_PD5 0x00>;
+		led_ctl = <&gpio4 RK_PD4 0x00>;
+		hub_rst_gpio = <&gpio4 RK_PD6 0x00>;
+		power_hold_gpio = <&gpio0 RK_PB0 0x00>;
+		mic_switch_gpio = <&gpio4 RK_PA6 0x00>;
+		audio_switch_gpio = <&gpio4 RK_PA7 0x00>;
+		pwm_gpio = <&gpio4 RK_PC6 0x00>;
 		pwms = <0xe3 0x00 0xf4240 0x00>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xe4>;
-		ddr_check_1_gpio = <0xe0 0x00 0x00>;
-		ddr_check_2_gpio = <0xe0 0x07 0x00>;
-		ddr_check_3_gpio = <0xe0 0x0b 0x00>;
-		ddr_check_4_gpio = <0xe0 0x0c 0x00>;
+		ddr_check_1_gpio = <&gpio2 RK_PA0 0x00>;
+		ddr_check_2_gpio = <&gpio2 RK_PA7 0x00>;
+		ddr_check_3_gpio = <&gpio2 RK_PB3 0x00>;
+		ddr_check_4_gpio = <&gpio2 RK_PB4 0x00>;
 	};
 
 	__symbols__ {
