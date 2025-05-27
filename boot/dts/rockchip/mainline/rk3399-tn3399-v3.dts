@@ -270,7 +270,7 @@
 	trips {
 		cpu_hot: cpu_hot {
 			hysteresis = <10000>;
-			temperature = <60000>;
+			temperature = <65000>;
 			type = "active";
 		};
 	};
