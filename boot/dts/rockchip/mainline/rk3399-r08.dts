@@ -60,16 +60,16 @@
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>; // bsp
 	};
 
-	vcc12v_dcin: vcc12v-dcin {
+	dc_12v: regulator-dc-12v {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc12v_dcin";
+		regulator-name = "dc_12v";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <12000000>;
 		regulator-max-microvolt = <12000000>;
 	};
 
-	vcc5v0_sys: vcc5v0-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
@@ -78,7 +78,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -87,16 +87,16 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vcc_sys: vcc-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc_sys";
+		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <3900000>;
 		regulator-max-microvolt = <3900000>;
 	};
 
-	vcc1v8_s0: vcc1v8-s0 {
+	vcc1v8_s0: regulator-vcc1v8-s0 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s0";
 		regulator-min-microvolt = <1800000>;
@@ -105,7 +105,7 @@
 		regulator-boot-on;
 	};
 
-	vcc_otg_vbus: otg-vbus-regulator {
+	vcc_otg_vbus: regulator-otg-vbus {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // bsp
@@ -116,7 +116,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc_phy: vcc-phy-regulator {
+	vcc_phy: regulator-vcc-phy {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_phy";
 		regulator-always-on;
@@ -257,16 +257,16 @@
 		system-power-controller;
 		wakeup-source;
 
-		vcc1-supply = <&vcc_sys>;
-		vcc2-supply = <&vcc_sys>;
-		vcc3-supply = <&vcc_sys>;
-		vcc4-supply = <&vcc_sys>;
-		vcc6-supply = <&vcc_sys>;
-		vcc7-supply = <&vcc_sys>;
+		vcc1-supply = <&vcc5v0_sys>;
+		vcc2-supply = <&vcc5v0_sys>;
+		vcc3-supply = <&vcc5v0_sys>;
+		vcc4-supply = <&vcc5v0_sys>;
+		vcc6-supply = <&vcc5v0_sys>;
+		vcc7-supply = <&vcc5v0_sys>;
 		vcc8-supply = <&vcc3v3_sys>;
-		vcc9-supply = <&vcc_sys>;
-		vcc10-supply = <&vcc_sys>;
-		vcc11-supply = <&vcc_sys>;
+		vcc9-supply = <&vcc5v0_sys>;
+		vcc10-supply = <&vcc5v0_sys>;
+		vcc11-supply = <&vcc5v0_sys>;
 		vcc12-supply = <&vcc3v3_sys>;
 		vddio-supply = <&vcc_1v8>;
 
@@ -452,7 +452,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-on-in-suspend;
@@ -471,7 +471,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-on-in-suspend;

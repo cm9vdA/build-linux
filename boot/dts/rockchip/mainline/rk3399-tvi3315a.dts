@@ -84,7 +84,7 @@
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>; // bsp
 	};
 
-	vcc3v3_pcie: vcc3v3-pcie-regulator {
+	vcc3v3_pcie: regulator-vcc3v3-pcie {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio2 RK_PA2 GPIO_ACTIVE_HIGH>; // bsp 66
@@ -95,7 +95,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys { // bsp
+	vcc3v3_sys: regulator-vcc3v3-sys { // bsp
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -105,7 +105,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_host: vcc5v0-host-regulator {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		gpio = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>; // bsp 76
 		pinctrl-names = "default";
@@ -114,7 +114,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_otg: vcc5v0-otg-regulator {
+	vcc5v0_otg: regulator-vcc5v0-otg {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>; // bsp 154
@@ -125,7 +125,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0: vcc5v0-regulator {
+	vcc5v0: regulator-vcc5v0 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>; // bsp 12
@@ -135,7 +135,7 @@
 		regulator-always-on;
 	};
 
-	vcc12v0: vcc12v0-regulator {
+	vcc12v0: regulator-vcc12v0 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PC7 GPIO_ACTIVE_HIGH>; // bsp 55
@@ -147,7 +147,7 @@
 		regulator-always-on;
 	};
 
-	vcc_sys: vcc5v0_sys: vcc5v0-sys {
+	vcc5v0_sys: vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
@@ -159,7 +159,7 @@
 	vdd_log: vdd-log { // bsp
 		compatible = "pwm-regulator";
 		pwms = <&pwm2 0 25000 1>;
-		pwm-supply = <&vcc_sys>;
+		pwm-supply = <&vcc5v0_sys>;
 		regulator-name = "vdd_log";
 		regulator-always-on;
 		regulator-boot-on;
@@ -167,7 +167,7 @@
 		regulator-max-microvolt = <1400000>;
 	};
 
-	vcc_phy: vcc-phy-regulator {
+	vcc_phy: regulator-vcc-phy {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_phy";
 		regulator-always-on;
@@ -518,7 +518,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;
@@ -537,7 +537,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;

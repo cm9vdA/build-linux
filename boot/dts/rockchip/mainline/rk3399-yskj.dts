@@ -12,6 +12,7 @@
 	compatible = "rockchip,rk3399";
 
 	aliases {
+		ethernet0 = &gmac;
 		// mdio-gpio0 = &gpio_mdio;
 		mmc0 = &sdio0;
 		mmc1 = &sdmmc;
@@ -29,7 +30,7 @@
 		#clock-cells = <0>;
 	};
 
-	dc_12v: dc-12v {
+	dc_12v: regulator-dc-12v {
 		compatible = "regulator-fixed";
 		regulator-name = "dc_12v";
 		regulator-always-on;
@@ -37,7 +38,7 @@
 		regulator-min-microvolt = <12000000>;
 		regulator-max-microvolt = <12000000>;
 	};
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -45,7 +46,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 	};
-	vcc5v0_sys: vcc5v0-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
@@ -54,7 +55,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc_phy: vcc-phy-regulator {
+	vcc_phy: regulator-vcc-phy {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_phy";
 		regulator-always-on;
@@ -72,7 +73,7 @@
 		rockchip,pwm_voltage = <1000000>;
 	};
 
-	vcc1v8_sys: vccadc-ref {
+	vcc1v8_sys: regulator-vccadc-ref {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_sys";
 		regulator-always-on;

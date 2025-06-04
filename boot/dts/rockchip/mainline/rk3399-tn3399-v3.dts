@@ -91,7 +91,7 @@
 		pinctrl-0 = <&ns4258_en>;
 		enable-gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>;
 		sound-name-prefix = "NS4258";
-		VCC-supply = <&audio_5v>;
+		VCC-supply = <&vcc5v0_audio>;
 	};
 
 	sdio_pwrseq: sdio-pwrseq {
@@ -103,26 +103,26 @@
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>; // sch
 	};
 
-	vcc12v_dcin: vcc12v-dcin { // checked
+	dc_12v: regulator-dc-12v { // checked
 		compatible = "regulator-fixed";
-		regulator-name = "vcc12v_dcin";
+		regulator-name = "dc_12v";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <12000000>;
 		regulator-max-microvolt = <12000000>;
 	};
 
-	vcc5v0_sys: vcc5v0-sys { // checked
+	vcc5v0_sys: regulator-vcc5v0-sys { // checked
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		vin-supply = <&vcc12v_dcin>;
+		vin-supply = <&dc_12v>;
 	};
 
-	vcc5v0_host: vcc5v0-host {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>; // sch
@@ -136,17 +136,17 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys { // checked
+	vcc3v3_sys: regulator-vcc3v3-sys { // checked
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
-		vin-supply = <&vcc12v_dcin>;
+		vin-supply = <&dc_12v>;
 	};
 
-	vcc3v0_sd: vcc3v0-sd {
+	vcc3v0_sd: regulator-vcc3v0-sd {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>; // sch
@@ -161,7 +161,7 @@
 	};
 
 	// 4G Module
-	vcc3v6_lte: vcc3v3-lte {
+	vcc3v6_lte: regulator-vcc3v3-lte {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio2 RK_PA2 GPIO_ACTIVE_HIGH>; // sch
@@ -169,10 +169,10 @@
 		pinctrl-0 = <&vcc3v6_lte_en>;
 		regulator-name = "vcc3v6_lte";
 		regulator-always-on;
-		vin-supply = <&vcc12v_dcin>;
+		vin-supply = <&dc_12v>;
 	};
 
-	vcca1v8_s3: vcca1v8-s3 {
+	vcca1v8_s3: regulator-vcca1v8-s3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcca1v8_s3";
 		regulator-always-on;
@@ -182,7 +182,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcca0v9_s3: vcca0v9-s3 {
+	vcca0v9_s3: regulator-vcca0v9-s3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcca0v9_s3";
 		regulator-always-on;
@@ -192,7 +192,7 @@
 		vin-supply = <&vcc_1v8>;
 	};
 
-	vcc_0v9: vcc-0v9 { // checked
+	vcc_0v9: regulator-vcc_0v9 { // checked
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_0v9";
 		regulator-always-on;
@@ -202,7 +202,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc_lan: vcc-lan {
+	vcc_lan: regulator-vcc-lan {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_lan";
 		regulator-always-on;
@@ -223,9 +223,9 @@
 		regulator-max-microvolt = <1400000>;
 	};
 
-	audio_5v: audio-5v {
+	vcc5v0_audio: regulator-vcc5v0-audio {
 		compatible = "regulator-fixed";
-		regulator-name = "audio_5v";
+		regulator-name = "vcc5v0_audio";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
@@ -233,7 +233,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	fan0: gpio-fan { // verify DC_12V
+	fan0: regulator-gpio-fan { // verify DC_12V
 		#cooling-cells = <2>;
 		compatible = "gpio-fan";
 		gpio-fan,speed-map = <0 0 3000 1>;

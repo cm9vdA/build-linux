@@ -135,7 +135,7 @@
 	};
 
 	/* switched by pmic_sleep */
-	vcc1v8_s3: vcca1v8_s3: vcc1v8-s3 {
+	vcc1v8_s3: vcca1v8_s3: regulator-vcc1v8-s3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s3";
 		regulator-always-on;
@@ -145,7 +145,7 @@
 		vin-supply = <&vcc_1v8>;
 	};
 
-	vcc3v0_sd: vcc3v0-sd {
+	vcc3v0_sd: regulator-vcc3v0-sd {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>; // bsp
@@ -158,7 +158,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -169,7 +169,7 @@
 	};
 
 	// 4G Module
-	vcc3v3_gsm: vcc3v3-gsm {
+	vcc3v3_gsm: regulator-vcc3v3-gsm {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>; // bsp
@@ -181,7 +181,7 @@
 	};
 
 	// vdd 5v: USB 2&3, USB Hub, Type-C, HDMI, MIPI, IR
-	vcc5v0_host: vcc5v0-host-regulator {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		regulator-boot-on;
@@ -193,7 +193,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_typec0: vbus-typec-regulator {
+	vcc5v0_typec0: regulator-vbus-typec {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>; // bsp
@@ -203,7 +203,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc_sys: vcc5v0_sys: vcc5v0-sys { // bsp
+	vcc5v0_sys: vcc5v0_sys: regulator-vcc5v0-sys { // bsp
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
@@ -214,7 +214,7 @@
 	};
 
 
-	dc_12v: vdd_12v: dc-12v { // dc_12v vdd_12V
+	dc_12v: vdd_12v: regulator-dc-12v { // dc_12v vdd_12V
 		compatible = "regulator-fixed";
 		regulator-name = "dc_12v";
 		regulator-always-on;

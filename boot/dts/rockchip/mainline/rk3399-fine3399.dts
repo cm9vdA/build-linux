@@ -30,7 +30,7 @@
 		#clock-cells = <0>;
 	};
 
-	dc_12v: dc-12v {
+	dc_12v: regulator-dc-12v {
 		compatible = "regulator-fixed";
 		regulator-name = "dc_12v";
 		regulator-always-on;
@@ -49,7 +49,7 @@
 	};
 
 	/* switched by pmic_sleep */
-	vcc1v8_s3: vcca1v8_s3: vcc1v8-s3 {
+	vcc1v8_s3: vcca1v8_s3: regulator-vcc1v8-s3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s3";
 		regulator-always-on;
@@ -59,7 +59,7 @@
 		vin-supply = <&vcc_1v8>;
 	};
 
-	vcc3v3_sys: vcc3v3_pcie: vcc3v3_bl: vcc3v3-sys { // sch
+	vcc3v3_sys: vcc3v3_pcie: vcc3v3_bl: regulator-vcc3v3-sys { // sch
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -69,9 +69,9 @@
 		vin-supply = <&dc_12v>;
 	};
 
-	vcc_sys: vcc-sys { // sch
+	vcc5v0_sys: regulator-vcc5v0-sys { // sch
 		compatible = "regulator-fixed";
-		regulator-name = "vcc_sys";
+		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
@@ -79,7 +79,7 @@
 		vin-supply = <&dc_12v>;
 	};
 
-	vcc_phy: vcc-phy-regulator {
+	vcc_phy: regulator-vcc-phy {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>;
@@ -98,7 +98,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1400000>;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	leds: gpio-leds {
@@ -132,7 +132,7 @@
 		compatible = "pwm-fan";
 		cooling-levels = <0 50 100 150 200 255>;
 		#cooling-cells = <2>;
-		fan-supply = <&vcc_sys>;
+		fan-supply = <&vcc5v0_sys>;
 		pwms = <&pwm1 0 40000 0>;
 	};
 
@@ -456,7 +456,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;
@@ -475,7 +475,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;

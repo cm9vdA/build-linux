@@ -112,7 +112,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vdd_log: regulator-vdd-log {
+	vdd_log: vdd-log {
 		compatible = "pwm-regulator";
 		pwms = <&pwm2 0 25000 1>;
 		pwm-supply = <&vcc5v0_sys>;

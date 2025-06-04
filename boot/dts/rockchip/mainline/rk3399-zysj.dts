@@ -79,14 +79,14 @@
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>; // bsp
 	};
 
-	vcc_phy: vcc-phy-regulator { // bsp
+	vcc_phy: regulator-vcc-phy { // bsp
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_phy";
 		regulator-always-on;
 		regulator-boot-on;
 	};
 
-	vcc1v8_s0: vcc1v8-s0 { // bsp
+	vcc1v8_s0: regulator-vcc1v8-s0 { // bsp
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s0";
 		regulator-always-on;
@@ -96,7 +96,7 @@
 	};
 
 	/* switched by pmic_sleep */
-	vcc1v8_s3: vcca1v8_s3: vcc1v8-s3 { // ?
+	vcc1v8_s3: vcca1v8_s3: regulator-vcc1v8-s3 { // ?
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s3";
 		regulator-always-on;
@@ -106,7 +106,7 @@
 		vin-supply = <&vcc_1v8>;
 	};
 
-	vcc3v3_sd: vcc3v0-sd {
+	vcc3v3_sd: regulator-vcc3v0-sd {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>; // bsp
@@ -119,7 +119,7 @@
 		vin-supply = <&vcc3v3_sys>;
 		};
 
-	vcc3v3_sys: vcc3v3-sys { // bsp
+	vcc3v3_sys: regulator-vcc3v3-sys { // bsp
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -128,7 +128,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vcc5v0_host: vcc5v0-host-regulator {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio2 RK_PA6 GPIO_ACTIVE_HIGH>; // bsp
@@ -138,23 +138,23 @@
 		regulator-always-on;
 	};
 
-	vbus_typec: vbus-typec-regulator {
+	vbus_typec: regulator-vbus-typec {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; //bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_typec_en>;
 		regulator-name = "vbus_typec";
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc_sys: vcc-sys { // bsp
+	vcc5v0_sys: regulator-vcc5v0-sys { // bsp
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>; //bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_en>;
-		regulator-name = "vcc_sys";
+		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
@@ -169,12 +169,12 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1400000>;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 /*
 	// Unused DSI
-	vcc_lcd: vcc-lcd { // bsp
+	vcc_lcd: regulator-vcc3v3-lcd { // bsp
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio3 RK_PD4 GPIO_ACTIVE_HIGH>;
@@ -185,7 +185,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-name = "vcc_lcd";
 		startup-delay-us = <20000>;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 */
 
@@ -577,7 +577,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;
@@ -596,7 +596,7 @@
 		regulator-ramp-delay = <1000>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 
 		regulator-state-mem {
 			regulator-off-in-suspend;

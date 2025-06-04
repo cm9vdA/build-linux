@@ -54,16 +54,16 @@
 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
 	};
 
-	vcc12v_dcin: vcc12v-dcin {
+	dc_12v: regulator-dc-12v {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc12v_dcin";
+		regulator-name = "dc_12v";
 		regulator-min-microvolt = <12000000>;
 		regulator-max-microvolt = <12000000>;
 		regulator-always-on;
 		regulator-boot-on;
 	};
 
-	vcc1v8_s0: vcc1v8-s0 {
+	vcc1v8_s0: regulator-vcc1v8-s0 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s0";
 		regulator-min-microvolt = <1800000>;
@@ -71,16 +71,16 @@
 		regulator-always-on;
 	};
 
-	vcc5v0_sys: vcc5v0-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
-		vin-supply = <&vcc12v_dcin>;
+		vin-supply = <&dc_12v>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-min-microvolt = <3300000>;
@@ -89,7 +89,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_host: vcc5v0-host-regulator {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		pinctrl-names = "default";
@@ -102,7 +102,7 @@
 		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // verify
 	};
 
-	vcc5v0_typec: vcc5v0-typec-regulator {
+	vcc5v0_typec: regulator-vcc5v0-typec {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
@@ -110,17 +110,17 @@
 		pinctrl-0 = <&vcc5v0_typec_en>;
 		regulator-name = "vcc5v0_typec";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc_sys: vcc-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc_sys";
+		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		vin-supply = <&vcc12v_dcin>;
+		vin-supply = <&dc_12v>;
 	};
 
 	rt5651-sound {

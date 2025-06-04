@@ -27,7 +27,7 @@
 		#clock-cells = <0>;
 	};
 
-	dc_12v: dc-12v {
+	dc_12v: regulator-dc-12v {
 		compatible = "regulator-fixed";
 		regulator-name = "dc_12v";
 		regulator-always-on;
@@ -37,7 +37,7 @@
 	};
 
 	/* switched by pmic_sleep */
-	vcc1v8_s3: vcca1v8_s3: vcc1v8-s3 {
+	vcc1v8_s3: vcca1v8_s3: regulator-vcc1v8-s3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc1v8_s3";
 		regulator-always-on;
@@ -47,7 +47,7 @@
 		vin-supply = <&vcc_1v8>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -57,7 +57,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc_phy: vcc-phy-regulator {
+	vcc_phy: regulator-vcc-phy {
 		compatible = "regulator-fixed";
 		regulator-always-on;
 		regulator-boot-on;
@@ -65,7 +65,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc5v0_host0: vcc5v0-host0-regulator {
+	vcc5v0_host0: regulator-vcc5v0-host0 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>;
@@ -79,7 +79,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_host1: vcc5v0-host1-regulator {
+	vcc5v0_host1: regulator-vcc5v0-host1 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>;
@@ -93,7 +93,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_otg0: vcc5v0-otg0-regulator {
+	vcc5v0_otg0: regulator-vcc5v0-otg0 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA0 GPIO_ACTIVE_HIGH>;
@@ -107,7 +107,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_otg1: vcc5v0-otg1-regulator {
+	vcc5v0_otg1: regulator-vcc5v0-otg1 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
@@ -121,7 +121,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc3v3_lte: vcc3v3-lte-regulator {
+	vcc3v3_lte: regulator-vcc3v3-lte {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
@@ -135,7 +135,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc3v3_wifi: vcc3v3-wifi-regulator {
+	vcc3v3_wifi: regulator-vcc3v3-wifi {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
@@ -149,7 +149,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc5v0_usb1: vcc5v0-usb1-regulator {
+	vcc5v0_usb1: regulator-vcc5v0-usb1 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_HIGH>;
@@ -163,7 +163,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_usb2: vcc5v0-usb2-regulator {
+	vcc5v0_usb2: regulator-vcc5v0-usb2 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
@@ -177,7 +177,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_usb3: vcc5v0-usb3-regulator {
+	vcc5v0_usb3: regulator-vcc5v0-usb3 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
@@ -191,7 +191,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_usb4: vcc5v0-usb4-regulator {
+	vcc5v0_usb4: regulator-vcc5v0-usb4 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
@@ -205,7 +205,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_usb5: vcc5v0-usb5-regulator {
+	vcc5v0_usb5: regulator-vcc5v0-usb5 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD0 GPIO_ACTIVE_HIGH>;
@@ -219,7 +219,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_usb6: vcc5v0-usb6-regulator {
+	vcc5v0_usb6: regulator-vcc5v0-usb6 {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA2 GPIO_ACTIVE_HIGH>;
@@ -233,7 +233,7 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_sys: vcc-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
