@@ -1,4 +1,7 @@
 export ARCH=arm64
 export TARGET_ARCH=aarch64
-export TARGET_VERSION=bookworm
+export TARGET_VERSION=trixie
 export TARGET_FS=debian_${TARGET_VERSION}
+
+PKG_LIST="binfmt-support debootstrap"
+DEPENDENCY_LIST="qemu-aarch64-static qemu-arm-static debootstrap"

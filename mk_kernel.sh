@@ -17,8 +17,6 @@ else
 fi
 
 init() {
-	check_dependency "make git dpkg mkimage tar gzip time"
-
 	# Source env
 	source "${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
@@ -92,6 +90,8 @@ build_kernel() {
 	local make_target=""
 	local valid=1
 
+	check_dependency "${DEPENDENCY_LIST}"
+
 	# 参数检查
 	if [ -z "${target}" ]; then
 		echo_error "Missing build target (e.g., kernel/modules/dtbs)"
@@ -125,6 +125,8 @@ build_kernel() {
 
 install_kernel() {
 	local dts_path kernel_img
+
+	check_dependency "${DEPENDENCY_LIST}"
 
 	cd "${KERNEL_SRC}"
 	rm -rf "${INSTALL_MOD_PATH}"
@@ -167,6 +169,8 @@ install_kernel() {
 }
 
 install_headers() {
+	check_dependency "${DEPENDENCY_LIST}"
+
 	cd "${KERNEL_SRC}"
 	# Install Headers
 	TIME="Total Time: %E\tExit:%x" time make headers_install ${BUILD_ARGS} INSTALL_HDR_PATH="${INSTALL_HDR_PATH}"
@@ -195,6 +199,9 @@ clean_all() {
 create_deb() {
 	local deb_name="${DT_FILE}-kernel"
 	local deb_version="${KERNEL_VERSION}-$(date +%Y%m%d%H%M)"
+
+	check_dependency "${DEPENDENCY_LIST}"
+
 	cd "${WORKSPACE_PATH}"
 
 	rm -rf deb/${deb_name}
@@ -230,6 +237,7 @@ show_menu() {
 	cd "${KERNEL_SRC}"
 
 	echo_title "================ Menu Option ================"
+	echo_menu 0 " Install Required Packages"
 	echo_menu 1 " Use Default Config"
 	echo_menu 2 " Menu Config"
 	echo_menu 3 " Build All"
@@ -241,11 +249,12 @@ show_menu() {
 	echo_menu 42 "└─ Install Headers"
 	echo_menu 5 " Archive Kernel"
 	echo_menu 6 " Clean"
-	read -p "Please Select: >> " OPT
 
+	read -rp "Please Select: >> " OPT
 	case ${OPT} in
-	1) make ${DEFCONFIG} ${BUILD_ARGS} ;;
-	2) make menuconfig ${BUILD_ARGS} ;;
+	0) install_pkg "${PKG_LIST}" ;;
+	1) check_dependency "${DEPENDENCY_LIST}" && make ${DEFCONFIG} ${BUILD_ARGS} ;;
+	2) check_dependency "${DEPENDENCY_LIST}" && make menuconfig ${BUILD_ARGS} ;;
 	3) build_kernel kernel && build_kernel modules && build_kernel dtbs ;;
 	31) build_kernel kernel ;;
 	32) build_kernel modules ;;
@@ -254,14 +263,8 @@ show_menu() {
 	41) install_kernel ;;
 	42) install_headers ;;
 	5) archive_kernel ;;
-	6)
-		make clean ${BUILD_ARGS}
-		rm -rf "${INSTALL_MOD_PATH:?}"/*
-		;;
-	mrproper) make mrproper ;;
-	0)
-		echo_info "Required Packages: flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev"
-		;;
+	6) make clean ${BUILD_ARGS} && rm -rf "${INSTALL_MOD_PATH:?}"/* ;;
+	mrproper) make mrproper ${BUILD_ARGS} ;;
 	*) echo_error "Invalid Option: [${OPT}]" ;;
 	esac
 }

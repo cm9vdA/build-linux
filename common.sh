@@ -88,3 +88,9 @@ compare_versions() {
 		return 2
 	fi
 }
+
+install_pkg() {
+	local pkg_list="$1"
+	echo_info "Installing: ${pkg_list}"
+	apt install -y ${pkg_list}
+}

@@ -17,8 +17,6 @@ else
 fi
 
 init() {
-	check_dependency "make git time"
-
 	source "${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
 	for var in BOARD_NAME BOARD_DEFCONFIG CPU_INFO VENDOR DT_FILE; do
@@ -64,6 +62,8 @@ process() {
 }
 
 build_atf() {
+	check_dependency "${DEPENDENCY_LIST}"
+
 	[ -z "${ATF_PLAT:-}" ] && echo_warn "ATF_PLAT not set" && return
 	[ ! -d "${ATF_SRC:-}" ] && git clone https://github.com/ARM-software/arm-trusted-firmware.git "${ATF_SRC}"
 	cd "${ATF_SRC}"
@@ -95,25 +95,32 @@ build_probe() {
 	link_file "${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${BOARD_DEFCONFIG}" "${UBOOT_SRC}/configs/${BOARD_DEFCONFIG}"
 }
 
+build_uboot() {
+	check_dependency "${DEPENDENCY_LIST}"
+
+	TIME="Total Time: %E\tExit:%x" time make ${BUILD_ARGS}
+}
+
 show_menu() {
 	cd "${UBOOT_SRC}"
 	echo_title "========= Menu Options ========="
+	echo_menu 0 "Install Required Packages"
 	echo_menu 1 "Use Default Config"
 	echo_menu 2 "Menu Config"
 	echo_menu 3 "Build U-Boot"
 	echo_menu 4 "Custom Process(Not implemented)"
 	echo_menu 5 "Clean"
-	read -p "Please Select: >> " OPT
 
+	read -rp "Please Select: >> " OPT
 	case ${OPT} in
+	0) install_pkg "${PKG_LIST}" ;;
 	1) build_probe && make ${DEFCONFIG} ${BUILD_ARGS} ;;
-	2) make menuconfig ${BUILD_ARGS} ;;
-	3) TIME="Total Time: %E\tExit:%x" time make ${BUILD_ARGS} ;;
+	2) check_dependency "${DEPENDENCY_LIST}" && make menuconfig ${BUILD_ARGS} ;;
+	3) build_uboot ;;
 	4) process ;;
 	5) make clean ${BUILD_ARGS} ;;
 	atf) build_atf ;;
-	mrproper) make mrproper ;;
-	0) echo_info "Packages: flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev python3-pyelftools libgnutls28-dev uuid-dev swig" ;;
+	mrproper) make mrproper ${BUILD_ARGS} ;;
 	*) echo_error "Invalid Option: [${OPT}]" ;;
 	esac
 }
