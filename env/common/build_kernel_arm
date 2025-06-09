@@ -9,5 +9,4 @@ KERNEL_TARGET="zImage"
 KERNEL_BRANCH="mainline"
 KERNEL_RECOMMEND="https://www.kernel.org/"
 ARCH_DEFCONFIG="defconfig"
-DT_LINK=1
 DT_TYPE="mainline"

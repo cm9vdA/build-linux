@@ -1,15 +1,38 @@
 #!/bin/bash
 
+set -euo pipefail
+
 WORKSPACE_PATH="${PWD}"
 SCRIPT_NAME="${0##*/}"
 # SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 SCRIPT_PATH="$(dirname $(readlink -f $0))"
 
-source "${SCRIPT_PATH}/common.sh"
+# Load common functions
+if [ -f "${SCRIPT_PATH}/common.sh" ]; then
+	source "${SCRIPT_PATH}/common.sh"
+else
+	echo "Missing common.sh script!"
+	exit 1
+fi
+
+# Check dependencies
+required_bins=(make git time)
+for bin in "${required_bins[@]}"; do
+	command -v "$bin" >/dev/null || {
+		echo "$bin not found. Please install it."
+		exit 1
+	}
+done
 
 init() {
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 	source "${ENV_FILE}"
+
+	check_param "BOARD_NAME"
+	check_param "BOARD_DEFCONFIG"
+	check_param "CPU_INFO"
+	check_param "VENDOR"
+	check_param "DT_FILE"
 
 	# Common Variable
 	export PATH="${PATH}:${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
@@ -24,13 +47,7 @@ init() {
 
 	BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
-
-	if [ "${ARCH_DEFCONFIG}" != "" ]; then
-		DEFCONFIG="${ARCH_DEFCONFIG}"
-	fi
-	if [ "${BOARD_DEFCONFIG}" != "" ]; then
-		DEFCONFIG="${BOARD_DEFCONFIG}"
-	fi
+	DEFCONFIG="${BOARD_DEFCONFIG}"
 
 	# if [ "${ATF_PLAT}" != "" ]; then
 	# 	ATF_SRC="${WORKSPACE_PATH}/arm-trusted-firmware"
@@ -88,37 +105,33 @@ build_atf() {
 }
 
 build_probe() {
+	local dts_link dts_up_link dts_src
+	local defconfig_path
+
 	# link dts
-	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
-		DT_PATH_LINK="${UBOOT_SRC}/arch/arm/dts/"
-		DT_UPSTREAM_LINK="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}/"
-		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
-		ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_PATH_LINK}"
-		if [ -d "${DT_UPSTREAM_LINK}" ]; then
-			ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_UPSTREAM_LINK}"
+	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
+	dts_link="${UBOOT_SRC}/arch/arm/dts/"
+	dts_up_link="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}/"
+	link_file "${dts_src}/${DT_FILE}.dts" "${dts_link}/${DT_FILE}.dts"
+	if [ -d "${dts_up_link}" ]; then
+		link_file "${dts_src}/${DT_FILE}.dts" "${dts_up_link}/${DT_FILE}.dts"
+	fi
+	if [ "${DT_INC_FILE}" != "" ]; then
+		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
+		if [ -d "${dts_up_link}" ]; then
+			link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_up_link}/${DT_INC_FILE}.dtsi"
 		fi
-		if [ "${DT_INC_FILE}" != "" ]; then
-			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
-			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_PATH_LINK}"
-			if [ -d "${DT_UPSTREAM_LINK}" ]; then
-				ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_UPSTREAM_LINK}"
-			fi
-		fi
-		if [ -e "${DT_PATH}/${DT_FILE}-u-boot.dtsi" ]; then
-			ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" "${DT_PATH_LINK}"
-			if [ -d "${DT_UPSTREAM_LINK}" ]; then
-				ln -s -f "${DT_PATH}/${DT_FILE}-u-boot.dtsi" "${DT_UPSTREAM_LINK}"
-			fi
+	fi
+	if [ -e "${dts_src}/${DT_FILE}-u-boot.dtsi" ]; then
+		ln -nfs "${dts_src}/${DT_FILE}-u-boot.dtsi" "${dts_link}"
+		if [ -d "${dts_up_link}" ]; then
+			ln -nfs "${dts_src}/${DT_FILE}-u-boot.dtsi" "${dts_up_link}"
 		fi
 	fi
 
 	# link defconfig
-	if [ "${BOARD_DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${BOARD_DEFCONFIG}"
-		check_path "BOARD_DEFCONFIG" "${DEFCONFIG_PATH}"
-		ln -s -f "${DEFCONFIG_PATH}" "${UBOOT_SRC}/configs/"
-	fi
+	defconfig_path="${SCRIPT_PATH}/u-boot/${VENDOR}/u-boot-${UBOOT_VERSION}/${BOARD_DEFCONFIG}"
+	link_file "${defconfig_path}" "${UBOOT_SRC}/configs/${BOARD_DEFCONFIG}"
 }
 
 show_menu() {

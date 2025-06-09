@@ -1,19 +1,42 @@
 #!/bin/bash
 
+set -euo pipefail
+
 WORKSPACE_PATH="${PWD}"
 SCRIPT_NAME="${0##*/}"
 # SCRIPT_PATH=`S=\`readlink "$0"\`; [ -z "$S" ] && S=$0; dirname $S`
 SCRIPT_PATH="$(dirname $(readlink -f $0))"
-source "${SCRIPT_PATH}/common.sh"
+
+# Load common functions
+if [ -f "${SCRIPT_PATH}/common.sh" ]; then
+	source "${SCRIPT_PATH}/common.sh"
+else
+	echo "Missing common.sh script!"
+	exit 1
+fi
+
+# Check dependencies
+required_bins=(make git dpkg mkimage tar gzip time)
+for bin in "${required_bins[@]}"; do
+	command -v "$bin" >/dev/null || {
+		echo "$bin not found. Please install it."
+		exit 1
+	}
+done
 
 init() {
 	# Source env
 	ENV_FILE="${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 	source "${ENV_FILE}"
 
-	if [ "${NO_CROSS_COMPILE}" == "1" ]; then
+	for var in BOARD_NAME PACK_NAME CPU_INFO VENDOR DT_FILE; do
+		check_param "$var"
+	done
+
+	if [ "${NO_CROSS_COMPILE:-}" == "1" ]; then
 		# No use cross compile toolchain on same platform
-		if ([ "${HOST_ARCH}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) || ([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
+		if ([ "${HOST_ARCH:-}" == "aarch64" ] && [ "${ARCH}" == "arm64" ]) ||
+			([ "${HOST_ARCH:0:3}" == "arm" ] && [ "${ARCH}" == "arm" ]); then
 			unset CROSS_COMPILE
 		fi
 	fi
@@ -23,7 +46,8 @@ init() {
 	export INSTALL_MOD_PATH="${WORKSPACE_PATH}/install"
 	export INSTALL_HDR_PATH="${INSTALL_MOD_PATH}"
 	export INSTALL_MOD_STRIP=1
-	if [ "${DT_TYPE}" != "mainline" ]; then 
+
+	if [ "${DT_TYPE}" != "mainline" ]; then
 		KERNEL_SRC="${WORKSPACE_PATH}/linux-${DT_TYPE}"
 		BUILD_PATH="${WORKSPACE_PATH}/.build-${DT_TYPE}"
 	else
@@ -39,24 +63,19 @@ init() {
 
 	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
 	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}"
-
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} KERNELRELEASE=${KERNELRELEASE}"
-	if [ "${BOARD_DEFCONFIG}" != "" ]; then
-		DEFCONFIG=${BOARD_DEFCONFIG}
-	else
-		if [ "${ARCH_DEFCONFIG}" != "" ]; then
-			DEFCONFIG=${ARCH_DEFCONFIG}
-		fi
+
+	DEFCONFIG="${ARCH_DEFCONFIG:-}"
+	if [ -n "${BOARD_DEFCONFIG:-}" ]; then
+		DEFCONFIG="${BOARD_DEFCONFIG}"
 	fi
+
 	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${DT_FILE}.config"
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then
 		DEFCONFIG="${DEFCONFIG} ${DT_FILE}.config"
 	fi
 
-	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url)
-	if [ $? -ne 0 ]; then
-		KERNEL_CURRENT="Archive File"
-	fi
+	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
 }
 
 build_info() {
@@ -97,18 +116,22 @@ build_kernel() {
 }
 
 install_kernel() {
+	local dts_path kernel_img
+
 	cd "${KERNEL_SRC}"
 	rm -rf "${INSTALL_MOD_PATH}"
+
 	# Install Modules
 	TIME="Total Time: %E\tExit:%x" time make modules_install ${BUILD_ARGS}
 
+	# Copy Kernel
 	if [ "$ARCH" == "arm64" ]; then
-		local KERNEL_IMG="${BUILD_PATH}/arch/${ARCH}/boot/Image"
+		kernel_img="${BUILD_PATH}/arch/${ARCH}/boot/Image"
 		if [ "${KERNEL_FMT}" == "gzip" ]; then
-			gzip -9cnk ${KERNEL_IMG} > "${INSTALL_MOD_PATH}/Image.gz"
+			gzip -9cnk "${kernel_img}" > "${INSTALL_MOD_PATH}/Image.gz"
 		else
 			# Generate uImage
-			mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d ${KERNEL_IMG} "${INSTALL_MOD_PATH}/uImage"
+			mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d "${kernel_img}" "${INSTALL_MOD_PATH}/uImage"
 		fi
 	elif [ "$ARCH" == "arm" ]; then
 		# Copy zImage
@@ -116,23 +139,23 @@ install_kernel() {
 	fi
 
 	# Copy dts/dtb
-	if [ "${DT_FILE}" != "" ]; then
-		if [ "$ARCH" == "arm64" ]; then
-			local _DT_PATH="arch/${ARCH}/boot/dts/${VENDOR}"
-		elif [ "$ARCH" == "arm" ]; then
-			local _DT_PATH="arch/${ARCH}/boot/dts/"
-		fi
-
-		cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}"
-		cp -f "${BUILD_PATH}/${_DT_PATH}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}"
-		if [ "${DT_INC_FILE}" != "" ]; then
-			cp -f "${KERNEL_SRC}/${_DT_PATH}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}"
-		fi
+	if [ "$ARCH" == "arm64" ]; then
+		dts_path="arch/${ARCH}/boot/dts/${VENDOR}"
+	elif [ "$ARCH" == "arm" ]; then
+		dts_path="arch/${ARCH}/boot/dts"
 	fi
 
-	cd "${WORKSPACE_PATH}"
+	cp -f "${KERNEL_SRC}/${dts_path}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}/"
+	cp -f "${BUILD_PATH}/${dts_path}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}/"
+
+	if [ -n "${DT_INC_FILE}" ]; then
+		cp -f "${KERNEL_SRC}/${dts_path}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}/"
+	fi
+
 	# Copy .config
 	cp -f "${BUILD_PATH}/.config" "${INSTALL_MOD_PATH}/config"
+
+	cd "${WORKSPACE_PATH}"
 }
 
 install_headers() {
@@ -153,6 +176,12 @@ archive_kernel() {
 	cd "${INSTALL_MOD_PATH}"
 	TIME="Total Time: %E\tExit:%x" time tar cJfp "../${PACK_NAME}" *
 	echo "Package To ${PACK_NAME}"
+}
+
+clean_all() {
+	cd "${KERNEL_SRC}"
+	make clean ${BUILD_ARGS}
+	rm ${INSTALL_MOD_PATH}/* -rf
 }
 
 create_deb() {
@@ -269,35 +298,38 @@ show_menu() {
 }
 
 build_probe() {
+	local dts_in_vendor=0
+	local dts_link dts_src defconfig_path
+
+	if [ "$ARCH" == "arm64" ] || [ "$(compare_versions "${KERNEL_VERSION}" "6.4.0")" -eq 1 ]; then
+		dts_in_vendor=1
+	fi
+
 	# link dts
-	if [ "${DT_FILE}" != "" ] && [ "${DT_LINK}" == "1" ]; then
-		DT_PATH="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
-		if [ "$ARCH" == "arm64" ]; then
-			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}/"
-		elif [ "$ARCH" == "arm" ]; then
-			DT_PATH_LINK="${KERNEL_SRC}/arch/${ARCH}/boot/dts/"
-		fi
-		check_path DTS "${DT_PATH}/${DT_FILE}.dts"
-		ln -s -f "${DT_PATH}/${DT_FILE}.dts" "${DT_PATH_LINK}"
-		if [ "${DT_INC_FILE}" != "" ]; then
-			check_path DTSI "${DT_PATH}/${DT_INC_FILE}.dtsi"
-			ln -s -f "${DT_PATH}/${DT_INC_FILE}.dtsi" "${DT_PATH_LINK}"
-		fi
-		# add dtb to Makefile
-		grep -q "${DT_FILE}" "${DT_PATH_LINK}/Makefile"
-		if [ $? -ne 0 ]; then
-			echo "dtb-y += ${DT_FILE}.dtb" >>"${DT_PATH_LINK}/Makefile"
-		fi
+	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
+	if [ $dts_in_vendor -eq 1 ]; then
+		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}"
+	else
+		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts"
+	fi
+	link_file "${dts_src}/${DT_FILE}.dts" "${dts_link}/${DT_FILE}.dts"
+	if [ "${DT_INC_FILE:-}" != "" ]; then
+		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
+	fi
+
+	# add dtb to Makefile
+	grep -q "${DT_FILE}" "${dts_link}/Makefile"
+	if [ $? -ne 0 ]; then
+		echo "dtb-y += ${DT_FILE}.dtb" >>"${dts_link}/Makefile"
 	fi
 
 	# link defconfig
-	if [ "${BOARD_DEFCONFIG}" != "" ]; then
-		DEFCONFIG_PATH="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${BOARD_DEFCONFIG}"
-		check_path "BOARD_DEFCONFIG" "${DEFCONFIG_PATH}"
-		ln -s -f "${DEFCONFIG_PATH}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
+	if [ "${BOARD_DEFCONFIG:-}" != "" ]; then
+		defconfig_path="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${BOARD_DEFCONFIG}"
+		link_file "${defconfig_path}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then
-		ln -s -f "${ADDITIONAL_CONFIG}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
+		ln -nfs "${ADDITIONAL_CONFIG}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 }
 
