@@ -137,7 +137,7 @@ install_kernel() {
 	# Copy Kernel
 	if [ "$ARCH" == "arm64" ]; then
 		kernel_img="${BUILD_PATH}/arch/${ARCH}/boot/Image"
-		if [ "${KERNEL_FMT}" == "gzip" ]; then
+		if [ "${KERNEL_FMT:-}" == "gzip" ]; then
 			gzip -9cnk "${kernel_img}" >"${INSTALL_MOD_PATH}/Image.gz"
 		else
 			# Generate uImage
@@ -158,7 +158,7 @@ install_kernel() {
 	cp -f "${KERNEL_SRC}/${dts_path}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}/"
 	cp -f "${BUILD_PATH}/${dts_path}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}/"
 
-	if [ -n "${DT_INC_FILE}" ]; then
+	if [ -n "${DT_INC_FILE:-}" ]; then
 		cp -f "${KERNEL_SRC}/${dts_path}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}/"
 	fi
 
@@ -290,8 +290,7 @@ build_probe() {
 	fi
 
 	# add dtb to Makefile
-	grep -q "${DT_FILE}" "${dts_link}/Makefile"
-	if [ $? -ne 0 ]; then
+	if ! grep -q "${DT_FILE}" "${dts_link}/Makefile"; then
 		echo "dtb-y += ${DT_FILE}.dtb" >>"${dts_link}/Makefile"
 	fi
 
