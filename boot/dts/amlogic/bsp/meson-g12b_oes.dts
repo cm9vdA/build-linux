@@ -490,7 +490,7 @@
 		ranges;
 		phandle = <0xbe>;
 
-		ao-bank@ff800014 {
+		gpio_ao: ao-bank@ff800014 {
 			reg = <0x00 0xff800014 0x00 0x08 0x00 0xff800024 0x00 0x14 0x00 0xff80001c 0x00 0x08>;
 			reg-names = "mux\0gpio\0drive-strength";
 			gpio-controller;
@@ -737,7 +737,7 @@
 		ranges;
 		phandle = <0xce>;
 
-		banks@ff6346c0 {
+		gpio: banks@ff6346c0 {
 			reg = <0x00 0xff6346c0 0x00 0x40 0x00 0xff6344e8 0x00 0x18 0x00 0xff634520 0x00 0x18 0x00 0xff634440 0x00 0x4c 0x00 0xff634740 0x00 0x1c>;
 			reg-names = "mux\0pull\0pull-enable\0gpio\0drive-strength";
 			gpio-controller;
@@ -1453,7 +1453,7 @@
 		portnum = <0x00>;
 		otg = <0x00>;
 		gpio-vbus-power = "GPIOH_6";
-		gpios = <0x1b 0x17 0x00>;
+		gpios = <&gpio GPIOH_7 0x00>;
 		phandle = <0x1a>;
 	};
 
@@ -1640,8 +1640,8 @@
 					compatible = "focaltech,fts";
 					status = "disabled";
 					reg = <0x38>;
-					reset-gpio = <0x1b 0x0a 0x00>;
-					irq-gpio = <0x1b 0x04 0x00>;
+					reset-gpio = <&gpio 0x0a 0x00>;
+					irq-gpio = <&gpio 0x04 0x00>;
 					x_max = <0x2d0>;
 					y_max = <0x500>;
 					max-touch-number = <0x0a>;
@@ -1705,7 +1705,7 @@
 					#sound-dai-cells = <0x00>;
 					reg = <0x31>;
 					status = "okay";
-					reset_pin = <0x1b 0x37 0x00>;
+					reset_pin = <&gpio 0x37 0x00>;
 					phandle = <0xf6>;
 				};
 
@@ -1757,7 +1757,7 @@
 				status = "disabled";
 				pinctrl-names = "default";
 				pinctrl-0 = <0x24>;
-				cs-gpios = <0x1b 0x17 0x00>;
+				cs-gpios = <&gpio 0x17 0x00>;
 				phandle = <0xfa>;
 			};
 		};
@@ -2183,7 +2183,7 @@
 		pcie-phy-rst-bit = <0x0e>;
 		pcie-ctrl-a-rst-bit = <0x0c>;
 		status = "okay";
-		reset-gpio = <0x1b 0x2b 0x00>;
+		reset-gpio = <&gpio GPIOC_2 0x00>;
 		phandle = <0x110>;
 	};
 
@@ -2492,8 +2492,8 @@
 			ocr_avail = <0x200080>;
 			tx_delay = <0x00>;
 			max_req_size = <0x20000>;
-			gpio_dat3 = <0x1b 0x1d 0x00>;
-			hw_reset = <0x1b 0x23 0x00>;
+			gpio_dat3 = <&gpio BOOT_4 0x00>;
+			hw_reset = <&gpio BOOT_10 0x00>;
 			card_type = <0x01>;
 			caps = "MMC_CAP_8_BIT_DATA\0MMC_CAP_MMC_HIGHSPEED\0MMC_CAP_SD_HIGHSPEED\0MMC_CAP_NONREMOVABLE\0MMC_CAP_HW_RESET\0MMC_CAP_ERASE\0MMC_CAP_CMD23";
 			caps2 = "MMC_CAP2_HS200";
@@ -2530,9 +2530,9 @@
 			pinname = "sd";
 			ocr_avail = <0x200080>;
 			max_req_size = <0x20000>;
-			gpio_dat3 = <0x1b 0x2d 0x00>;
-			jtag_pin = <0x1b 0x2b 0x00>;
-			gpio_cd = <0x1b 0x30 0x00>;
+			gpio_dat3 = <&gpio 0x2d 0x00>;
+			jtag_pin = <&gpio 0x2b 0x00>;
+			gpio_cd = <&gpio 0x30 0x00>;
 			card_type = <0x05>;
 			caps = "MMC_CAP_4_BIT_DATA\0MMC_CAP_MMC_HIGHSPEED\0MMC_CAP_SD_HIGHSPEED";
 			f_min = <0x61a80>;
@@ -3047,7 +3047,7 @@
 		pinctrl_version = <0x02>;
 		clk_path = <0x01>;
 		resume_type = <0x00>;
-		lcd_cpu-gpios = <0x1b 0x0a 0x00 0x1b 0x09 0x00>;
+		lcd_cpu-gpios = <&gpio 0x0a 0x00 &gpio 0x09 0x00>;
 		lcd_cpu_gpio_names = "GPIOZ_9\0GPIOZ_8";
 
 		lcd_0 {
@@ -3184,7 +3184,7 @@
 		pinctrl-1 = <0x6c>;
 		pinctrl_version = <0x02>;
 		bl_pwm_config = <0x6d>;
-		bl-gpios = <0x1b 0x15 0x00 0x1b 0x16 0x00>;
+		bl-gpios = <&gpio 0x15 0x00 &gpio 0x16 0x00>;
 		bl_gpio_names = "GPIOH_4\0GPIOH_5";
 		interrupts = <0x00 0x03 0x01>;
 		interrupt-names = "vsync";
@@ -3704,21 +3704,21 @@
 
 		led@1 {
 			label = "sata1_power";
-			gpios = <0x1b 0x30 0x00>;
+			gpios = <&gpio GPIOC_7 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			retain-state-suspended;
 		};
 
 		led@2 {
 			label = "sata2_power";
-			gpios = <0x1b 0x2f 0x00>;
+			gpios = <&gpio GPIOC_6 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			retain-state-suspended;
 		};
 
 		led@3 {
 			label = "sata3_power";
-			gpios = <0x82 0x03 0x00>;
+			gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			retain-state-suspended;
 		};
@@ -3738,17 +3738,17 @@
 		compatible = "amlogic, bt-dev";
 		dev_name = "bt-dev";
 		status = "okay";
-		gpio_reset = <0x1b 0x53 0x00>;
-		gpio_hostwake = <0x1b 0x55 0x00>;
+		gpio_reset = <&gpio 0x53 0x00>;
+		gpio_hostwake = <&gpio 0x55 0x00>;
 	};
 
 	wifi {
 		compatible = "amlogic, aml_wifi";
 		dev_name = "aml_wifi";
 		status = "okay";
-		interrupt_pin = <0x1b 0x49 0x00>;
+		interrupt_pin = <&gpio 0x49 0x00>;
 		irq_trigger_type = "GPIO_IRQ_LOW";
-		power_on_pin = <0x1b 0x48 0x00>;
+		power_on_pin = <&gpio 0x48 0x00>;
 		dhd_static_buf;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x83>;
@@ -3972,7 +3972,7 @@
 		key_num = <0x02>;
 		key_name = "reboot\0restore";
 		key_code = <0x74 0x75>;
-		key-gpios = <0x1b 0x15 0x00 0x1b 0x32 0x00>;
+		key-gpios = <&gpio GPIOH_5 0x00 &gpio GPIOA_1 0x00>;
 		detect_mode = <0x00>;
 	};
 
@@ -4161,7 +4161,7 @@
 	auge_sound {
 		compatible = "amlogic, g12a-sound-card";
 		aml-audio-card,name = "AML-AUGESOUND";
-		avout_mute-gpios = <0x82 0x02 0x00>;
+		avout_mute-gpios = <&gpio_ao 0x02 0x00>;
 		aml-audio-card,effect = <0xab>;
 
 		aml-audio-card,dai-link@0 {
@@ -4404,8 +4404,8 @@
 		pinctrl-0 = <0xb3>;
 		clocks = <0x02 0xd7>;
 		clock-names = "g12a_24m";
-		reset = <0x1b 0x0d 0x00>;
-		ir_cut_gpio = <0x1b 0x0c 0x00 0x1b 0x08 0x00>;
+		reset = <&gpio 0x0d 0x00>;
+		ir_cut_gpio = <&gpio 0x0c 0x00 &gpio 0x08 0x00>;
 		phandle = <0x13c>;
 	};
 
