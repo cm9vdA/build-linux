@@ -7,6 +7,9 @@ PACK_NAME="oes"
 CPU_INFO="Amlogic A311D Family"
 VENDOR="amlogic"
 DT_FILE="meson-g12b-oes"
+KERNEL_FMT="default"
+KERNEL_BRANCH="unifreq"
+KERNEL_RECOMMEND="https://github.com/unifreq/linux-6.1.y.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

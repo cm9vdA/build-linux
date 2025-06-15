@@ -7,6 +7,7 @@ TOOLCHAIN_PATH=/home/${USER}/arm/toolchain
 TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-aarch64-none-elf
 KERNEL_TARGET="Image"
 KERNEL_BRANCH="mainline"
+KERNEL_FMT="uboot"
 KERNEL_RECOMMEND="https://www.kernel.org/"
 ARCH_DEFCONFIG="defconfig"
 DT_TYPE="mainline"

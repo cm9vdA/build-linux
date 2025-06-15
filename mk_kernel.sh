@@ -139,9 +139,11 @@ install_kernel() {
 		kernel_img="${BUILD_PATH}/arch/${ARCH}/boot/Image"
 		if [ "${KERNEL_FMT:-}" == "gzip" ]; then
 			gzip -9cnk "${kernel_img}" >"${INSTALL_MOD_PATH}/Image.gz"
-		else
+		elif [ "${KERNEL_FMT:-}" == "uboot" ]; then
 			# Generate uImage
 			mkimage -A "${ARCH}" -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n linux-next -d "${kernel_img}" "${INSTALL_MOD_PATH}/uImage"
+		else
+			cp -f "${kernel_img}" "${INSTALL_MOD_PATH}"
 		fi
 	elif [ "$ARCH" == "arm" ]; then
 		# Copy zImage
