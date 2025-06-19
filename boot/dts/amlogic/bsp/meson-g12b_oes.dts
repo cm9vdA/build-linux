@@ -1453,7 +1453,7 @@
 		portnum = <0x00>;
 		otg = <0x00>;
 		gpio-vbus-power = "GPIOH_6";
-		gpios = <&gpio GPIOH_7 0x00>;
+		gpios = <&gpio GPIOH_6 0x00>;
 		phandle = <0x1a>;
 	};
 
@@ -2183,7 +2183,7 @@
 		pcie-phy-rst-bit = <0x0e>;
 		pcie-ctrl-a-rst-bit = <0x0c>;
 		status = "okay";
-		reset-gpio = <&gpio GPIOC_2 0x00>;
+		reset-gpio = <&gpio GPIOC_1 GPIO_ACTIVE_HIGH>;
 		phandle = <0x110>;
 	};
 
@@ -2492,8 +2492,8 @@
 			ocr_avail = <0x200080>;
 			tx_delay = <0x00>;
 			max_req_size = <0x20000>;
-			gpio_dat3 = <&gpio BOOT_4 0x00>;
-			hw_reset = <&gpio BOOT_10 0x00>;
+			gpio_dat3 = <&gpio BOOT_3 GPIO_ACTIVE_HIGH>;
+			hw_reset = <&gpio BOOT_9 GPIO_ACTIVE_HIGH>;
 			card_type = <0x01>;
 			caps = "MMC_CAP_8_BIT_DATA\0MMC_CAP_MMC_HIGHSPEED\0MMC_CAP_SD_HIGHSPEED\0MMC_CAP_NONREMOVABLE\0MMC_CAP_HW_RESET\0MMC_CAP_ERASE\0MMC_CAP_CMD23";
 			caps2 = "MMC_CAP2_HS200";
@@ -3704,14 +3704,14 @@
 
 		led@1 {
 			label = "sata1_power";
-			gpios = <&gpio GPIOC_7 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio GPIOC_6 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			retain-state-suspended;
 		};
 
 		led@2 {
 			label = "sata2_power";
-			gpios = <&gpio GPIOC_6 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio GPIOC_5 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			retain-state-suspended;
 		};
@@ -3972,7 +3972,7 @@
 		key_num = <0x02>;
 		key_name = "reboot\0restore";
 		key_code = <0x74 0x75>;
-		key-gpios = <&gpio GPIOH_5 0x00 &gpio GPIOA_1 0x00>;
+		key-gpios = <&gpio GPIOH_4 0x00 &gpio GPIOA_0 0x00>;
 		detect_mode = <0x00>;
 	};
 

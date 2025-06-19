@@ -24,30 +24,28 @@
 	memory@0 {
 		device_type = "memory";
 		// reg = <0x0 0x0 0x0 0xff000000>; // pcie broken
-		reg = <0x0 0x0 0x0 0xd8000000>;
+		reg = <0x0 0x0 0x0 0xF0000000>;
 	};
 
 	emmc_pwrseq: emmc-pwrseq {
 		compatible = "mmc-pwrseq-emmc";
-		reset-gpios = <&gpio BOOT_12 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio BOOT_9 GPIO_ACTIVE_LOW>; // bsp
 	};
 
 	gpio-keys-polled {
 		compatible = "gpio-keys-polled";
 		poll-interval = <100>;
 
-		power-button {
-			label = "power";
+		reboot-button {
+			label = "reboot";
 			linux,code = <KEY_POWER>;
-			// gpios = <&gpio GPIOH_5 GPIO_ACTIVE_LOW>; // bsp
 			gpios = <&gpio GPIOH_4 GPIO_ACTIVE_LOW>; // verify
 		};
-		// power-restore {
-		// 	label = "restore";
-		// 	linux,code = <KEY_KPEQUAL>;
-		// 	// gpios = <&gpio GPIOA_1 GPIO_ACTIVE_LOW>; // bsp
-		// 	gpios = <&gpio GPIOA_0 GPIO_ACTIVE_LOW>; // ??
-		// };
+		restore-button {
+			label = "restore";
+			linux,code = <KEY_KPEQUAL>;
+			gpios = <&gpio GPIOA_0 GPIO_ACTIVE_LOW>; // bsp
+		};
 	};
 
 	emmc_1v8: regulator-emmc-1v8 {
@@ -73,9 +71,6 @@
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		vin-supply = <&main_12v>;
-
-		gpio = <&gpio GPIOH_8 GPIO_OPEN_DRAIN>;
-		enable-active-high;
 	};
 
 	vcc_1v8: regulator-vcc-1v8 {
@@ -136,7 +131,7 @@
 		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc_5v>;
 
-		gpio = <&gpio GPIOH_6 GPIO_ACTIVE_HIGH>; // bsp
+		gpio = <&gpio GPIOH_6 GPIO_ACTIVE_HIGH>; // verify
 		enable-active-high;
 	};
 
@@ -175,61 +170,52 @@
 		sata_1_led {
 			label = "sata_1_led";
 			color = <LED_COLOR_ID_GREEN>;
-			gpios = <&gpio GPIOA_14 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio GPIOA_14 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 		};
 		sata_2_led {
 			label = "sata_2_led";
 			color = <LED_COLOR_ID_GREEN>;
-			gpios = <&gpio GPIOA_15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio GPIOA_15 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 		};
 		sata_3_led {
 			label = "sata_3_led";
 			color = <LED_COLOR_ID_GREEN>;
-			gpios = <&gpio GPIOC_0 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio GPIOC_0 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 		};
 		net_red {
 			label = "net_red";
 			color = <LED_COLOR_ID_RED>;
-			gpios = <&gpio GPIOA_4 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio GPIOA_4 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 		};
 		net_green {
 			label = "net_green";
 			color = <LED_COLOR_ID_GREEN>;
-			gpios = <&gpio GPIOC_3 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio GPIOC_3 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
 		};
 
-		// pci_power {
-		// 	label = "pci_power";
-		// 	gpios = <&gpio GPIOC_5 GPIO_ACTIVE_HIGH>;
-		// 	default-state = "on";
-		// 	retain-state-suspended;
-		// };
-
-		// sata1_power {
-		// 	label = "sata1_power";
-		// 	gpios = <&gpio GPIOC_7 GPIO_ACTIVE_HIGH>;
-		// 	default-state = "on";
-		// 	retain-state-suspended;
-		// };
-
-		// sata2_power {
-		// 	label = "sata2_power";
-		// 	gpios = <&gpio GPIOC_6 GPIO_ACTIVE_HIGH>;
-		// 	default-state = "on";
-		// 	retain-state-suspended;
-		// };
-
-		// sata3_power {
-		// 	label = "sata3_power";
-		// 	gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
-		// 	default-state = "on";
-		// 	retain-state-suspended;
-		// };
+		sata1_power {
+			label = "sata1_power";
+			gpios = <&gpio GPIOC_6 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+			retain-state-suspended;
+		};
+		sata2_power {
+			label = "sata2_power";
+			gpios = <&gpio GPIOC_5 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+			retain-state-suspended;
+		};
+		sata3_power {
+			label = "sata3_power";
+			gpios = <&gpio_ao GPIOAO_3 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+			retain-state-suspended;
+		};
 	};
 
 	vddgpu: regulator-vddgpu {
@@ -408,8 +394,7 @@
 
 &pcie {
 	status = "okay";
-	// reset-gpios = <&gpio GPIOC_2 GPIO_ACTIVE_HIGH>; // bsp
-	reset-gpios = <&gpio GPIOC_1 GPIO_ACTIVE_LOW>; // refer
+	reset-gpios = <&gpio GPIOC_1 GPIO_ACTIVE_LOW>; // bsp
 	// wake-gpio = <&gpio GPIOC_2 GPIO_ACTIVE_LOW>; // ??
 };
 
