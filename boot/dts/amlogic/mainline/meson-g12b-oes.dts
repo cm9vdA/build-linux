@@ -275,9 +275,9 @@
 	mali-supply=<&vddgpu>;
 };
 
-&npu {
-	status = "okay";
-};
+// &npu {
+// 	status = "okay";
+// };
 
 &cpu_thermal {
 	trips {
@@ -395,7 +395,6 @@
 &pcie {
 	status = "okay";
 	reset-gpios = <&gpio GPIOC_1 GPIO_ACTIVE_LOW>; // bsp
-	// wake-gpio = <&gpio GPIOC_2 GPIO_ACTIVE_LOW>; // ??
 };
 
 &usb3_pcie_phy {
