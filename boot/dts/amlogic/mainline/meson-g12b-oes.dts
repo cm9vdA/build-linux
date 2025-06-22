@@ -195,7 +195,19 @@
 			label = "net_green";
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio GPIOC_3 GPIO_ACTIVE_LOW>; // verify
+			linux,default-trigger = "0.0:00:link";
+		};
+		power_red {
+			label = "power_red";
+			color = <LED_COLOR_ID_RED>;
+			gpios = <&gpio GPIOA_5 GPIO_ACTIVE_LOW>; // verify
 			default-state = "off";
+		};
+		power_green {
+			label = "power_green";
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio_ao GPIOAO_11 GPIO_ACTIVE_LOW>; // verify
+			linux,default-trigger = "timer";
 		};
 
 		sata1_power {
