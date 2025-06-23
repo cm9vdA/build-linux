@@ -155,7 +155,6 @@
 
 	fan: gpio-fan {
 		compatible = "gpio-fan";
-		// gpios = <&gpio GPIOC_5 GPIO_ACTIVE_HIGH>; // bsp
 		gpios = <&gpio GPIOC_4 GPIO_ACTIVE_HIGH>; // verify
 
 		/* Using Dummy Speed */
