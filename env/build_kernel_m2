@@ -6,7 +6,7 @@ BOARD_NAME="Merrii M2"
 PACK_NAME="m2"
 CPU_INFO="Allwinner A20"
 VENDOR="allwinner"
-DT_FILE="sun7i-a20-m2"
+BOARD_CODE="sun7i-a20-m2"
 
 # Build Config
 NO_CROSS_COMPILE=0

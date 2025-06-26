@@ -6,7 +6,7 @@ BOARD_NAME="Fine3399"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="fine3399-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-fine3399"
+BOARD_CODE="rk3399-fine3399"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

@@ -6,7 +6,7 @@ BOARD_NAME="LZ-K3568"
 CPU_INFO="Rockchip RK3568"
 BOARD_DEFCONFIG="k3568-rk3568_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3568-lz-k3568"
+BOARD_CODE="rk3568-lz-k3568"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

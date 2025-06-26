@@ -6,7 +6,7 @@ BOARD_NAME="TVI3315A"
 PACK_NAME="tvi3315a"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-tvi3315a"
+BOARD_CODE="rk3399-tvi3315a"
 
 # Build Config
 NO_CROSS_COMPILE=0

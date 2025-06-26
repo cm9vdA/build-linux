@@ -6,7 +6,7 @@ BOARD_NAME="FM-X1"
 PACK_NAME="fm-x1"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-fm-x1"
+BOARD_CODE="rk3399-fm-x1"
 
 # Build Config
 NO_CROSS_COMPILE=0

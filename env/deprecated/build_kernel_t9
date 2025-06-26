@@ -6,7 +6,7 @@ BOARD_NAME="T9"
 PACK_NAME="t9"
 CPU_INFO="Rockchip RK3328"
 VENDOR="rockchip"
-DT_FILE="rk3328-t9"
+BOARD_CODE="rk3328-t9"
 
 # Build Config
 NO_CROSS_COMPILE=0

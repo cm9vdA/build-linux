@@ -6,7 +6,7 @@ BOARD_NAME="NEO X39"
 PACK_NAME="neo-x39"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-neo-x39"
+BOARD_CODE="rk3399-neo-x39"
 
 # Build Config
 NO_CROSS_COMPILE=0

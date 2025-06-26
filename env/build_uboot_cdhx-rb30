@@ -6,7 +6,7 @@ BOARD_NAME="CDHX RB30"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="cdhx-rb30-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-cdhx-rb30"
+BOARD_CODE="rk3399-cdhx-rb30"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

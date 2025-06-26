@@ -6,7 +6,7 @@ BOARD_NAME="ZCube1 Max"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="zcube1-max-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-zcube1-max"
+BOARD_CODE="rk3399-zcube1-max"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

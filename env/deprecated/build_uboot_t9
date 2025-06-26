@@ -6,7 +6,7 @@ BOARD_NAME="T9"
 CPU_INFO="Rockchip RK3328"
 DEFCONFIG="t9-rk3328_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3328-t9"
+BOARD_CODE="rk3328-t9"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

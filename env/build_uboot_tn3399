@@ -6,7 +6,7 @@ BOARD_NAME="TN3399_V3"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="tn3399-v3-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-tn3399-v3"
+BOARD_CODE="rk3399-tn3399-v3"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

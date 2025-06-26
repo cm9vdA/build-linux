@@ -19,16 +19,16 @@ fi
 init() {
 	source "${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
-	for var in BOARD_NAME BOARD_DEFCONFIG CPU_INFO VENDOR DT_FILE; do
+	for var in BOARD_NAME BOARD_DEFCONFIG CPU_INFO VENDOR BOARD_CODE; do
 		check_param "$var"
 	done
 
 	export PATH=${PATH}:"${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
 	[ -n "${ARM_TOOLCHAIN_NAME:-}" ] && export PATH=${PATH}:"${TOOLCHAIN_PATH}/${ARM_TOOLCHAIN_NAME}/bin"
 
-	# UBOOT_SRC="${WORKSPACE_PATH}/uboot${DT_TYPE:+-${DT_TYPE}}"
-	if [ "${DT_TYPE}" != "mainline" ]; then
-		UBOOT_SRC="${WORKSPACE_PATH}/uboot-${DT_TYPE}"
+	# UBOOT_SRC="${WORKSPACE_PATH}/uboot${KERNEL_TYPE:+-${KERNEL_TYPE}}"
+	if [ "${KERNEL_TYPE}" != "mainline" ]; then
+		UBOOT_SRC="${WORKSPACE_PATH}/uboot-${KERNEL_TYPE}"
 	else
 		UBOOT_SRC="${WORKSPACE_PATH}/uboot"
 	fi
@@ -74,21 +74,21 @@ build_atf() {
 }
 
 build_probe() {
-	local dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}"
+	local dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${KERNEL_TYPE}"
 	local dts_link="${UBOOT_SRC}/arch/arm/dts"
 	local dts_up_link="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}"
 
-	link_file "${dts_src}/${DT_FILE}.dts" "${dts_link}/${DT_FILE}.dts"
-	[ -d "${dts_up_link}" ] && link_file "${dts_src}/${DT_FILE}.dts" "${dts_up_link}/${DT_FILE}.dts"
+	link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_link}/${BOARD_CODE}.dts"
+	[ -d "${dts_up_link}" ] && link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_up_link}/${BOARD_CODE}.dts"
 
 	if [ -n "${DT_INC_FILE:-}" ]; then
 		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
 		[ -d "${dts_up_link}" ] && link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_up_link}/${DT_INC_FILE}.dtsi"
 	fi
 
-	if [ -e "${dts_src}/${DT_FILE}-u-boot.dtsi" ]; then
-		ln -nfs "${dts_src}/${DT_FILE}-u-boot.dtsi" "${dts_link}"
-		[ -d "${dts_up_link}" ] && ln -nfs "${dts_src}/${DT_FILE}-u-boot.dtsi" "${dts_up_link}"
+	if [ -e "${dts_src}/${BOARD_CODE}-u-boot.dtsi" ]; then
+		ln -nfs "${dts_src}/${BOARD_CODE}-u-boot.dtsi" "${dts_link}"
+		[ -d "${dts_up_link}" ] && ln -nfs "${dts_src}/${BOARD_CODE}-u-boot.dtsi" "${dts_up_link}"
 	fi
 
 	# link defconfig

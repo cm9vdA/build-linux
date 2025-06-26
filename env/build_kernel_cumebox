@@ -6,7 +6,7 @@ BOARD_NAME="CumeBox"
 PACK_NAME="cumebox"
 CPU_INFO="Amlogic S905 Family"
 VENDOR="amlogic"
-DT_FILE="meson-gxl-s905x-cumebox"
+BOARD_CODE="meson-gxl-s905x-cumebox"
 
 # Build Config
 NO_CROSS_COMPILE=0

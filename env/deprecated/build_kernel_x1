@@ -6,7 +6,7 @@ BOARD_NAME="Magic Cube X1"
 PACK_NAME="magic-cube-x1"
 CPU_INFO="Amlogic A311D Family"
 VENDOR="amlogic"
-DT_FILE="meson-g12b-magic-cube-x1"
+BOARD_CODE="meson-g12b-magic-cube-x1"
 
 # Build Config
 NO_CROSS_COMPILE=0

@@ -6,7 +6,7 @@ BOARD_NAME="KING3399"
 PACK_NAME="king3399"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-rp-king3399"
+BOARD_CODE="rk3399-rp-king3399"
 
 # Build Config
 NO_CROSS_COMPILE=0

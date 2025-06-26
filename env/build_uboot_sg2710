@@ -6,7 +6,7 @@ BOARD_NAME="SG2710"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="sg2710-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-sg2710"
+BOARD_CODE="rk3399-sg2710"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

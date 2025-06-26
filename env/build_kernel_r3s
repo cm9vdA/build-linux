@@ -6,7 +6,7 @@ BOARD_NAME="LX-R3S"
 PACK_NAME="r3s"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-lx-r3s"
+BOARD_CODE="rk3399-lx-r3s"
 
 # Build Config
 NO_CROSS_COMPILE=0

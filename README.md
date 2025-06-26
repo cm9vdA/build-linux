@@ -29,7 +29,7 @@
     ================ Build Info ================                # 第一部分是要编译的目标板的配置信息，一般都是在`env`下定义的。
     BOARD_NAME:       Merrii M2
     CPU_INFO:         Allwinner A20
-    DT_FILE:          sun7i-a20-m2
+    BOARD_CODE:       sun7i-a20-m2
     ARCH:             arm
     KERNEL_VERSION:   5.17.3
     DEFCONFIG:        sun7i_defconfig

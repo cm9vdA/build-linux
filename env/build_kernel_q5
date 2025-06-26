@@ -6,7 +6,7 @@ BOARD_NAME="Q5"
 PACK_NAME="q5"
 CPU_INFO="Amlogic S905 Family"
 VENDOR="amlogic"
-DT_FILE="meson-gxbb-q5"
+BOARD_CODE="meson-gxbb-q5"
 
 # Build Config
 NO_CROSS_COMPILE=0

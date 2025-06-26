@@ -6,7 +6,7 @@ BOARD_NAME="ZCube1 Max"
 PACK_NAME="zcube1-max"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-zcube1-max"
+BOARD_CODE="rk3399-zcube1-max"
 
 # Build Config
 NO_CROSS_COMPILE=0

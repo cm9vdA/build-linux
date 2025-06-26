@@ -6,7 +6,7 @@ BOARD_NAME="R08-V3.3"
 PACK_NAME="r08"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-r08"
+BOARD_CODE="rk3399-r08"
 
 # Build Config
 NO_CROSS_COMPILE=0

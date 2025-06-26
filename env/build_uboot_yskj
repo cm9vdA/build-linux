@@ -6,7 +6,7 @@ BOARD_NAME="YSKJ RK3399"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="yskj-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-yskj"
+BOARD_CODE="rk3399-yskj"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

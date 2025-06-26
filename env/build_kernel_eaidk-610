@@ -6,7 +6,7 @@ BOARD_NAME="EAIDK 610"
 PACK_NAME="eaidk-610-rk3399"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-eaidk-610"
+BOARD_CODE="rk3399-eaidk-610"
 
 # Build Config
 NO_CROSS_COMPILE=0

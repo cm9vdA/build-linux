@@ -6,7 +6,7 @@ BOARD_NAME="AIO SV901"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="aio-sv901-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-aio-sv901"
+BOARD_CODE="rk3399-aio-sv901"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

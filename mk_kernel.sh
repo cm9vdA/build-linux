@@ -20,7 +20,7 @@ init() {
 	# Source env
 	source "${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
-	for var in BOARD_NAME PACK_NAME CPU_INFO VENDOR DT_FILE; do
+	for var in BOARD_NAME PACK_NAME CPU_INFO VENDOR BOARD_CODE; do
 		check_param "$var"
 	done
 
@@ -38,9 +38,9 @@ init() {
 	export INSTALL_HDR_PATH="${INSTALL_MOD_PATH}"
 	export INSTALL_MOD_STRIP=1
 
-	if [ "${DT_TYPE}" != "mainline" ]; then
-		KERNEL_SRC="${WORKSPACE_PATH}/linux-${DT_TYPE}"
-		BUILD_PATH="${WORKSPACE_PATH}/.build-${DT_TYPE}"
+	if [ "${KERNEL_BRANCH}" != "mainline" ]; then
+		KERNEL_SRC="${WORKSPACE_PATH}/linux-${KERNEL_BRANCH}"
+		BUILD_PATH="${WORKSPACE_PATH}/.build-${KERNEL_BRANCH}"
 	else
 		KERNEL_SRC="${WORKSPACE_PATH}/linux"
 		BUILD_PATH="${WORKSPACE_PATH}/.build"
@@ -61,9 +61,9 @@ init() {
 		DEFCONFIG="${BOARD_DEFCONFIG}"
 	fi
 
-	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${DT_FILE}.config"
+	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}/${BOARD_CODE}.config"
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then
-		DEFCONFIG="${DEFCONFIG} ${DT_FILE}.config"
+		DEFCONFIG="${DEFCONFIG} ${BOARD_CODE}.config"
 	fi
 
 	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
@@ -73,8 +73,9 @@ build_info() {
 	echo_title "================ Build Info ================"
 	echo_item "BOARD_NAME" "${BOARD_NAME}"
 	echo_item "CPU_INFO" "${CPU_INFO}"
-	echo_item "DT_FILE" "${DT_FILE}.dts"
+	echo_item "BOARD_CODE" "${BOARD_CODE}"
 	echo_item "ARCH" "${ARCH}"
+	echo_item "KERNEL_BRANCH" "${KERNEL_BRANCH}"
 	echo_item "KERNEL_VERSION" "${KERNEL_VERSION}"
 	echo_item "KERNEL_CURRENT" "${KERNEL_CURRENT}"
 	echo_item "KERNEL_RECOMMEND" "${KERNEL_RECOMMEND}"
@@ -102,8 +103,8 @@ build_kernel() {
 	kernel) make_target="${KERNEL_TARGET}" ;;
 	modules) make_target="modules" ;;
 	dtbs)
-		if [ -z "${DT_FILE}" ]; then
-			echo_warn "DT_FILE not set, skipping dtbs build"
+		if [ -z "${BOARD_CODE}" ]; then
+			echo_warn "BOARD_CODE not set, skipping dtbs build"
 			return 0
 		fi
 		make_target="dtbs"
@@ -157,8 +158,8 @@ install_kernel() {
 		dts_path="arch/${ARCH}/boot/dts"
 	fi
 
-	cp -f "${KERNEL_SRC}/${dts_path}/${DT_FILE}.dts" "${INSTALL_MOD_PATH}/"
-	cp -f "${BUILD_PATH}/${dts_path}/${DT_FILE}.dtb" "${INSTALL_MOD_PATH}/"
+	cp -f "${KERNEL_SRC}/${dts_path}/${BOARD_CODE}.dts" "${INSTALL_MOD_PATH}/"
+	cp -f "${BUILD_PATH}/${dts_path}/${BOARD_CODE}.dtb" "${INSTALL_MOD_PATH}/"
 
 	if [ -n "${DT_INC_FILE:-}" ]; then
 		cp -f "${KERNEL_SRC}/${dts_path}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}/"
@@ -199,7 +200,7 @@ clean_all() {
 }
 
 create_deb() {
-	local deb_name="${DT_FILE}-kernel"
+	local deb_name="${BOARD_CODE}-kernel"
 	local deb_version="${KERNEL_VERSION}-$(date +%Y%m%d%H%M)"
 
 	check_dependency "${DEPENDENCY_LIST}"
@@ -213,7 +214,7 @@ create_deb() {
 	mkdir -p DEBIAN
 	mkdir -p boot
 	cp -dpr "${INSTALL_MOD_PATH}/lib" ./
-	cp "${INSTALL_MOD_PATH}/${DT_FILE}.dtb" ./boot/dtb.img
+	cp "${INSTALL_MOD_PATH}/${BOARD_CODE}.dtb" ./boot/dtb.img
 	cp "${INSTALL_MOD_PATH}/uImage" ./boot
 
 	cat <<EOF >DEBIAN/control
@@ -280,25 +281,25 @@ build_probe() {
 	fi
 
 	# link dts
-	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${DT_TYPE}/"
+	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${KERNEL_TYPE}/"
 	if [ $dts_in_vendor -eq 1 ]; then
 		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}"
 	else
 		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts"
 	fi
-	link_file "${dts_src}/${DT_FILE}.dts" "${dts_link}/${DT_FILE}.dts"
+	link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_link}/${BOARD_CODE}.dts"
 	if [ "${DT_INC_FILE:-}" != "" ]; then
 		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
 	fi
 
 	# add dtb to Makefile
-	if ! grep -q "${DT_FILE}" "${dts_link}/Makefile"; then
-		echo "dtb-y += ${DT_FILE}.dtb" >>"${dts_link}/Makefile"
+	if ! grep -q "${BOARD_CODE}" "${dts_link}/Makefile"; then
+		echo "dtb-y += ${BOARD_CODE}.dtb" >>"${dts_link}/Makefile"
 	fi
 
 	# link defconfig
 	if [ "${BOARD_DEFCONFIG:-}" != "" ]; then
-		defconfig_path="${SCRIPT_PATH}/boot/configs/${VENDOR}/${DT_TYPE}/${BOARD_DEFCONFIG}"
+		defconfig_path="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}/${BOARD_DEFCONFIG}"
 		link_file "${defconfig_path}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
 	fi
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then

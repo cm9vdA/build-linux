@@ -6,7 +6,7 @@ BOARD_NAME="TPM312"
 CPU_INFO="Rockchip RK3399"
 BOARD_DEFCONFIG="tpm312-rk3399_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3399-tpm312"
+BOARD_CODE="rk3399-tpm312"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

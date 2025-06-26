@@ -6,7 +6,7 @@ BOARD_NAME="AIO SV901"
 PACK_NAME="aio-sv901"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-aio-sv901"
+BOARD_CODE="rk3399-aio-sv901"
 
 # Build Config
 NO_CROSS_COMPILE=0

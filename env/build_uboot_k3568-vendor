@@ -6,8 +6,10 @@ BOARD_NAME="LZ-K3568"
 CPU_INFO="Rockchip RK3568"
 BOARD_DEFCONFIG="k3568-rk3568_defconfig"
 VENDOR="rockchip"
-DT_FILE="rk3568-lz-k3568"
-DT_TYPE="vendor"
+BOARD_CODE="rk3568-lz-k3568"
+KERNEL_TYPE="vendor"
+KERNEL_BRANCH="armbian"
+KERNEL_RECOMMEND="https://github.com/armbian/linux-rockchip.git"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git

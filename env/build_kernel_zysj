@@ -6,7 +6,7 @@ BOARD_NAME="ZYSJ RK3399"
 PACK_NAME="zysj"
 CPU_INFO="Rockchip RK3399"
 VENDOR="rockchip"
-DT_FILE="rk3399-zysj"
+BOARD_CODE="rk3399-zysj"
 
 # Build Config
 NO_CROSS_COMPILE=0
