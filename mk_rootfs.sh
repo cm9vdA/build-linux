@@ -89,8 +89,8 @@ create_base_fs() {
 	echo_info "Installing basic packages"
 	chroot "${TARGET_FS}" apt install -y sudo vim openssh-server bash-completion ca-certificates htop locales wget curl xz-utils bsdextrautils binutils file
 
-	# chroot ${TARGET_FS} apt install -y net-tools network-manger systemd-timesyncd wireless-regdb wpasupplicant iw wireless-tools zram-tools man-db
-	# chroot ${TARGET_FS} apt install -y modemmanager qrtr-tools rmtfs firmware-qcom-soc # For Qualcomm Device
+	# chroot ${TARGET_FS} apt install -y net-tools network-manger systemd-timesyncd wireless-regdb wpasupplicant iw wireless-tools zram-tools man-db systemd-timesyncd
+	# chroot ${TARGET_FS} apt install -y network-manager modemmanager qrtr-tools rmtfs firmware-qcom-soc # For Qualcomm Device
 	# dpkg-reconfigure locales
 
 	echo_info "Base rootfs build completed"

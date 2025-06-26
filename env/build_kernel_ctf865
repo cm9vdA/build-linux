@@ -1,0 +1,16 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="CTF865"
+PACK_NAME="ctf865"
+CPU_INFO="Snapdragon 865"
+VENDOR="qcom"
+DT_FILE="sm8250-ctf865"
+BOARD_DEFCONFIG="defconfig sm8250.config"
+KERNEL_FMT=gzip
+KERNEL_BRANCH="sm8250-mainline"
+KERNEL_RECOMMEND="https://gitlab.com/sm8250-mainline/linux.git"
+
+# Build Config
+NO_CROSS_COMPILE=0
