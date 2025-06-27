@@ -10,8 +10,8 @@ BOARD_CODE="msm8916-thwc-mf32"
 DT_INC_FILE="msm8916-thwc-common"
 BOARD_DEFCONFIG="msm8916_defconfig"
 KERNEL_FMT=gzip
-KERNEL_BRANCH="msm8916-mainline"
-KERNEL_RECOMMEND="https://github.com/msm8916-mainline/linux.git"
+KERNEL_NAME="msm8916-mainline"
+KERNEL_COMPATIBLE="https://github.com/msm8916-mainline/linux.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

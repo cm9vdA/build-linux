@@ -38,12 +38,12 @@ init() {
 	export INSTALL_HDR_PATH="${INSTALL_MOD_PATH}"
 	export INSTALL_MOD_STRIP=1
 
-	if [ "${KERNEL_BRANCH}" != "mainline" ]; then
-		KERNEL_SRC="${WORKSPACE_PATH}/linux-${KERNEL_BRANCH}"
-		BUILD_PATH="${WORKSPACE_PATH}/.build-${KERNEL_BRANCH}"
+	if [ "${KERNEL_NAME}" != "mainline" ]; then
+		KERNEL_SRC="${WORKSPACE_PATH}/linux-${KERNEL_NAME}"
+		BUILD_PATH="${WORKSPACE_PATH}/.build_kernel-${KERNEL_NAME}"
 	else
 		KERNEL_SRC="${WORKSPACE_PATH}/linux"
-		BUILD_PATH="${WORKSPACE_PATH}/.build"
+		BUILD_PATH="${WORKSPACE_PATH}/.build_kernel"
 	fi
 
 	# Check kernel source
@@ -53,7 +53,7 @@ init() {
 	fi
 
 	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
-	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_BRANCH}-${ARCH}"
+	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_NAME}-${ARCH}"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} KERNELRELEASE=${KERNELRELEASE}"
 
 	DEFCONFIG="${ARCH_DEFCONFIG:-}"
@@ -75,10 +75,10 @@ build_info() {
 	echo_item "CPU_INFO" "${CPU_INFO}"
 	echo_item "BOARD_CODE" "${BOARD_CODE}"
 	echo_item "ARCH" "${ARCH}"
-	echo_item "KERNEL_BRANCH" "${KERNEL_BRANCH}"
+	echo_item "KERNEL_NAME" "${KERNEL_NAME}"
 	echo_item "KERNEL_VERSION" "${KERNEL_VERSION}"
 	echo_item "KERNEL_CURRENT" "${KERNEL_CURRENT}"
-	echo_item "KERNEL_RECOMMEND" "${KERNEL_RECOMMEND}"
+	echo_item "KERNEL_COMPATIBLE" "${KERNEL_COMPATIBLE} ${KERNEL_COMPATIBLE_BRANCH:-}"
 	echo_item "DEFCONFIG" "${DEFCONFIG}"
 	echo_item "BUILD_ARGS" "${BUILD_ARGS}"
 	echo_item "CROSS_COMPILE" "${CROSS_COMPILE:-}"

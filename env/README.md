@@ -16,10 +16,12 @@
 
 **KERNEL_FMT** 内核文件格式，可选default,gzip,uboot
 
-**KERNEL_TYPE** 适配内核类型，可选mainline,vendor
+**KERNEL_TYPE** 适配内核类型，通常有mainline和vendor
 
-**KERNEL_BRANCH** 内核源码分支名称
+**KERNEL_NAME** 内核源码来源名称
 
-**KERNEL_RECOMMEND** 当前配置匹配的内核源码
+**KERNEL_COMPATIBLE** 当前配置兼容的内核源码
+
+**KERNEL_COMPATIBLE_BRANCH** 当前配置兼容的内核源码分支
 
 **NO_CROSS_COMPILE** 不使用交叉编译工具，在同平台编译时使用

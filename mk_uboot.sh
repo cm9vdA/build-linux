@@ -26,14 +26,15 @@ init() {
 	export PATH=${PATH}:"${TOOLCHAIN_PATH}/${TOOLCHAIN_NAME}/bin"
 	[ -n "${ARM_TOOLCHAIN_NAME:-}" ] && export PATH=${PATH}:"${TOOLCHAIN_PATH}/${ARM_TOOLCHAIN_NAME}/bin"
 
-	# UBOOT_SRC="${WORKSPACE_PATH}/uboot${KERNEL_TYPE:+-${KERNEL_TYPE}}"
-	if [ "${KERNEL_TYPE}" != "mainline" ]; then
-		UBOOT_SRC="${WORKSPACE_PATH}/uboot-${KERNEL_TYPE}"
+	# UBOOT_SRC="${WORKSPACE_PATH}/uboot${UBOOT_NAME:+-${UBOOT_NAME}}"
+	if [ "${UBOOT_NAME}" != "mainline" ]; then
+		UBOOT_SRC="${WORKSPACE_PATH}/uboot-${UBOOT_NAME}"
+		BUILD_PATH="${WORKSPACE_PATH}/.build_uboot-${UBOOT_NAME}"
 	else
 		UBOOT_SRC="${WORKSPACE_PATH}/uboot"
+		BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	fi
 
-	BUILD_PATH="${WORKSPACE_PATH}/.build_uboot"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH}"
 	DEFCONFIG="${BOARD_DEFCONFIG}"
 
@@ -41,6 +42,8 @@ init() {
 
 	cd "${UBOOT_SRC}"
 	UBOOT_VERSION=$(make ubootversion)
+
+	UBOOT_CURRENT=$(git -C ${UBOOT_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
 }
 
 build_info() {
@@ -48,7 +51,10 @@ build_info() {
 	echo_item "BOARD_NAME" "${BOARD_NAME}"
 	echo_item "CPU_INFO" "${CPU_INFO}"
 	echo_item "ARCH" "${ARCH}"
+	echo_item "UBOOT_NAME" "${UBOOT_NAME}"
 	echo_item "UBOOT_VERSION" "${UBOOT_VERSION}"
+	echo_item "UBOOT_CURRENT" "${UBOOT_CURRENT}"
+	echo_item "UBOOT_COMPATIBLE" "${UBOOT_COMPATIBLE}  ${UBOOT_COMPATIBLE_BRANCH:-}"
 	echo_item "DEFCONFIG" "${DEFCONFIG}"
 	echo_item "ATF_PLAT" "${ATF_PLAT:-}"
 	echo_item "ATF(BL31)" "${BL31:-}"
@@ -74,7 +80,7 @@ build_atf() {
 }
 
 build_probe() {
-	local dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${KERNEL_TYPE}"
+	local dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${UBOOT_TYPE}"
 	local dts_link="${UBOOT_SRC}/arch/arm/dts"
 	local dts_up_link="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}"
 

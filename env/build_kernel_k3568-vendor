@@ -8,6 +8,9 @@ CPU_INFO="Rockchip RK3568"
 VENDOR="rockchip"
 BOARD_CODE="rk3568-lz-k3568"
 KERNEL_TYPE="vendor"
+KERNEL_NAME="armbian-rockchip"
+KERNEL_COMPATIBLE="https://github.com/armbian/linux-rockchip.git"
+KERNEL_COMPATIBLE_BRANCH="rk-6.1-rkr5.1"
 
 # Build Config
 NO_CROSS_COMPILE=0

@@ -9,8 +9,8 @@ VENDOR="qcom"
 BOARD_CODE="sm8250-ctf865"
 BOARD_DEFCONFIG="defconfig sm8250.config"
 KERNEL_FMT=gzip
-KERNEL_BRANCH="sm8250-mainline"
-KERNEL_RECOMMEND="https://gitlab.com/sm8250-mainline/linux.git"
+KERNEL_NAME="sm8250-mainline"
+KERNEL_COMPATIBLE="https://gitlab.com/sm8250-mainline/linux.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

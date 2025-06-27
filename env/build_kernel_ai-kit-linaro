@@ -9,8 +9,8 @@ VENDOR="qcom"
 BOARD_CODE="sdm845-thundercomm-ai-kit"
 KERNEL_TYPE="linaro"
 KERNEL_FMT=gzip
-KERNEL_BRANCH="linaro-qualcomm"
-KERNEL_RECOMMEND="http://git.linaro.org/landing-teams/working/qualcomm/kernel.git"
+KERNEL_NAME="linaro-qualcomm"
+KERNEL_COMPATIBLE="http://git.linaro.org/landing-teams/working/qualcomm/kernel.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

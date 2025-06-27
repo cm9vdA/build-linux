@@ -9,8 +9,8 @@ VENDOR="qcom"
 BOARD_CODE="sdm845-thundercomm-ai-kit"
 BOARD_DEFCONFIG="defconfig sdm845.config"
 KERNEL_FMT=gzip
-KERNEL_BRANCH="sdm845-mainline"
-KERNEL_RECOMMEND="https://gitlab.com/sdm845-mainline/linux.git"
+KERNEL_NAME="sdm845-mainline"
+KERNEL_COMPATIBLE="https://gitlab.com/sdm845-mainline/linux.git"
 
 # Build Config
 NO_CROSS_COMPILE=0

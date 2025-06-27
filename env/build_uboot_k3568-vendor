@@ -7,9 +7,10 @@ CPU_INFO="Rockchip RK3568"
 BOARD_DEFCONFIG="k3568-rk3568_defconfig"
 VENDOR="rockchip"
 BOARD_CODE="rk3568-lz-k3568"
-KERNEL_TYPE="vendor"
-KERNEL_BRANCH="armbian"
-KERNEL_RECOMMEND="https://github.com/armbian/linux-rockchip.git"
+UBOOT_TYPE="vendor"
+UBOOT_NAME="radxa"
+UBOOT_COMPATIBLE="https://github.com/radxa/u-boot.git"
+UBOOT_COMPATIBLE_BRANCH="next-dev-v2024.10"
 
 # ATF
 # git clone https://github.com/ARM-software/arm-trusted-firmware.git
