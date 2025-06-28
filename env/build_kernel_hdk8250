@@ -8,7 +8,7 @@ CPU_INFO="Snapdragon 865"
 VENDOR="qcom"
 BOARD_CODE="sm8250-hdk"
 BOARD_DEFCONFIG="defconfig sm8250.config"
-KERNEL_FMT=gzip
+KERNEL_FMT=default
 KERNEL_NAME="sm8250-mainline"
 KERNEL_COMPATIBLE="https://gitlab.com/sm8250-mainline/linux.git"
 
