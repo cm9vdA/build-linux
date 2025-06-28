@@ -977,6 +977,15 @@
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
 	};
 };
+
+&pm8150b_lpg {
+	status = "okay";
+};
+
+&pm8150l_flash {
+	status = "okay";
+};
+
 /*
 &txmacro {
 	status = "okay";
