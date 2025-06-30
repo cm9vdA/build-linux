@@ -1,4 +1,5 @@
 > https://www.linaro.org/blog/initial-u-boot-release-for-qualcomm-platforms/
+
 > https://github.com/u-boot/u-boot/blob/master/doc/board/qualcomm/board.rst
 
 

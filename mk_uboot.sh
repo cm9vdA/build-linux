@@ -41,9 +41,10 @@ init() {
 	[ ! -d "${UBOOT_SRC}" ] && echo_error "Please link U-Boot source to '${UBOOT_SRC}'" && exit 1
 
 	cd "${UBOOT_SRC}"
-	UBOOT_VERSION=$(make ubootversion)
+	UBOOT_VERSION=$(make ubootversion | sed -E 's/^(([0-9]+\.[0-9]+)).*/\1/')
 
 	UBOOT_CURRENT=$(git -C ${UBOOT_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
+	UBOOT_CURRENT_BRANCH="$(git -C ${UBOOT_SRC} describe --all --exact-match HEAD 2>/dev/null || echo "Detached at $(git rev-parse --short HEAD)")"
 }
 
 build_info() {
@@ -53,8 +54,8 @@ build_info() {
 	echo_item "ARCH" "${ARCH}"
 	echo_item "UBOOT_NAME" "${UBOOT_NAME}"
 	echo_item "UBOOT_VERSION" "${UBOOT_VERSION}"
-	echo_item "UBOOT_CURRENT" "${UBOOT_CURRENT}"
-	echo_item "UBOOT_COMPATIBLE" "${UBOOT_COMPATIBLE}  ${UBOOT_COMPATIBLE_BRANCH:-}"
+	echo_item "UBOOT_CURRENT" "${UBOOT_CURRENT} ${UBOOT_CURRENT_BRANCH:-}"
+	echo_item "UBOOT_COMPATIBLE" "${UBOOT_COMPATIBLE} ${UBOOT_COMPATIBLE_BRANCH:-}"
 	echo_item "DEFCONFIG" "${DEFCONFIG}"
 	echo_item "ATF_PLAT" "${ATF_PLAT:-}"
 	echo_item "ATF(BL31)" "${BL31:-}"
@@ -64,7 +65,17 @@ build_info() {
 }
 
 process() {
-	echo_error "Function not implemented"
+	# Regular Android boot image
+	if [ "${UBOOT_PROCESS_FUNC:-}" = "boot.img" ]; then
+		local tmpfile=$(mktemp /tmp/uboot-dtb.XXXXXX)
+		gzip ${BUILD_PATH}/u-boot-nodtb.bin -c > ${tmpfile}
+		cat ${BUILD_PATH}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}/${BOARD_CODE}.dtb >> ${tmpfile}
+		mkbootimg --kernel_offset '0x00008000' --pagesize '4096' --kernel ${tmpfile} -o ${BUILD_PATH}/u-boot.img
+		rm ${tmpfile}
+		echo_info "Output Image to ${BUILD_PATH}/u-boot.img"
+		return
+	fi
+	echo_error "Function is not assign"
 }
 
 build_atf() {
@@ -114,7 +125,7 @@ show_menu() {
 	echo_menu 1 "Use Default Config"
 	echo_menu 2 "Menu Config"
 	echo_menu 3 "Build U-Boot"
-	echo_menu 4 "Custom Process(Not implemented)"
+	echo_menu 4 "Custom Process"
 	echo_menu 5 "Clean"
 
 	read -rp "Please Select: >> " OPT

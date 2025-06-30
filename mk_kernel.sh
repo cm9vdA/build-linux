@@ -67,6 +67,7 @@ init() {
 	fi
 
 	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
+	KERNEL_CURRENT_BRANCH="$(git -C ${KERNEL_SRC} describe --all --exact-match HEAD 2>/dev/null || echo "Detached at $(git rev-parse --short HEAD)")"
 }
 
 build_info() {
@@ -77,7 +78,7 @@ build_info() {
 	echo_item "ARCH" "${ARCH}"
 	echo_item "KERNEL_NAME" "${KERNEL_NAME}"
 	echo_item "KERNEL_VERSION" "${KERNEL_VERSION}"
-	echo_item "KERNEL_CURRENT" "${KERNEL_CURRENT}"
+	echo_item "KERNEL_CURRENT" "${KERNEL_CURRENT} ${KERNEL_CURRENT_BRANCH}"
 	echo_item "KERNEL_COMPATIBLE" "${KERNEL_COMPATIBLE} ${KERNEL_COMPATIBLE_BRANCH:-}"
 	echo_item "DEFCONFIG" "${DEFCONFIG}"
 	echo_item "BUILD_ARGS" "${BUILD_ARGS}"
@@ -190,7 +191,7 @@ archive_kernel() {
 	local PACK_NAME="linux_${PACK_NAME}_${KERNEL_VERSION}_$(date +%Y%m%d_%H%M).tar.xz"
 	cd "${INSTALL_MOD_PATH}"
 	TIME="Total Time: %E\tExit:%x" time tar cJfp "../${PACK_NAME}" *
-	echo_info "Package To ${PACK_NAME}"
+	echo_info "Package to ${PACK_NAME}"
 }
 
 clean_all() {

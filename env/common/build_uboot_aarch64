@@ -10,5 +10,6 @@ ARM_TOOLCHAIN_NAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${HOST_ARCH}-arm-none-
 UBOOT_TYPE="mainline"
 UBOOT_NAME="mainline"
 UBOOT_COMPATIBLE="https://ftp.denx.de/pub/u-boot/"
+UBOOT_PROCESS_FUNC=""
 PKG_LIST="flex bison time bc kmod u-boot-tools libncurses5-dev libgmp-dev libmpc-dev libssl-dev python3-pyelftools libgnutls28-dev uuid-dev swig"
 DEPENDENCY_LIST="make git time"

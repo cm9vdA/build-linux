@@ -1,0 +1,14 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="HDK8250"
+CPU_INFO="Snapdragon 865"
+BOARD_DEFCONFIG="hdk8250_defconfig"
+VENDOR="qcom"
+BOARD_CODE="sm8250-hdk"
+UBOOT_TYPE="mainline"
+UBOOT_NAME="linaro"
+UBOOT_COMPATIBLE="https://git.codelinaro.org/linaro/qcomlt/u-boot.git"
+UBOOT_COMPATIBLE_BRANCH="qcom-more-for-2025.07"
+UBOOT_PROCESS_FUNC="boot.img"
