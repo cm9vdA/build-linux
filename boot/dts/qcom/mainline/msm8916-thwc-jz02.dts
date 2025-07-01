@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// https://github.com/CoiaPrant233/msm8916_linux
+
+/dts-v1/;
+
+#include "msm8916-thwc-common.dtsi"
+
+/ {
+	model = "Tong Heng Wei Chuang 4G Modem JZ02_V10";
+	compatible = "thwc,mfx32-v2", "qcom,msm8916";
+};
+
+&leds {
+	led-green {
+		color = <LED_COLOR_ID_GREEN>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-blue {
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
+	};
+
+	led-red {
+		color = <LED_COLOR_ID_RED>;
+		function = LED_FUNCTION_WAN;
+		default-state = "off";
+		gpios = <&tlmm 8 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+&gpio_leds_default {
+	pins = "gpio6", "gpio7", "gpio8";
+};
+
+&sim_ctrl_default {
+	esim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio22", "gpio23";
+		bias-disable;
+		output-low;
+	};
+
+	sim-en-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio1";
+		bias-disable;
+		output-high;
+	};
+
+	sim-sel-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio20";
+		bias-disable;
+		output-high;
+	};
+};

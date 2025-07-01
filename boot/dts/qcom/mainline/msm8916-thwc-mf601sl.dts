@@ -4,6 +4,7 @@
 /dts-v1/;
 
 #include "msm8916-thwc-common.dtsi"
+#include "msm8916-thwc-battery.dtsi"
 
 / {
 	model = "Tong Heng Wei Chuang 4G Modem MF601SL_CT_V07";

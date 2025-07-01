@@ -7410,7 +7410,7 @@
 			};
 
 			sim1_switch_gpio {
-				gpios = <0x4f 0x16 0x00>;
+				gpios = <0x4f 22 0x00>;
 				label = "sim1_switch_gpio";
 				linux,default-trigger = "none";
 				default-state = "off";
@@ -7418,7 +7418,7 @@
 			};
 
 			sim2_switch_gpio {
-				gpios = <0x4f 0x17 0x00>;
+				gpios = <0x4f 23 0x00>;
 				label = "sim2_switch_gpio";
 				linux,default-trigger = "none";
 				default-state = "on";
@@ -7434,7 +7434,7 @@
 			};
 
 			sim_hotdet_gpio {
-				gpios = <0x4f 0x14 0x00>;
+				gpios = <0x4f 20 0x00>;
 				label = "sim_hotdet_gpio";
 				linux,default-trigger = "none";
 				default-state = "off";

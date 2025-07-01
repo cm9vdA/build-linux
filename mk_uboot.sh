@@ -94,13 +94,16 @@ build_probe() {
 	local dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${UBOOT_TYPE}"
 	local dts_link="${UBOOT_SRC}/arch/arm/dts"
 	local dts_up_link="${UBOOT_SRC}/dts/upstream/src/${UPSTREAM_ARCH}/${VENDOR}"
+	local dtsi
 
 	link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_link}/${BOARD_CODE}.dts"
 	[ -d "${dts_up_link}" ] && link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_up_link}/${BOARD_CODE}.dts"
 
-	if [ -n "${DT_INC_FILE:-}" ]; then
-		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
-		[ -d "${dts_up_link}" ] && link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_up_link}/${DT_INC_FILE}.dtsi"
+	if [ -n "${DTS_INC_FILE:-}" ]; then
+		for dtsi in $DTS_INC_FILE; do
+			link_file "${dts_src}/${dtsi}.dtsi" "${dts_link}/${dtsi}.dtsi"
+			[ -d "${dts_up_link}" ] && link_file "${dts_src}/${dtsi}.dtsi" "${dts_up_link}/${dtsi}.dtsi"
+		done
 	fi
 
 	if [ -e "${dts_src}/${BOARD_CODE}-u-boot.dtsi" ]; then

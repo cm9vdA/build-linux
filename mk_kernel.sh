@@ -17,6 +17,7 @@ else
 fi
 
 init() {
+	local fname
 	# Source env
 	source "${SCRIPT_PATH}/env/${SCRIPT_NAME}"
 
@@ -64,6 +65,12 @@ init() {
 	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}/${BOARD_CODE}.config"
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then
 		DEFCONFIG="${DEFCONFIG} ${BOARD_CODE}.config"
+	fi
+
+	if [ "${BOARD_INC_DEFCONFIG:-}" != "" ]; then
+		for fname in ${BOARD_INC_DEFCONFIG}; do
+			DEFCONFIG="${DEFCONFIG} ${fname}.config"
+		done
 	fi
 
 	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
@@ -126,7 +133,7 @@ build_kernel() {
 }
 
 install_kernel() {
-	local dts_path kernel_img
+	local dts_path kernel_img dtsi
 
 	check_dependency "${DEPENDENCY_LIST}"
 
@@ -162,8 +169,10 @@ install_kernel() {
 	cp -f "${KERNEL_SRC}/${dts_path}/${BOARD_CODE}.dts" "${INSTALL_MOD_PATH}/"
 	cp -f "${BUILD_PATH}/${dts_path}/${BOARD_CODE}.dtb" "${INSTALL_MOD_PATH}/"
 
-	if [ -n "${DT_INC_FILE:-}" ]; then
-		cp -f "${KERNEL_SRC}/${dts_path}/${DT_INC_FILE}.dtsi" "${INSTALL_MOD_PATH}/"
+	if [ -n "${DTS_INC_FILE:-}" ]; then
+		for dtsi in $DTS_INC_FILE; do
+			cp -f "${KERNEL_SRC}/${dts_path}/${dtsi}.dtsi" "${INSTALL_MOD_PATH}/"
+		done
 	fi
 
 	# Copy .config
@@ -275,7 +284,7 @@ show_menu() {
 
 build_probe() {
 	local dts_in_vendor=0
-	local dts_link dts_src defconfig_path
+	local dts_dst dts_src defconfig_dst defconfig_src fname
 
 	if [ "$ARCH" == "arm64" ] || [ "$(compare_versions "${KERNEL_VERSION}" "6.4.0")" -eq 1 ]; then
 		dts_in_vendor=1
@@ -284,27 +293,35 @@ build_probe() {
 	# link dts
 	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${KERNEL_TYPE}/"
 	if [ $dts_in_vendor -eq 1 ]; then
-		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}"
+		dts_dst="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}"
 	else
-		dts_link="${KERNEL_SRC}/arch/${ARCH}/boot/dts"
+		dts_dst="${KERNEL_SRC}/arch/${ARCH}/boot/dts"
 	fi
-	link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_link}/${BOARD_CODE}.dts"
-	if [ "${DT_INC_FILE:-}" != "" ]; then
-		link_file "${dts_src}/${DT_INC_FILE}.dtsi" "${dts_link}/${DT_INC_FILE}.dtsi"
+	link_file "${dts_src}/${BOARD_CODE}.dts" "${dts_dst}/"
+	if [ "${DTS_INC_FILE:-}" != "" ]; then
+		for fname in ${DTS_INC_FILE}; do
+			link_file "${dts_src}/${fname}.dtsi" "${dts_dst}/"
+		done
 	fi
 
 	# add dtb to Makefile
-	if ! grep -q "${BOARD_CODE}" "${dts_link}/Makefile"; then
-		echo "dtb-y += ${BOARD_CODE}.dtb" >>"${dts_link}/Makefile"
+	if ! grep -q "${BOARD_CODE}" "${dts_dst}/Makefile"; then
+		echo "dtb-y += ${BOARD_CODE}.dtb" >>"${dts_dst}/Makefile"
 	fi
 
 	# link defconfig
+	defconfig_src="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}"
+	defconfig_dst="${KERNEL_SRC}/arch/${ARCH}/configs/"
 	if [ "${BOARD_DEFCONFIG:-}" != "" ]; then
-		defconfig_path="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}/${BOARD_DEFCONFIG}"
-		link_file "${defconfig_path}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
+		link_file "${defconfig_src}/${BOARD_DEFCONFIG}" "${defconfig_dst}/"
 	fi
 	if [ -f "${ADDITIONAL_CONFIG}" ]; then
-		ln -nfs "${ADDITIONAL_CONFIG}" "${KERNEL_SRC}/arch/${ARCH}/configs/"
+		link_file "${ADDITIONAL_CONFIG}" "${defconfig_dst}/"
+	fi
+	if [ "${BOARD_INC_DEFCONFIG:-}" != "" ]; then
+		for fname in ${BOARD_INC_DEFCONFIG}; do
+			link_file "${defconfig_src}/${fname}.config" "${defconfig_dst}/"
+		done
 	fi
 }
 

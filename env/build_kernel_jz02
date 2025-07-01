@@ -2,12 +2,12 @@
 source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
-BOARD_NAME="MF601SL"
-PACK_NAME="mf601sl"
+BOARD_NAME="JZ02"
+PACK_NAME="jz02"
 CPU_INFO="Snapdragon 410"
 VENDOR="qcom"
-BOARD_CODE="msm8916-thwc-mf601sl"
-DTS_INC_FILE="msm8916-thwc-common msm8916-thwc-battery"
+BOARD_CODE="msm8916-thwc-jz02"
+DTS_INC_FILE="msm8916-thwc-common"
 BOARD_DEFCONFIG="msm8916_defconfig"
 BOARD_INC_DEFCONFIG="msm8916-thwc-common"
 KERNEL_FMT=gzip
