@@ -2,6 +2,7 @@
 // A common battery dtsi for MF32/MF601 series LTE modem dongles.
 
 / {
+#if LIMIT_CHARGE
 	// Limit Charge
 	battery: battery {
 		compatible = "simple-battery";
@@ -21,8 +22,7 @@
 			<3174000 4>, <3096000 3>, <3062000 2>, <3035000 1>,
 			<3000000 0>;
 	};
-
-/*
+#else
 	// Full Charge
 	battery: battery {
 		compatible = "simple-battery";
@@ -42,7 +42,7 @@
 			<3489000 4>, <3475000 3>, <3460000 2>, <3444000 1>,
 			<3400000 0>;
 	};
-*/
+#endif
 
 	gpio-keys {
 		compatible = "gpio-keys";
@@ -70,9 +70,11 @@
 
 &pm8916_charger {
 	qcom,fast-charge-safe-current = <700000>;
+#if LIMIT_CHARGE
 	qcom,fast-charge-safe-voltage = <4200000>;
-	// qcom,fast-charge-safe-voltage = <4350000>;
-
+#else
+	qcom,fast-charge-safe-voltage = <4350000>;
+#endif
 	monitored-battery = <&battery>;
 
 	status = "okay";
