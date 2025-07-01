@@ -59,6 +59,6 @@
 		drive-strength = <2>;
 		pins = "gpio20";
 		bias-disable;
-		output-high;
+		output-low;
 	};
 };
