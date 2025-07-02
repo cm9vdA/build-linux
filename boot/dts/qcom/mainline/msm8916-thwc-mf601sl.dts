@@ -8,7 +8,7 @@
 #include "msm8916-thwc-battery.dtsi"
 
 / {
-	model = "Tong Heng Wei Chuang 4G Modem MF601SL_CT_V07";
+	model = "4G Modem MF601SL_CT_V07";
 	compatible = "thwc,mf601sl-v7", "qcom,msm8916";
 };
 

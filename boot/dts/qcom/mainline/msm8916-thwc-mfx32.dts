@@ -8,7 +8,7 @@
 #include "msm8916-thwc-battery.dtsi"
 
 / {
-	model = "Tong Heng Wei Chuang 4G Modem MFX32";
+	model = "4G Modem MFX32";
 	compatible = "thwc,mfx32-v2", "qcom,msm8916";
 
 	usb_id: usb-id {

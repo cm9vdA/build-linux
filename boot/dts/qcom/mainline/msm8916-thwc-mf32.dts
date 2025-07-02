@@ -8,7 +8,7 @@
 #include "msm8916-thwc-battery.dtsi"
 
 / {
-	model = "Tong Heng Wei Chuang 4G Modem MF32LT/MF32T";
+	model = "4G Modem MF32LT/MF32T";
 	compatible = "thwc,mf32lt-v1", "thwc,mf32t-v1", "qcom,msm8916";
 };
 

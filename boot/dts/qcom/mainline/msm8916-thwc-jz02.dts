@@ -6,8 +6,8 @@
 #include "msm8916-thwc-common.dtsi"
 
 / {
-	model = "Tong Heng Wei Chuang 4G Modem JZ02_V10";
-	compatible = "thwc,mfx32-v2", "qcom,msm8916";
+	model = "4G Modem JZ02_V10";
+	compatible = "thwc,jz02-v10", "qcom,msm8916";
 };
 
 &leds {
