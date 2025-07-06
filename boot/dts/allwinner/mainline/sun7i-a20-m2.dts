@@ -32,6 +32,45 @@
 	};
 };
 
+#if 0
+/ {
+	spi_gpio: spi-gpio {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		cs-gpios = <&pio 8 9 GPIO_ACTIVE_LOW>; /* PI9 */
+		sck-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; /* PI8 */
+		mosi-gpios = <&pio 8 7 GPIO_ACTIVE_HIGH>; /* PI7 */
+		miso-gpios = <&pio 8 6 GPIO_ACTIVE_HIGH>; /* PI6 */
+		num-chipselects = <1>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&spi_gpio_pins_out &spi_gpio_pins_in>;
+
+		spidev@0 {
+			compatible = "spidev";
+			reg = <0>;						// CS编号
+			spi-max-frequency = <1000000>;	// 1MHz
+		};
+	};
+};
+
+&pio {
+	spi_gpio_pins_out: spi_gpio_pins_out {
+		allwinner,pins = "PI7", "PI8", "PI9", "PI5";  // MOSI, SCLK, CS, RESET
+		allwinner,function = "gpio_out";
+		allwinner,drive = <1>;
+		allwinner,pull = <0>;
+	};
+
+	spi_gpio_pins_in: spi_gpio_pins_in {
+		allwinner,pins = "PI6";  // MISO
+		allwinner,function = "gpio_in";
+		allwinner,drive = <1>;
+		allwinner,pull = <0>;
+	};
+};
+#endif
+
 &cpu0 {
 	cpu-supply = <&reg_dcdc2>;
 	operating-points = <
@@ -73,7 +112,7 @@
 
 &codec {
 	//PAM8620: PH25, Low: enable output, High: disable output
-	allwinner,pa-gpios = <&pio 7 25 GPIO_ACTIVE_HIGH>;
+	allwinner,pa-gpios = <&pio 7 25 GPIO_ACTIVE_HIGH>; /* PH25 */
 	status = "okay";
 };
 
@@ -92,15 +131,15 @@
 &gmac {
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac_mii_pins>;
-	phy = <&phy1>;
+	phy-handle = <&phy1>;
 	phy-mode = "mii";
 	status = "okay";
 };
 
 &gmac_mdio {
-        phy1: ethernet-phy@1 {
-                reg = <1>;
-        };
+	phy1: ethernet-phy@1 {
+		reg = <1>;
+	};
 };
 
 &hdmi {
@@ -223,7 +262,7 @@
 };
 
 &reg_ahci_5v {
-	gpio = <&pio 7 12 GPIO_ACTIVE_HIGH>;
+	gpio = <&pio 7 12 GPIO_ACTIVE_HIGH>; /* PH12 */
 	status = "okay";
 };
 

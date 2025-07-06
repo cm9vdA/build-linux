@@ -74,7 +74,7 @@ init() {
 	fi
 
 	KERNEL_CURRENT=$(git -C ${KERNEL_SRC} config remote.origin.url 2>/dev/null || echo "Archive File")
-	KERNEL_CURRENT_BRANCH="$(git -C ${KERNEL_SRC} describe --all --exact-match HEAD 2>/dev/null || echo "Detached at $(git rev-parse --short HEAD)")"
+	KERNEL_CURRENT_BRANCH="$(git -C ${KERNEL_SRC} describe --all --exact-match HEAD 2>/dev/null || echo "")"
 }
 
 build_info() {
@@ -160,12 +160,7 @@ install_kernel() {
 	fi
 
 	# Copy dts/dtb
-	if [ "$ARCH" == "arm64" ]; then
-		dts_path="arch/${ARCH}/boot/dts/${VENDOR}"
-	elif [ "$ARCH" == "arm" ]; then
-		dts_path="arch/${ARCH}/boot/dts"
-	fi
-
+	dts_path="arch/${ARCH}/boot/dts/${VENDOR}"
 	cp -f "${KERNEL_SRC}/${dts_path}/${BOARD_CODE}.dts" "${INSTALL_MOD_PATH}/"
 	cp -f "${BUILD_PATH}/${dts_path}/${BOARD_CODE}.dtb" "${INSTALL_MOD_PATH}/"
 
