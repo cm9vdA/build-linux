@@ -19,6 +19,7 @@
 	compatible = "qcom,sm8250-hdk", "qcom,sm8250";
 	qcom,msm-id = <481 0x20001>;
 	qcom,board-id = <65567 3>;
+	chassis-type = "embedded";
 
 	aliases {
 		serial0 = &uart12;
