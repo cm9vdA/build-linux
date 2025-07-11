@@ -94,12 +94,20 @@
 };
 
 &sim_ctrl_default {
-	ftest-en-pins {
+	ftest-pins {
 		function = "gpio";
 		drive-strength = <2>;
 		pins = "gpio32";
 		bias-disable;
-		output-high;
+		output-low;
+	};
+
+	exvus-pins {
+		function = "gpio";
+		drive-strength = <2>;
+		pins = "gpio38";
+		bias-disable;
+		output-low;
 	};
 
 	sim-en-pins {
@@ -125,7 +133,9 @@
 		bias-disable;
 		output-low;
 	};
+};
 
+&tlmm {
 	usb_id_default: usb-id-default {
 		pins = "gpio110";
 		function = "gpio";
