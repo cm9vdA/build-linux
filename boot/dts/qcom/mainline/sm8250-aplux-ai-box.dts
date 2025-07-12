@@ -15,8 +15,8 @@
 #include "pm8009.dtsi"
 
 / {
-	model = "Qualcomm Technologies, Inc. QCS8250 AI Box";
-	compatible = "qcom,sm8250-hdk", "qcom,sm8250";
+	model = "Aplux AI Box";
+	compatible = "aplux,ai-box", "qcom,sm8250-hdk", "qcom,sm8250";
 	qcom,msm-id = <481 0x20001>;
 	qcom,board-id = <65567 1>;
 	chassis-type = "embedded";

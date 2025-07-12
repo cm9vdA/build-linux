@@ -2,11 +2,11 @@
 source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 
 # Board Info
-BOARD_NAME="CTF865"
-PACK_NAME="ctf865"
+BOARD_NAME="Aplux AI Box"
+PACK_NAME="aplux-ai-box"
 CPU_INFO="Snapdragon 865"
 VENDOR="qcom"
-BOARD_CODE="sm8250-ctf865"
+BOARD_CODE="sm8250-aplux-ai-box"
 BOARD_DEFCONFIG="defconfig hardening.config"
 BOARD_INC_DEFCONFIG="kvm"
 KERNEL_FMT=default
