@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 # Board Info
 BOARD_NAME="Aplux AI Box"
 PACK_NAME="aplux-ai-box"
-CPU_INFO="Snapdragon 865"
+CPU_INFO="Qualcomm Snapdragon 865"
 VENDOR="qcom"
 BOARD_CODE="sm8250-aplux-ai-box"
 BOARD_DEFCONFIG="defconfig hardening.config"

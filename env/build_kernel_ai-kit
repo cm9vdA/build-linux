@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 # Board Info
 BOARD_NAME="Thundercomm AI Kit"
 PACK_NAME="ai-kit"
-CPU_INFO="Snapdragon 845"
+CPU_INFO="Qualcomm Snapdragon 845"
 VENDOR="qcom"
 BOARD_CODE="sdm845-thundercomm-ai-kit"
 BOARD_DEFCONFIG="defconfig sdm845.config hardening.config"

@@ -3,7 +3,7 @@ source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
 
 # Board Info
 BOARD_NAME="Aplux AI Box"
-CPU_INFO="Snapdragon 865"
+CPU_INFO="Qualcomm Snapdragon 865"
 BOARD_DEFCONFIG="aplux-ai-box_defconfig"
 VENDOR="qcom"
 BOARD_CODE="sm8250-aplux-ai-box"

@@ -4,7 +4,7 @@ source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
 # Board Info
 BOARD_NAME="JZ02"
 PACK_NAME="jz02"
-CPU_INFO="Snapdragon 410"
+CPU_INFO="Qualcomm Snapdragon 410"
 VENDOR="qcom"
 BOARD_CODE="msm8916-thwc-jz02"
 DTS_INC_FILE="msm8916-thwc-common"

@@ -16,7 +16,7 @@
 
 / {
 	model = "Aplux AI Box";
-	compatible = "aplux,ai-box", "qcom,sm8250-hdk", "qcom,sm8250";
+	compatible = "aplux,ai-box", "qcom,sm8250-hdk", "qcom,kona-iot", "qcom,sm8250";
 	qcom,msm-id = <481 0x20001>;
 	qcom,board-id = <65567 1>;
 	chassis-type = "embedded";
