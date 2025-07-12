@@ -7,8 +7,9 @@ PACK_NAME="ctf865"
 CPU_INFO="Snapdragon 865"
 VENDOR="qcom"
 BOARD_CODE="sm8250-ctf865"
-BOARD_DEFCONFIG="defconfig sm8250.config"
-KERNEL_FMT=gzip
+BOARD_DEFCONFIG="defconfig hardening.config"
+BOARD_INC_DEFCONFIG="kvm"
+KERNEL_FMT=default
 KERNEL_NAME="sm8250-mainline"
 KERNEL_COMPATIBLE="https://gitlab.com/sm8250-mainline/linux.git"
 
