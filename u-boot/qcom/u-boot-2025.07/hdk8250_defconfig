@@ -129,3 +129,40 @@ CONFIG_CMD_READ=y
 CONFIG_CMD_WRITE=y
 CONFIG_CMD_EROFS=y
 CONFIG_CMD_BTRFS=y
+
+
+# Configuration for building U-Boot to be flashed
+# to the hyp partition on sm8250 devices
+
+CONFIG_HYPERVISOR=y
+
+CONFIG_LOG=y
+CONFIG_HEXDUMP=y
+CONFIG_CMD_LOG=y
+# CONFIG_LOG_MAX_LEVEL=9
+# CONFIG_LOG_DEFAULT_LEVEL=9
+# CONFIG_LOGLEVEL=6
+
+# Uncomment to enable UART pre-relocation
+CONFIG_BAUDRATE=115200
+
+# Uncomment to enable UART pre-relocation
+CONFIG_DEBUG_UART=y
+CONFIG_DEBUG_UART_ANNOUNCE=y
+# This is the address of the debug-uart peripheral
+# The value here is for SDM845, other platforms will vary
+CONFIG_DEBUG_UART_BASE=0xa90000
+# Boards older than ~2018 pre-date the GENI driver and unfortunately
+# aren't supported here
+CONFIG_DEBUG_UART_MSM_GENI=y
+# Most newer boards have an oversampling value of 16 instead
+# of 32, they need the clock rate to be doubled
+CONFIG_DEBUG_UART_CLOCK=14745600
+
+# Address of xbl_core.elf (which we're replacing)
+CONFIG_TEXT_BASE=0x80040000
+CONFIG_REMAKE_ELF=y
+
+CONFIG_DEFAULT_ENV_FILE="board/qualcomm/hyp-sm8250.env"
+
+CONFIG_CLK_QCOM_DEBUG=y

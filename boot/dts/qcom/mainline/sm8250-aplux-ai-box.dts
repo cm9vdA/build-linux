@@ -30,12 +30,12 @@
 		stdout-path = "serial0:115200n8";
 	};
 
-#ifdef CONFIG_SPL
-	// memory@80000000 {
-	// 	device_type = "memory";
-	// 	reg = <0x00000000 0x80000000  0x00000000 0x3B800000>,   // 952MB
-	// 		  <0x00000000 0xC0000000  0x00000001 0xC0000000>;   // 7GB
-	// };
+#ifdef CONFIG_HYPERVISOR
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x00000000 0x80000000  0x00000000 0x3B800000>,   // 952MB
+			  <0x00000000 0xC0000000  0x00000001 0xC0000000>;   // 7GB
+	};
 #endif
 
 	/* Fixed crystal oscillator dedicated to MCP2518FD */
@@ -493,7 +493,7 @@
 		vdd-bob-supply = <&vph_pwr>;
 
 		vreg_bob: bob {
-			regulator-name = "vreg_bob";
+			regulator-name = "vreg_bob"; // bsp
 			regulator-min-microvolt = <3008000>;
 			regulator-max-microvolt = <3960000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;

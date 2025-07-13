@@ -7,7 +7,7 @@
 #include <dt-bindings/sensor-dev.h>
 #include "rk3568.dtsi"
 
-#ifdef CONFIG_SPL
+#ifdef CONFIG_SYS_PROMPT
 #include "rk3568-u-boot.dtsi"
 #endif
 
@@ -89,7 +89,7 @@
 		};
 	};
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 	gmac0_xpcsclk: xpcs-gmac0-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
@@ -252,7 +252,7 @@
         status = "okay";
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &dfi {
 	status = "okay";
 };
@@ -568,7 +568,7 @@
 			};
 		};
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 		rk809_codec: codec {
 			#sound-dai-cells = <0>;
 			compatible = "rockchip,rk809-codec", "rockchip,rk817-codec";
@@ -608,7 +608,7 @@
 	};
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &i2s0_8ch {
 	status = "okay";
 };
@@ -793,7 +793,7 @@
 	status = "okay";
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 // rockchip-pm-domain fdd90000.power-management:power-controller: failed to get ack on domain 'npu'
 // &bus_npu {
 // 	bus-supply = <&vdd_logic>;
@@ -849,7 +849,7 @@
 	status = "okay"; // bsp
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &uart1 {
 	status = "okay"; // bsp
 	pinctrl-names = "default";
@@ -971,7 +971,7 @@
 	status = "okay";
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &xpcs {
 	status = "okay";
 };
@@ -1024,7 +1024,7 @@
 	status = "okay";
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &gmac0 {
 	phy-mode = "sgmii";
 
@@ -1067,7 +1067,7 @@
 	};
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &reserved_memory {
 	ramoops: ramoops@110000 {
 		compatible = "ramoops";
@@ -1084,7 +1084,7 @@
 	status = "okay";
 };
 
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 &rockchip_suspend {
 	status = "okay";
 };

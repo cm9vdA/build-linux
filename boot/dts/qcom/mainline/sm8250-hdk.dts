@@ -30,16 +30,12 @@
 		stdout-path = "serial0:115200n8";
 	};
 
-#ifdef CONFIG_SPL
+#ifdef CONFIG_HYPERVISOR
 	memory@80000000 {
 		device_type = "memory";
-		reg = <0x00000000 0x80000000  0x00000001 0x80000000>; // 6GB
+		reg = <0x00000000 0x80000000  0x00000000 0x3c900000>, // 1011MB
+			  <0x00000000 0xC0000000  0x00000001 0x40000000>; // 5GB
 	};
-	// memory@80000000 {
-	// 	device_type = "memory";
-	// 	reg = <0x00000000 0x80000000  0x00000000 0x3c900000>,   // 1011MB
-	// 		  <0x00000000 0xC0000000  0x00000001 0x40000000>;   // 5GB
-	// };
 #endif
 
 	/* Fixed crystal oscillator dedicated to MCP2518FD */
@@ -349,7 +345,7 @@
 		};
 
 		vreg_l7f_1p8: ldo7 {
-			regulator-name = "vreg_l7f_1p8";// bsp
+			regulator-name = "vreg_l7f_1p8"; // bsp
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
@@ -545,8 +541,8 @@
 		};
 
 		vreg_l2c_1p2: ldo2 {
-			regulator-name = "vreg_l2c_1p2";
-			regulator-min-microvolt = <1200000>; // bsp
+			regulator-name = "vreg_l2c_1p2"; // bsp
+			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1304000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
@@ -859,7 +855,7 @@
 &sdhc_2 {
 	status = "okay";
 
-	cd-gpios = <&tlmm 77 GPIO_ACTIVE_LOW>;
+	cd-gpios = <&tlmm 77 GPIO_ACTIVE_LOW>; // bsp
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&sdc2_default_state &sdc2_card_det_n>;
 	pinctrl-1 = <&sdc2_sleep_state &sdc2_card_det_n>;

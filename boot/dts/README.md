@@ -6,6 +6,6 @@
 
 dts中包含以下内容是用于区分编译环境，部分节点在内核的dts中有，但u-boot中没有，为了避免维护两份dts，所以采用这种方式
 ```
-#ifndef CONFIG_SPL
+#ifndef CONFIG_SYS_PROMPT
 #endif
 ```
