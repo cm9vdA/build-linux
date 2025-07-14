@@ -48,6 +48,20 @@
 		clock-frequency = <40000000>;
 	};
 
+	leds {
+		compatible = "gpio-leds";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_2_pin>;
+
+		user_led_2: led-2 {
+			label = "blue:user_led_2";
+			color = <LED_COLOR_ID_BLUE>;
+			gpios = <&tlmm 88 GPIO_ACTIVE_HIGH>; // verify
+			default-state = "off";
+		};
+	};
+
 #if ENABLE_HDMI
 	hdmi-out {
 		compatible = "hdmi-connector";
@@ -1113,6 +1127,11 @@ DIP Switch:
 		bias-pull-up;
 		drive-strength = <2>;
 	};
+
+	led_2_pin: led-2-pin {
+		pins = "gpio88"; // verify
+		function = "gpio";
+	};
 };
 
 &pm8150_gpios {
@@ -1139,6 +1158,52 @@ DIP Switch:
 
 &pm8150b_lpg {
 	status = "okay";
+	qcom,power-source = <1>;
+
+	user_led_3: led@1 {
+		reg = <1>;
+		color = <LED_COLOR_ID_GREEN>; // verify
+		function-enumerator = <1>;
+		default-state = "off";
+	};
+
+	user_led_1: led@2 {
+		reg = <2>;
+		color = <LED_COLOR_ID_ORANGE>; // verify
+		function-enumerator = <2>;
+		default-state = "off";
+	};
+};
+
+&pm8150l_lpg {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	user_led_4: led@1 {
+		reg = <1>;
+		color = <LED_COLOR_ID_RED>; // verify
+		function = LED_FUNCTION_INDICATOR;
+		function-enumerator = <1>;
+		default-state = "off";
+	};
+
+	user_led_6: led@2 {
+		reg = <2>;
+		color = <LED_COLOR_ID_GREEN>; // verify
+		function = LED_FUNCTION_HEARTBEAT;
+		function-enumerator = <2>;
+		linux,default-trigger = "heartbeat";
+	};
+
+	user_led_5: led@3 {
+		reg = <3>;
+		color = <LED_COLOR_ID_BLUE>; // verify
+		function = LED_FUNCTION_INDICATOR;
+		function-enumerator = <3>;
+		default-state = "off";
+	};
 };
 
 &pm8150l_flash {
