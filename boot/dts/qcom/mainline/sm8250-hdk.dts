@@ -268,13 +268,13 @@
 		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
 
-	vcc3v3_pcie0: vcc3v3-pcie0 {
+	vcc1v8_pcie2: vcc1v8-pcie2 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie0";
+		regulator-name = "vcc1v8_pcie2";
 
 		vin-supply = <&dc12v>;
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
 
 		gpio = <&tlmm 62 GPIO_ACTIVE_HIGH>; // bsp
 		enable-active-high;
@@ -282,7 +282,41 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie0_en>;
+		pinctrl-0 = <&vcc1v8_pcie2_en>;
+	};
+
+	vcc3v3_pcie2: vcc3v3-pcie2 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_pcie2";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 33 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc3v3_pcie2_en>;
+	};
+
+	vcc1v05_pcie2: vcc1v05-pcie2 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc1v05_pcie2";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <1050000>;
+		regulator-max-microvolt = <1050000>;
+
+		gpio = <&tlmm 83 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc1v05_pcie2_en>;
 	};
 
 	gpio-keys {
@@ -675,8 +709,8 @@ DIP Switch:
 
 		// lt,irq-gpio = <&tlmm 1 0x00>;
 		// lt,reset-gpio = <&tlmm 2 0x00>;
-		// lt,hdmi-en-gpio = <&tlmm 3 0x00>;
-		// lt,hdmi-ps-gpio = <&tlmm 82 0x00>;
+		// lt,hdmi-en-gpio = <&tlmm 3 0x00>; // 3v3
+		// lt,hdmi-ps-gpio = <&tlmm 82 0x00>; // 1v8
 
 		ports {
 			#address-cells = <1>;
@@ -992,10 +1026,18 @@ DIP Switch:
 		output-high;
 	};
 
-	bt_en: bt-en {
-		pins = "gpio21"; // bsp
-		function = "gpio";
-		output-high;
+	bt {
+		bt_en: bt-en {
+			pins = "gpio21"; // bsp
+			function = "gpio";
+			output-high;
+		};
+
+		bt_sw_ctrl: bt-sw-ctrl { // bsp
+			pins = "gpio124";
+			function = "gpio";
+			output-high;
+		};
 	};
 
 	vcc5v0_host0_en: vcc5v0-host0-en {
@@ -1004,29 +1046,69 @@ DIP Switch:
 		output-high;
 	};
 
-	wcd938x_reset_default: wcd938x-reset-default-state {
-		pins = "gpio32";
+	usbplug_cc_pins: usbplug-cc-pins {
+		pins = "gpio65"; // bsp
 		function = "gpio";
-		drive-strength = <16>;
-		output-high;
 	};
 
-	wcd938x_reset_sleep: wcd938x-reset-sleep-state {
-		pins = "gpio32";
-		function = "gpio";
-		drive-strength = <16>;
-		bias-disable;
-		output-low;
+	wcd938x {
+		wcd938x_reset_default: wcd938x-reset-default-state {
+			pins = "gpio32";
+			function = "gpio";
+			drive-strength = <16>;
+			output-high;
+		};
+
+		wcd938x_reset_sleep: wcd938x-reset-sleep-state {
+			pins = "gpio32";
+			function = "gpio";
+			drive-strength = <16>;
+			bias-disable;
+			output-low;
+		};
 	};
 
-	vcc3v3_pcie0_en: vcc3v3-pcie0-en {
-		pins = "gpio62"; // bsp
-		function = "gpio";
-		output-high;
+	touchscreen {
+		ts_reset_pins: ts-reset-pins {
+			pins = "gpio58"; // bsp
+			function = "gpio";
+		};
+		ts_irq_pins: ts-irq-pins {
+			pins = "gpio59"; // bsp
+			function = "gpio";
+		};
+	};
+
+	display {
+		vcc5v5_display_panel_avdd_en: vcc5v5-display-panel-avdd-en { // bsp
+			pins = "gpio61";
+			function = "gpio";
+			output-high;
+		};
+	};
+
+	pcie-regular {
+		vcc3v3_pcie2_en: vcc3v3-pcie2-en {
+			pins = "gpio33"; // bsp
+			function = "gpio";
+			output-high;
+		};
+
+		vcc1v8_pcie2_en: vcc1v8-pcie2-en {
+			pins = "gpio62"; // bsp
+			function = "gpio";
+			output-high;
+		};
+
+		vcc1v05_pcie2_en: vcc1v05-pcie2-en {
+			pins = "gpio83"; // bsp
+			function = "gpio";
+			output-high;
+		};
 	};
 
 	sdc2_card_det_n: sd-card-det-n-state {
-		pins = "gpio77";
+		pins = "gpio77"; // bsp
 		function = "gpio";
 		bias-pull-up;
 		drive-strength = <2>;

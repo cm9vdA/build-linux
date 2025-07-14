@@ -12012,7 +12012,7 @@
 			dma-coherent;
 		};
 
-		&tlmm: pinctrl@f000000 {
+		tlmm: pinctrl@f000000 {
 			compatible = "qcom,kona-pinctrl";
 			reg = <0xf000000 0x1000000>;
 			interrupts = <0x00 0xd0 0x04>;
