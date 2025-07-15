@@ -1165,6 +1165,7 @@ DIP Switch:
 		color = <LED_COLOR_ID_GREEN>; // verify
 		function-enumerator = <1>;
 		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 
 	user_led_1: led@2 {
@@ -1172,6 +1173,7 @@ DIP Switch:
 		color = <LED_COLOR_ID_ORANGE>; // verify
 		function-enumerator = <2>;
 		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 };
 
@@ -1187,6 +1189,7 @@ DIP Switch:
 		function = LED_FUNCTION_INDICATOR;
 		function-enumerator = <1>;
 		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 
 	user_led_6: led@2 {
@@ -1195,6 +1198,7 @@ DIP Switch:
 		function = LED_FUNCTION_HEARTBEAT;
 		function-enumerator = <2>;
 		linux,default-trigger = "heartbeat";
+		qcom,default-brightness = <64>;
 	};
 
 	user_led_5: led@3 {
@@ -1203,6 +1207,7 @@ DIP Switch:
 		function = LED_FUNCTION_INDICATOR;
 		function-enumerator = <3>;
 		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 };
 

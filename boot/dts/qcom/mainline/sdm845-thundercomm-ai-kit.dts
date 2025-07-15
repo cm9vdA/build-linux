@@ -950,6 +950,8 @@
 		color = <LED_COLOR_ID_BLUE>;
 		function = "power";
 		function-enumerator = <1>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 
 	led@4 {
@@ -959,6 +961,7 @@
 		function-enumerator = <2>;
 		linux,default-trigger = "heartbeat";
 		default-state = "on";
+		qcom,default-brightness = <64>;
 	};
 
 	led@5 {
@@ -966,6 +969,8 @@
 		color = <LED_COLOR_ID_GREEN>;
 		function = "camera";
 		function-enumerator = <3>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
 	};
 };
 /*
