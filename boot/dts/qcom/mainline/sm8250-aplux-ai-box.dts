@@ -8,11 +8,14 @@
 #include <dt-bindings/sound/qcom,q6afe.h>
 #include <dt-bindings/sound/qcom,q6asm.h>
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/usb/pd.h>
 #include "sm8250.dtsi"
 #include "pm8150.dtsi"
 #include "pm8150b.dtsi"
 #include "pm8150l.dtsi"
 #include "pm8009.dtsi"
+
+#define ENABLE_HDMI 1
 
 / {
 	model = "Aplux AI Box";
@@ -45,7 +48,7 @@
 		clock-frequency = <40000000>;
 	};
 
-/*
+#if ENABLE_HDMI
 	hdmi-out {
 		compatible = "hdmi-connector";
 		type = "a";
@@ -56,7 +59,42 @@
 			};
 		};
 	};
-*/
+
+	vcc1v8_lt9611: vcc1v8-lt9611-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc1v8_lt9611";
+
+		vin-supply = <&vdc_3v3>;
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+
+		gpio = <&tlmm 82 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&lt9611_1v8_en>;
+	};
+
+	vcc3v3_lt9611: vcc3v3-lt9611-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_lt9611";
+
+		vin-supply = <&vdc_3v3>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 3 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&lt9611_3v3_en>;
+	};
+#endif
+
 	thermal-zones {
 		camera-thermal {
 			polling-delay-passive = <0>;
@@ -252,9 +290,9 @@
 		pinctrl-0 = <&vol_up_pin_a>;
 
 		key-vol-up {
-			label = "Volume Up"; // bsp
+			label = "Volume Up";
 			linux,code = <KEY_VOLUMEUP>;
-			gpios = <&pm8150_gpios 6 GPIO_ACTIVE_LOW>;
+			gpios = <&pm8150_gpios 6 GPIO_ACTIVE_LOW>; // bsp
 		};
 	};
 };
@@ -610,10 +648,120 @@
 	};
 };
 
+#if ENABLE_HDMI
 &i2c1 {
 	status = "okay";
 	clock-frequency = <400000>;
+
+	lt9611_codec: hdmi-bridge@3b {
+		compatible = "lontium,lt9611";
+		reg = <0x3b>;
+		#sound-dai-cells = <1>;
+
+		interrupts-extended = <&tlmm 1 IRQ_TYPE_EDGE_FALLING>;
+
+		reset-gpios = <&tlmm 2 GPIO_ACTIVE_HIGH>;
+
+		vdd-supply = <&vcc1v8_lt9611>;
+		vcc-supply = <&vcc3v3_lt9611>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&lt9611_irq_pin>, <&lt9611_rst_pin>;
+
+		// lt,irq-gpio = <&tlmm 1 0x00>;
+		// lt,reset-gpio = <&tlmm 2 0x00>;
+		// lt,hdmi-en-gpio = <&tlmm 3 0x00>; // 3v3
+		// lt,hdmi-ps-gpio = <&tlmm 82 0x00>; // 1v8
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+
+				lt9611_a: endpoint {
+					remote-endpoint = <&mdss_dsi0_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				lt9611_b: endpoint {
+					remote-endpoint = <&mdss_dsi1_out>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+
+				lt9611_out: endpoint {
+					remote-endpoint = <&hdmi_con>;
+				};
+			};
+		};
+	};
 };
+
+&mdss {
+	status = "okay";
+};
+
+&mdss_dp {
+	status = "okay";
+};
+
+&mdss_dp_out {
+	data-lanes = <0 1>;
+};
+
+&mdss_dsi0 {
+	status = "okay";
+	vdda-supply = <&vreg_l9a_1p2>;
+
+	qcom,dual-dsi-mode;
+	qcom,master-dsi;
+
+	ports {
+		port@1 {
+			endpoint {
+				remote-endpoint = <&lt9611_a>;
+				data-lanes = <0 1 2 3>;
+			};
+		};
+	};
+};
+
+&mdss_dsi0_phy {
+	status = "okay";
+	vdds-supply = <&vreg_l5a_0p88>;
+};
+
+&mdss_dsi1 {
+	status = "okay";
+	vdda-supply = <&vreg_l9a_1p2>;
+
+	qcom,dual-dsi-mode;
+
+	/* DSI1 is slave, so use DSI0 clocks */
+	assigned-clock-parents = <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>;
+
+	ports {
+		port@1 {
+			endpoint {
+				remote-endpoint = <&lt9611_b>;
+				data-lanes = <0 1 2 3>;
+			};
+		};
+	};
+};
+
+&mdss_dsi1_phy {
+	status = "okay";
+	vdds-supply = <&vreg_l5a_0p88>;
+};
+#endif
 
 &pm8150_adc {
 	xo-therm@4c {
@@ -797,16 +945,28 @@
 	gpio-reserved-ranges = <28 4>, <40 4>;
 
 	lt9611 {
-		lt9611_irq_pin: lt9611-irq-pin { // bsp
-			pins = "gpio1";
+		lt9611_irq_pin: lt9611-irq-pin {
+			pins = "gpio1"; // bsp
 			function = "gpio";
 			bias-disable;
 		};
 
-		lt9611_rst_pin: lt9611-rst-pin { // bsp
-			pins = "gpio2";
+		lt9611_rst_pin: lt9611-rst-pin {
+			pins = "gpio2"; // bsp
 			function = "gpio";
 			output-high;
+		};
+
+		lt9611_3v3_en: lt9611-3v3-en {
+			pins = "gpio3";
+			function = "gpio";
+			output-high;
+		};
+
+		lt9611_1v8_en: lt9611-1v8-en {
+			pins = "gpio82";
+			function = "gpio";
+			bias-disable;
 		};
 	};
 
@@ -830,39 +990,41 @@
 		};
 	};
 
-	wlan_en: wlan-en { // bsp
-		pins = "gpio20";
+	wlan_en: wlan-en {
+		pins = "gpio20"; // bsp
 		function = "gpio";
 		output-high;
 	};
 
-	bt_en: bt-en { // bsp
-		pins = "gpio21";
-		function = "gpio";
-		output-high;
-	};
+	bt {
+		bt_en: bt-en {
+			pins = "gpio21"; // bsp
+			function = "gpio";
+			output-high;
+		};
 
-	bt_sw_ctrl: bt-sw-ctrl { // bsp
-		pins = "gpio124";
-		function = "gpio";
-		output-high;
+		bt_sw_ctrl: bt-sw-ctrl {
+			pins = "gpio124"; // bsp
+			function = "gpio";
+			output-high;
+		};
 	};
 
 	usb2 {
-		vcc5v0_host0_en: vcc5v0-host0-en { // bsp
-			pins = "gpio117";
+		vcc5v0_host0_en: vcc5v0-host0-en {
+			pins = "gpio117"; // bsp
 			function = "gpio";
 			output-high;
 		};
 
-		vcc3v3_host0_en: vcc3v3-host0-en { // bsp
-			pins = "gpio112";
+		vcc3v3_host0_en: vcc3v3-host0-en {
+			pins = "gpio112"; // bsp
 			function = "gpio";
 			output-high;
 		};
 
-		vcc1v2_host0_en: vcc1v2-host0-en { // bsp
-			pins = "gpio118";
+		vcc1v2_host0_en: vcc1v2-host0-en {
+			pins = "gpio118"; // bsp
 			function = "gpio";
 			output-high;
 		};
@@ -874,74 +1036,74 @@
 		output-high;
 	};
 
-	sdc2_card_det_n: sd-card-det-n-state { // bsp
-		pins = "gpio77";
+	sdc2_card_det_n: sd-card-det-n-state {
+		pins = "gpio77"; // bsp
 		function = "gpio";
 		bias-pull-up;
 		drive-strength = <2>;
 	};
 
 	display {
-		vcc2v8_display_panel_avdd_en: vcc2v8-display-panel-avdd-en { // bsp
-			pins = "gpio23";
+		vcc2v8_display_panel_avdd_en: vcc2v8-display-panel-avdd-en {
+			pins = "gpio23"; // bsp
 			function = "gpio";
 			output-high;
 		};
 	};
 
 	camera {
-		vcc1v1_cam_vdig_en: vcc1v1-cam-vdig-en { // bsp
-			pins = "gpio41";
+		vcc1v1_cam_vdig_en: vcc1v1-cam-vdig-en {
+			pins = "gpio41"; // bsp
 			function = "gpio";
 			output-low;
 		};
 
-		vcc1v1_cam_front_vdig_en: vcc1v1-cam-front-vdig-en { // bsp
-			pins = "gpio42";
+		vcc1v1_cam_front_vdig_en: vcc1v1-cam-front-vdig-en {
+			pins = "gpio42"; // bsp
 			function = "gpio";
 			output-low;
 		};
 
-		vcc2v8_cam_avdd_en: vcc2v8-cam-avdd-en { // bsp
-			pins = "gpio64";
+		vcc2v8_cam_avdd_en: vcc2v8-cam-avdd-en {
+			pins = "gpio64"; // bsp
 			function = "gpio";
 			output-low;
 		};
 
-		vcc2v8_cam_front_avdd_en: vcc2v8-cam-front-avdd-en { // bsp
-			pins = "gpio70";
+		vcc2v8_cam_front_avdd_en: vcc2v8-cam-front-avdd-en {
+			pins = "gpio70"; // bsp
 			function = "gpio";
 			output-low;
 		};
-		vcc2v8_actuator_regulator_avdd_en: vcc2v8-actuator-regulator-avdd-en { // bsp
-			pins = "gpio120";
+		vcc2v8_actuator_regulator_avdd_en: vcc2v8-actuator-regulator-avdd-en {
+			pins = "gpio120"; // bsp
 			function = "gpio";
 			output-low;
 		};
-		vcc2v8_actuator_regulator_front_avdd_en: vcc2v8-actuator-regulator-front-avdd-en { // bsp
-			pins = "gpio88";
+		vcc2v8_actuator_regulator_front_avdd_en: vcc2v8-actuator-regulator-front-avdd-en {
+			pins = "gpio88"; // bsp
 			function = "gpio";
 			output-low;
 		};
 	};
 
 	type-c {
-		aux_en_gpio: aux-en-gpio { // bsp
-			pins = "gpio9";
+		aux_en_gpio: aux-en-gpio {
+			pins = "gpio9"; // bsp
 			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		aux_sel_gpio: aux-sel-gpio { // bsp
-			pins = "gpio8";
+		aux_sel_gpio: aux-sel-gpio {
+			pins = "gpio8"; // bsp
 			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		usbplug_cc_gpio: usbplug-cc-gpio { // bsp
-			pins = "gpio65";
+		usbplug_cc_gpio: usbplug-cc-gpio {
+			pins = "gpio65"; // bsp
 			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
@@ -962,8 +1124,8 @@
 		"",
 		"";
 
-	vol_up_pin_a: vol-up-pin { // bsp
-		pins = "gpio6";
+	vol_up_pin_a: vol-up-pin {
+		pins = "gpio6"; // bsp
 		function = "normal";
 		input-enable;
 		bias-pull-up;
@@ -973,6 +1135,57 @@
 
 &pm8150b_lpg {
 	status = "okay";
+	qcom,power-source = <1>;
+
+	user_led_3: led@1 {
+		reg = <1>;
+		color = <LED_COLOR_ID_GREEN>;
+		function-enumerator = <1>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
+	};
+
+	user_led_1: led@2 {
+		reg = <2>;
+		color = <LED_COLOR_ID_ORANGE>;
+		function-enumerator = <2>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
+	};
+};
+
+&pm8150l_lpg {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	user_led_4: led@1 {
+		reg = <1>;
+		color = <LED_COLOR_ID_RED>;
+		function = LED_FUNCTION_INDICATOR;
+		function-enumerator = <1>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
+	};
+
+	user_led_6: led@2 {
+		reg = <2>;
+		color = <LED_COLOR_ID_GREEN>;
+		function = LED_FUNCTION_HEARTBEAT;
+		function-enumerator = <2>;
+		linux,default-trigger = "heartbeat";
+		qcom,default-brightness = <64>;
+	};
+
+	user_led_5: led@3 {
+		reg = <3>;
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_INDICATOR;
+		function-enumerator = <3>;
+		default-state = "off";
+		qcom,default-brightness = <64>;
+	};
 };
 
 &pm8150l_flash {

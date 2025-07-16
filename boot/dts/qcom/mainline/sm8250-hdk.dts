@@ -1014,7 +1014,7 @@ DIP Switch:
 		};
 	};
 
-	sdc2_default_state: sdc2-default-state {
+	sdc2_default_state: sdc2-default-state { // bsp
 		clk-pins {
 			pins = "sdc2_clk";
 			drive-strength = <16>;
@@ -1047,8 +1047,8 @@ DIP Switch:
 			output-high;
 		};
 
-		bt_sw_ctrl: bt-sw-ctrl { // bsp
-			pins = "gpio124";
+		bt_sw_ctrl: bt-sw-ctrl {
+			pins = "gpio124"; // bsp
 			function = "gpio";
 			output-high;
 		};
@@ -1067,14 +1067,14 @@ DIP Switch:
 
 	wcd938x {
 		wcd938x_reset_default: wcd938x-reset-default-state {
-			pins = "gpio32";
+			pins = "gpio32"; // bsp
 			function = "gpio";
 			drive-strength = <16>;
 			output-high;
 		};
 
 		wcd938x_reset_sleep: wcd938x-reset-sleep-state {
-			pins = "gpio32";
+			pins = "gpio32"; // bsp
 			function = "gpio";
 			drive-strength = <16>;
 			bias-disable;
@@ -1094,14 +1094,14 @@ DIP Switch:
 	};
 
 	display {
-		vcc5v5_display_panel_avdd_en: vcc5v5-display-panel-avdd-en { // bsp
-			pins = "gpio61";
+		vcc5v5_display_panel_avdd_en: vcc5v5-display-panel-avdd-en {
+			pins = "gpio61"; // bsp
 			function = "gpio";
 			output-high;
 		};
 	};
 
-	pcie-regular {
+	pcie-regulator {
 		vcc3v3_pcie2_en: vcc3v3-pcie2-en {
 			pins = "gpio33"; // bsp
 			function = "gpio";
