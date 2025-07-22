@@ -687,6 +687,10 @@
 	status = "okay";
 };
 
+&cpu7_opp9 {
+	opp-hz = /bits/ 64 <1747200000>;
+};
+
 &gpu {
 	status = "okay";
 
