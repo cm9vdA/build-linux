@@ -1,0 +1,17 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="DG-TINY"
+PACK_NAME="dg-tiny"
+CPU_INFO="Qualcomm Snapdragon 865"
+VENDOR="qcom"
+BOARD_CODE="sm8250-dg-tiny"
+BOARD_DEFCONFIG="defconfig hardening.config"
+BOARD_INC_DEFCONFIG="kvm"
+KERNEL_FMT=default
+KERNEL_NAME="sm8250-mainline"
+KERNEL_COMPATIBLE="https://gitlab.com/sm8250-mainline/linux.git"
+
+# Build Config
+NO_CROSS_COMPILE=0

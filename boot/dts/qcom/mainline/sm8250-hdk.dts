@@ -33,7 +33,7 @@
 		stdout-path = "serial0:115200n8";
 	};
 
-#ifdef CONFIG_HYPERVISOR
+#ifdef CONFIG_SYS_PROMPT
 	memory@80000000 {
 		device_type = "memory";
 		reg = <0x00000000 0x80000000  0x00000000 0x3c900000>, // 1011MB
