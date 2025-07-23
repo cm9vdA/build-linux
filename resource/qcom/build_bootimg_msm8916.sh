@@ -5,6 +5,7 @@
 # https://releases.linaro.org/96boards/dragonboard410c/linaro/debian/21.12/
 # https://releases.linaro.org/96boards/dragonboard845c/linaro/debian/21.12/
 # https://releases.linaro.org/96boards/rb5/linaro/debian/21.12/
+# https://gist.github.com/kinsamanka/0b01cd02412bd13ee072072043d46fa2
 
 PWD_DIR=${PWD}
 TMP_DIR=/dev/shm/.tmp_install
