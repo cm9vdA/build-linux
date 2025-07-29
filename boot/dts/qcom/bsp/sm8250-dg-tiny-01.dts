@@ -402,9 +402,9 @@
 			qcom,limits-dcvs {
 				compatible = "qcom,msm-hw-limits";
 				isens_vref_0p8-supply = <0x17>;
-				isens-vref-0p8-settings = <0xd6d80 0xd6d80 0x4e20>;
+				isens-vref-0p8-settings = <880000 880000 0x4e20>;
 				isens_vref_1p8-supply = <0x18>;
-				isens-vref-1p8-settings = <0x1b7740 0x1b7740 0x4e20>;
+				isens-vref-1p8-settings = <1800000 1800000 0x4e20>;
 			};
 		};
 
@@ -2999,7 +2999,7 @@
 			clocks = <0x66 0x04>;
 			clock-names = "cal_hm0_clk";
 			qcom,dev_clk = "cal_hm0_clk";
-			qcom,core-dev-table = <0x00 0x00 0x493e0 0x6b8 0x631f0 0xb71 0x82208 0x172b 0xb2390 0x1ae1 0xe09c0 0x1f2c 0xf4240 0x28c5>;
+			qcom,core-dev-table = <0x00 0x00 0x493e0 0x6b8 0x631f0 0xb71 0x82208 0x172b 0xb2390 0x1ae1 920000 0x1f2c 1000000 0x28c5>;
 		};
 
 		qcom,cpu0-cpu-llcc-lat {
@@ -3128,7 +3128,7 @@
 				compatible = "qcom,arm-memlat-mon";
 				qcom,target-dev = <0x6d>;
 				qcom,cachemiss-ev = <0x2a>;
-				qcom,core-dev-table = <0x493e0 0x8f0 0xad700 0x11e1 0x101d00 0x1bc6 0x13a100 0x23c3 0x1c6b00 0x300a 0x24ea00 0x379c 0x2b5c00 0x3b9a>;
+				qcom,core-dev-table = <0x493e0 0x8f0 0xad700 0x11e1 1056000 0x1bc6 0x13a100 0x23c3 0x1c6b00 0x300a 0x24ea00 0x379c 0x2b5c00 0x3b9a>;
 			};
 
 			qcom,cpu4-llcc-ddr-latmon {
@@ -3139,12 +3139,12 @@
 
 				ddr4-map {
 					qcom,ddr-type = <0x07>;
-					qcom,core-dev-table = <0x493e0 0x2fa 0xad700 0x6b8 0xc9900 0x826 0x101d00 0xb71 0x13a100 0xf27 0x180600 0x1429 0x1c6b00 0x172b 0x24ea00 0x1ae1 0x29e500 0x1f2c 0x2b5c00 0x28c5>;
+					qcom,core-dev-table = <0x493e0 0x2fa 0xad700 0x6b8 0xc9900 0x826 1056000 0xb71 0x13a100 0xf27 0x180600 0x1429 0x1c6b00 0x172b 0x24ea00 0x1ae1 0x29e500 0x1f2c 0x2b5c00 0x28c5>;
 				};
 
 				ddr5-map {
 					qcom,ddr-type = <0x08>;
-					qcom,core-dev-table = <0x493e0 0x2fa 0xad700 0x6b8 0xc9900 0x826 0x101d00 0xb71 0x13a100 0xf27 0x1c6b00 0x172b 0x24ea00 0x1ae1 0x29e500 0x1f2c 0x2b5c00 0x28c5>;
+					qcom,core-dev-table = <0x493e0 0x2fa 0xad700 0x6b8 0xc9900 0x826 1056000 0xb71 0x13a100 0xf27 0x1c6b00 0x172b 0x24ea00 0x1ae1 0x29e500 0x1f2c 0x2b5c00 0x28c5>;
 				};
 			};
 
@@ -3167,7 +3167,7 @@
 				compatible = "qcom,arm-memlat-mon";
 				qcom,target-dev = <0x70>;
 				qcom,cachemiss-ev = <0x1000>;
-				qcom,core-dev-table = <0x493e0 0x01 0x2dc6c0 0x02>;
+				qcom,core-dev-table = <0x493e0 0x01 3000000 0x02>;
 			};
 		};
 
@@ -3297,10 +3297,10 @@
 			pinctrl-0 = <0x73 0x74>;
 			pinctrl-1 = <0x75 0x76>;
 			interrupt-map = <0x00 0x77 0x01 0x03 0x01 0x77 0x03 0x03>;
-			qcom,mdm2ap-errfatal-gpio = <0x77 0x01 0x00>;
-			qcom,ap2mdm-errfatal-gpio = <0x77 0x39 0x00>;
-			qcom,mdm2ap-status-gpio = <0x77 0x03 0x00>;
-			qcom,ap2mdm-status-gpio = <0x77 0x38 0x00>;
+			qcom,mdm2ap-errfatal-gpio = <&tlmm 0x01 0x00>;
+			qcom,ap2mdm-errfatal-gpio = <&tlmm 0x39 0x00>;
+			qcom,mdm2ap-status-gpio = <&tlmm 0x03 0x00>;
+			qcom,ap2mdm-status-gpio = <&tlmm 0x38 0x00>;
 			qcom,mdm-link-info = "0306_02.01.00";
 			status = "ok";
 			phandle = <0x72>;
@@ -3846,7 +3846,7 @@
 					phandle = <0x93>;
 				};
 
-				pinctrl@c000 {
+				pm8150_gpios: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					reg = <0xc000 0xa00>;
 					interrupts = <0x00 0xc0 0x00 0x00 0x00 0xc2 0x00 0x00 0x00 0xc5 0x00 0x00 0x00 0xc6 0x00 0x00 0x00 0xc8 0x00 0x00 0x00 0xc9 0x00 0x00>;
@@ -4100,7 +4100,7 @@
 					pinctrl-1 = <0x8b>;
 				};
 
-				pinctrl@c000 {
+				pm8150b_gpios: c000 {
 					compatible = "qcom,spmi-gpio";
 					reg = <0xc000 0xc00>;
 					interrupts = <0x02 0xc0 0x00 0x00 0x02 0xc1 0x00 0x00 0x02 0xc4 0x00 0x00 0x02 0xc5 0x00 0x00 0x02 0xc6 0x00 0x00 0x02 0xc7 0x00 0x00 0x02 0xc8 0x00 0x00 0x02 0xc9 0x00 0x00 0x02 0xcb 0x00 0x00>;
@@ -4167,7 +4167,7 @@
 					#size-cells = <0x01>;
 					#cooling-cells = <0x02>;
 					qcom,pmic-revid = <0x8c>;
-					qcom,thermal-mitigation = <0x5140c8 0x44aa20 0x3d0900 0x3567e0 0x2dc6c0 0x2625a0 0x1e8480 0x16e360 0xf4240 0x7a120>;
+					qcom,thermal-mitigation = <0x5140c8 0x44aa20 4000000 0x3567e0 3000000 0x2625a0 0x1e8480 0x16e360 1000000 0x7a120>;
 					qcom,chg-term-src = <0x01>;
 					qcom,charger-temp-max = <0x320>;
 					qcom,smb-temp-max = <0x320>;
@@ -4459,13 +4459,13 @@
 
 					hr_led1 {
 						label = "hr_led1";
-						pwms = <0x94 0x00 0xf4240>;
+						pwms = <0x94 0x00 1000000>;
 						led-sources = <0x00>;
 					};
 
 					hr_led2 {
 						label = "hr_led2";
-						pwms = <0x94 0x01 0xf4240>;
+						pwms = <0x94 0x01 1000000>;
 						led-sources = <0x01>;
 					};
 				};
@@ -4589,7 +4589,7 @@
 					clock-names = "xo";
 				};
 
-				pinctrl@c000 {
+				pm8150l_gpios: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					reg = <0xc000 0xc00>;
 					interrupts = <0x04 0xc0 0x00 0x00 0x04 0xc2 0x00 0x00 0x04 0xc3 0x00 0x00 0x04 0xc4 0x00 0x00 0x04 0xc5 0x00 0x00 0x04 0xc6 0x00 0x00 0x04 0xc7 0x00 0x00 0x04 0xc9 0x00 0x00 0x04 0xca 0x00 0x00>;
@@ -4742,22 +4742,22 @@
 					ldo {
 						label = "ldo";
 						regulator-name = "lcdb_ldo";
-						regulator-min-microvolt = <0x3d0900>;
-						regulator-max-microvolt = <0x5b8d80>;
+						regulator-min-microvolt = <4000000>;
+						regulator-max-microvolt = <6000000>;
 					};
 
 					ncp {
 						label = "ncp";
 						regulator-name = "lcdb_ncp";
-						regulator-min-microvolt = <0x3d0900>;
-						regulator-max-microvolt = <0x5b8d80>;
+						regulator-min-microvolt = <4000000>;
+						regulator-max-microvolt = <6000000>;
 					};
 
 					bst {
 						label = "bst";
 						regulator-name = "lcdb_bst";
-						regulator-min-microvolt = <0x47b760>;
-						regulator-max-microvolt = <0x5fbfb8>;
+						regulator-min-microvolt = <4700000>;
+						regulator-max-microvolt = <6275000>;
 					};
 				};
 
@@ -4973,21 +4973,21 @@
 
 					red {
 						label = "red";
-						pwms = <0x98 0x00 0xf4240>;
+						pwms = <0x98 0x00 1000000>;
 						led-sources = <0x00>;
 						linux,default-trigger = "timer";
 					};
 
 					green {
 						label = "green";
-						pwms = <0x98 0x01 0xf4240>;
+						pwms = <0x98 0x01 1000000>;
 						led-sources = <0x01>;
 						linux,default-trigger = "timer";
 					};
 
 					blue {
 						label = "blue";
-						pwms = <0x98 0x02 0xf4240>;
+						pwms = <0x98 0x02 1000000>;
 						led-sources = <0x02>;
 						linux,default-trigger = "timer";
 					};
@@ -5003,8 +5003,8 @@
 						reg = <0xe000 0x100>;
 						reg-names = "oledb_base";
 						regulator-name = "oledb";
-						regulator-min-microvolt = <0x4b2648>;
-						regulator-max-microvolt = <0x7b98a0>;
+						regulator-min-microvolt = <4925000>;
+						regulator-max-microvolt = <8100000>;
 						qcom,swire-control;
 					};
 
@@ -5012,8 +5012,8 @@
 						reg = <0xde00 0x100>;
 						reg-names = "ab_base";
 						regulator-name = "ab";
-						regulator-min-microvolt = <0x4630c0>;
-						regulator-max-microvolt = <0x5d1420>;
+						regulator-min-microvolt = <4600000>;
+						regulator-max-microvolt = <6100000>;
 						qcom,swire-control;
 						phandle = <0x3ff>;
 					};
@@ -5022,8 +5022,8 @@
 						reg = <0xdc00 0x100>;
 						reg-names = "ibb_base";
 						regulator-name = "ibb";
-						regulator-min-microvolt = <0xc3500>;
-						regulator-max-microvolt = <0x5265c0>;
+						regulator-min-microvolt = <800000>;
+						regulator-max-microvolt = <5400000>;
 						qcom,swire-control;
 						phandle = <0x400>;
 					};
@@ -5046,7 +5046,7 @@
 					reg = <0x800 0x100>;
 				};
 
-				pinctrl@c000 {
+				pm8009_gpio: pinctrl@c000 {
 					compatible = "qcom,spmi-gpio";
 					reg = <0xc000 0x400>;
 					interrupts = <0x0a 0xc0 0x00 0x00 0x0a 0xc1 0x00 0x00 0x0a 0xc2 0x00 0x00 0x0a 0xc3 0x00 0x00>;
@@ -5243,9 +5243,9 @@
 			vcc-low-voltage-sup;
 			vccq-supply = <0xa0>;
 			vccq2-supply = <0xa1>;
-			vcc-max-microamp = <0xc3500>;
-			vccq-max-microamp = <0xc3500>;
-			vccq2-max-microamp = <0xc3500>;
+			vcc-max-microamp = <800000>;
+			vccq-max-microamp = <800000>;
+			vccq2-max-microamp = <800000>;
 			qcom,vddp-ref-clk-supply = <0xa0>;
 			qcom,vddp-ref-clk-max-microamp = <0x64>;
 			qcom,vccq-parent-supply = <0xa2>;
@@ -5278,15 +5278,15 @@
 			qcom,dll-hsr-list = <0x7642c 0xa800 0x10 0x2c010800 0x80040868>;
 			status = "ok";
 			vdd-supply = <0xa3>;
-			qcom,vdd-voltage-level = <0x2d0370 0x2d2a80>;
-			qcom,vdd-current-level = <0xc8 0xc3500>;
+			qcom,vdd-voltage-level = <0x2d0370 2960000>;
+			qcom,vdd-current-level = <0xc8 800000>;
 			vdd-io-supply = <0xa4>;
-			qcom,vdd-io-voltage-level = <0x1b9680 0x2d2a80>;
+			qcom,vdd-io-voltage-level = <0x1b9680 2960000>;
 			qcom,vdd-io-current-level = <0xc8 0x55f0>;
 			pinctrl-names = "active\0sleep";
 			pinctrl-0 = <0xa5 0xa6 0xa7 0xa8>;
 			pinctrl-1 = <0xa9 0xaa 0xab 0xa8>;
-			cd-gpios = <0x77 0x4d 0x01>;
+			cd-gpios = <&tlmm 0x4d 0x01>;
 		};
 
 		qcom,ipcc@408000 {
@@ -5403,9 +5403,9 @@
 				regulator-pm8150-s4 {
 					regulator-name = "pm8150_s4";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1d4c00>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1920000>;
+					qcom,init-voltage = <1800000>;
 					phandle = <0xa1>;
 				};
 			};
@@ -5417,9 +5417,9 @@
 				regulator-pm8150-s5 {
 					regulator-name = "pm8150_s5";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1bd500>;
-					regulator-max-microvolt = <0x1f20c0>;
-					qcom,init-voltage = <0x1bd500>;
+					regulator-min-microvolt = <1824000>;
+					regulator-max-microvolt = <2040000>;
+					qcom,init-voltage = <1824000>;
 					phandle = <0xd9>;
 				};
 			};
@@ -5431,9 +5431,9 @@
 				regulator-pm8150-s6 {
 					regulator-name = "pm8150_s6";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x927c0>;
-					regulator-max-microvolt = <0x113640>;
-					qcom,init-voltage = <0x927c0>;
+					regulator-min-microvolt = <600000>;
+					regulator-max-microvolt = <1128000>;
+					qcom,init-voltage = <600000>;
 					phandle = <0xd7>;
 				};
 			};
@@ -5448,9 +5448,9 @@
 				regulator-pm8150-l2 {
 					regulator-name = "pm8150_l2";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2ee000>;
-					regulator-max-microvolt = <0x2ee000>;
-					qcom,init-voltage = <0x2ee000>;
+					regulator-min-microvolt = <3072000>;
+					regulator-max-microvolt = <3072000>;
+					qcom,init-voltage = <3072000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x8f>;
 				};
@@ -5466,9 +5466,9 @@
 				regulator-pm8150-l3 {
 					regulator-name = "pm8150_l3";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0xe2900>;
-					regulator-max-microvolt = <0xe38a0>;
-					qcom,init-voltage = <0xe2900>;
+					regulator-min-microvolt = <928000>;
+					regulator-max-microvolt = <932000>;
+					qcom,init-voltage = <928000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5498,9 +5498,9 @@
 				regulator-pm8150-l5 {
 					regulator-name = "pm8150_l5";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0xd6d80>;
-					regulator-max-microvolt = <0xd6d80>;
-					qcom,init-voltage = <0xd6d80>;
+					regulator-min-microvolt = <880000>;
+					regulator-max-microvolt = <880000>;
+					qcom,init-voltage = <880000>;
 					qcom,init-mode = <0x04>;
 					qcom,proxy-consumer-enable;
 					qcom,proxy-consumer-current = <0x186a0>;
@@ -5510,9 +5510,9 @@
 				regulator-pm8150-l5-ao {
 					regulator-name = "pm8150_l5_ao";
 					qcom,set = <0x01>;
-					regulator-min-microvolt = <0xd6d80>;
-					regulator-max-microvolt = <0xd6d80>;
-					qcom,init-voltage = <0xd6d80>;
+					regulator-min-microvolt = <880000>;
+					regulator-max-microvolt = <880000>;
+					qcom,init-voltage = <880000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x17>;
 				};
@@ -5520,9 +5520,9 @@
 				regulator-pm8150-l5-so {
 					regulator-name = "pm8150_l5_so";
 					qcom,set = <0x02>;
-					regulator-min-microvolt = <0xd6d80>;
-					regulator-max-microvolt = <0xd6d80>;
-					qcom,init-voltage = <0xd6d80>;
+					regulator-min-microvolt = <880000>;
+					regulator-max-microvolt = <880000>;
+					qcom,init-voltage = <880000>;
 					qcom,init-mode = <0x02>;
 					qcom,init-enable = <0x00>;
 				};
@@ -5538,9 +5538,9 @@
 				regulator-pm8150-l6 {
 					regulator-name = "pm8150_l6";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x124f80>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1200000>;
+					qcom,init-voltage = <1200000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xa0>;
 				};
@@ -5556,9 +5556,9 @@
 				regulator-pm8150-l7 {
 					regulator-name = "pm8150_l7";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1a0040>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1a0040>;
+					regulator-min-microvolt = <1704000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1704000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5574,9 +5574,9 @@
 				regulator-pm8150-l9 {
 					regulator-name = "pm8150_l9";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x124f80>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1200000>;
+					qcom,init-voltage = <1200000>;
 					qcom,init-mode = <0x04>;
 					qcom,proxy-consumer-enable;
 					qcom,proxy-consumer-current = <0x186a0>;
@@ -5594,9 +5594,9 @@
 				regulator-pm8150-l10 {
 					regulator-name = "pm8150_l10";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x2d2a80>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <2960000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5625,9 +5625,9 @@
 				regulator-pm8150-l12 {
 					regulator-name = "pm8150_l12";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x1b4>;
 				};
@@ -5635,9 +5635,9 @@
 				regulator-pm8150-l12-ao {
 					regulator-name = "pm8150_l12_ao";
 					qcom,set = <0x01>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x18>;
 				};
@@ -5645,9 +5645,9 @@
 				regulator-pm8150-l12-so {
 					regulator-name = "pm8150_l12_so";
 					qcom,set = <0x02>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					qcom,init-enable = <0x00>;
 				};
@@ -5663,9 +5663,9 @@
 				regulator-pm8150-l13 {
 					regulator-name = "pm8150_l13";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2de600>;
-					regulator-max-microvolt = <0x2de600>;
-					qcom,init-voltage = <0x2de600>;
+					regulator-min-microvolt = <3008000>;
+					regulator-max-microvolt = <3008000>;
+					qcom,init-voltage = <3008000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x324>;
 				};
@@ -5684,9 +5684,9 @@
 					qcom,set = <0x03>;
 					qcom,proxy-consumer-enable;
 					qcom,proxy-consumer-current = <0xf230>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1cafc0>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1880000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xae>;
 				};
@@ -5702,9 +5702,9 @@
 				regulator-pm8150-l15 {
 					regulator-name = "pm8150_l15";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xdd>;
 				};
@@ -5720,9 +5720,9 @@
 				regulator-pm8150-l16 {
 					regulator-name = "pm8150_l16";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2e2480>;
-					regulator-max-microvolt = <0x326a40>;
-					qcom,init-voltage = <0x2e2480>;
+					regulator-min-microvolt = <3024000>;
+					regulator-max-microvolt = <3304000>;
+					qcom,init-voltage = <3024000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x41a>;
 				};
@@ -5738,9 +5738,9 @@
 				regulator-pm8150-l17 {
 					regulator-name = "pm8150_l17";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x261600>;
-					regulator-max-microvolt = <0x2de600>;
-					qcom,init-voltage = <0x261600>;
+					regulator-min-microvolt = <2496000>;
+					regulator-max-microvolt = <3008000>;
+					qcom,init-voltage = <2496000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x9f>;
 				};
@@ -5756,9 +5756,9 @@
 				regulator-pm8150-l18 {
 					regulator-name = "pm8150_l18";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0xc3500>;
-					regulator-max-microvolt = <0xe09c0>;
-					qcom,init-voltage = <0xc3500>;
+					regulator-min-microvolt = <800000>;
+					regulator-max-microvolt = <920000>;
+					qcom,init-voltage = <800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x1b5>;
 				};
@@ -5835,9 +5835,9 @@
 				regulator-pm8150a-s7 {
 					regulator-name = "pm8150a_s7";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x54f60>;
-					regulator-max-microvolt = <0xf4240>;
-					qcom,init-voltage = <0x54f60>;
+					regulator-min-microvolt = <348000>;
+					regulator-max-microvolt = <1000000>;
+					qcom,init-voltage = <348000>;
 				};
 			};
 
@@ -5851,9 +5851,9 @@
 				regulator-pm8150a-s8 {
 					regulator-name = "pm8150a_s8";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x155cc0>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1400000>;
+					qcom,init-voltage = <1200000>;
 					qcom,init-mode = <0x01>;
 					phandle = <0xa2>;
 				};
@@ -5867,9 +5867,9 @@
 				regulator-pm8150a-l1 {
 					regulator-name = "pm8150a_l1";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					phandle = <0x323>;
 				};
 			};
@@ -5884,9 +5884,9 @@
 				regulator-pm8150a-l2 {
 					regulator-name = "pm8150a_l2";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x13e5c0>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1304000>;
+					qcom,init-voltage = <1200000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5901,9 +5901,9 @@
 				regulator-pm8150a-l3 {
 					regulator-name = "pm8150a_l3";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0xc3500>;
-					regulator-max-microvolt = <0x124f80>;
-					qcom,init-voltage = <0xc3500>;
+					regulator-min-microvolt = <800000>;
+					regulator-max-microvolt = <1200000>;
+					qcom,init-voltage = <800000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5918,9 +5918,9 @@
 				regulator-pm8150a-l4 {
 					regulator-name = "pm8150a_l4";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x2ab980>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <2800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -5935,9 +5935,9 @@
 				regulator-pm8150a-l5 {
 					regulator-name = "pm8150a_l5";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x2ab980>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <2800000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xda>;
 				};
@@ -5953,9 +5953,9 @@
 				regulator-pm8150a-l6 {
 					regulator-name = "pm8150a_l6";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x2d2a80>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <2960000>;
+					qcom,init-voltage = <1800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xa4>;
 				};
@@ -5971,9 +5971,9 @@
 				regulator-pm8150a-l7 {
 					regulator-name = "pm8150a_l7";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2b9440>;
-					regulator-max-microvolt = <0x2f5d00>;
-					qcom,init-voltage = <0x2b9440>;
+					regulator-min-microvolt = <2856000>;
+					regulator-max-microvolt = <3104000>;
+					qcom,init-voltage = <2856000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x291>;
 				};
@@ -5987,9 +5987,9 @@
 				regulator-pm8150a-l8 {
 					regulator-name = "pm8150a_l8";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 				};
 			};
 
@@ -6003,9 +6003,9 @@
 				regulator-pm8150a-l9 {
 					regulator-name = "pm8150a_l9";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x294280>;
-					regulator-max-microvolt = <0x2d2a80>;
-					qcom,init-voltage = <0x294280>;
+					regulator-min-microvolt = <2704000>;
+					regulator-max-microvolt = <2960000>;
+					qcom,init-voltage = <2704000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xa3>;
 				};
@@ -6021,9 +6021,9 @@
 				regulator-pm8150a-l10 {
 					regulator-name = "pm8150a_l10";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2dc6c0>;
-					regulator-max-microvolt = <0x328980>;
-					qcom,init-voltage = <0x2dc6c0>;
+					regulator-min-microvolt = <3000000>;
+					regulator-max-microvolt = <3312000>;
+					qcom,init-voltage = <3000000>;
 					qcom,init-mode = <0x02>;
 				};
 			};
@@ -6041,9 +6041,9 @@
 					qcom,set = <0x03>;
 					qcom,proxy-consumer-enable;
 					qcom,proxy-consumer-current = <0xd13a8>;
-					regulator-min-microvolt = <0x2f5d00>;
-					regulator-max-microvolt = <0x326a40>;
-					qcom,init-voltage = <0x2f5d00>;
+					regulator-min-microvolt = <3104000>;
+					regulator-max-microvolt = <3304000>;
+					qcom,init-voltage = <3104000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0xb0>;
 				};
@@ -6054,15 +6054,15 @@
 				qcom,resource-name = "bobc1";
 				qcom,regulator-type = "pmic5-bob";
 				qcom,supported-modes = <0x00 0x02 0x04>;
-				qcom,mode-threshold-currents = <0x00 0xf4240 0x1e8480>;
+				qcom,mode-threshold-currents = <0x00 1000000 0x1e8480>;
 				qcom,send-defaults;
 
 				regulator-pm8150a-bob {
 					regulator-name = "pm8150a_bob";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2de600>;
-					regulator-max-microvolt = <0x3c6cc0>;
-					qcom,init-voltage = <0x328980>;
+					regulator-min-microvolt = <3008000>;
+					regulator-max-microvolt = <3960000>;
+					qcom,init-voltage = <3312000>;
 					qcom,init-mode = <0x00>;
 					phandle = <0x2a7>;
 				};
@@ -6070,9 +6070,9 @@
 				regulator-pm8150a-bob-ao {
 					regulator-name = "pm8150a_bob_ao";
 					qcom,set = <0x01>;
-					regulator-min-microvolt = <0x2de600>;
-					regulator-max-microvolt = <0x3c6cc0>;
-					qcom,init-voltage = <0x2de600>;
+					regulator-min-microvolt = <3008000>;
+					regulator-max-microvolt = <3960000>;
+					qcom,init-voltage = <3008000>;
 					qcom,init-mode = <0x03>;
 				};
 			};
@@ -6084,9 +6084,9 @@
 				regulator-pm8009-s1 {
 					regulator-name = "pm8009_s1";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x124f80>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1200000>;
+					qcom,init-voltage = <1200000>;
 				};
 			};
 
@@ -6097,9 +6097,9 @@
 				regulator-pm8009-s2 {
 					regulator-name = "pm8009_s2";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x7d000>;
-					regulator-max-microvolt = <0x10c8e0>;
-					qcom,init-voltage = <0x7d000>;
+					regulator-min-microvolt = <512000>;
+					regulator-max-microvolt = <1100000>;
+					qcom,init-voltage = <512000>;
 					phandle = <0xd8>;
 				};
 			};
@@ -6114,9 +6114,9 @@
 				regulator-pm8009-l1 {
 					regulator-name = "pm8009_l1";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x10d880>;
-					regulator-max-microvolt = <0x10d880>;
-					qcom,init-voltage = <0x10d880>;
+					regulator-min-microvolt = <1104000>;
+					regulator-max-microvolt = <1104000>;
+					qcom,init-voltage = <1104000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x294>;
 				};
@@ -6132,9 +6132,9 @@
 				regulator-pm8009-l2 {
 					regulator-name = "pm8009_l2";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x124f80>;
-					qcom,init-voltage = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1200000>;
+					qcom,init-voltage = <1200000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x299>;
 				};
@@ -6150,9 +6150,9 @@
 				regulator-pm8009-l3 {
 					regulator-name = "pm8009_l3";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x101d00>;
-					regulator-max-microvolt = <0x101d00>;
-					qcom,init-voltage = <0x101d00>;
+					regulator-min-microvolt = <1056000>;
+					regulator-max-microvolt = <1056000>;
+					qcom,init-voltage = <1056000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x29f>;
 				};
@@ -6168,9 +6168,9 @@
 				regulator-pm8009-l5 {
 					regulator-name = "pm8009_l5";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2ab980>;
-					regulator-max-microvolt = <0x2dc6c0>;
-					qcom,init-voltage = <0x2ab980>;
+					regulator-min-microvolt = <2800000>;
+					regulator-max-microvolt = <3000000>;
+					qcom,init-voltage = <2800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x293>;
 				};
@@ -6186,9 +6186,9 @@
 				regulator-pm8009-l6 {
 					regulator-name = "pm8009_l6";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x2ab980>;
-					regulator-max-microvolt = <0x2dc6c0>;
-					qcom,init-voltage = <0x2ab980>;
+					regulator-min-microvolt = <2800000>;
+					regulator-max-microvolt = <3000000>;
+					qcom,init-voltage = <2800000>;
 					qcom,init-mode = <0x02>;
 					phandle = <0x29a>;
 				};
@@ -6202,9 +6202,9 @@
 				regulator-pm8009-l7 {
 					regulator-name = "pm8009_l7";
 					qcom,set = <0x03>;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					qcom,init-voltage = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					qcom,init-voltage = <1800000>;
 					phandle = <0x292>;
 				};
 			};
@@ -6380,7 +6380,7 @@
 			qcom,msm-bus,name = "ipa";
 			qcom,msm-bus,num-cases = <0x05>;
 			qcom,msm-bus,num-paths = <0x05>;
-			qcom,msm-bus,vectors-KBps = <0x5a 0x302 0x00 0x00 0x81 0x200 0x00 0x00 0x5a 0x249 0x00 0x00 0x01 0x2a4 0x00 0x00 0x8f 0x309 0x00 0x00 0x5a 0x302 0x249f0 0x927c0 0x81 0x200 0x249f0 0x1b86e0 0x5a 0x249 0x124f8 0x493e0 0x01 0x2a4 0x00 0x12c00 0x8f 0x309 0x00 0x96 0x5a 0x302 0x98968 0x124f80 0x81 0x200 0x98968 0x2ee000 0x5a 0x249 0x4c4b4 0xaae60 0x01 0x2a4 0x00 0x249f0 0x8f 0x309 0x00 0xf0 0x5a 0x302 0x1312d0 0x249f00 0x81 0x200 0x1312d0 0x5eec00 0x5a 0x249 0x98968 0x16e360 0x01 0x2a4 0x00 0x61a80 0x8f 0x309 0x00 0x1d2 0x5a 0x302 0x1e8480 0x3567e0 0x81 0x200 0x1e8480 0x6e2800 0x5a 0x249 0xf4240 0x1d4c00 0x01 0x2a4 0x00 0x61a80 0x8f 0x309 0x00 0x215>;
+			qcom,msm-bus,vectors-KBps = <0x5a 0x302 0x00 0x00 0x81 0x200 0x00 0x00 0x5a 0x249 0x00 0x00 0x01 0x2a4 0x00 0x00 0x8f 0x309 0x00 0x00 0x5a 0x302 0x249f0 600000 0x81 0x200 0x249f0 0x1b86e0 0x5a 0x249 0x124f8 0x493e0 0x01 0x2a4 0x00 0x12c00 0x8f 0x309 0x00 0x96 0x5a 0x302 0x98968 1200000 0x81 0x200 0x98968 3072000 0x5a 0x249 0x4c4b4 0xaae60 0x01 0x2a4 0x00 0x249f0 0x8f 0x309 0x00 0xf0 0x5a 0x302 0x1312d0 0x249f00 0x81 0x200 0x1312d0 0x5eec00 0x5a 0x249 0x98968 0x16e360 0x01 0x2a4 0x00 0x61a80 0x8f 0x309 0x00 0x1d2 0x5a 0x302 0x1e8480 0x3567e0 0x81 0x200 0x1e8480 0x6e2800 0x5a 0x249 1000000 1920000 0x01 0x2a4 0x00 0x61a80 0x8f 0x309 0x00 0x215>;
 			qcom,bus-vector-names = "MIN\0SVS2\0SVS\0NOMINAL\0TURBO";
 			qcom,throughput-threshold = <0x258 0x9c4 0x1388>;
 			qcom,scaling-exceptions = "wdi\00\0600\01200\0USB DPL\00\02500\05000\0ODL\00\02500\05000";
@@ -7471,7 +7471,7 @@
 			compatible = "qcom,cnss-qca6390";
 			reg = <0xb0000000 0x10000 0xb2e5510 0x5c0>;
 			reg-names = "smmu_iova_ipa\0tcs_cmd";
-			wlan-en-gpio = <0x77 0x14 0x00>;
+			wlan-en-gpio = <&tlmm 0x14 0x00>;
 			pinctrl-names = "wlan_en_active\0wlan_en_sleep";
 			pinctrl-0 = <0xd5>;
 			pinctrl-1 = <0xd6>;
@@ -7492,13 +7492,13 @@
 			vdd-wlan-dig-supply = <0xd8>;
 			qcom,vdd-wlan-dig-config = <0xe7ef0 0xe86c0 0x00 0x00 0x01>;
 			vdd-wlan-io-supply = <0xa1>;
-			qcom,vdd-wlan-io-config = <0x1b7740 0x1b7740 0x00 0x00 0x01>;
+			qcom,vdd-wlan-io-config = <1800000 1800000 0x00 0x00 0x01>;
 			vdd-wlan-rfa1-supply = <0xd9>;
 			qcom,vdd-wlan-rfa1-config = <0x1cfde0 0x1cfde0 0x00 0x00 0x01>;
 			vdd-wlan-rfa2-supply = <0xa2>;
 			qcom,vdd-wlan-rfa2-config = <0x149970 0x149970 0x00 0x00 0x01>;
 			wlan-ant-switch-supply = <0xda>;
-			qcom,wlan-ant-switch-config = <0x1b7740 0x1b7740 0x00 0x00 0x00>;
+			qcom,wlan-ant-switch-config = <1800000 1800000 0x00 0x00 0x00>;
 			mhi,max-channels = <0x1e>;
 			mhi,timeout = <0x2710>;
 			mhi,buffer-len = <0x8000>;
@@ -7626,7 +7626,7 @@
 			qcom,msm-bus,name = "wil6210";
 			qcom,msm-bus,num-cases = <0x03>;
 			qcom,msm-bus,num-paths = <0x01>;
-			qcom,msm-bus,vectors-KBps = <0x64 0x200 0x00 0x00 0x64 0x200 0x927c0 0xc3500 0x64 0x200 0x13d620 0x13d620>;
+			qcom,msm-bus,vectors-KBps = <0x64 0x200 0x00 0x00 0x64 0x200 600000 800000 0x64 0x200 0x13d620 0x13d620>;
 			qcom,use-ext-supply;
 			vdd-ldo-supply = <0xdd>;
 			vddio-supply = <0xd9>;
@@ -10097,8 +10097,8 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0x8c 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x95 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x96 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x97 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x98 0x04>;
 			msi-parent = <0x194>;
-			perst-gpio = <0x77 0x4f 0x00>;
-			wake-gpio = <0x77 0x51 0x00>;
+			perst-gpio = <&tlmm 0x4f 0x00>;
+			wake-gpio = <&tlmm 0x51 0x00>;
 			pinctrl-names = "default\0sleep";
 			pinctrl-0 = <0x195 0x196 0x197>;
 			pinctrl-1 = <0x198 0x196 0x197>;
@@ -10106,8 +10106,8 @@
 			vreg-1p8-supply = <0x9a>;
 			vreg-0p9-supply = <0x99>;
 			vreg-cx-supply = <0x78>;
-			qcom,vreg-1p8-voltage-level = <0x124f80 0x124f80 0x3e80>;
-			qcom,vreg-0p9-voltage-level = <0xd6d80 0xd6d80 0x11f1c>;
+			qcom,vreg-1p8-voltage-level = <1200000 1200000 0x3e80>;
+			qcom,vreg-0p9-voltage-level = <880000 880000 0x11f1c>;
 			qcom,vreg-cx-voltage-level = <0xffff 0x100 0x00>;
 			qcom,bw-scale = <0x40 0x124f800 0x40 0x124f800 0x100 0x5f5e100>;
 			qcom,msm-bus,name = "pcie0";
@@ -10186,16 +10186,16 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0x132 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x1b2 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x1b3 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x1b6 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x1b7 0x04>;
 			msi-parent = <0x19c>;
-			perst-gpio = <0x77 0x52 0x00>;
-			wake-gpio = <0x77 0x54 0x00>;
+			perst-gpio = <&tlmm 0x52 0x00>;
+			wake-gpio = <&tlmm 0x54 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x19d 0x19e 0x19f>;
 			gdsc-vdd-supply = <0x1a0>;
 			vreg-1p8-supply = <0x9a>;
 			vreg-0p9-supply = <0x99>;
 			vreg-cx-supply = <0x78>;
-			qcom,vreg-1p8-voltage-level = <0x124f80 0x124f80 0x61a8>;
-			qcom,vreg-0p9-voltage-level = <0xd6d80 0xd6d80 0x181f0>;
+			qcom,vreg-1p8-voltage-level = <1200000 1200000 0x61a8>;
+			qcom,vreg-0p9-voltage-level = <880000 880000 0x181f0>;
 			qcom,vreg-cx-voltage-level = <0xffff 0x100 0x00>;
 			qcom,bw-scale = <0x40 0x124f800 0x40 0x124f800 0x100 0x5f5e100>;
 			qcom,msm-bus,name = "pcie1";
@@ -10271,16 +10271,16 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0xec 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x122 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x19f 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x1a0 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x1a1 0x04>;
 			msi-parent = <0x1a2>;
-			perst-gpio = <0x77 0x55 0x00>;
-			wake-gpio = <0x77 0x57 0x00>;
+			perst-gpio = <&tlmm 0x55 0x00>;
+			wake-gpio = <&tlmm 0x57 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x1a3 0x1a4 0x1a5>;
 			gdsc-vdd-supply = <0x1a6>;
 			vreg-1p8-supply = <0x9a>;
 			vreg-0p9-supply = <0x99>;
 			vreg-cx-supply = <0x78>;
-			qcom,vreg-1p8-voltage-level = <0x124f80 0x124f80 0x639c>;
-			qcom,vreg-0p9-voltage-level = <0xd6d80 0xd6d80 0x181f0>;
+			qcom,vreg-1p8-voltage-level = <1200000 1200000 0x639c>;
+			qcom,vreg-0p9-voltage-level = <880000 880000 0x181f0>;
 			qcom,vreg-cx-voltage-level = <0xffff 0x100 0x00>;
 			qcom,bw-scale = <0x40 0x124f800 0x40 0x124f800 0x100 0x5f5e100>;
 			qcom,msm-bus,name = "pcie2";
@@ -10319,7 +10319,7 @@
 					qcom,msm-bus,name = "mhi0";
 					qcom,msm-bus,num-cases = <0x04>;
 					qcom,msm-bus,num-paths = <0x01>;
-					qcom,msm-bus,vectors-KBps = <0x6c 0x200 0x00 0x00 0x6c 0x200 0x00 0x00 0x6c 0x200 0x7a120 0x00 0x6c 0x200 0xf4240 0x00>;
+					qcom,msm-bus,vectors-KBps = <0x6c 0x200 0x00 0x00 0x6c 0x200 0x00 0x00 0x6c 0x200 0x7a120 0x00 0x6c 0x200 1000000 0x00>;
 					esoc-names = "mdm";
 					esoc-0 = <0x72>;
 					mhi,max-channels = <0x6f>;
@@ -11295,7 +11295,7 @@
 			dma-coherent;
 		};
 
-		pinctrl@f000000 {
+		tlmm: pinctrl@f000000 {
 			compatible = "qcom,kona-pinctrl";
 			reg = <0xf000000 0x1000000>;
 			interrupts = <0x00 0xd0 0x04>;
@@ -16476,7 +16476,7 @@
 			qcom,msm-bus,name = "usb0";
 			qcom,msm-bus,num-cases = <0x04>;
 			qcom,msm-bus,num-paths = <0x03>;
-			qcom,msm-bus,vectors-KBps = <0x3d 0x200 0x00 0x00 0x3d 0x2a4 0x00 0x00 0x01 0x247 0x00 0x00 0x3d 0x200 0xf4240 0x2625a0 0x3d 0x2a4 0x00 0x960 0x01 0x247 0x00 0x9c40 0x3d 0x200 0x3a980 0xaae60 0x3d 0x2a4 0x00 0x960 0x01 0x247 0x00 0x9c40 0x3d 0x200 0x01 0x01 0x3d 0x2a4 0x01 0x01 0x01 0x247 0x01 0x01>;
+			qcom,msm-bus,vectors-KBps = <0x3d 0x200 0x00 0x00 0x3d 0x2a4 0x00 0x00 0x01 0x247 0x00 0x00 0x3d 0x200 1000000 0x2625a0 0x3d 0x2a4 0x00 0x960 0x01 0x247 0x00 0x9c40 0x3d 0x200 0x3a980 0xaae60 0x3d 0x2a4 0x00 0x960 0x01 0x247 0x00 0x9c40 0x3d 0x200 0x01 0x01 0x3d 0x2a4 0x01 0x01 0x01 0x247 0x01 0x01>;
 			extcon = <0x1b1 0x1b2>;
 			qcom,charging-disabled;
 
@@ -16532,7 +16532,7 @@
 			vdd-supply = <0x99>;
 			vdda18-supply = <0x1b4>;
 			vdda33-supply = <0x8f>;
-			qcom,vdd-voltage-level = <0x00 0xd6d80 0xd6d80>;
+			qcom,vdd-voltage-level = <0x00 880000 880000>;
 			clocks = <0x15 0x00>;
 			clock-names = "ref_clk_src";
 			resets = <0x16 0x1b>;
@@ -16599,7 +16599,7 @@
 			qcom,msm-bus,name = "usb1";
 			qcom,msm-bus,num-cases = <0x03>;
 			qcom,msm-bus,num-paths = <0x03>;
-			qcom,msm-bus,vectors-KBps = <0x65 0x200 0x00 0x00 0x65 0x2a4 0x00 0x00 0x01 0x2ef 0x00 0x00 0x65 0x200 0xf4240 0x2625a0 0x65 0x2a4 0x00 0x960 0x01 0x2ef 0x00 0x9c40 0x65 0x200 0x3a980 0xaae60 0x65 0x2a4 0x00 0x960 0x01 0x2ef 0x00 0x9c40>;
+			qcom,msm-bus,vectors-KBps = <0x65 0x200 0x00 0x00 0x65 0x2a4 0x00 0x00 0x01 0x2ef 0x00 0x00 0x65 0x200 1000000 0x2625a0 0x65 0x2a4 0x00 0x960 0x01 0x2ef 0x00 0x9c40 0x65 0x200 0x3a980 0xaae60 0x65 0x2a4 0x00 0x960 0x01 0x2ef 0x00 0x9c40>;
 
 			dwc3@a800000 {
 				compatible = "snps,dwc3";
@@ -16625,7 +16625,7 @@
 			vdd-supply = <0x99>;
 			vdda18-supply = <0x1b4>;
 			vdda33-supply = <0x8f>;
-			qcom,vdd-voltage-level = <0x00 0xd6d80 0xd6d80>;
+			qcom,vdd-voltage-level = <0x00 880000 880000>;
 			clocks = <0x15 0x00>;
 			clock-names = "ref_clk_src";
 			resets = <0x16 0x1c>;
@@ -19952,7 +19952,7 @@
 			qcom,sde-max-bw-high-kbps = <0xfd4bc0>;
 			qcom,sde-min-core-ib-kbps = <0x493e00>;
 			qcom,sde-min-llcc-ib-kbps = <0x00>;
-			qcom,sde-min-dram-ib-kbps = <0xc3500>;
+			qcom,sde-min-dram-ib-kbps = <800000>;
 			qcom,sde-dram-channels = <0x02>;
 			qcom,sde-num-nrt-paths = <0x00>;
 			qcom,sde-dspp-ltm-version = <0x10000>;
@@ -20125,9 +20125,9 @@
 				qcom,mdss-dsi-bl-min-level = <0x01>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-brightness-max-level = <0xff>;
-				qcom,platform-te-gpio = <0x77 0x42 0x00>;
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
-				qcom,mdss-dsi-panel-test-pin = <0x77 0x2e 0x00>;
+				qcom,platform-te-gpio = <&tlmm 0x42 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 0x2e 0x00>;
 				phandle = <0x328>;
 
 				qcom,mdss-dsi-display-timings {
@@ -20311,8 +20311,8 @@
 				qcom,mdss-dsi-bl-min-level = <0x01>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-brightness-max-level = <0xff>;
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
-				qcom,mdss-dsi-panel-test-pin = <0x77 0x2e 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 0x2e 0x00>;
 				phandle = <0x329>;
 
 				qcom,mdss-dsi-display-timings {
@@ -20399,9 +20399,9 @@
 				qcom,mdss-dsi-bl-min-level = <0x01>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-brightness-max-level = <0xff>;
-				qcom,platform-te-gpio = <0x77 0x42 0x00>;
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
-				qcom,mdss-dsi-panel-test-pin = <0x77 0x2e 0x00>;
+				qcom,platform-te-gpio = <&tlmm 0x42 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 0x2e 0x00>;
 				phandle = <0x32a>;
 
 				qcom,mdss-dsi-display-timings {
@@ -21387,7 +21387,7 @@
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
 				qcom,panel-supply-entries = <0x27e>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
 
 				qcom,mdss-dsi-display-timings {
 
@@ -21599,7 +21599,7 @@
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
 				qcom,panel-supply-entries = <0x27e>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
 
 				qcom,mdss-dsi-display-timings {
 
@@ -21666,7 +21666,7 @@
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
 				qcom,panel-supply-entries = <0x27e>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
 
 				qcom,mdss-dsi-display-timings {
 
@@ -21803,7 +21803,7 @@
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
 				qcom,panel-supply-entries = <0x27e>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
-				qcom,platform-reset-gpio = <0x77 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 0x4b 0x00>;
 
 				qcom,mdss-dsi-display-timings {
 
@@ -22881,7 +22881,7 @@
 			qcom,dp-usbpd-detection = <0x1b1>;
 			qcom,ext-disp = <0x283>;
 			qcom,dp-aux-switch = <0x284>;
-			qcom,usbplug-cc-gpio = <0x77 0x41 0x00>;
+			qcom,usbplug-cc-gpio = <&tlmm 0x41 0x00>;
 			pinctrl-names = "mdss_dp_active\0mdss_dp_sleep";
 			pinctrl-0 = <0x285>;
 			pinctrl-1 = <0x286>;
@@ -22893,8 +22893,8 @@
 				qcom,ctrl-supply-entry@0 {
 					reg = <0x00>;
 					qcom,supply-name = "vdda-1p2";
-					qcom,supply-min-voltage = <0x124f80>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x80e8>;
 					qcom,supply-disable-load = <0x00>;
 				};
@@ -23031,8 +23031,8 @@
 				qcom,ctrl-supply-entry@0 {
 					reg = <0x00>;
 					qcom,supply-name = "vdda-1p2";
-					qcom,supply-min-voltage = <0x124f80>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x684c>;
 					qcom,supply-disable-load = <0x00>;
 				};
@@ -23075,8 +23075,8 @@
 				qcom,ctrl-supply-entry@0 {
 					reg = <0x00>;
 					qcom,supply-name = "vdda-1p2";
-					qcom,supply-min-voltage = <0x124f80>;
-					qcom,supply-max-voltage = <0x124f80>;
+					qcom,supply-min-voltage = <1200000>;
+					qcom,supply-max-voltage = <1200000>;
 					qcom,supply-enable-load = <0x684c>;
 					qcom,supply-disable-load = <0x00>;
 				};
@@ -23116,8 +23116,8 @@
 				qcom,phy-supply-entry@0 {
 					reg = <0x00>;
 					qcom,supply-name = "vdda-0p9";
-					qcom,supply-min-voltage = <0xd6d80>;
-					qcom,supply-max-voltage = <0xd6d80>;
+					qcom,supply-min-voltage = <880000>;
+					qcom,supply-max-voltage = <880000>;
 					qcom,supply-enable-load = <0xb3b0>;
 					qcom,supply-disable-load = <0x00>;
 				};
@@ -23143,8 +23143,8 @@
 				qcom,phy-supply-entry@0 {
 					reg = <0x00>;
 					qcom,supply-name = "vdda-0p9";
-					qcom,supply-min-voltage = <0xd6d80>;
-					qcom,supply-max-voltage = <0xd6d80>;
+					qcom,supply-min-voltage = <880000>;
+					qcom,supply-max-voltage = <880000>;
 					qcom,supply-enable-load = <0xb3b0>;
 					qcom,supply-disable-load = <0x00>;
 				};
@@ -23351,7 +23351,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x1b 0x7e 0x10 0x7e 0x0f>;
 			clock-names = "cphy_rx_clk_src\0csiphy0_clk\0csi0phytimer_clk_src\0csi0phytimer_clk";
@@ -23372,7 +23372,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x1c 0x7e 0x12 0x7e 0x11>;
 			clock-names = "cphy_rx_clk_src\0csiphy1_clk\0csi1phytimer_clk_src\0csi1phytimer_clk";
@@ -23393,7 +23393,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x1d 0x7e 0x14 0x7e 0x13>;
 			clock-names = "cphy_rx_clk_src\0csiphy2_clk\0csi2phytimer_clk_src\0csi2phytimer_clk";
@@ -23414,7 +23414,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x1e 0x7e 0x16 0x7e 0x15>;
 			clock-names = "cphy_rx_clk_src\0csiphy3_clk\0csi3phytimer_clk_src\0csi3phytimer_clk";
@@ -23435,7 +23435,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x1f 0x7e 0x18 0x7e 0x17>;
 			clock-names = "cphy_rx_clk_src\0csiphy4_clk\0csi4phytimer_clk_src\0csi4phytimer_clk";
@@ -23456,7 +23456,7 @@
 			gdscr-supply = <0x28c>;
 			refgen-supply = <0xe2>;
 			regulator-names = "gdscr\0refgen";
-			csi-vdd-voltage = <0x124f80>;
+			csi-vdd-voltage = <1200000>;
 			mipi-csi-vdd-supply = <0x9a>;
 			clocks = <0x7e 0x0e 0x7e 0x20 0x7e 0x1a 0x7e 0x19>;
 			clock-names = "cphy_rx_clk_src\0csiphy5_clk\0csi5phytimer_clk_src\0csi5phytimer_clk";
@@ -23485,7 +23485,7 @@
 			pinctrl-names = "cam_default\0cam_suspend";
 			pinctrl-0 = <0x28d 0x28e>;
 			pinctrl-1 = <0x28f 0x290>;
-			gpios = <0x77 0x65 0x00 0x77 0x66 0x00 0x77 0x67 0x00 0x77 0x68 0x00>;
+			gpios = <&tlmm 0x65 0x00 &tlmm 0x66 0x00 &tlmm 0x67 0x00 &tlmm 0x68 0x00>;
 			gpio-req-tbl-num = <0x00 0x01 0x02 0x03>;
 			gpio-req-tbl-flags = <0x01 0x01 0x01 0x01>;
 			gpio-req-tbl-label = "CCI_I2C_DATA0\0CCI_I2C_CLK0\0CCI_I2C_DATA1\0CCI_I2C_CLK1";
@@ -23557,8 +23557,8 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x2b9440>;
-				rgltr-max-voltage = <0x2f5d00>;
+				rgltr-min-voltage = <2856000>;
+				rgltr-max-voltage = <3104000>;
 				rgltr-load-current = <0x186a0>;
 				phandle = <0x2a4>;
 			};
@@ -23570,8 +23570,8 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x2b9440>;
-				rgltr-max-voltage = <0x2f5d00>;
+				rgltr-min-voltage = <2856000>;
+				rgltr-max-voltage = <3104000>;
 				rgltr-load-current = <0x186a0>;
 				phandle = <0x2aa>;
 			};
@@ -23583,8 +23583,8 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x2b9440>;
-				rgltr-max-voltage = <0x2f5d00>;
+				rgltr-min-voltage = <2856000>;
+				rgltr-max-voltage = <3104000>;
 				rgltr-load-current = <0x186a0>;
 				phandle = <0x2ab>;
 			};
@@ -23596,8 +23596,8 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x2b9440>;
-				rgltr-max-voltage = <0x2f5d00>;
+				rgltr-min-voltage = <2856000>;
+				rgltr-max-voltage = <3104000>;
 				rgltr-load-current = <0x186a0>;
 				phandle = <0x2af>;
 			};
@@ -23609,8 +23609,8 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x2b9440>;
-				rgltr-max-voltage = <0x2f5d00>;
+				rgltr-min-voltage = <2856000>;
+				rgltr-max-voltage = <3104000>;
 				rgltr-load-current = <0x186a0>;
 				phandle = <0x2b2>;
 			};
@@ -23625,14 +23625,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x10d880 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x10d880 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x186a0>;
+				rgltr-min-voltage = <1800000 2800000 1104000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1104000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x186a0>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x295 0x296>;
 				pinctrl-1 = <0x297 0x298>;
-				gpios = <0x77 0x5e 0x00 0x77 0x5d 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x5d 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23658,14 +23658,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x124f80 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x124f80 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x186a0>;
+				rgltr-min-voltage = <1800000 2800000 1200000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1200000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x186a0>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x29b 0x29c>;
 				pinctrl-1 = <0x29d 0x29e>;
-				gpios = <0x77 0x5f 0x00 0x77 0x5c 0x00>;
+				gpios = <&tlmm 0x5f 0x00 &tlmm 0x5c 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23691,14 +23691,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x10d880 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x10d880 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x00>;
+				rgltr-min-voltage = <1800000 2800000 1104000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1104000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x295 0x296>;
 				pinctrl-1 = <0x297 0x298>;
-				gpios = <0x77 0x5e 0x00 0x77 0x5d 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x5d 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23724,14 +23724,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x124f80 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x124f80 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x00>;
+				rgltr-min-voltage = <1800000 2800000 1200000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1200000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x29b 0x29c>;
 				pinctrl-1 = <0x29d 0x29e>;
-				gpios = <0x77 0x5f 0x00 0x77 0x5c 0x00>;
+				gpios = <&tlmm 0x5f 0x00 &tlmm 0x5c 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23757,14 +23757,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x101d00 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x101d00 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x00>;
+				rgltr-min-voltage = <1800000 2800000 1056000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1056000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2a1>;
 				pinctrl-1 = <0x2a2 0x2a3>;
-				gpios = <0x77 0x60 0x00 0x77 0x4e 0x00>;
+				gpios = <&tlmm 0x60 0x00 &tlmm 0x4e 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23798,14 +23798,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x295 0x296>;
 				pinctrl-1 = <0x297 0x298>;
-				gpios = <0x77 0x5e 0x00 0x77 0x5d 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x5d 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23837,14 +23837,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x29b 0x29c>;
 				pinctrl-1 = <0x29d 0x29e>;
-				gpios = <0x77 0x5f 0x00 0x77 0x5c 0x00>;
+				gpios = <&tlmm 0x5f 0x00 &tlmm 0x5c 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23876,14 +23876,14 @@
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_bob";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x10d880 0x00 0x2de600>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x10d880 0x00 0x3c6cc0>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x1e8480>;
+				rgltr-min-voltage = <1800000 2800000 1104000 0x00 3008000>;
+				rgltr-max-voltage = <1800000 3000000 1104000 0x00 3960000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x1e8480>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x295 0x296>;
 				pinctrl-1 = <0x297 0x298>;
-				gpios = <0x77 0x5e 0x00 0x77 0x5d 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x5d 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23915,14 +23915,14 @@
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_bob";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x124f80 0x00 0x2de600>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x124f80 0x00 0x3c6cc0>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x1e8480>;
+				rgltr-min-voltage = <1800000 2800000 1200000 0x00 3008000>;
+				rgltr-max-voltage = <1800000 3000000 1200000 0x00 3960000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x1e8480>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x29b 0x29c>;
 				pinctrl-1 = <0x29d 0x29e>;
-				gpios = <0x77 0x5f 0x00 0x77 0x5c 0x00>;
+				gpios = <&tlmm 0x5f 0x00 &tlmm 0x5c 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -23954,14 +23954,14 @@
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_bob";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x101d00 0x00 0x2de600>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x101d00 0x00 0x3c6cc0>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x1e8480>;
+				rgltr-min-voltage = <1800000 2800000 1056000 0x00 3008000>;
+				rgltr-max-voltage = <1800000 3000000 1056000 0x00 3960000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x1e8480>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2a1>;
 				pinctrl-1 = <0x2a2 0x2a3>;
-				gpios = <0x77 0x60 0x00 0x77 0x4e 0x00>;
+				gpios = <&tlmm 0x60 0x00 &tlmm 0x4e 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24000,7 +24000,7 @@
 			pinctrl-names = "cam_default\0cam_suspend";
 			pinctrl-0 = <0x2b4 0x2b5>;
 			pinctrl-1 = <0x2b6 0x2b7>;
-			gpios = <0x77 0x69 0x00 0x77 0x6a 0x00 0x77 0x6b 0x00 0x77 0x6c 0x00>;
+			gpios = <&tlmm 0x69 0x00 &tlmm 0x6a 0x00 &tlmm 0x6b 0x00 &tlmm 0x6c 0x00>;
 			gpio-req-tbl-num = <0x00 0x01 0x02 0x03>;
 			gpio-req-tbl-flags = <0x01 0x01 0x01 0x01>;
 			gpio-req-tbl-label = "CCI_I2C_DATA2\0CCI_I2C_CLK2\0CCI_I2C_DATA3\0CCI_I2C_CLK3";
@@ -24075,14 +24075,14 @@
 				cam_vaf-supply = <0x291>;
 				regulator-names = "cam_vio\0cam_vana\0cam_vdig\0cam_clk\0cam_vaf";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x2ab980 0x101d00 0x00 0x2b9440>;
-				rgltr-max-voltage = <0x1b7740 0x2dc6c0 0x101d00 0x00 0x2f5d00>;
-				rgltr-load-current = <0x1d4c0 0x13880 0x124f80 0x00 0x186a0>;
+				rgltr-min-voltage = <1800000 2800000 1056000 0x00 2856000>;
+				rgltr-max-voltage = <1800000 3000000 1056000 0x00 3104000>;
+				rgltr-load-current = <0x1d4c0 0x13880 1200000 0x00 0x186a0>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2a1>;
 				pinctrl-1 = <0x2a2 0x2a3>;
-				gpios = <0x77 0x60 0x00 0x77 0x4e 0x00>;
+				gpios = <&tlmm 0x60 0x00 &tlmm 0x4e 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24105,14 +24105,14 @@
 				cam_clk-supply = <0x28c>;
 				regulator-names = "cam_vio\0cam_vdig\0cam_clk";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x1b7740 0x00>;
-				rgltr-load-current = <0x1d4c0 0x124f80 0x00>;
+				rgltr-min-voltage = <1800000 1800000 0x00>;
+				rgltr-max-voltage = <1800000 1800000 0x00>;
+				rgltr-load-current = <0x1d4c0 1200000 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2b8 0x2b9>;
 				pinctrl-1 = <0x2ba 0x2bb>;
-				gpios = <0x77 0x61 0x00 0x77 0x90 0x00>;
+				gpios = <&tlmm 0x61 0x00 &tlmm 0x90 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24148,14 +24148,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2a1>;
 				pinctrl-1 = <0x2a2 0x2a3>;
-				gpios = <0x77 0x60 0x00 0x77 0x4e 0x00>;
+				gpios = <&tlmm 0x60 0x00 &tlmm 0x4e 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24182,14 +24182,14 @@
 				cam_clk-supply = <0x28c>;
 				regulator-names = "cam_vio\0cam_vdig\0cam_clk";
 				rgltr-cntrl-support;
-				rgltr-min-voltage = <0x1b7740 0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x1b7740 0x00>;
-				rgltr-load-current = <0x1d4c0 0x124f80 0x00>;
+				rgltr-min-voltage = <1800000 1800000 0x00>;
+				rgltr-max-voltage = <1800000 1800000 0x00>;
+				rgltr-load-current = <0x1d4c0 1200000 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2b8 0x296>;
 				pinctrl-1 = <0x2ba 0x298>;
-				gpios = <0x77 0x61 0x00 0x77 0x90 0x00>;
+				gpios = <&tlmm 0x61 0x00 &tlmm 0x90 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24212,14 +24212,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2a1>;
 				pinctrl-1 = <0x2a2 0x2a3>;
-				gpios = <0x77 0x60 0x00 0x77 0x4e 0x00>;
+				gpios = <&tlmm 0x60 0x00 &tlmm 0x4e 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24246,14 +24246,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2be>;
 				pinctrl-1 = <0x2a2 0x2bf>;
-				gpios = <0x77 0x5e 0x00 0x77 0x63 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x63 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24279,14 +24279,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2a0 0x2be>;
 				pinctrl-1 = <0x2a2 0x2bf>;
-				gpios = <0x77 0x5e 0x00 0x77 0x63 0x00>;
+				gpios = <&tlmm 0x5e 0x00 &tlmm 0x63 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -24312,14 +24312,14 @@
 				regulator-names = "cam_vio\0cam_clk";
 				rgltr-cntrl-support;
 				pwm-switch;
-				rgltr-min-voltage = <0x1b7740 0x00>;
-				rgltr-max-voltage = <0x1b7740 0x00>;
+				rgltr-min-voltage = <1800000 0x00>;
+				rgltr-max-voltage = <1800000 0x00>;
 				rgltr-load-current = <0x1d4c0 0x00>;
 				gpio-no-mux = <0x00>;
 				pinctrl-names = "cam_default\0cam_suspend";
 				pinctrl-0 = <0x2c0 0x296>;
 				pinctrl-1 = <0x2c1 0x298>;
-				gpios = <0x77 0x62 0x00 0x77 0x19 0x00>;
+				gpios = <&tlmm 0x62 0x00 &tlmm 0x19 0x00>;
 				gpio-reset = <0x01>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-req-tbl-flags = <0x01 0x00>;
@@ -25438,10 +25438,10 @@
 			nq@28 {
 				compatible = "qcom,nq-nci";
 				reg = <0x28>;
-				qcom,nq-irq = <0x77 0x6f 0x00>;
-				qcom,nq-ven = <0x77 0x06 0x00>;
-				qcom,nq-firm = <0x77 0x6e 0x00>;
-				qcom,nq-clkreq = <0x77 0x07 0x00>;
+				qcom,nq-irq = <&tlmm 0x6f 0x00>;
+				qcom,nq-ven = <&tlmm 0x06 0x00>;
+				qcom,nq-firm = <&tlmm 0x6e 0x00>;
+				qcom,nq-clkreq = <&tlmm 0x07 0x00>;
 				interrupt-parent = <0x77>;
 				interrupts = <0x6f 0x00>;
 				interrupt-names = "nfc_irq";
@@ -25513,10 +25513,10 @@
 			ch101_0@45 {
 				compatible = "invensense,ch101";
 				reg = <0x45>;
-				rst-gpios = <0x77 0x8c 0x00>;
-				rtc_rst-gpios = <0x77 0x00 0x00>;
+				rst-gpios = <&tlmm 0x8c 0x00>;
+				rtc_rst-gpios = <&tlmm 0x00 0x00>;
 				prg-gpios = <0x00 0x01 0x02>;
-				int-gpios = <0x77 0x81 0x00 0x77 0x8d 0x00 0x77 0x71 0x00>;
+				int-gpios = <&tlmm 0x81 0x00 &tlmm 0x8d 0x00 &tlmm 0x71 0x00>;
 			};
 		};
 
@@ -25542,8 +25542,8 @@
 				interrupt-parent = <0x77>;
 				interrupts = <0x3f 0x00>;
 				interrupt-names = "lt_irq";
-				lt,irq-gpio = <0x77 0x3f 0x00>;
-				lt,reset-gpio = <0x2f9 0x05 0x00>;
+				lt,irq-gpio = <&tlmm 0x3f 0x00>;
+				lt,reset-gpio = <&pm8150_gpios 0x05 0x00>;
 				instance_id = <0x00>;
 				lt,non-pluggable;
 				pinctrl-names = "default";
@@ -25968,8 +25968,8 @@
 				pinctrl-names = "pmx_ts_active\0pmx_ts_suspend";
 				pinctrl-0 = <0x325>;
 				pinctrl-1 = <0x326 0x327>;
-				st,irq-gpio = <0x77 0x27 0x2008>;
-				st,reset-gpio = <0x77 0x26 0x00>;
+				st,irq-gpio = <&tlmm 0x27 0x2008>;
+				st,reset-gpio = <&tlmm 0x26 0x00>;
 				st,regulator_dvdd = "vdd";
 				st,regulator_avdd = "avdd";
 				panel = <0x328 0x329 0x32a>;
@@ -26174,11 +26174,11 @@
 			nq@64 {
 				compatible = "rtc6226";
 				reg = <0x64>;
-				fmint-gpio = <0x77 0x33 0x00>;
+				fmint-gpio = <&tlmm 0x33 0x00>;
 				vdd-supply = <0x2a7>;
 				rtc6226,vdd-supply-voltage = <0x324b00 0x324b00>;
 				vio-supply = <0xa1>;
-				rtc6226,vio-supply-voltage = <0x1b7740 0x1b7740>;
+				rtc6226,vio-supply-voltage = <1800000 1800000>;
 			};
 
 			redriver@1c {
@@ -26248,10 +26248,10 @@
 			ch101_1@45 {
 				compatible = "invensense,ch101";
 				reg = <0x45>;
-				rst-gpios = <0x77 0x8c 0x00>;
-				rtc_rst-gpios = <0x77 0x00 0x00>;
+				rst-gpios = <&tlmm 0x8c 0x00>;
+				rtc_rst-gpios = <&tlmm 0x00 0x00>;
 				prg-gpios = <0x03 0x04 0x05>;
-				int-gpios = <0x77 0x7a 0x00 0x77 0x7b 0x00 0x77 0x42 0x00>;
+				int-gpios = <&tlmm 0x7a 0x00 &tlmm 0x7b 0x00 &tlmm 0x42 0x00>;
 			};
 		};
 
@@ -27049,9 +27049,9 @@
 						clock-names = "lpass_audio_hw_vote";
 						clocks = <0x35a 0x00>;
 						va-vdd-micb-supply = <0xa1>;
-						qcom,va-vdd-micb-voltage = <0x1b7740 0x1b7740>;
+						qcom,va-vdd-micb-voltage = <1800000 1800000>;
 						qcom,va-vdd-micb-current = <0x2bc0>;
-						qcom,va-dmic-sample-rate = <0x927c0>;
+						qcom,va-dmic-sample-rate = <600000>;
 						qcom,va-clk-mux-select = <0x01>;
 						qcom,va-island-mode-muxsel = <0x33a0000>;
 						qcom,default-clk-id = <0x00>;
@@ -27066,13 +27066,13 @@
 						qcom,rx-slave = <0x369>;
 						qcom,tx-slave = <0x36a>;
 						cdc-vdd-rxtx-supply = <0xa1>;
-						qcom,cdc-vdd-rxtx-voltage = <0x1b7740 0x1b7740>;
+						qcom,cdc-vdd-rxtx-voltage = <1800000 1800000>;
 						qcom,cdc-vdd-rxtx-current = <0x7530>;
 						cdc-vddio-supply = <0xa1>;
-						qcom,cdc-vddio-voltage = <0x1b7740 0x1b7740>;
+						qcom,cdc-vddio-voltage = <1800000 1800000>;
 						qcom,cdc-vddio-current = <0x7530>;
 						cdc-vdd-buck-supply = <0xa1>;
-						qcom,cdc-vdd-buck-voltage = <0x1b7740 0x1b7740>;
+						qcom,cdc-vdd-buck-voltage = <1800000 1800000>;
 						qcom,cdc-vdd-buck-current = <0x9eb10>;
 						cdc-vdd-mic-bias-supply = <0x2a7>;
 						qcom,cdc-vdd-mic-bias-voltage = <0x324b00 0x324b00>;
@@ -29842,7 +29842,7 @@
 				qcom,msm-bus,name = "grp3d";
 				qcom,msm-bus,num-cases = <0x0c>;
 				qcom,msm-bus,num-paths = <0x01>;
-				qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0xbebc2 0x1a 0x200 0x00 0x11e1a3 0x1a 0x200 0x00 0x1ae1b6 0x1a 0x200 0x00 0x209a8e 0x1a 0x200 0x00 0x28973c 0x1a 0x200 0x00 0x2dc6c0 0x1a 0x200 0x00 0x3c9e30 0x1a 0x200 0x00 0x50a524 0x1a 0x200 0x00 0x5caf6a 0x1a 0x200 0x00 0x6b86db 0x1a 0x200 0x00 0x7cb163>;
+				qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0xbebc2 0x1a 0x200 0x00 0x11e1a3 0x1a 0x200 0x00 0x1ae1b6 0x1a 0x200 0x00 0x209a8e 0x1a 0x200 0x00 0x28973c 0x1a 0x200 0x00 3000000 0x1a 0x200 0x00 0x3c9e30 0x1a 0x200 0x00 0x50a524 0x1a 0x200 0x00 0x5caf6a 0x1a 0x200 0x00 0x6b86db 0x1a 0x200 0x00 0x7cb163>;
 			};
 
 			qcom,gpu-bus-table-1 {
@@ -29850,7 +29850,7 @@
 				qcom,msm-bus,name = "grp3d";
 				qcom,msm-bus,num-cases = <0x0c>;
 				qcom,msm-bus,num-paths = <0x01>;
-				qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0xbebc2 0x1a 0x200 0x00 0x11e1a3 0x1a 0x200 0x00 0x1ae1b6 0x1a 0x200 0x00 0x209a8e 0x1a 0x200 0x00 0x28973c 0x1a 0x200 0x00 0x2dc6c0 0x1a 0x200 0x00 0x3c9e30 0x1a 0x200 0x00 0x5caf6a 0x1a 0x200 0x00 0x6b86db 0x1a 0x200 0x00 0x7cb163 0x1a 0x200 0x00 0xa3140c>;
+				qcom,msm-bus,vectors-KBps = <0x1a 0x200 0x00 0x00 0x1a 0x200 0x00 0xbebc2 0x1a 0x200 0x00 0x11e1a3 0x1a 0x200 0x00 0x1ae1b6 0x1a 0x200 0x00 0x209a8e 0x1a 0x200 0x00 0x28973c 0x1a 0x200 0x00 3000000 0x1a 0x200 0x00 0x3c9e30 0x1a 0x200 0x00 0x5caf6a 0x1a 0x200 0x00 0x6b86db 0x1a 0x200 0x00 0x7cb163 0x1a 0x200 0x00 0xa3140c>;
 			};
 
 			qcom,l3-pwrlevels {
@@ -30413,9 +30413,9 @@
 		regulator-dbb1 {
 			compatible = "regulator-fixed";
 			regulator-name = "vdd_tof";
-			regulator-min-microvolt = <0x36ee80>;
-			regulator-max-microvolt = <0x36ee80>;
-			gpio = <0x3f1 0x01 0x00>;
+			regulator-min-microvolt = <3600000>;
+			regulator-max-microvolt = <3600000>;
+			gpio = <&pm8009_gpio 0x01 0x00>;
 			startup-delay-us = <0x3e8>;
 			enable-active-high;
 		};
@@ -30450,8 +30450,8 @@
 			qcom,panel-supply-entry@0 {
 				reg = <0x00>;
 				qcom,supply-name = "vddio";
-				qcom,supply-min-voltage = <0x1b7740>;
-				qcom,supply-max-voltage = <0x1b7740>;
+				qcom,supply-min-voltage = <1800000>;
+				qcom,supply-max-voltage = <1800000>;
 				qcom,supply-enable-load = <0xf230>;
 				qcom,supply-disable-load = <0x50>;
 				qcom,supply-post-on-sleep = <0x14>;
@@ -30470,8 +30470,8 @@
 			qcom,panel-supply-entry@2 {
 				reg = <0x02>;
 				qcom,supply-name = "lab";
-				qcom,supply-min-voltage = <0x4630c0>;
-				qcom,supply-max-voltage = <0x5b8d80>;
+				qcom,supply-min-voltage = <4600000>;
+				qcom,supply-max-voltage = <6000000>;
 				qcom,supply-enable-load = <0x186a0>;
 				qcom,supply-disable-load = <0x64>;
 			};
@@ -30479,8 +30479,8 @@
 			qcom,panel-supply-entry@3 {
 				reg = <0x03>;
 				qcom,supply-name = "ibb";
-				qcom,supply-min-voltage = <0x4630c0>;
-				qcom,supply-max-voltage = <0x5b8d80>;
+				qcom,supply-min-voltage = <4600000>;
+				qcom,supply-max-voltage = <6000000>;
 				qcom,supply-enable-load = <0x186a0>;
 				qcom,supply-disable-load = <0x64>;
 				qcom,supply-post-on-sleep = <0x14>;
@@ -30494,8 +30494,8 @@
 			qcom,panel-supply-entry@0 {
 				reg = <0x00>;
 				qcom,supply-name = "vddio";
-				qcom,supply-min-voltage = <0x1b7740>;
-				qcom,supply-max-voltage = <0x1b7740>;
+				qcom,supply-min-voltage = <1800000>;
+				qcom,supply-max-voltage = <1800000>;
 				qcom,supply-enable-load = <0xf230>;
 				qcom,supply-disable-load = <0x50>;
 				qcom,supply-post-on-sleep = <0x14>;
@@ -30504,8 +30504,8 @@
 			qcom,panel-supply-entry@1 {
 				reg = <0x01>;
 				qcom,supply-name = "lab";
-				qcom,supply-min-voltage = <0x4630c0>;
-				qcom,supply-max-voltage = <0x5b8d80>;
+				qcom,supply-min-voltage = <4600000>;
+				qcom,supply-max-voltage = <6000000>;
 				qcom,supply-enable-load = <0x186a0>;
 				qcom,supply-disable-load = <0x64>;
 			};
@@ -30513,8 +30513,8 @@
 			qcom,panel-supply-entry@2 {
 				reg = <0x02>;
 				qcom,supply-name = "ibb";
-				qcom,supply-min-voltage = <0x4630c0>;
-				qcom,supply-max-voltage = <0x5b8d80>;
+				qcom,supply-min-voltage = <4600000>;
+				qcom,supply-max-voltage = <6000000>;
 				qcom,supply-enable-load = <0x186a0>;
 				qcom,supply-disable-load = <0x64>;
 				qcom,supply-post-on-sleep = <0x14>;
@@ -30528,8 +30528,8 @@
 			qcom,panel-supply-entry@0 {
 				reg = <0x00>;
 				qcom,supply-name = "vddio";
-				qcom,supply-min-voltage = <0x1b7740>;
-				qcom,supply-max-voltage = <0x1b7740>;
+				qcom,supply-min-voltage = <1800000>;
+				qcom,supply-max-voltage = <1800000>;
 				qcom,supply-enable-load = <0xf230>;
 				qcom,supply-disable-load = <0x50>;
 				qcom,supply-post-on-sleep = <0x14>;
@@ -30538,8 +30538,8 @@
 			qcom,panel-supply-entry@1 {
 				reg = <0x01>;
 				qcom,supply-name = "avdd";
-				qcom,supply-min-voltage = <0x4630c0>;
-				qcom,supply-max-voltage = <0x5b8d80>;
+				qcom,supply-min-voltage = <4600000>;
+				qcom,supply-max-voltage = <6000000>;
 				qcom,supply-enable-load = <0x186a0>;
 				qcom,supply-disable-load = <0x64>;
 			};
@@ -30551,7 +30551,7 @@
 			regulator-min-microvolt = <0x53ec60>;
 			regulator-max-microvolt = <0x53ec60>;
 			regulator-enable-ramp-delay = <0xe9>;
-			gpio = <0x77 0x3d 0x00>;
+			gpio = <&tlmm 0x3d 0x00>;
 			enable-active-high;
 			regulator-boot-on;
 			pinctrl-names = "default";
@@ -30569,7 +30569,7 @@
 			pinctrl-names = "panel_active\0panel_suspend";
 			pinctrl-0 = <0x3fa 0x3fb>;
 			pinctrl-1 = <0x3fc 0x3fd>;
-			qcom,platform-te-gpio = <0x77 0x42 0x00>;
+			qcom,platform-te-gpio = <&tlmm 0x42 0x00>;
 			qcom,panel-te-source = <0x00>;
 			vddio-supply = <0xae>;
 			vdd-supply = <0xb0>;
@@ -30605,7 +30605,7 @@
 			pinctrl-names = "panel_active\0panel_suspend";
 			pinctrl-0 = <0x403 0x404>;
 			pinctrl-1 = <0x405 0x406>;
-			qcom,platform-te-gpio = <0x77 0x43 0x00>;
+			qcom,platform-te-gpio = <&tlmm 0x43 0x00>;
 			qcom,panel-te-source = <0x01>;
 			vddio-supply = <0xae>;
 			vdd-supply = <0xb0>;
@@ -30798,7 +30798,7 @@
 
 			vol_up {
 				label = "volume_up";
-				gpios = <0x416 0x06 0x01>;
+				gpios = <&pm8150_gpios 0x06 0x01>;
 				linux,input-type = <0x01>;
 				linux,code = <0x73>;
 				gpio-key,wakeup;
@@ -30809,10 +30809,10 @@
 
 		qcom,qbt_handler {
 			compatible = "qcom,qbt-handler";
-			qcom,ipc-gpio = <0x77 0x17 0x00>;
+			qcom,ipc-gpio = <&tlmm 0x17 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x417>;
-			qcom,finger-detect-gpio = <0x416 0x01 0x00>;
+			qcom,finger-detect-gpio = <&pm8150_gpios 0x01 0x00>;
 		};
 
 		qcom,csid-lite2@acdd600 {
@@ -30938,7 +30938,7 @@
 
 		rb5_fan_controller {
 			compatible = "qcom,rb5_fan_controller";
-			qcom,pwr-enable-gpio = <0x2f9 0x0a 0x00>;
+			qcom,pwr-enable-gpio = <&pm8150_gpios 0x0a 0x00>;
 			pinctrl-name = "default";
 			pinctrl-0 = <0x418>;
 			status = "ok";
@@ -30946,7 +30946,7 @@
 
 		rb5_gpios_enable {
 			compatible = "qcom,rb5_gpios_enable";
-			qcom,enable-gpio = <0x77 0x3c 0x00>;
+			qcom,enable-gpio = <&tlmm 0x3c 0x00>;
 			status = "ok";
 		};
 	};
@@ -31301,8 +31301,8 @@
 			compatible = "qca,qca6390";
 			pinctrl-names = "default";
 			pinctrl-0 = <0x419>;
-			qca,bt-reset-gpio = <0x77 0x15 0x00>;
-			qca,bt-sw-ctrl-gpio = <0x77 0x7c 0x00>;
+			qca,bt-reset-gpio = <&tlmm 0x15 0x00>;
+			qca,bt-sw-ctrl-gpio = <&tlmm 0x7c 0x00>;
 			qca,bt-vdd-aon-supply = <0xd7>;
 			qca,bt-vdd-dig-supply = <0xd8>;
 			qca,bt-vdd-rfa1-supply = <0xd9>;
@@ -31312,7 +31312,7 @@
 			qca,bt-vdd-dig-voltage-level = <0xe7ef0 0xe86c0>;
 			qca,bt-vdd-rfa1-voltage-level = <0x1cfde0 0x1cfde0>;
 			qca,bt-vdd-rfa2-voltage-level = <0x149970 0x149970>;
-			qca,bt-vdd-asd-voltage-level = <0x2e2480 0x326a40>;
+			qca,bt-vdd-asd-voltage-level = <3024000 3304000>;
 			qca,bt-vdd-asd-current-level = <0x2710>;
 		};
 	};

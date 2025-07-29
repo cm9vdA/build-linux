@@ -345,11 +345,6 @@
 	};
 };
 
-&adsp {
-	status = "okay";
-	firmware-name = "qcom/sm8250/adsp.mbn";
-};
-
 &apps_rsc {
 	pm8009-rpmh-regulators {
 		compatible = "qcom,pm8009-1-rpmh-regulators";
@@ -676,6 +671,16 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 	};
+};
+
+&slpi {
+	status = "okay";
+	firmware-name = "qcom/sm8250/Thundercomm/RB5/slpi.mbn";
+};
+
+&adsp {
+	status = "okay";
+	firmware-name = "qcom/sm8250/adsp.mbn";
 };
 
 &cdsp {
