@@ -2,7 +2,9 @@
 
 /dts-v1/;
 
+#include <dt-bindings/arm/qcom,ids.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+#include <dt-bindings/phy/phy.h>
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
 #include <dt-bindings/sound/qcom,q6afe.h>
@@ -923,6 +925,26 @@ DIP Switch:
 	};
 };
 
+&pm8150l_adc {
+	camera-flash-therm@4d {
+		reg = <ADC5_AMUX_THM1_100K_PU>;
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+	};
+
+	skin-msm-therm@4e {
+		reg = <ADC5_AMUX_THM2_100K_PU>;
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+	};
+
+	pa-therm2@4f {
+		reg = <ADC5_AMUX_THM3_100K_PU>;
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+	};
+};
+
 &pm8150l_adc_tm {
 	status = "okay";
 
@@ -945,26 +967,6 @@ DIP Switch:
 		io-channels = <&pm8150l_adc ADC5_AMUX_THM3_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time-us = <200>;
-	};
-};
-
-&pm8150l_adc {
-	camera-flash-therm@4d {
-		reg = <ADC5_AMUX_THM1_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-
-	skin-msm-therm@4e {
-		reg = <ADC5_AMUX_THM2_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-
-	pa-therm2@4f {
-		reg = <ADC5_AMUX_THM3_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
 	};
 };
 
