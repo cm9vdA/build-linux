@@ -17,13 +17,13 @@
 #include "pm8150l.dtsi"
 #include "pm8009.dtsi"
 
-#define ENABLE_HDMI 1
+#define ENABLE_HDMI 0
 
 / {
 	model = "Aplux AI Box";
 	compatible = "aplux,ai-box", "qcom,sm8250";
-	qcom,msm-id = <481 0x20001>;
-	qcom,board-id = <65567 1>;
+	qcom,msm-id = <QCOM_ID_SM8250 0x20001>;
+	qcom,board-id = <QCOM_BOARD_ID(SBC, 1, 0) 0>;
 	chassis-type = "embedded";
 
 	aliases {

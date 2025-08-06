@@ -19,8 +19,8 @@
 / {
 	model = "DG Tiny";
 	compatible = "qcom,qrb5165-rb5", "qcom,sm8250";
-	qcom,msm-id = <455 0x20001>;
-	qcom,board-id = <11 3>;
+	qcom,msm-id = <QCOM_ID_QRB5165 0x20001>;
+	qcom,board-id = <QCOM_BOARD_ID(SBC, 1, 0) 0>;
 	chassis-type = "embedded";
 
 	aliases {
