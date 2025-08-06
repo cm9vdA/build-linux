@@ -999,6 +999,7 @@ DIP Switch:
 &tlmm {
 	gpio-reserved-ranges = <28 4>, <40 4>;
 
+#if ENABLE_HDMI
 	lt9611 {
 		lt9611_irq_pin: lt9611-irq-pin {
 			pins = "gpio1"; // bsp
@@ -1024,6 +1025,7 @@ DIP Switch:
 			bias-disable;
 		};
 	};
+#endif
 
 	sdc2_default_state: sdc2-default-state { // bsp
 		clk-pins {
@@ -1253,9 +1255,9 @@ DIP Switch:
 };
 
 &usb_1_dwc3 {
-	dr_mode = "peripheral";
-	// dr_mode = "otg";
-	// usb-role-switch;
+	// dr_mode = "peripheral";
+	dr_mode = "otg";
+	usb-role-switch;
 };
 
 &usb_1_hsphy {
