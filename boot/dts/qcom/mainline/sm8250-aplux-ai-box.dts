@@ -62,21 +62,21 @@
 		};
 	};
 
-	vcc1v8_lt9611: vcc1v8-lt9611-regulator {
+	vcc1v2_lt9611: vcc1v2-lt9611-regulator {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc1v8_lt9611";
+		regulator-name = "vcc1v2_lt9611";
 
 		vin-supply = <&vdc_3v3>;
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
+		regulator-min-microvolt = <1200000>;
+		regulator-max-microvolt = <1200000>;
 
-		gpio = <&tlmm 82 GPIO_ACTIVE_HIGH>;
+		gpio = <&tlmm 11 GPIO_ACTIVE_HIGH>; // verify
 		enable-active-high;
 		regulator-boot-on;
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&lt9611_1v8_en>;
+		pinctrl-0 = <&lt9611_1v2_en>;
 	};
 
 	vcc3v3_lt9611: vcc3v3-lt9611-regulator {
@@ -87,7 +87,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 
-		gpio = <&tlmm 3 GPIO_ACTIVE_HIGH>;
+		gpio = <&tlmm 61 GPIO_ACTIVE_HIGH>; // verify
 		enable-active-high;
 		regulator-boot-on;
 		regulator-always-on;
@@ -270,21 +270,39 @@
 		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
 
-	vcc3v3_pcie0: vcc3v3-pcie0 {
+	vcc_pcie1: vcc-pcie1 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc3v3_pcie0";
+		regulator-name = "vcc_pcie1";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 
-		gpio = <&tlmm 62 GPIO_ACTIVE_HIGH>;
+		gpio = <&tlmm 6 GPIO_ACTIVE_HIGH>; // bsp
 		enable-active-high;
 		regulator-boot-on;
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc3v3_pcie0_en>;
+		pinctrl-0 = <&pcie1_regulator>;
+	};
+
+	// RTL8111H
+	vcc_pcie2: vcc-pcie2 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_pcie2";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 111 GPIO_ACTIVE_HIGH>; // verify
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie2_regulator>;
 	};
 
 	gpio-keys {
@@ -660,29 +678,24 @@
 };
 
 #if ENABLE_HDMI
-&i2c1 {
+&i2c11 {
 	status = "okay";
 	clock-frequency = <400000>;
 
-	lt9611_codec: hdmi-bridge@3b {
-		compatible = "lontium,lt9611";
-		reg = <0x3b>;
+	lt9611_codec: hdmi-bridge@2b {
+		compatible = "lontium,lt9611uxc";
+		reg = <0x2b>;
 		#sound-dai-cells = <1>;
 
-		interrupts-extended = <&tlmm 1 IRQ_TYPE_EDGE_FALLING>;
+		interrupts-extended = <&tlmm 59 IRQ_TYPE_EDGE_FALLING>; // verify
 
-		reset-gpios = <&tlmm 2 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>; // verify
 
-		vdd-supply = <&vcc1v8_lt9611>;
+		vdd-supply = <&vcc1v2_lt9611>;
 		vcc-supply = <&vcc3v3_lt9611>;
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&lt9611_irq_pin>, <&lt9611_rst_pin>;
-
-		// lt,irq-gpio = <&tlmm 1 0x00>;
-		// lt,reset-gpio = <&tlmm 2 0x00>;
-		// lt,hdmi-en-gpio = <&tlmm 3 0x00>; // 3v3
-		// lt,hdmi-ps-gpio = <&tlmm 82 0x00>; // 1v8
 
 		ports {
 			#address-cells = <1>;
@@ -841,6 +854,7 @@
 	vdda-pll-supply = <&vreg_l9a_1p2>;
 };
 
+// RTL8111H
 &pcie2 {
 	status = "okay";
 };
@@ -956,29 +970,29 @@
 	gpio-reserved-ranges = <28 4>, <40 4>;
 
 #if ENABLE_HDMI
-	lt9611 {
+	lt9611uxc {
 		lt9611_irq_pin: lt9611-irq-pin {
-			pins = "gpio1"; // bsp
+			pins = "gpio59"; // verify
 			function = "gpio";
 			bias-disable;
 		};
 
 		lt9611_rst_pin: lt9611-rst-pin {
-			pins = "gpio2"; // bsp
+			pins = "gpio62"; // verify
 			function = "gpio";
 			output-high;
 		};
 
 		lt9611_3v3_en: lt9611-3v3-en {
-			pins = "gpio3";
+			pins = "gpio61"; // verify
 			function = "gpio";
 			output-high;
 		};
 
-		lt9611_1v8_en: lt9611-1v8-en {
-			pins = "gpio82";
+		lt9611_1v2_en: lt9611-1v2-en {
+			pins = "gpio11";
 			function = "gpio";
-			bias-disable;
+			output-high;
 		};
 	};
 #endif
@@ -1043,10 +1057,35 @@
 		};
 	};
 
-	vcc3v3_pcie0_en: vcc3v3-pcie0-en {
-		pins = "gpio62";
-		function = "gpio";
-		output-high;
+	pcie1_regulator:pcie1-regulator {
+		pcie1_en_1: pcie1-en-1 {
+			pins = "gpio6"; // bsp
+			function = "gpio";
+			output-high;
+		};
+		pcie1_en_2: pcie1-en-2 {
+			pins = "gpio48"; // bsp
+			function = "gpio";
+			output-high;
+		};
+	};
+
+	pcie2_regulator:pcie2-regulator {
+		vcc3v3_pcie2_en: vcc3v3-pcie2-en {
+			pins = "gpio111"; // verify
+			function = "gpio";
+			output-high;
+		};
+		pcie2_en_1: pcie2-en-1 {
+			pins = "gpio7"; // verify
+			function = "gpio";
+			output-high;
+		};
+		pcie2_en_2: pcie2-en-2 {
+			pins = "gpio89"; // verify
+			function = "gpio";
+			output-high;
+		};
 	};
 
 	sdc2_card_det_n: sd-card-det-n-state {
