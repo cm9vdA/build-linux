@@ -1,13 +1,15 @@
-setenv dtb_path "/boot/dtb/qcom/sm8250-hdk.dtb"
+setenv dtb_path "/boot/sm8250-hdk.dtb"
 setenv kernel_path "/boot/Image"
 
 setenv dtb_addr    0x9a000000
 setenv kernel_addr 0x9f000000
 
-setenv bootargs "noinitrd root=/dev/sda15 rootfstype=ext4 rootdelay=1 rootflags=data=writeback rw"
+setenv bootargs "noinitrd root=/dev/sda1 rootfstype=ext4 rootdelay=1 rootflags=data=writeback rw"
 setenv boot_start booti $kernel_addr - $dtb_addr
 
-ext4load scsi 0:f $dtb_addr $dtb_path
-ext4load scsi 0:f $kernel_addr $kernel_path
+ext4load scsi 0:1 $dtb_addr $dtb_path
+ext4load scsi 0:1 $kernel_addr $kernel_path
 
 run boot_start
+
+# mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n 'Boot Script' -d boot_lite.cmd boot_lite.scr
