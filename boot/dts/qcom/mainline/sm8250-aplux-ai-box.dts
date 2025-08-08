@@ -17,7 +17,7 @@
 #include "pm8150l.dtsi"
 #include "pm8009.dtsi"
 
-#define ENABLE_HDMI 0
+#define ENABLE_HDMI 1
 
 / {
 	model = "Aplux AI Box";
@@ -28,6 +28,7 @@
 
 	aliases {
 		serial0 = &uart12;
+		serial1 = &uart6;
 		sdhc2 = &sdhc_2;
 	};
 
@@ -42,13 +43,6 @@
 			  <0x00000000 0xC0000000  0x00000001 0xC0000000>;   // 7GB
 	};
 #endif
-
-	/* Fixed crystal oscillator dedicated to MCP2518FD */
-	clk40m: can-clock {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <40000000>;
-	};
 
 #if ENABLE_HDMI
 	hdmi-out {
@@ -99,8 +93,6 @@
 
 	thermal-zones {
 		camera-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150l_adc_tm 0>;
 
 			trips {
@@ -113,8 +105,6 @@
 		};
 
 		conn-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150b_adc_tm 0>;
 
 			trips {
@@ -127,8 +117,6 @@
 		};
 
 		mmw-pa1-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150_adc_tm 2>;
 
 			trips {
@@ -141,8 +129,6 @@
 		};
 
 		mmw-pa2-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150l_adc_tm 2>;
 
 			trips {
@@ -155,8 +141,6 @@
 		};
 
 		skin-msm-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150l_adc_tm 1>;
 
 			trips {
@@ -169,8 +153,6 @@
 		};
 
 		skin-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150_adc_tm 1>;
 
 			trips {
@@ -183,8 +165,6 @@
 		};
 
 		xo-thermal {
-			polling-delay-passive = <0>;
-			polling-delay = <0>;
 			thermal-sensors = <&pm8150_adc_tm 0>;
 
 			trips {
@@ -267,7 +247,7 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&vcc5v0_host0_en>;
+		pinctrl-0 = <&usb_host_regulator>;
 	};
 
 	vcc_pcie1: vcc-pcie1 {
@@ -980,6 +960,14 @@
 &tlmm {
 	gpio-reserved-ranges = <28 4>, <40 4>;
 
+	audio {
+		audio_active: audio-active {
+			pins = "gpio10"; // bsp
+			function = "gpio";
+			output-high;
+		};
+	};
+
 #if ENABLE_HDMI
 	lt9611uxc {
 		lt9611_irq_pin: lt9611-irq-pin {
@@ -1052,7 +1040,7 @@
 		};
 	};
 
-	usb2 {
+	usb_host_regulator: usb2 {
 		vcc5v0_host0_en: vcc5v0-host0-en {
 			pins = "gpio117"; // bsp
 			function = "gpio";
@@ -1116,42 +1104,18 @@
 			function = "gpio";
 			output-high;
 		};
-	};
 
-	camera {
-		vcc1v1_cam_vdig_en: vcc1v1-cam-vdig-en {
-			pins = "gpio41"; // bsp
+		display_panel_panel_active_1: display-panel-panel-active-1 {
+			pins = "gpio75"; // bsp
 			function = "gpio";
-			output-low;
+			output-high;
 		};
 
-		vcc1v1_cam_front_vdig_en: vcc1v1-cam-front-vdig-en {
-			pins = "gpio42"; // bsp
-			function = "gpio";
-			output-low;
-		};
-
-		vcc2v8_cam_avdd_en: vcc2v8-cam-avdd-en {
-			pins = "gpio64"; // bsp
-			function = "gpio";
-			output-low;
-		};
-
-		vcc2v8_cam_front_avdd_en: vcc2v8-cam-front-avdd-en {
-			pins = "gpio70"; // bsp
-			function = "gpio";
-			output-low;
-		};
-		vcc2v8_actuator_regulator_avdd_en: vcc2v8-actuator-regulator-avdd-en {
-			pins = "gpio120"; // bsp
-			function = "gpio";
-			output-low;
-		};
-		vcc2v8_actuator_regulator_front_avdd_en: vcc2v8-actuator-regulator-front-avdd-en {
-			pins = "gpio88"; // bsp
-			function = "gpio";
-			output-low;
-		};
+		// display_panel_panel_active_2: display-panel-panel-active-2 {
+		// 	pins = "gpio60"; // bsp
+		// 	function = "gpio";
+		// 	output-high;
+		// };
 	};
 
 	type-c {
@@ -1198,65 +1162,6 @@
 		bias-pull-up;
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
 	};
-};
-
-&pm8150b_lpg {
-	status = "okay";
-	qcom,power-source = <1>;
-
-	user_led_3: led@1 {
-		reg = <1>;
-		color = <LED_COLOR_ID_GREEN>;
-		function-enumerator = <1>;
-		default-state = "off";
-		qcom,default-brightness = <64>;
-	};
-
-	user_led_1: led@2 {
-		reg = <2>;
-		color = <LED_COLOR_ID_ORANGE>;
-		function-enumerator = <2>;
-		default-state = "off";
-		qcom,default-brightness = <64>;
-	};
-};
-
-&pm8150l_lpg {
-	status = "okay";
-
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	user_led_4: led@1 {
-		reg = <1>;
-		color = <LED_COLOR_ID_RED>;
-		function = LED_FUNCTION_INDICATOR;
-		function-enumerator = <1>;
-		default-state = "off";
-		qcom,default-brightness = <64>;
-	};
-
-	user_led_6: led@2 {
-		reg = <2>;
-		color = <LED_COLOR_ID_GREEN>;
-		function = LED_FUNCTION_HEARTBEAT;
-		function-enumerator = <2>;
-		linux,default-trigger = "heartbeat";
-		qcom,default-brightness = <64>;
-	};
-
-	user_led_5: led@3 {
-		reg = <3>;
-		color = <LED_COLOR_ID_BLUE>;
-		function = LED_FUNCTION_INDICATOR;
-		function-enumerator = <3>;
-		default-state = "off";
-		qcom,default-brightness = <64>;
-	};
-};
-
-&pm8150l_flash {
-	status = "okay";
 };
 
 &txmacro {
