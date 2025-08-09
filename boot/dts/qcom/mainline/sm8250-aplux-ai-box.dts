@@ -44,6 +44,20 @@
 	};
 #endif
 
+	leds {
+		compatible = "gpio-leds";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_blue_pin>;
+
+		user_led_1: led-1 {
+			label = "blue:user_led_1";
+			color = <LED_COLOR_ID_BLUE>;
+			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>; // verify
+			default-state = "off";
+		};
+	};
+
 #if ENABLE_HDMI
 	hdmi-out {
 		compatible = "hdmi-connector";
@@ -1008,8 +1022,14 @@
 	no-mmc;
 };
 
+&spi17 {
+	status = "okay";
+
+	/* XT25F01D @ 0 */
+};
+
 &tlmm {
-	gpio-reserved-ranges = <28 4>, <40 4>;
+	gpio-reserved-ranges = <40 4>;
 
 	audio {
 		audio_active: audio-active {
@@ -1017,6 +1037,11 @@
 			function = "gpio";
 			output-high;
 		};
+	};
+
+	led_blue_pin: led-blue-pin {
+		pins = "gpio29"; // verify
+		function = "gpio";
 	};
 
 #if ENABLE_HDMI
