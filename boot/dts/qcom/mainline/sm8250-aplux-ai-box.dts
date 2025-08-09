@@ -179,20 +179,8 @@
 			};
 		};
 
-		mmw-pa1-thermal {
-			thermal-sensors = <&pm8150_adc_tm 2>;
-
-			trips {
-				active-config0 {
-					temperature = <125000>;
-					hysteresis = <1000>;
-					type = "passive";
-				};
-			};
-		};
-
-		mmw-pa2-thermal {
-			thermal-sensors = <&pm8150l_adc_tm 2>;
+		pm8150l-thermal {
+			thermal-sensors = <&pm8150l_adc_tm 1>;
 
 			trips {
 				active-config0 {
@@ -204,7 +192,19 @@
 		};
 
 		skin-msm-thermal {
-			thermal-sensors = <&pm8150l_adc_tm 1>;
+			thermal-sensors = <&pm8150l_adc_tm 0>;
+
+			trips {
+				active-config0 {
+					temperature = <125000>;
+					hysteresis = <1000>;
+					type = "passive";
+				};
+			};
+		};
+
+		pm8150-thermal {
+			thermal-sensors = <&pm8150_adc_tm 2>;
 
 			trips {
 				active-config0 {
@@ -904,7 +904,7 @@
 		reg = <ADC5_AMUX_THM2_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time = <200>;
-		label = "pa_therm1";
+		label = "pm8150_therm";
 	};
 };
 
@@ -925,7 +925,7 @@
 		qcom,hw-settle-time-us = <200>;
 	};
 
-	pa-therm1@2 {
+	pm8150_therm@2 {
 		reg = <2>;
 		io-channels = <&pm8150_adc ADC5_AMUX_THM2_100K_PU>;
 		qcom,ratiometric;
@@ -1026,22 +1026,22 @@
 		reg = <ADC5_AMUX_THM3_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time = <200>;
-		label = "pa_therm2";
+		label = "pm8150l_therm";
 	};
 };
 
 &pm8150l_adc_tm {
 	status = "okay";
 
-	skin-msm-therm@1 {
-		reg = <1>;
+	skin-msm-therm@0 {
+		reg = <0>;
 		io-channels = <&pm8150l_adc ADC5_AMUX_THM2_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time-us = <200>;
 	};
 
-	pa-therm2@2 {
-		reg = <2>;
+	pm8150l-therm@1 {
+		reg = <1>;
 		io-channels = <&pm8150l_adc ADC5_AMUX_THM3_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time-us = <200>;
