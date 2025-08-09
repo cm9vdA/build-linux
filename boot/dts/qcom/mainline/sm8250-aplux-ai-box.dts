@@ -310,12 +310,46 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&usb_host_regulator>;
+		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
 
-	vcc_pcie1: vcc-pcie1 {
+	vcc3v3_host0: vcc3v3-host0 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc_pcie1";
+		regulator-name = "vcc3v3_host0";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 112 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc3v3_host0_en>;
+	};
+
+	vcc1v2_host0: vcc1v2-host0 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc1v2_host0";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <1200000>;
+		regulator-max-microvolt = <1200000>;
+
+		gpio = <&tlmm 118 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc1v2_host0_en>;
+	};
+
+	pcie1_pwr_1: vpcie1-pwr-1 {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie1_pwr_1";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
@@ -327,13 +361,30 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&pcie1_regulator>;
+		pinctrl-0 = <&pcie1_en_1>;
+	};
+
+	pcie1_pwr_2: vpcie1-pwr-2 {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie1_pwr_2";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 48 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie1_en_2>;
 	};
 
 	// RTL8111H
-	vcc_pcie2: vcc-pcie2 {
+	vcc3v3_pcie2: vcc3v3-pcie2 {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc_pcie2";
+		regulator-name = "vcc3v3_pcie2";
 
 		vin-supply = <&dc12v>;
 		regulator-min-microvolt = <3300000>;
@@ -345,7 +396,41 @@
 		regulator-always-on;
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&pcie2_regulator>;
+		pinctrl-0 = <&vcc3v3_pcie2_en>;
+	};
+
+	pcie2_pwr_1: pcie2-pwr-1 {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie2_pwr_1";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 7 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie2_en_1>;
+	};
+
+	pcie2_pwr_2: pcie2-pwr-2 {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie2_pwr_2";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 89 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie2_en_2>;
 	};
 
 	gpio-keys {
@@ -724,9 +809,9 @@
 	status = "okay";
 	clock-frequency = <400000>;
 
-	lt9611_codec: hdmi-bridge@2b {
+	lt9611_codec: hdmi-bridge@2f {
 		compatible = "lontium,lt9611uxc";
-		reg = <0x2b>;
+		reg = <0x2f>;
 		#sound-dai-cells = <1>;
 
 		interrupts-extended = <&tlmm 59 IRQ_TYPE_EDGE_FALLING>; // verify
@@ -748,14 +833,6 @@
 
 				lt9611_a: endpoint {
 					remote-endpoint = <&mdss_dsi0_out>;
-				};
-			};
-
-			port@1 {
-				reg = <1>;
-
-				lt9611_b: endpoint {
-					remote-endpoint = <&mdss_dsi1_out>;
 				};
 			};
 
@@ -786,9 +863,6 @@
 	status = "okay";
 	vdda-supply = <&vreg_l9a_1p2>;
 
-	qcom,dual-dsi-mode;
-	qcom,master-dsi;
-
 	ports {
 		port@1 {
 			endpoint {
@@ -804,28 +878,10 @@
 	vdds-supply = <&vreg_l5a_0p88>;
 };
 
-&mdss_dsi1 {
+#else
+&i2c1 {
 	status = "okay";
-	vdda-supply = <&vreg_l9a_1p2>;
-
-	qcom,dual-dsi-mode;
-
-	/* DSI1 is slave, so use DSI0 clocks */
-	assigned-clock-parents = <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>;
-
-	ports {
-		port@1 {
-			endpoint {
-				remote-endpoint = <&lt9611_b>;
-				data-lanes = <0 1 2 3>;
-			};
-		};
-	};
-};
-
-&mdss_dsi1_phy {
-	status = "okay";
-	vdds-supply = <&vreg_l5a_0p88>;
+	clock-frequency = <400000>;
 };
 #endif
 
@@ -1065,7 +1121,7 @@
 		};
 
 		lt9611_1v2_en: lt9611-1v2-en {
-			pins = "gpio11";
+			pins = "gpio11"; // verify
 			function = "gpio";
 			output-high;
 		};
@@ -1116,7 +1172,7 @@
 		};
 	};
 
-	usb_host_regulator: usb2 {
+	usb2 {
 		vcc5v0_host0_en: vcc5v0-host0-en {
 			pins = "gpio117"; // bsp
 			function = "gpio";
@@ -1136,7 +1192,7 @@
 		};
 	};
 
-	pcie1_regulator:pcie1-regulator {
+	pcie1-regulator {
 		pcie1_en_1: pcie1-en-1 {
 			pins = "gpio6"; // bsp
 			function = "gpio";
@@ -1149,7 +1205,7 @@
 		};
 	};
 
-	pcie2_regulator:pcie2-regulator {
+	pcie2-regulator {
 		vcc3v3_pcie2_en: vcc3v3-pcie2-en {
 			pins = "gpio111"; // verify
 			function = "gpio";
