@@ -44,20 +44,6 @@
 	};
 #endif
 
-	leds {
-		compatible = "gpio-leds";
-
-		pinctrl-names = "default";
-		pinctrl-0 = <&led_blue_pin>;
-
-		user_led_1: led-1 {
-			label = "blue:user_led_1";
-			color = <LED_COLOR_ID_BLUE>;
-			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>; // verify
-			default-state = "off";
-		};
-	};
-
 #if ENABLE_HDMI
 	hdmi-out {
 		compatible = "hdmi-connector";
@@ -1005,7 +991,7 @@
 		};
 	};
 
-	led_blue_pin: led-blue-pin {
+	led_pin: led-pin {
 		pins = "gpio29"; // verify
 		function = "gpio";
 	};
