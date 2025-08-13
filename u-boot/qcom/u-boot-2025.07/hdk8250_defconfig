@@ -129,7 +129,9 @@ CONFIG_CMD_READ=y
 CONFIG_CMD_WRITE=y
 CONFIG_CMD_EROFS=y
 CONFIG_CMD_BTRFS=y
-
+CONFIG_CMD_UFETCH=y
+CONFIG_CMD_BDINFO_EXTRA=y
+CONFIG_CMD_PMIC=y
 
 # Configuration for building U-Boot to be flashed
 # to the hyp partition on sm8250 devices
