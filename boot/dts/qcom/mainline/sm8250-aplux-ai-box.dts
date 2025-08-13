@@ -55,6 +55,7 @@
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>; // verify
 			default-state = "off";
+			panic-indicator;
 		};
 	};
 

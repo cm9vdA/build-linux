@@ -49,7 +49,7 @@
 		pinctrl-0 = <&led_2_pin>;
 
 		user_led_2: led-2 {
-			label = "blue:user_led_2";
+			label = "user_led_2:blue";
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&tlmm 88 GPIO_ACTIVE_HIGH>; // verify
 			default-state = "off";
@@ -1153,6 +1153,7 @@ DIP Switch:
 
 	user_led_3: led@1 {
 		reg = <1>;
+		label = "user_led_3:green";
 		color = <LED_COLOR_ID_GREEN>; // verify
 		function-enumerator = <1>;
 		default-state = "off";
@@ -1160,6 +1161,7 @@ DIP Switch:
 
 	user_led_1: led@2 {
 		reg = <2>;
+		label = "user_led_1:orange";
 		color = <LED_COLOR_ID_ORANGE>; // verify
 		function-enumerator = <2>;
 		default-state = "off";
@@ -1174,14 +1176,17 @@ DIP Switch:
 
 	user_led_4: led@1 {
 		reg = <1>;
+		label = "user_led_4:red";
 		color = <LED_COLOR_ID_RED>; // verify
 		function = LED_FUNCTION_INDICATOR;
 		function-enumerator = <1>;
 		default-state = "off";
+		panic-indicator;
 	};
 
 	user_led_6: led@2 {
 		reg = <2>;
+		label = "user_led_6:green";
 		color = <LED_COLOR_ID_GREEN>; // verify
 		function = LED_FUNCTION_HEARTBEAT;
 		function-enumerator = <2>;
@@ -1191,6 +1196,7 @@ DIP Switch:
 
 	user_led_5: led@3 {
 		reg = <3>;
+		label = "user_led_5:blue";
 		color = <LED_COLOR_ID_BLUE>; // verify
 		function = LED_FUNCTION_INDICATOR;
 		function-enumerator = <3>;

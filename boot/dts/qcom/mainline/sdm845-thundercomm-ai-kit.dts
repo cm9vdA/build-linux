@@ -80,7 +80,7 @@
 		pinctrl-0 = <&led_power_red_pin>;
 
 		led-0 {
-			label = "red:power";
+			label = "power_red";
 			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_RED>;
 			gpios = <&pmi8998_gpios 8 GPIO_ACTIVE_LOW>; // verify
@@ -950,6 +950,7 @@
 		reg = <3>;  // power blue
 		color = <LED_COLOR_ID_BLUE>;
 		function = "power";
+		label = "power_blue";
 		function-enumerator = <1>;
 		default-state = "off";
 	};
@@ -958,6 +959,7 @@
 		reg = <4>; // power green
 		color = <LED_COLOR_ID_GREEN>;
 		function = "power";
+		label = "power_green";
 		function-enumerator = <2>;
 		linux,default-trigger = "heartbeat";
 		default-state = "on";
@@ -967,6 +969,7 @@
 		reg = <5>; // camera green
 		color = <LED_COLOR_ID_GREEN>;
 		function = "camera";
+		label = "camera_green";
 		function-enumerator = <3>;
 		default-state = "off";
 	};
