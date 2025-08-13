@@ -952,7 +952,6 @@
 		function = "power";
 		function-enumerator = <1>;
 		default-state = "off";
-		qcom,default-brightness = <64>;
 	};
 
 	led@4 {
@@ -962,7 +961,6 @@
 		function-enumerator = <2>;
 		linux,default-trigger = "heartbeat";
 		default-state = "on";
-		qcom,default-brightness = <64>;
 	};
 
 	led@5 {
@@ -971,7 +969,6 @@
 		function = "camera";
 		function-enumerator = <3>;
 		default-state = "off";
-		qcom,default-brightness = <64>;
 	};
 };
 /*

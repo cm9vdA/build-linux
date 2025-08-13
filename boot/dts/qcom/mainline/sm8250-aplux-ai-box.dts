@@ -44,6 +44,20 @@
 	};
 #endif
 
+	leds {
+		compatible = "gpio-leds";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_pin>;
+
+		user_led: led {
+			label = "user_led";
+			color = <LED_COLOR_ID_BLUE>;
+			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>; // verify
+			default-state = "off";
+		};
+	};
+
 #if ENABLE_HDMI
 	hdmi-out {
 		compatible = "hdmi-connector";
@@ -1190,6 +1204,27 @@
 		bias-pull-up;
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
 	};
+};
+
+&pm8150l_lpg {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	power_led: led@1 {
+		reg = <1>;
+		color = <LED_COLOR_ID_BLUE>; // verify
+		function = LED_FUNCTION_HEARTBEAT;
+		function-enumerator = <1>;
+		label = "power_led";
+		linux,default-trigger = "heartbeat";
+		default-state = "on";
+	};
+};
+
+&pm8150l_flash {
+	status = "okay";
 };
 
 &txmacro {
