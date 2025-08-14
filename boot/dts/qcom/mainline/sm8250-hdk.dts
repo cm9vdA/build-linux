@@ -1204,10 +1204,6 @@ DIP Switch:
 	};
 };
 
-&pm8150l_flash {
-	status = "okay";
-};
-
 &uart12 {
 	status = "okay";
 };

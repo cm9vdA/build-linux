@@ -1004,6 +1004,11 @@
 			function = "gpio";
 			output-high;
 		};
+		audio_reset: audio-reset {
+			pins = "gpio32"; // bsp
+			function = "gpio";
+			bias-disable;
+		};
 	};
 
 	led_pin: led-pin {
@@ -1222,10 +1227,6 @@
 		linux,default-trigger = "heartbeat";
 		default-state = "on";
 	};
-};
-
-&pm8150l_flash {
-	status = "okay";
 };
 
 &txmacro {
