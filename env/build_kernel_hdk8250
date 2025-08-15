@@ -10,7 +10,7 @@ BOARD_CODE="sm8250-hdk"
 BOARD_DEFCONFIG="defconfig hardening.config"
 BOARD_INC_DEFCONFIG="kvm"
 KERNEL_FMT=default
-KERNEL_NAME="sm8250-mainline"
+KERNEL_NAME="mainline"
 KERNEL_COMPATIBLE="https://gitlab.com/sm8250-mainline/linux.git"
 
 # Build Config
