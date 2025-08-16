@@ -18,6 +18,7 @@
 #include "pm8009.dtsi"
 
 #define ENABLE_HDMI 1
+#define ENABLE_OLED 0
 
 / {
 	model = "Qualcomm Technologies, Inc. SM8250 HDK";
@@ -261,6 +262,26 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_host0_en>;
 	};
+
+#if ENABLE_OLED
+	vcc5v5_display_panel: vcc5v5-display-panel {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v5_display_panel";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <5500000>;
+		regulator-max-microvolt = <5500000>;
+		// regulator-enable-ramp-delay = <233>;
+
+		gpio = <&tlmm 61 GPIO_ACTIVE_HIGH>; // bl
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v5_display_panel_en>;
+	};
+#endif
 
 	vcc1v8_pcie2: vcc1v8-pcie2 {
 		compatible = "regulator-fixed";
@@ -805,6 +826,49 @@ DIP Switch:
 };
 #endif
 
+#if ENABLE_OLED
+/*
+DIP Switch:
+	DSI_SW: OFF
+*/
+&mdss {
+	status = "okay";
+};
+
+&mdss_dsi0 {
+	status = "okay";
+	vdda-supply = <&vreg_l9a_1p2>; // bsp
+
+        panel@0 {
+            compatible = "visionox,r66451";
+            reg = <0>;
+            vddio-supply = <&vreg_l14a_1p8>; // bsp
+            vdd-supply = <&vreg_l11c_3p3>; // bsp
+
+            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
+
+			pinctrl-names = "default";
+			pinctrl-0 = <&panel_reset_pins>;
+
+            port {
+                panel_in: endpoint {
+                    remote-endpoint = <&mdss_dsi0_out>;
+                };
+            };
+        };
+};
+
+&mdss_dsi0_out {
+	remote-endpoint = <&panel_in>;
+	data-lanes = <0 1 2 3>;
+};
+
+&mdss_dsi0_phy {
+	status = "okay";
+	vdds-supply = <&vreg_l5a_0p88>; // bsp
+};
+#endif
+
 &pm8150_adc {
 	xo-therm@4c {
 		reg = <ADC5_XO_THERM_100K_PU>;
@@ -1084,13 +1148,29 @@ DIP Switch:
 		};
 	};
 
+#if ENABLE_OLED
 	display {
-		vcc5v5_display_panel_avdd_en: vcc5v5-display-panel-avdd-en {
+		vcc5v5_display_panel_en: vcc5v5-display-panel-en {
 			pins = "gpio61"; // bsp
 			function = "gpio";
 			output-high;
 		};
+
+		panel_reset_pins: panel-reset-state {
+			pins = "gpio75";
+			function = "gpio";
+			drive-strength = <8>;
+			bias-disable;
+		};
+
+		panel_te_pin: panel-te-state {
+			pins = "gpio66";
+			function = "mdp_vsync";
+			drive-strength = <2>;
+			bias-disable;
+		};
 	};
+#endif
 
 	pcie-regulator {
 		vcc3v3_pcie2_en: vcc3v3-pcie2-en {
