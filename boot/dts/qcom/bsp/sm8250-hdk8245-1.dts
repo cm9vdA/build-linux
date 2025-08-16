@@ -23790,11 +23790,11 @@
 				qcom,mdss-dsi-display-timings {
 
 					timing@0 {
-						qcom,mdss-dsi-panel-framerate = <0x3c>;
-						qcom,mdss-dsi-panel-width = <0x438>;
-						qcom,mdss-dsi-panel-height = <0x924>;
-						qcom,mdss-dsi-h-front-porch = <0x5f>;
-						qcom,mdss-dsi-h-back-porch = <0x28>;
+						qcom,mdss-dsi-panel-framerate = <60>;
+						qcom,mdss-dsi-panel-width = <1080>;
+						qcom,mdss-dsi-panel-height = <2340>;
+						qcom,mdss-dsi-h-front-porch = <95>;
+						qcom,mdss-dsi-h-back-porch = <40>;
 						qcom,mdss-dsi-h-pulse-width = <0x01>;
 						qcom,mdss-dsi-h-sync-skew = <0x00>;
 						qcom,mdss-dsi-v-back-porch = <0x04>;

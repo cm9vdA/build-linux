@@ -1204,6 +1204,10 @@ DIP Switch:
 	};
 };
 
+&lpass_tlmm {
+	status = "disabled";
+};
+
 &uart12 {
 	status = "okay";
 };
