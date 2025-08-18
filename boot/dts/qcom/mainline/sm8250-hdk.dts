@@ -17,8 +17,8 @@
 #include "pm8150l.dtsi"
 #include "pm8009.dtsi"
 
-#define ENABLE_HDMI 1
-#define ENABLE_OLED 0
+#define ENABLE_HDMI 0
+#define ENABLE_OLED 1
 
 / {
 	model = "Qualcomm Technologies, Inc. SM8250 HDK";
@@ -29,6 +29,7 @@
 
 	aliases {
 		serial0 = &uart12;
+		serial1 = &uart6;
 		sdhc2 = &sdhc_2;
 	};
 
@@ -104,57 +105,70 @@
 	};
 #endif
 
+	qca6390-pmu {
+		compatible = "qcom,qca6390-pmu";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&bt_en_state>, <&wlan_en_state>;
+
+		vddaon-supply = <&vreg_s6a_0p95>;
+		vddpmu-supply = <&vreg_s2f_0p95>;
+		vddrfa0p95-supply = <&vreg_s2f_0p95>;
+		vddrfa1p3-supply = <&vreg_s8c_1p3>;
+		vddrfa1p9-supply = <&vreg_s5a_1p9>;
+		vddpcie1p3-supply = <&vreg_s8c_1p3>;
+		vddpcie1p9-supply = <&vreg_s5a_1p9>;
+		vddio-supply = <&vreg_s4a_1p8>;
+
+		wlan-enable-gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
+		bt-enable-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
+
+		regulators {
+			vreg_pmu_rfa_cmn: ldo0 {
+				regulator-name = "vreg_pmu_rfa_cmn";
+			};
+
+			vreg_pmu_aon_0p59: ldo1 {
+				regulator-name = "vreg_pmu_aon_0p59";
+			};
+
+			vreg_pmu_wlcx_0p8: ldo2 {
+				regulator-name = "vreg_pmu_wlcx_0p8";
+			};
+
+			vreg_pmu_wlmx_0p85: ldo3 {
+				regulator-name = "vreg_pmu_wlmx_0p85";
+			};
+
+			vreg_pmu_btcmx_0p85: ldo4 {
+				regulator-name = "vreg_pmu_btcmx_0p85";
+			};
+
+			vreg_pmu_rfa_0p8: ldo5 {
+				regulator-name = "vreg_pmu_rfa_0p8";
+			};
+
+			vreg_pmu_rfa_1p2: ldo6 {
+				regulator-name = "vreg_pmu_rfa_1p2";
+			};
+
+			vreg_pmu_rfa_1p7: ldo7 {
+				regulator-name = "vreg_pmu_rfa_1p7";
+			};
+
+			vreg_pmu_pcie_0p9: ldo8 {
+				regulator-name = "vreg_pmu_pcie_0p9";
+			};
+
+			vreg_pmu_pcie_1p8: ldo9 {
+				regulator-name = "vreg_pmu_pcie_1p8";
+			};
+		};
+	};
+
 	thermal-zones {
-		camera-thermal {
-			thermal-sensors = <&pm8150l_adc_tm 0>;
-
-			trips {
-				active-config0 {
-					temperature = <125000>;
-					hysteresis = <1000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-thermal { // conn
-			thermal-sensors = <&pm8150b_adc_tm 0>;
-
-			trips {
-				active-config0 {
-					temperature = <125000>;
-					hysteresis = <1000>;
-					type = "passive";
-				};
-			};
-		};
-
-		mmw-pa1-thermal {
+		pm8150-thermal {
 			thermal-sensors = <&pm8150_adc_tm 2>;
-
-			trips {
-				active-config0 {
-					temperature = <125000>;
-					hysteresis = <1000>;
-					type = "passive";
-				};
-			};
-		};
-
-		mmw-pa2-thermal {
-			thermal-sensors = <&pm8150l_adc_tm 2>;
-
-			trips {
-				active-config0 {
-					temperature = <125000>;
-					hysteresis = <1000>;
-					type = "passive";
-				};
-			};
-		};
-
-		skin-msm-thermal {
-			thermal-sensors = <&pm8150l_adc_tm 1>;
 
 			trips {
 				active-config0 {
@@ -364,10 +378,10 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
 		};
 
-		vreg_s2f_1p1: smps2 {
-			regulator-name = "vreg_s2f_1p1"; // bsp
-			regulator-min-microvolt = <512000>;
-			regulator-max-microvolt = <1100000>;
+		vreg_s2f_0p95: smps2 {
+			regulator-name = "vreg_s2f_0p95";
+			regulator-min-microvolt = <900000>;
+			regulator-max-microvolt = <952000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
 		};
 
@@ -443,9 +457,9 @@
 		};
 
 		vreg_s5a_1p9: smps5 {
-			regulator-name = "vreg_s5a_1p9"; // bsp
+			regulator-name = "vreg_s5a_1p9";
 			regulator-min-microvolt = <1824000>;
-			regulator-max-microvolt = <2040000>;
+			regulator-max-microvolt = <2000000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
@@ -499,9 +513,9 @@
 		};
 
 		vreg_l10a_1p8: ldo10 {
-			regulator-name = "vreg_l10a_1p8"; // bsp
+			regulator-name = "vreg_l10a_1p8";
 			regulator-min-microvolt = <1800000>;
-			regulator-max-microvolt = <2960000>;
+			regulator-max-microvolt = <1800000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
@@ -540,9 +554,9 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
-		vreg_l17a_2p96: ldo17 {
-			regulator-name = "vreg_l17a_2p96"; // bsp
-			regulator-min-microvolt = <2496000>;
+		vreg_l17a_3p0: ldo17 {
+			regulator-name = "vreg_l17a_3p0";
+			regulator-min-microvolt = <2856000>;
 			regulator-max-microvolt = <3008000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
@@ -603,16 +617,16 @@
 		};
 
 		vreg_l2c_1p2: ldo2 {
-			regulator-name = "vreg_l2c_1p2"; // bsp
+			regulator-name = "vreg_l2c_1p2";
 			regulator-min-microvolt = <1200000>;
-			regulator-max-microvolt = <1304000>;
+			regulator-max-microvolt = <1200000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l3c_0p8: ldo3 {
-			regulator-name = "vreg_l3c_0p8"; // bsp
+			regulator-name = "vreg_l3c_0p8";
 			regulator-min-microvolt = <800000>;
-			regulator-max-microvolt = <1200000>;
+			regulator-max-microvolt = <800000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
@@ -659,16 +673,16 @@
 		};
 
 		vreg_l10c_3p0: ldo10 {
-			regulator-name = "vreg_l10c_3p0"; // bsp
+			regulator-name = "vreg_l10c_3p0";
 			regulator-min-microvolt = <3000000>;
-			regulator-max-microvolt = <3312000>;
+			regulator-max-microvolt = <3000000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l11c_3p3: ldo11 {
-			regulator-name = "vreg_l11c_3p3"; // bsp
-			regulator-min-microvolt = <3104000>;
-			regulator-max-microvolt = <3312000>;
+			regulator-name = "vreg_l11c_3p3";
+			regulator-min-microvolt = <3296000>;
+			regulator-max-microvolt = <3296000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 	};
@@ -704,6 +718,10 @@
 		memory-region = <&gpu_mem>;
 		firmware-name = "qcom/sm8250/a650_zap.mbn";
 	};
+};
+
+&mdss {
+	status = "okay";
 };
 
 #if ENABLE_HDMI
@@ -767,18 +785,6 @@ DIP Switch:
 	};
 };
 
-&mdss {
-	status = "okay";
-};
-
-&mdss_dp {
-	status = "okay";
-};
-
-&mdss_dp_out {
-	data-lanes = <0 1>;
-};
-
 &mdss_dsi0 {
 	status = "okay";
 	vdda-supply = <&vreg_l9a_1p2>;
@@ -831,10 +837,6 @@ DIP Switch:
 DIP Switch:
 	DSI_SW: OFF
 */
-&mdss {
-	status = "okay";
-};
-
 &mdss_dsi0 {
 	status = "okay";
 	vdda-supply = <&vreg_l9a_1p2>; // bsp
@@ -869,23 +871,71 @@ DIP Switch:
 };
 #endif
 
+/* LS-I2C1 */
+&i2c15 {
+	status = "okay";
+
+	typec-mux@1c {
+		compatible = "onnn,nb7vpq904m";
+		reg = <0x1c>;
+
+		vcc-supply = <&vreg_s4a_1p8>;
+
+		retimer-switch;
+		orientation-switch;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+
+				redriver_usb_con_ss: endpoint {
+					remote-endpoint = <&pm8150b_typec_mux_in>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				redriver_phy_con_ss: endpoint {
+					remote-endpoint = <&usb_1_qmpphy_out>;
+					data-lanes = <0 1 2 3>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+
+				redriver_usb_con_sbu: endpoint {
+					remote-endpoint = <&pm8150b_typec_sbu_out>;
+				};
+			};
+		};
+	};
+};
+
 &pm8150_adc {
-	xo-therm@4c {
+	channel@4c {
 		reg = <ADC5_XO_THERM_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time = <200>;
+		label = "xo_therm";
 	};
 
-	skin-therm@4d {
+	channel@4d {
 		reg = <ADC5_AMUX_THM1_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time = <200>;
+		label = "skin_therm";
 	};
 
-	pa-therm1@4e {
+	channel@4e {
 		reg = <ADC5_AMUX_THM2_100K_PU>;
 		qcom,ratiometric;
 		qcom,hw-settle-time = <200>;
+		label = "pm8150_therm";
 	};
 };
 
@@ -906,7 +956,7 @@ DIP Switch:
 		qcom,hw-settle-time-us = <200>;
 	};
 
-	pa-therm1@2 {
+	pm8150_therm@2 {
 		reg = <2>;
 		io-channels = <&pm8150_adc ADC5_AMUX_THM2_100K_PU>;
 		qcom,ratiometric;
@@ -923,6 +973,23 @@ DIP Switch:
 
 	vdda-phy-supply = <&vreg_l5a_0p88>;
 	vdda-pll-supply = <&vreg_l9a_1p2>;
+};
+
+&pcieport0 {
+	wifi@0 {
+		compatible = "pci17cb,1101";
+		reg = <0x10000 0x0 0x0 0x0 0x0>;
+
+		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
+		vddaon-supply = <&vreg_pmu_aon_0p59>;
+		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
+		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
+		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
+		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
+		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
+		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
+		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
+	};
 };
 
 // USB HUB
@@ -948,70 +1015,6 @@ DIP Switch:
 	linux,code = <KEY_VOLUMEDOWN>;
 };
 
-&pm8150b_adc {
-	conn-therm@4f {
-		reg = <ADC5_AMUX_THM3_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-};
-
-&pm8150b_adc_tm {
-	status = "okay";
-
-	conn-therm@0 {
-		reg = <0>;
-		io-channels = <&pm8150b_adc ADC5_AMUX_THM3_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time-us = <200>;
-	};
-};
-
-&pm8150l_adc {
-	camera-flash-therm@4d {
-		reg = <ADC5_AMUX_THM1_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-
-	skin-msm-therm@4e {
-		reg = <ADC5_AMUX_THM2_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-
-	pa-therm2@4f {
-		reg = <ADC5_AMUX_THM3_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-	};
-};
-
-&pm8150l_adc_tm {
-	status = "okay";
-
-	camera-flash-therm@0 {
-		reg = <0>;
-		io-channels = <&pm8150l_adc ADC5_AMUX_THM1_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time-us = <200>;
-	};
-
-	skin-msm-therm@1 {
-		reg = <1>;
-		io-channels = <&pm8150l_adc ADC5_AMUX_THM2_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time-us = <200>;
-	};
-
-	pa-therm2@2 {
-		reg = <2>;
-		io-channels = <&pm8150l_adc ADC5_AMUX_THM3_100K_PU>;
-		qcom,ratiometric;
-		qcom,hw-settle-time-us = <200>;
-	};
-};
-
 &qupv3_id_0 {
 	status = "okay";
 };
@@ -1021,6 +1024,10 @@ DIP Switch:
 };
 
 &qupv3_id_2 {
+	status = "okay";
+};
+
+&rxmacro {
 	status = "okay";
 };
 
@@ -1089,17 +1096,21 @@ DIP Switch:
 		};
 	};
 
-	wlan_en: wlan-en {
+	wlan_en_state: wlan-default-state {
 		pins = "gpio20"; // bsp
 		function = "gpio";
-		output-high;
+		drive-strength = <16>;
+		output-low;
+		bias-pull-up;
 	};
 
 	bt {
-		bt_en: bt-en {
+		bt_en_state: bt-default-state {
 			pins = "gpio21"; // bsp
 			function = "gpio";
-			output-high;
+			drive-strength = <16>;
+			output-low;
+			bias-pull-up;
 		};
 
 		bt_sw_ctrl: bt-sw-ctrl {
@@ -1288,6 +1299,21 @@ DIP Switch:
 	status = "disabled";
 };
 
+&uart6 {
+	status = "okay";
+
+	bluetooth {
+		compatible = "qcom,qca6390-bt";
+
+		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
+		vddaon-supply = <&vreg_pmu_aon_0p59>;
+		vddbtcmx-supply = <&vreg_pmu_btcmx_0p85>;
+		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
+		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
+		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
+	};
+};
+
 &uart12 {
 	status = "okay";
 };
@@ -1295,7 +1321,7 @@ DIP Switch:
 &ufs_mem_hc {
 	status = "okay";
 
-	vcc-supply = <&vreg_l17a_2p96>;
+	vcc-supply = <&vreg_l17a_3p0>;
 	vcc-max-microamp = <800000>;
 	vccq-supply = <&vreg_l6a_1p2>;
 	vccq-max-microamp = <800000>;
@@ -1315,9 +1341,14 @@ DIP Switch:
 };
 
 &usb_1_dwc3 {
+	// dr_mode = "host";
 	// dr_mode = "peripheral";
 	dr_mode = "otg";
 	usb-role-switch;
+};
+
+&usb_1_dwc3_hs_out {
+	remote-endpoint = <&pm8150b_hs_in>;
 };
 
 &usb_1_hsphy {
@@ -1335,6 +1366,10 @@ DIP Switch:
 	vdda-pll-supply = <&vreg_l18a_0p92>;
 };
 
+&usb_1_qmpphy_out {
+	remote-endpoint = <&redriver_phy_con_ss>;
+};
+
 &usb_2 {
 	status = "okay";
 };
@@ -1347,8 +1382,8 @@ DIP Switch:
 	status = "okay";
 
 	vdda-pll-supply = <&vreg_l5a_0p88>;
-	vdda33-supply = <&vreg_l2a_3p1>;
 	vdda18-supply = <&vreg_l12a_1p8>;
+	vdda33-supply = <&vreg_l2a_3p1>;
 };
 
 &usb_2_qmpphy {
@@ -1360,4 +1395,80 @@ DIP Switch:
 
 &venus {
 	status = "okay";
+};
+
+&wsamacro {
+	status = "okay";
+};
+
+&pm8150b_vbus {
+	regulator-min-microamp = <500000>;
+	regulator-max-microamp = <3000000>;
+	status = "okay";
+};
+
+&pm8150b_typec {
+	status = "okay";
+
+	vdd-pdphy-supply = <&vreg_l2a_3p1>;
+
+	connector {
+		compatible = "usb-c-connector";
+
+		power-role = "source";
+		data-role = "dual";
+		self-powered;
+
+		source-pdos = <PDO_FIXED(5000, 3000,
+					 PDO_FIXED_DUAL_ROLE |
+					 PDO_FIXED_USB_COMM |
+					 PDO_FIXED_DATA_SWAP)>;
+
+		altmodes {
+			displayport {
+				svid = /bits/ 16 <0xff01>;
+				vdo = <0x00001c46>;
+			};
+		};
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				pm8150b_hs_in: endpoint {
+					remote-endpoint = <&usb_1_dwc3_hs_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				pm8150b_typec_mux_in: endpoint {
+					remote-endpoint = <&redriver_usb_con_ss>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+
+				pm8150b_typec_sbu_out: endpoint {
+					remote-endpoint = <&redriver_usb_con_sbu>;
+				};
+			};
+		};
+	};
+};
+
+&mdss_dp {
+	status = "okay";
+};
+
+&mdss_dp_out {
+	data-lanes = <0 1>;
+	remote-endpoint = <&usb_1_qmpphy_dp_in>;
+};
+
+&usb_1_qmpphy_dp_in {
+	remote-endpoint = <&mdss_dp_out>;
 };
