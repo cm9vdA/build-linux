@@ -17,7 +17,7 @@
 #include "pm8150l.dtsi"
 #include "pm8009.dtsi"
 
-#define ENABLE_HDMI 1
+#define ENABLE_HDMI 0
 
 / {
 	model = "Aplux AI Box";
@@ -769,6 +769,10 @@
 	};
 };
 
+&mdss {
+	status = "okay";
+};
+
 #if ENABLE_HDMI
 &i2c1 {
 	status = "okay";
@@ -808,10 +812,34 @@
 					remote-endpoint = <&hdmi_con>;
 				};
 			};
-
 		};
 	};
 };
+
+&mdss_dsi0 {
+	status = "okay";
+	vdda-supply = <&vreg_l9a_1p2>;
+
+	ports {
+		port@1 {
+			endpoint {
+				remote-endpoint = <&lt9611_a>;
+				data-lanes = <0 1 2 3>;
+			};
+		};
+	};
+};
+
+&mdss_dsi0_phy {
+	status = "okay";
+	vdds-supply = <&vreg_l5a_0p88>;
+};
+#else
+&i2c1 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+#endif
 
 /* LS-I2C1 */
 &i2c15 {
@@ -857,45 +885,6 @@
 		};
 	};
 };
-
-&mdss {
-	status = "okay";
-};
-
-&mdss_dp {
-	status = "okay";
-};
-
-&mdss_dp_out {
-	data-lanes = <0 1>;
-	remote-endpoint = <&usb_1_qmpphy_dp_in>;
-};
-
-&mdss_dsi0 {
-	status = "okay";
-	vdda-supply = <&vreg_l9a_1p2>;
-
-	ports {
-		port@1 {
-			endpoint {
-				remote-endpoint = <&lt9611_a>;
-				data-lanes = <0 1 2 3>;
-			};
-		};
-	};
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
-	vdds-supply = <&vreg_l5a_0p88>;
-};
-
-#else
-&i2c1 {
-	status = "okay";
-	clock-frequency = <400000>;
-};
-#endif
 
 &pm8150_adc {
 	channel@4c {
@@ -1443,6 +1432,15 @@
 			};
 		};
 	};
+};
+
+&mdss_dp {
+	status = "okay";
+};
+
+&mdss_dp_out {
+	data-lanes = <0 1>;
+	remote-endpoint = <&usb_1_qmpphy_dp_in>;
 };
 
 &usb_1_qmpphy_dp_in {
