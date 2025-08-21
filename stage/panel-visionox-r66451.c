@@ -41,63 +41,61 @@ static void visionox_r66451_reset(struct visionox_r66451 *ctx)
 
 static int visionox_r66451_on(struct visionox_r66451 *ctx)
 {
-        struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
 
-        ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
 
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd8,
-                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                     0x00, 0x00, 0x5b, 0x00, 0x5b, 0x00, 0x5b,
-                                     0x00, 0x5b, 0x00, 0x5b);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x00);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcf,
-                                     0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                     0x00, 0x08, 0x00, 0x0b, 0x77, 0x01, 0x01,
-                                     0x01, 0x01, 0x01, 0x01, 0x04, 0x04, 0x04,
-                                     0x04, 0x04, 0x05);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x01);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x40);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3,
-                                     0x50, 0x00, 0x00, 0x00, 0x00);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x11);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3,
-                                     0x01, 0x00, 0x00, 0x00, 0x01);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf4, 0x00, 0x02);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x19);
-        mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x42);
-        mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-        mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 0x0437);
-        mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 0x0923);
-        mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-        mipi_dsi_msleep(&dsi_ctx, 120);
-        mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd8,
+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				     0x00, 0x00, 0x5b, 0x00, 0x5b, 0x00, 0x5b,
+				     0x00, 0x5b, 0x00, 0x5b);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x00);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcf,
+				     0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00,
+				     0x00, 0x08, 0x00, 0x0b, 0x77, 0x01, 0x01,
+				     0x01, 0x01, 0x01, 0x01, 0x04, 0x04, 0x04,
+				     0x04, 0x04, 0x05);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x01);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x40);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3,
+				     0x50, 0x00, 0x00, 0x00, 0x00);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x11);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3,
+				     0x01, 0x00, 0x00, 0x00, 0x01);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf4, 0x00, 0x02);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x19);
+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x42);
+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, 1080 - 1);
+	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, 2340 - 1);
+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 120);
+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 20);
 
-        return dsi_ctx.accum_err;
+	return dsi_ctx.accum_err;
 }
 
-static int visionox_r66451_off(struct visionox_r66451 *ctx)
+static void visionox_r66451_off(struct visionox_r66451 *ctx)
 {
-        struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
 
-        ctx->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+	ctx->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
 
-        mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-        mipi_dsi_msleep(&dsi_ctx, 20);
-        mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-        mipi_dsi_msleep(&dsi_ctx, 120);
+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 20);
 
-        return dsi_ctx.accum_err;
+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 120);
 }
 
 static int visionox_r66451_prepare(struct drm_panel *panel)
 {
 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-	struct mipi_dsi_device *dsi = ctx->dsi;
-	struct device *dev = &dsi->dev;
 	int ret;
 
 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
@@ -109,7 +107,6 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
 
 	ret = visionox_r66451_on(ctx);
 	if (ret < 0) {
-		dev_err(dev, "Failed to initialize panel: %d\n", ret);
 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
 		return ret;
@@ -123,12 +120,8 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
 static int visionox_r66451_unprepare(struct drm_panel *panel)
 {
 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-	struct device *dev = &ctx->dsi->dev;
-	int ret;
 
-	ret = visionox_r66451_off(ctx);
-	if (ret < 0)
-		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+	visionox_r66451_off(ctx);
 
 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
@@ -137,18 +130,18 @@ static int visionox_r66451_unprepare(struct drm_panel *panel)
 }
 
 static const struct drm_display_mode visionox_r66451_mode = {
-        .clock = (1080 + 95 + 1 + 40) * (2340 + 25 + 1 + 4) * 60 / 1000,
-        .hdisplay = 1080,
-        .hsync_start = 1080 + 95,
-        .hsync_end = 1080 + 95 + 1,
-        .htotal = 1080 + 95 + 1 + 40,
-        .vdisplay = 2340,
-        .vsync_start = 2340 + 25,
-        .vsync_end = 2340 + 25 + 1,
-        .vtotal = 2340 + 25 + 1 + 4,
-        .width_mm = 0,
-        .height_mm = 0,
-        .type = DRM_MODE_TYPE_DRIVER,
+	.clock = (1080 + 95 + 1 + 40) * (2340 + 25 + 1 + 4) * 60 / 1000,
+	.hdisplay = 1080,
+	.hsync_start = 1080 + 95,
+	.hsync_end = 1080 + 95 + 1,
+	.htotal = 1080 + 95 + 1 + 40,
+	.vdisplay = 2340,
+	.vsync_start = 2340 + 25,
+	.vsync_end = 2340 + 25 + 1,
+	.vtotal = 2340 + 25 + 1 + 4,
+	.width_mm = 0,
+	.height_mm = 0,
+	.type = DRM_MODE_TYPE_DRIVER,
 };
 
 static int visionox_r66451_enable(struct drm_panel *panel)
@@ -156,7 +149,7 @@ static int visionox_r66451_enable(struct drm_panel *panel)
 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
 	struct mipi_dsi_device *dsi = ctx->dsi;
 	struct drm_dsc_picture_parameter_set pps;
-	int ret;
+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
 
 	if (!dsi->dsc) {
 		dev_err(&dsi->dev, "DSC not attached to DSI\n");
@@ -164,51 +157,30 @@ static int visionox_r66451_enable(struct drm_panel *panel)
 	}
 
 	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
-	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
-	if (ret) {
-		dev_err(&dsi->dev, "Failed to set PPS\n");
-		return ret;
-	}
+	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
 
-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-	if (ret < 0) {
-		dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret);
-		return ret;
-	}
-	msleep(120);
+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 120);
 
-	ret = mipi_dsi_dcs_set_display_on(dsi);
-	if (ret < 0) {
-		dev_err(&dsi->dev, "Failed on set display on: %d\n", ret);
-		return ret;
-	}
-	msleep(20);
+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 20);
 
-	return 0;
+	return dsi_ctx.accum_err;
 }
 
 static int visionox_r66451_disable(struct drm_panel *panel)
 {
 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
 	struct mipi_dsi_device *dsi = ctx->dsi;
-	struct device *dev = &dsi->dev;
-	int ret;
+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
 
-	ret = mipi_dsi_dcs_set_display_off(dsi);
-	if (ret < 0) {
-		dev_err(dev, "Failed to set display off: %d\n", ret);
-		return ret;
-	}
-	msleep(20);
+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 20);
 
-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-	if (ret < 0) {
-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-		return ret;
-	}
-	msleep(120);
+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+	mipi_dsi_msleep(&dsi_ctx, 120);
 
-	return 0;
+	return dsi_ctx.accum_err;
 }
 
 static int visionox_r66451_get_modes(struct drm_panel *panel,

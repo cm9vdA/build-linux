@@ -18,7 +18,7 @@
 #include "pm8009.dtsi"
 
 #define ENABLE_HDMI 0
-#define ENABLE_OLED 1
+#define ENABLE_OLED 0
 
 / {
 	model = "Qualcomm Technologies, Inc. SM8250 HDK";
@@ -847,10 +847,11 @@ DIP Switch:
             vddio-supply = <&vreg_l14a_1p8>; // bsp
             vdd-supply = <&vreg_l11c_3p3>; // bsp
 
+			te-gpios = <&tlmm 66 GPIO_ACTIVE_HIGH>;
             reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
 
 			pinctrl-names = "default";
-			pinctrl-0 = <&panel_reset_pins>;
+			pinctrl-0 = <&panel_reset_pins &panel_te_pin>;
 
             port {
                 panel_in: endpoint {

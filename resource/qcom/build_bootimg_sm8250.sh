@@ -49,6 +49,10 @@ mkdir -p ${TMP_RAMDISK}
 
 echo "Stage 1: Unpack kernel package..."
 tar xmf ${KERNEL_PKG} -C ${TMP_KERNEL} --exclude="include"
+cd ${TMP_KERNEL}
+if [ ! -f "Image.gz" ] && [ -f "Image" ]; then
+    gzip -n -f -9 Image
+fi
 
 echo "Stage 2: Unpack Ramdisk..."
 cd ${TMP_RAMDISK}
@@ -76,16 +80,16 @@ echo "Stage 5: Build boot.img"
 cd ${PWD_DIR}
 cat ${TMP_KERNEL}/Image.gz ${TMP_KERNEL}/*.dtb >${TMP_DIR}/kernel.img
 
-CMDLINE="earlycon root=PARTLABEL=rootfs rw console=tty0 console=ttyMSM0,115200n8 clk_ignore_unused pd_ignore_unused"
+CMDLINE="earlycon root=PARTLABEL=rootfs rw console=tty0 console=ttyMSM0,115200n8"
 
 #linaro
-#mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x80008000 --ramdisk_offset 0x81000000 --second_offset 0x80f00000 --tags_offset 0x80000100 --cmdline ${CMDLINE} --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
+#mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x80008000 --ramdisk_offset 0x81000000 --second_offset 0x80f00000 --tags_offset 0x80000100 --cmdline "${CMDLINE}" --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 # Armbian
-mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --second_offset 0x00f00000 --tags_offset 0x00000100 --cmdline ${CMDLINE} --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
+mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --second_offset 0x00f00000 --tags_offset 0x00000100 --cmdline "${CMDLINE}" --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 #posmarketos
 #mkbootimg --base 0x0 --kernel_offset 0x8000 --ramdisk_offset 0x1000000 --tags_offset 0x100 --pagesize 4096 --second_offset 0xf00000  --cmdline 'earlycon=qcom_geni root=PARTLABEL=rootfs console=tty0 console=ttyMSM0,115200n8 clk_ignore_unused pd_ignore_unused' --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 
 echo "Stage 6: Clean file"
 rm -rf ${TMP_DIR}
 
-echo "Please run \"sudo dd if=./boot.img of=/dev/sda1; sync\""
+echo "Please run \"sudo dd if=./boot.img of=/dev/sde11; sync\""

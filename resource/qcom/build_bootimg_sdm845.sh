@@ -49,6 +49,10 @@ mkdir -p ${TMP_RAMDISK}
 
 echo "Stage 1: Unpack kernel package..."
 tar xmf ${KERNEL_PKG} -C ${TMP_KERNEL} --exclude="include"
+cd ${TMP_KERNEL}
+if [ ! -f "Image.gz" ] && [ -f "Image" ]; then
+    gzip -n -f -9 Image
+fi
 
 echo "Stage 2: Unpack Ramdisk..."
 cd ${TMP_RAMDISK}
@@ -83,4 +87,4 @@ mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x80008000 --ramdisk_offset 0
 echo "Stage 6: Clean file"
 rm -rf ${TMP_DIR}
 
-echo "Please run \"sudo dd if=./boot.img of=/dev/mmcblkXp12; sync\""
+echo "Please run \"sudo dd if=./boot.img of=/dev/sde11; sync\""
