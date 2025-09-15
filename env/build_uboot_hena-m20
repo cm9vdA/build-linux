@@ -1,0 +1,19 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_uboot_aarch64
+
+# Board Info
+BOARD_NAME="HENA-M20"
+CPU_INFO="Rockchip RK3566"
+BOARD_DEFCONFIG="hena-m20-rk3566_defconfig"
+VENDOR="rockchip"
+BOARD_CODE="rk3566-hena-m20"
+
+# ATF
+# git clone https://github.com/ARM-software/arm-trusted-firmware.git
+# make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3568
+ATF_PLAT="rk3568"
+export BL31=${SCRIPT_PATH}/u-boot/rockchip/common/rk3568_bl31.elf
+
+# TPL
+# https://github.com/rockchip-linux/rkbin
+export ROCKCHIP_TPL=${SCRIPT_PATH}/u-boot/rockchip/common/rk3566_ddr_528MHz_ultra_v1.10.bin
