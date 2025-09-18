@@ -189,12 +189,12 @@
 	cpu0-opp-table {
 		compatible = "operating-points-v2";
 		opp-shared;
-		mbist-vmin = <0xc96a8 0xdbba0 0xe7ef0>;
+		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x05 0x06 0x07>;
 		nvmem-cell-names = "leakage", "pvtm", "mbist-vmin";
 		rockchip,pvtm-voltage-sel = <0x00 0x14050 0x00 0x14051 0x16b48 0x01 0x16b49 0x186a0 0x02>;
 		rockchip,pvtm-freq = <0x639c0>;
-		rockchip,pvtm-volt = <0xdbba0>;
+		rockchip,pvtm-volt = <900000>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		rockchip,pvtm-sample-time = <0x3e8>;
 		rockchip,pvtm-number = <0x0a>;
@@ -228,7 +228,7 @@
 
 		opp-1104000000 {
 			opp-hz = <0x00 0x41cdb400>;
-			opp-microvolt = <0xdbba0 0xdbba0 0x118c30>;
+			opp-microvolt = <900000 900000 0x118c30>;
 			clock-latency-ns = <0x9c40>;
 		};
 
@@ -922,7 +922,7 @@
 		#clock-cells = <0x01>;
 		#reset-cells = <0x01>;
 		assigned-clocks = <0x30 0x05 0x1d 0x106 0x1d 0x10b 0x30 0x01 0x30 0x2b 0x1d 0x03 0x1d 0x19b 0x1d 0x09 0x1d 0x19c 0x1d 0x19d 0x1d 0x1a1 0x1d 0x19e 0x1d 0x19f 0x1d 0x1a0 0x1d 0x04 0x1d 0x10d 0x1d 0x10e 0x1d 0x173 0x1d 0x174 0x1d 0x175 0x1d 0x176 0x1d 0xc9 0x1d 0xca 0x1d 0x06 0x1d 0x7e 0x1d 0x7f 0x1d 0x3d 0x1d 0x41 0x1d 0x45 0x1d 0x49 0x1d 0x4d 0x1d 0x4d 0x1d 0x55 0x1d 0x51 0x1d 0x5d 0x1d 0xdd>;
-		assigned-clock-rates = <0x8000 0x11e1a300 0x11e1a300 0xbebc200 0x5f5e100 0x3b9aca00 0x1dcd6500 0x13d92d40 0xee6b280 0x7735940 0x5f5e100 0x3b9aca0 0x2faf080 0x17d7840 0x46cf7100 0x8f0d180 0x5f5e100 0x1dcd6500 0x17d78400 0x8f0d180 0x5f5e100 0x11e1a300 0x8f0d180 0x47868c00 0x17d78400 0x5f5e100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x1dcd6500>;
+		assigned-clock-rates = <0x8000 0x11e1a300 0x11e1a300 200000000 0x5f5e100 0x3b9aca00 0x1dcd6500 0x13d92d40 0xee6b280 0x7735940 0x5f5e100 0x3b9aca0 0x2faf080 0x17d7840 0x46cf7100 0x8f0d180 0x5f5e100 0x1dcd6500 0x17d78400 0x8f0d180 0x5f5e100 0x11e1a300 0x8f0d180 0x47868c00 0x17d78400 0x5f5e100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x46cf7100 0x1dcd6500>;
 		assigned-clock-parents = <0x30 0x08 0x1d 0x04 0x1d 0x04>;
 		phandle = <0x1d>;
 	};
@@ -946,8 +946,8 @@
 			vin-supply = <0x34>;
 			regulator-compatible = "fan53555-reg";
 			regulator-name = "vdd_cpu";
-			regulator-min-microvolt = <0xadf34>;
-			regulator-max-microvolt = <0x1535b0>;
+			regulator-min-microvolt = <712500>;
+			regulator-max-microvolt = <1390000>;
 			regulator-ramp-delay = <0x8fc>;
 			fcs,suspend-voltage-selector = <0x01>;
 			regulator-boot-on;
@@ -965,8 +965,8 @@
 			vin-supply = <0x34>;
 			regulator-compatible = "fan53555-reg";
 			regulator-name = "vdd_cpu";
-			regulator-min-microvolt = <0xadf34>;
-			regulator-max-microvolt = <0x1535b0>;
+			regulator-min-microvolt = <712500>;
+			regulator-max-microvolt = <1390000>;
 			regulator-ramp-delay = <0x8fc>;
 			fcs,suspend-voltage-selector = <0x01>;
 			regulator-boot-on;
@@ -1014,7 +1014,7 @@
 			vin-supply = <0x34>;
 			regulator-compatible = "fan53555-reg";
 			regulator-name = "vdd_cpu";
-			regulator-min-microvolt = <0xadf34>;
+			regulator-min-microvolt = <712500>;
 			regulator-max-microvolt = <0x16e360>;
 			regulator-ramp-delay = <0x3e8>;
 			fcs,suspend-voltage-selector = <0x01>;
@@ -1093,27 +1093,27 @@
 				DCDC_REG1 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x7a120>;
-					regulator-max-microvolt = <0x149970>;
-					regulator-init-microvolt = <0xdbba0>;
-					regulator-ramp-delay = <0x1771>;
+					regulator-min-microvolt = <500000>;
+					regulator-max-microvolt = <1350000>;
+					regulator-init-microvolt = <900000>;
+					regulator-ramp-delay = <6001>;
 					regulator-initial-mode = <0x02>;
 					regulator-name = "vdd_logic";
 					phandle = <0x99>;
 
 					regulator-state-mem {
 						regulator-off-in-suspend;
-						regulator-suspend-microvolt = <0xdbba0>;
+						regulator-suspend-microvolt = <900000>;
 					};
 				};
 
 				DCDC_REG2 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x7a120>;
-					regulator-max-microvolt = <0x149970>;
-					regulator-init-microvolt = <0xdbba0>;
-					regulator-ramp-delay = <0x1771>;
+					regulator-min-microvolt = <500000>;
+					regulator-max-microvolt = <1350000>;
+					regulator-init-microvolt = <900000>;
+					regulator-ramp-delay = <6001>;
 					regulator-initial-mode = <0x02>;
 					regulator-name = "vdd_gpu";
 					phandle = <0x62>;
@@ -1138,37 +1138,37 @@
 				DCDC_REG4 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x325aa0>;
-					regulator-max-microvolt = <0x325aa0>;
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
 					regulator-initial-mode = <0x02>;
 					regulator-name = "vcc_3v3";
 					phandle = <0x2b>;
 
 					regulator-state-mem {
 						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x325aa0>;
+						regulator-suspend-microvolt = <3300000>;
 					};
 				};
 
 				LDO_REG1 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
 					regulator-name = "vcca1v8_pmu";
 					phandle = <0x28>;
 
 					regulator-state-mem {
 						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x1b7740>;
+						regulator-suspend-microvolt = <1800000>;
 					};
 				};
 
 				LDO_REG2 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x124f80>;
-					regulator-max-microvolt = <0x124f80>;
+					regulator-min-microvolt = <1200000>;
+					regulator-max-microvolt = <1200000>;
 					regulator-name = "vdda_0v9";
 					phandle = <0x165>;
 
@@ -1180,22 +1180,22 @@
 				LDO_REG3 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0xdbba0>;
-					regulator-max-microvolt = <0xdbba0>;
+					regulator-min-microvolt = <900000>;
+					regulator-max-microvolt = <900000>;
 					regulator-name = "vdda0v9_pmu";
 					phandle = <0x166>;
 
 					regulator-state-mem {
 						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0xdbba0>;
+						regulator-suspend-microvolt = <900000>;
 					};
 				};
 
 				LDO_REG4 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x325aa0>;
-					regulator-max-microvolt = <0x325aa0>;
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
 					regulator-name = "vccio_acodec";
 					phandle = <0x29>;
 
@@ -1207,8 +1207,8 @@
 				LDO_REG5 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x325aa0>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <3300000>;
 					regulator-name = "vccio_sd";
 					phandle = <0x2a>;
 
@@ -1220,22 +1220,22 @@
 				LDO_REG6 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x325aa0>;
-					regulator-max-microvolt = <0x325aa0>;
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
 					regulator-name = "vcc3v3_pmu";
 					phandle = <0x27>;
 
 					regulator-state-mem {
 						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x2dc6c0>;
+						regulator-suspend-microvolt = <3000000>;
 					};
 				};
 
 				LDO_REG7 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
 					regulator-name = "vcc_1v8";
 					phandle = <0xfa>;
 
@@ -1247,8 +1247,8 @@
 				LDO_REG8 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
 					regulator-name = "vcc1v8_dvp";
 					phandle = <0x2c>;
 
@@ -1260,8 +1260,8 @@
 				LDO_REG9 {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x2ab980>;
-					regulator-max-microvolt = <0x2ab980>;
+					regulator-min-microvolt = <2800000>;
+					regulator-max-microvolt = <2800000>;
 					regulator-name = "vcc2v8_dvp";
 					phandle = <0x167>;
 
@@ -1273,8 +1273,8 @@
 				BOOST {
 					regulator-always-on;
 					regulator-boot-on;
-					regulator-min-microvolt = <0x47b760>;
-					regulator-max-microvolt = <0x5265c0>;
+					regulator-min-microvolt = <4700000>;
+					regulator-max-microvolt = <5400000>;
 					regulator-name = "boost";
 					phandle = <0x3c>;
 
@@ -1298,8 +1298,8 @@
 				ocv_table = <0xd48 0xdde 0xe2f 0xe6c 0xe91 0xea9 0xeb6 0xeba 0xebf 0xec9 0xed9 0xef2 0xf18 0xf38 0xf58 0xf7b 0xfa2 0xfce 0xffc 0x102e 0x106e>;
 				ntc_table = <0x15f4a 0x1577a 0x14ee2 0x13bbe 0x12d9a 0x1284a 0x12002 0x118aa 0x11224 0x1087e 0xfbae 0xef92 0xe420 0xd944 0xcf08 0xc54e 0xbc20 0xb36a 0xab22 0xa352 0x9be6 0x94de 0x8e30 0x87d2 0x81ce 0x7c1a 0x76ac 0x717a 0x6c98 0x67e8 0x6374 0x5f3c 0x5b36 0x5762 0x53c0 0x5046 0x4cf4 0x49d4 0x46d2 0x43ee 0x4132 0x3e94 0x3c1e 0x39bc 0x3778 0x3548 0x3336 0x3142 0x2f58 0x2d8c 0x2bd4 0x2a26 0x2896 0x2710 0x259e 0x2436 0x22e2 0x21a2 0x206c 0x1f40 0x1e1e 0x1d06 0x1c02 0x1b08 0x1a0e 0x1928 0x184c 0x1770 0x16a8 0x15e0 0x1522 0x146e 0x13ba 0x1310 0x1270 0x11da 0x1144 0x10ae 0x1022 0xfd2 0xf82 0xf0a 0xe92 0xe1a 0xdca 0xd98 0xd48 0xd0c 0xcda 0xc80 0xc30 0xbd6 0xb86 0xad2 0x9ba 0x974 0x92e 0x8e8 0x8a2 0x866 0x82a 0x7ee 0x7b2 0x776 0x744 0x708 0x6d6 0x6a4 0x67c 0x65e 0x640>;
 				ntc_degree_from = <0x01 0x1e>;
-				design_capacity = <0xde1>;
-				design_qmax = <0xf44>;
+				design_capacity = <3553>;
+				design_qmax = <3908>;
 				bat_res = <0x64>;
 				sleep_enter_current = <0x96>;
 				sleep_exit_current = <0xb4>;
@@ -1339,7 +1339,7 @@
 				spk-volume = <0x24>;
 				capture-volume = <0x10>;
 				use-ext-amplifier;
-				spk-ctl-gpios = <0x3e 0x02 0x00>;
+				spk-ctl-gpios = <&gpio3 RK_PA2 0x00>;
 				status = "okay";
 				phandle = <0x122>;
 			};
@@ -1514,7 +1514,7 @@
 
 	npu-opp-table {
 		compatible = "operating-points-v2";
-		mbist-vmin = <0xc96a8 0xdbba0 0xe7ef0>;
+		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x5f 0x06 0x07>;
 		nvmem-cell-names = "leakage", "pvtm", "mbist-vmin";
 		rockchip,temp-hysteresis = <0x1388>;
@@ -1523,7 +1523,7 @@
 		phandle = <0x5d>;
 
 		opp-200000000 {
-			opp-hz = <0x00 0xbebc200>;
+			opp-hz = <0x00 200000000>;
 			opp-microvolt = <0xc96a8 0xc96a8 0xf4240>;
 		};
 
@@ -1640,13 +1640,13 @@
 
 	opp-table2 {
 		compatible = "operating-points-v2";
-		mbist-vmin = <0xc96a8 0xdbba0 0xe7ef0>;
+		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x63 0x06 0x07>;
 		nvmem-cell-names = "leakage", "pvtm", "mbist-vmin";
 		phandle = <0x61>;
 
 		opp-200000000 {
-			opp-hz = <0x00 0xbebc200>;
+			opp-hz = <0x00 200000000>;
 			opp-microvolt = <0xc96a8>;
 		};
 
@@ -1667,7 +1667,7 @@
 
 		opp-700000000 {
 			opp-hz = <0x00 0x29b92700>;
-			opp-microvolt = <0xdbba0>;
+			opp-microvolt = <900000>;
 		};
 
 		opp-800000000 {
@@ -1899,9 +1899,9 @@
 
 		opp-297000000 {
 			opp-hz = <0x00 0x11b3dc40>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
-			opp-microvolt-L1 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
+			opp-microvolt-L1 = <900000>;
 			opp-microvolt-L2 = <0xcf850>;
 		};
 
@@ -1909,7 +1909,7 @@
 			opp-hz = <0x00 0x17d78400>;
 			opp-microvolt = <0xe7ef0>;
 			opp-microvolt-L0 = <0xe7ef0>;
-			opp-microvolt-L1 = <0xdbba0>;
+			opp-microvolt-L1 = <900000>;
 			opp-microvolt-L2 = <0xcf850>;
 		};
 	};
@@ -2340,8 +2340,8 @@
 			compatible = "simple-panel-dsi";
 			reg = <0x00>;
 			backlight = <0x89>;
-			enable-gpios = <0x3e 0x09 0x00>;
-			reset-gpios = <0x3e 0x13 0x01>;
+			enable-gpios = <&gpio3 RK_PB1 0x00>;
+			reset-gpios = <&gpio3 RK_PC3 0x01>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x8a 0x8b>;
 			prepare-delay-ms = <0x14>;
@@ -2351,8 +2351,8 @@
 			enable-delay-ms = <0x78>;
 			disable-delay-ms = <0x14>;
 			unprepare-delay-ms = <0x14>;
-			width-mm = <0x87>;
-			height-mm = <0xd8>;
+			width-mm = <135>;
+			height-mm = <216>;
 			dsi,flags = <0xa03>;
 			dsi,format = <0x00>;
 			dsi,lanes = <0x04>;
@@ -2746,7 +2746,7 @@
 
 	dmc-opp-table {
 		compatible = "operating-points-v2";
-		mbist-vmin = <0xc96a8 0xdbba0 0xe7ef0>;
+		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x9a 0x06 0x07>;
 		nvmem-cell-names = "leakage", "pvtm", "mbist-vmin";
 		rockchip,temp-hysteresis = <0x1388>;
@@ -2757,37 +2757,37 @@
 
 		opp-324000000 {
 			opp-hz = <0x00 0x134fd900>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
 			opp-microvolt-L1 = <0xcf850>;
 		};
 
 		opp-528000000 {
 			opp-hz = <0x00 0x1f78a400>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
 			opp-microvolt-L1 = <0xcf850>;
 		};
 
 		opp-780000000 {
 			opp-hz = <0x00 0x2e7ddb00>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
 			opp-microvolt-L1 = <0xcf850>;
 		};
 
 		opp-920000000 {
 			opp-hz = <0x00 0x36d61600>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
 			opp-microvolt-L1 = <0xcf850>;
 			status = "disabled";
 		};
 
 		opp-1056000000 {
 			opp-hz = <0x00 0x3ef14800>;
-			opp-microvolt = <0xdbba0>;
-			opp-microvolt-L0 = <0xdbba0>;
+			opp-microvolt = <900000>;
+			opp-microvolt-L0 = <900000>;
 			opp-microvolt-L1 = <0xcf850>;
 		};
 	};
@@ -2898,7 +2898,7 @@
 		reg = <0x00 0xfe310000 0x00 0x10000>;
 		interrupts = <0x00 0x13 0x04>;
 		assigned-clocks = <0x1d 0x7b 0x1d 0x7d>;
-		assigned-clock-rates = <0xbebc200 0x16e3600>;
+		assigned-clock-rates = <200000000 0x16e3600>;
 		clocks = <0x1d 0x7c 0x1d 0x7a 0x1d 0x79 0x1d 0x7b 0x1d 0x7d>;
 		clock-names = "core", "bus", "axi", "block", "timer";
 		status = "okay";
@@ -2906,7 +2906,7 @@
 		supports-emmc;
 		non-removable;
 		rockchip,txclk-tapnum = <0x08>;
-		max-frequency = <0xbebc200>;
+		max-frequency = <200000000>;
 		mmc-hs400-1_8v;
 		mmc-hs400-enhanced-strobe;
 		phandle = <0x194>;
@@ -2930,7 +2930,7 @@
 		clocks = <0x1d 0x6a 0x1d 0x6b 0x1d 0x6c 0x1d 0x6d>;
 		clock-names = "aclk", "hclk", "sclk", "apb_pclk";
 		assigned-clocks = <0x1d 0x6c>;
-		assigned-clock-rates = <0xbebc200>;
+		assigned-clock-rates = <200000000>;
 		resets = <0x1d 0x69>;
 		reset-names = "crypto-rst";
 		status = "disabled";
@@ -3252,8 +3252,8 @@
 			status = "okay";
 			compatible = "GSL,GSL3673_800X1280";
 			reg = <0x40>;
-			irq_gpio_number = <0x35 0x08 0x08>;
-			rst_gpio_number = <0x35 0x12 0x04>;
+			irq_gpio_number = <&gpio0 RK_PB0 0x08>;
+			rst_gpio_number = <&gpio0 RK_PC2 0x04>;
 		};
 
 		gt9xx@5d {
@@ -3262,8 +3262,8 @@
 			reg = <0x5d>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0xbd>;
-			touch-gpio = <0x3e 0x08 0x08>;
-			reset-gpio = <0x3e 0x09 0x04>;
+			touch-gpio = <&gpio3 RK_PB0 0x08>;
+			reset-gpio = <&gpio3 RK_PB1 0x04>;
 			max-x = <0x500>;
 			max-y = <0x320>;
 			tp-size = <0x59>;
@@ -3276,7 +3276,7 @@
 			irq_enable = <0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0xbe>;
-			irq-gpio = <0x3e 0x02 0x08>;
+			irq-gpio = <&gpio3 RK_PA2 0x08>;
 			poll_delay_ms = <0x0a>;
 			layout = <0x07>;
 			reprobe_en = <0x00>;
@@ -3335,8 +3335,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x08 0x00>;
-			pwdn-gpios = <0xc0 0x0b 0x00>;
+			reset-gpios = <&gpio4 RK_PB0 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB3 0x00>;
 			rockchip,camera-module-index = <0x01>;
 			rockchip,camera-module-facing = "front";
 			rockchip,camera-module-name = "KYT-4877-V01";
@@ -3360,8 +3360,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x08 0x00>;
-			pwdn-gpios = <0xc0 0x0b 0x00>;
+			reset-gpios = <&gpio4 RK_PB0 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB3 0x00>;
 			rockchip,camera-module-index = <0x01>;
 			rockchip,camera-module-facing = "front";
 			rockchip,camera-module-name = "KYT-4877-V01";
@@ -3385,8 +3385,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x08 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PB0 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "KYT-4877-V01";
@@ -3410,8 +3410,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x07 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PA7 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "KYT-4877-V01";
@@ -3436,8 +3436,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x08 0x00>;
-			pwdn-gpios = <0xc0 0x0b 0x00>;
+			reset-gpios = <&gpio4 RK_PB0 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB3 0x00>;
 			rockchip,camera-module-index = <0x01>;
 			rockchip,camera-module-facing = "front";
 			rockchip,camera-module-name = "LM50A60-S107-YK-XJL-V2";
@@ -3461,8 +3461,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x07 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PA7 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "LM50A60-S107-YK-XJL-V2";
@@ -3488,8 +3488,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x07 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PA7 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "KYT-8607-V1.0";
@@ -3515,8 +3515,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x08 0x01>;
-			pwdn-gpios = <0xc0 0x0b 0x01>;
+			reset-gpios = <&gpio4 RK_PB0 0x01>;
+			pwdn-gpios = <&gpio4 RK_PB3 0x01>;
 			rockchip,camera-module-index = <0x01>;
 			rockchip,camera-module-facing = "front";
 			rockchip,camera-module-name = "KYT-8647-V1.0";
@@ -3540,8 +3540,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x07 0x01>;
-			pwdn-gpios = <0xc0 0x0a 0x01>;
+			reset-gpios = <&gpio4 RK_PA7 0x01>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x01>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "KYT-8647-V1.0";
@@ -3567,8 +3567,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x09 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PB1 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "HS5885-BNSM1018-V01";
@@ -3594,8 +3594,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x07 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PA7 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "KYT-8648-V1.0";
@@ -3621,8 +3621,8 @@
 			clocks = <0x1d 0xd6>;
 			clock-names = "xvclk";
 			power-domains = <0x1f 0x08>;
-			reset-gpios = <0xc0 0x09 0x00>;
-			pwdn-gpios = <0xc0 0x0a 0x00>;
+			reset-gpios = <&gpio4 RK_PB1 0x00>;
+			pwdn-gpios = <&gpio4 RK_PB2 0x00>;
 			rockchip,camera-module-index = <0x00>;
 			rockchip,camera-module-facing = "back";
 			rockchip,camera-module-name = "HS5885-BNSM1018-V01";
@@ -4414,7 +4414,7 @@
 		ranges;
 		phandle = <0x110>;
 
-		gpio@fdd60000 {
+		gpio0: gpio@fdd60000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xfdd60000 0x00 0x100>;
 			interrupts = <0x00 0x21 0x04>;
@@ -4427,7 +4427,7 @@
 			phandle = <0x35>;
 		};
 
-		gpio@fe740000 {
+		gpio1: gpio@fe740000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xfe740000 0x00 0x100>;
 			interrupts = <0x00 0x22 0x04>;
@@ -4440,7 +4440,7 @@
 			phandle = <0x1d4>;
 		};
 
-		gpio@fe750000 {
+		gpio2: gpio@fe750000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xfe750000 0x00 0x100>;
 			interrupts = <0x00 0x23 0x04>;
@@ -4453,7 +4453,7 @@
 			phandle = <0x129>;
 		};
 
-		gpio@fe760000 {
+		gpio3: gpio@fe760000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xfe760000 0x00 0x100>;
 			interrupts = <0x00 0x24 0x04>;
@@ -4466,7 +4466,7 @@
 			phandle = <0x3e>;
 		};
 
-		gpio@fe770000 {
+		gpio4: gpio@fe770000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x00 0xfe770000 0x00 0x100>;
 			interrupts = <0x00 0x25 0x04>;
@@ -5299,20 +5299,20 @@
 		compatible = "adc-keys";
 		io-channels = <0x11b 0x00>;
 		io-channel-names = "buttons";
-		keyup-threshold-microvolt = <0x1b7740>;
-		poll-interval = <0x64>;
+		keyup-threshold-microvolt = <1800000>;
+		poll-interval = <100>;
 		phandle = <0x1da>;
 
 		vol-up-key {
 			label = "volume up";
 			linux,code = <0x73>;
-			press-threshold-microvolt = <0xcb20>;
+			press-threshold-microvolt = <52000>;
 		};
 
 		vol-down-key {
 			label = "volume down";
 			linux,code = <0x72>;
-			press-threshold-microvolt = <0x6b2d8>;
+			press-threshold-microvolt = <439000>;
 		};
 	};
 
@@ -5342,7 +5342,7 @@
 		led-max-microamp = <0x4e20>;
 		flash-max-microamp = <0x4e20>;
 		flash-max-timeout-us = <0xf4240>;
-		enable-gpio = <0xc0 0x06 0x00>;
+		enable-gpio = <&gpio4 RK_PA6 0x00>;
 		rockchip,camera-module-index = <0x00>;
 		rockchip,camera-module-facing = "back";
 		phandle = <0xc7>;
@@ -5377,7 +5377,7 @@
 
 	vcc-camera-regulator {
 		compatible = "regulator-fixed";
-		gpio = <0xc0 0x07 0x00>;
+		gpio = <&gpio4 RK_PA7 0x00>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x120>;
 		regulator-name = "vcc_camera";
@@ -5404,7 +5404,7 @@
 
 	rk-headset {
 		compatible = "rockchip_headset";
-		headset_gpio = <0x3e 0x01 0x01>;
+		headset_gpio = <&gpio3 RK_PA1 0x01>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x123>;
 		io-channels = <0x11b 0x02>;
@@ -5417,21 +5417,21 @@
 		clock-names = "ext_clock";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x125 0x126>;
-		vbat-gpios = <0x35 0x00 0x01>;
-		reset-gpios = <0x35 0x10 0x01>;
+		vbat-gpios = <&gpio0 RK_PA0 0x01>;
+		reset-gpios = <&gpio0 RK_PC0 0x01>;
 		phandle = <0xa2>;
 	};
 
 	vcc-sd {
 		compatible = "regulator-gpio";
 		enable-active-low;
-		enable-gpio = <0x35 0x05 0x01>;
-		regulator-min-microvolt = <0x325aa0>;
-		regulator-max-microvolt = <0x325aa0>;
+		enable-gpio = <&gpio0 RK_PA5 0x01>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x127>;
 		regulator-name = "vcc_sd";
-		states = <0x325aa0 0x00 0x325aa0 0x01>;
+		states = <3300000 0x00 3300000 0x01>;
 		phandle = <0x9d>;
 	};
 
@@ -5441,7 +5441,7 @@
 		wifi_chip_type = "rtl8723cs";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x128>;
-		WIFI,host_wake_irq = <0x35 0x14 0x00>;
+		WIFI,host_wake_irq = <&gpio0 RK_PC4 0x00>;
 		status = "okay";
 	};
 
@@ -5449,13 +5449,13 @@
 		compatible = "bluetooth-platdata";
 		clocks = <0x124 0x01>;
 		clock-names = "ext_clock";
-		uart_rts_gpios = <0x129 0x0d 0x01>;
+		uart_rts_gpios = <&gpio2 RK_PB5 0x01>;
 		pinctrl-names = "default", "rts_gpio";
 		pinctrl-0 = <0x12a>;
 		pinctrl-1 = <0x12b 0x12c 0x12d 0x12e>;
-		BT,reset_gpio = <0x35 0x11 0x00>;
-		BT,wake_gpio = <0x35 0x13 0x00>;
-		BT,wake_host_irq = <0x35 0x0f 0x00>;
+		BT,reset_gpio = <&gpio0 RK_PC1 0x00>;
+		BT,wake_gpio = <&gpio0 RK_PC3 0x00>;
+		BT,wake_host_irq = <&gpio0 RK_PB7 0x00>;
 		status = "okay";
 	};
 

@@ -1,0 +1,16 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="HENA-M20"
+PACK_NAME="hena-m20"
+CPU_INFO="Rockchip RK3566"
+VENDOR="rockchip"
+BOARD_CODE="rk3566-hena-m20"
+KERNEL_TYPE="vendor"
+KERNEL_NAME="armbian-rockchip"
+KERNEL_COMPATIBLE="https://github.com/armbian/linux-rockchip.git"
+KERNEL_COMPATIBLE_BRANCH="rk-6.1-rkr5.1"
+
+# Build Config
+NO_CROSS_COMPILE=0
