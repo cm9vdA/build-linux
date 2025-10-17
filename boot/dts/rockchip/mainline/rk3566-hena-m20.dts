@@ -28,7 +28,7 @@
 		io-channels = <&saradc 0>;
 		io-channel-names = "buttons";
 		keyup-threshold-microvolt = <1800000>;
-		poll-interval = <25>;
+		poll-interval = <100>;
 
 		button-vol-up {
 			label = "Volume Up";
@@ -94,7 +94,7 @@
 		compatible = "regulator-fixed";
 		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&sdmmc_pwren_l>;
+		pinctrl-0 = <&vcc_sd_h>;
 		regulator-name = "vcc3v3_sd";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
@@ -157,6 +157,57 @@
 
 &cpu3 {
 	cpu-supply = <&vdd_cpu>;
+};
+
+&cru {
+	assigned-clocks = <&pmucru CLK_RTC_32K>, <&cru PLL_GPLL>,
+			  <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
+	assigned-clock-rates = <32768>, <1200000000>, <200000000>, <500000000>;
+	assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
+};
+
+&csi_dphy {
+	status = "okay";
+};
+
+&dsi0 {
+	status = "okay";
+	clock-master;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	lcd: panel@0 {
+		compatible = "boe,th101mb31ig002-28a";
+		reg = <0>;
+		backlight = <&backlight>;
+		pinctrl-0 = <&lcd_reset>, <&lcd_pwren_h>;
+		enable-gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_HIGH>; // bsp
+		reset-gpios = <&gpio3 RK_PC3 GPIO_ACTIVE_LOW>; // bsp
+		rotation = <90>;
+		power-supply = <&vcc3v8_sys>;
+
+		port@0 {
+			panel_in_dsi: endpoint@1 {
+				remote-endpoint = <&dsi0_out_con>;
+			};
+		};
+	};
+};
+
+&dsi0_in {
+	dsi0_in_vp1: endpoint {
+		remote-endpoint = <&vp1_out_dsi0>;
+	};
+};
+
+&dsi0_out {
+	dsi0_out_con: endpoint {
+		remote-endpoint = <&panel_in_dsi>;
+	};
+};
+
+&dsi_dphy0 {
+	status = "okay";
 };
 
 &gpu {
@@ -398,6 +449,34 @@
 	clock-frequency = <400000>;
 	pinctrl-names = "default";
 	status = "okay";
+
+	accelerometer@19 {
+		compatible = "silan,sc7a20";
+		reg = <0x19>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gsensor_int_l>;
+		st,drdy-int-pin = <1>;
+		vdd-supply = <&vcc_1v8>;
+		vddio-supply = <&vcc_1v8>;
+		mount-matrix = "1", "0", "0",
+			       "0", "0", "1",
+			       "0", "1", "0";
+	};
+/*
+	accelerometer@18 {
+		compatible = "silan,sc7a20";
+		reg = <0x18>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+		pinctrl-0 = <&gsensor_int_l>;
+		pinctrl-names = "default";
+		st,drdy-int-pin = <1>;
+		vdd-supply = <&vcc_3v3>;
+		vddio-supply = <&vcc_3v3>;
+	};
+*/
 };
 
 // camera
@@ -406,20 +485,26 @@
 	pinctrl-0 = <&i2c2m1_xfer>;
 	pinctrl-names = "default";
 	status = "okay";
+
+	vcm@c {
+		compatible = "dongwoon,dw9714";
+		reg = <0x0c>;
+		vcc-supply = <&vcc1v8_dvp>;
+	};
 };
 
 &pinctrl {
 	bluetooth {
 		bt_reg_on_h: bt-reg-on-h {
-			rockchip,pins = <0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 
 		bt_wake_host_h: bt-wake-host-h {
-			rockchip,pins = <0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>; //bsp
 		};
 
 		bt_host_wake_h: bt-host-wake-h {
-			rockchip,pins = <0 RK_PB4 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 	};
 
@@ -445,14 +530,27 @@
 		};
 	};
 
+	tp {
+		tp_gpio: tp-gpio {
+			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>, // bsp
+							<0 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	headphone {
+		hp_det: hp-det {
+			rockchip,pins = <3 RK_PA1 RK_FUNC_GPIO &pcfg_pull_down>; // bsp
+		};
+	};
+
 	pmic {
 		pmic_int_l: pmic-int-l {
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 
-	sdmmc {
-		sdmmc_pwren_l: sdmmc-pwren-l {
+	vcc_sd {
+		vcc_sd_h: vcc-sd-h {
 			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>; // bsp
 		};
 	};
@@ -493,9 +591,9 @@
 &sdhci {
 	bus-width = <8>;
 	max-frequency = <200000000>;
-	mmc-hs200-1_8v;
-	// mmc-hs400-1_8v;
-	// mmc-hs400-enhanced-strobe;
+	// mmc-hs200-1_8v;
+	mmc-hs400-1_8v;
+	mmc-hs400-enhanced-strobe;
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
@@ -515,6 +613,43 @@
 	vqmmc-supply = <&vccio_sd>;
 	status = "okay";
 };
+/*
+&sdmmc1 {
+	bus-width = <4>;
+	cap-sd-highspeed;
+	cap-sdio-irq;
+	keep-power-in-suspend;
+	non-removable;
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdmmc1_bus4 &sdmmc1_cmd &sdmmc1_clk>;
+	sd-uhs-sdr104;
+	vqmmc-supply = <&vcca1v8_pmu>;
+	status = "okay";
+};
+*/
+&sdmmc1 {
+	/* WiFi & BT combo module AMPAK AP6398S */
+	#address-cells = <1>;
+	#size-cells = <0>;
+	bus-width = <4>;
+	clock-frequency = <150000000>;
+	cap-sdio-irq;
+	cap-sd-highspeed;
+	// sd-uhs-sdr104;
+	sd-uhs-sdr50;
+	keep-power-in-suspend;
+	mmc-pwrseq = <&sdio_pwrseq>;
+	non-removable;
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdmmc1_bus4 &sdmmc1_cmd &sdmmc1_clk>;
+	vmmc-supply = <&vcc_3v3>;
+	vqmmc-supply = <&vcca1v8_pmu>;
+	status = "okay";
+
+	rtl8723cs: wifi@1 {
+		reg = <1>;
+	};
+};
 
 &tsadc {
 	rockchip,hw-tshut-mode = <1>;
@@ -523,9 +658,17 @@
 };
 
 &uart1 {
+	pinctrl-0 = <&uart1m0_xfer>, <&uart1m0_ctsn>, <&uart1m0_rtsn>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart1m0_ctsn &uart1m0_rtsn &uart1m0_xfer>;
+	uart-has-rtscts;
 	status = "okay";
+
+	bluetooth: bluetooth {
+		compatible = "realtek,rtl8723cs-bt";
+		device-wake-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>; // bsp
+		enable-gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>; // bsp
+		host-wake-gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>; // bsp
+	};
 };
 
 &uart2 {
@@ -558,4 +701,19 @@
 	status = "okay";
 };
 
+&vop {
+	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
+	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
+	status = "okay";
+};
 
+&vop_mmu {
+	status = "okay";
+};
+
+&vp1 {
+	vp1_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
+		remote-endpoint = <&dsi0_in_vp1>;
+	};
+};
