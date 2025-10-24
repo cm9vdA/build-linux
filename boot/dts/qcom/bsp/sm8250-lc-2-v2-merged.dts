@@ -350,10 +350,10 @@
 			phandle = <0x777>;
 			pinctrl-0 = <0x4be>;
 			pinctrl-names = "default";
-			qcom,dprst-gpio = <0x65 0x3b 0x00>;
-			qcom,auxsw-gpio = <0x65 0x44 0x00>;
-			qcom,dpaux-gpio = <0x65 0x35 0x00>;
-			qcom,vbus-det-gpio = <0x65 0x1f 0x00>;
+			qcom,dprst-gpio = <&tlmm 59 0x00>;
+			qcom,auxsw-gpio = <&tlmm 68 0x00>;
+			qcom,dpaux-gpio = <&tlmm 53 0x00>;
+			qcom,vbus-det-gpio = <&tlmm 31 0x00>;
 			compatible = "qcom,gpio-dpdetect";
 		};
 
@@ -361,10 +361,10 @@
 			phandle = <0x776>;
 			pinctrl-0 = <0x4bd>;
 			pinctrl-names = "default";
-			qcom,usb3-pwr-gpio = <0x65 0x77 0x00>;
-			qcom,dbg-gpio = <0x65 0x74 0x00>;
-			qcom,debug-gpio = <0x65 0x76 0x00>;
-			qcom,vbus-det-gpio = <0x65 0x7e 0x00>;
+			qcom,usb3-pwr-gpio = <&tlmm 119 0x00>;
+			qcom,dbg-gpio = <&tlmm 116 0x00>;
+			qcom,debug-gpio = <&tlmm 118 0x00>;
+			qcom,vbus-det-gpio = <&tlmm 126 0x00>;
 			compatible = "qcom,gpio-usbdetect";
 		};
 
@@ -380,7 +380,7 @@
 				gpio-key,wakeup;
 				linux,code = <0x73>;
 				linux,input-type = <0x01>;
-				gpios = <0x6a7 0x06 0x01>;
+				gpios = <&pm8150_gpios 6 0x01>;
 				label = "volume_up";
 			};
 		};
@@ -520,7 +520,7 @@
 
 		gpio-regulator@3 {
 			phandle = <0x65e>;
-			gpio = <0x65 0x58 0x00>;
+			gpio = <&tlmm 88 0x00>;
 			enable-active-high;
 			regulator-enable-ramp-delay = <0x64>;
 			regulator-max-microvolt = <0x2ab980>;
@@ -532,7 +532,7 @@
 
 		gpio-regulator@0 {
 			phandle = <0x65d>;
-			gpio = <0x65 0x78 0x00>;
+			gpio = <&tlmm 120 0x00>;
 			enable-active-high;
 			regulator-enable-ramp-delay = <0x64>;
 			regulator-max-microvolt = <0x2ab980>;
@@ -622,7 +622,7 @@
 			vdd-supply = <0x81>;
 			vddio-supply = <0x7f>;
 			qcom,panel-te-source = <0x01>;
-			qcom,platform-te-gpio = <0x65 0x43 0x00>;
+			qcom,platform-te-gpio = <&tlmm 67 0x00>;
 			pinctrl-1 = <0x41c 0x420>;
 			pinctrl-0 = <0x41b 0x41f>;
 			pinctrl-names = "panel_active\0panel_suspend";
@@ -641,7 +641,7 @@
 			vdd-supply = <0x64c>;
 			vddio-supply = <0x382>;
 			qcom,panel-te-source = <0x00>;
-			qcom,platform-te-gpio = <0x65 0x42 0x00>;
+			qcom,platform-te-gpio = <&tlmm 66 0x00>;
 			pinctrl-1 = <0x41a 0x41e>;
 			pinctrl-0 = <0x419 0x41d>;
 			pinctrl-names = "panel_active\0panel_suspend";
@@ -798,7 +798,7 @@
 			phandle = <0x6bc>;
 			pinctrl-0 = <0x647 0x648>;
 			pinctrl-names = "default";
-			gpio = <0x65 0x46 0x00>;
+			gpio = <&tlmm 70 0x00>;
 			status = "ok";
 			enable-active-high;
 			startup-delay-us = <0x3e8>;
@@ -813,7 +813,7 @@
 			startup-delay-us = <0x3e8>;
 			pinctrl-0 = <0x646>;
 			pinctrl-names = "default";
-			gpio = <0x645 0x05 0x00>;
+			gpio = <&pm8150b_gpios 0x05 0x00>;
 			regulator-name = "vdd_hap_boost";
 			compatible = "regulator-fixed";
 		};
@@ -822,7 +822,7 @@
 			phandle = <0x666>;
 			enable-active-high;
 			startup-delay-us = <0x3e8>;
-			gpio = <0x644 0x01 0x00>;
+			gpio = <&pm8009_gpio 0x01 0x00>;
 			regulator-max-microvolt = <0x36ee80>;
 			regulator-min-microvolt = <0x36ee80>;
 			regulator-name = "vdd_tof";
@@ -4354,10 +4354,10 @@
 			pinctrl-0 = <0x61 0x62>;
 			pinctrl-1 = <0x63 0x64>;
 			interrupt-map = <0x00 0x65 0x01 0x03 0x01 0x65 0x03 0x03>;
-			qcom,mdm2ap-errfatal-gpio = <0x65 0x01 0x00>;
-			qcom,ap2mdm-errfatal-gpio = <0x65 0x39 0x00>;
-			qcom,mdm2ap-status-gpio = <0x65 0x03 0x00>;
-			qcom,ap2mdm-status-gpio = <0x65 0x38 0x00>;
+			qcom,mdm2ap-errfatal-gpio = <&tlmm 1 0x00>;
+			qcom,ap2mdm-errfatal-gpio = <&tlmm 57 0x00>;
+			qcom,mdm2ap-status-gpio = <&tlmm 3 0x00>;
+			qcom,ap2mdm-status-gpio = <&tlmm 56 0x00>;
 			qcom,mdm-link-info = "0306_02.01.00";
 			status = "disabled";
 			phandle = <0x60>;
@@ -4883,7 +4883,7 @@
 				reg = <0x0a 0x00>;
 				compatible = "qcom,spmi-pmic";
 
-				pinctrl@c000 {
+				pm8009_gpio: pinctrl@c000 {
 					phandle = <0x644>;
 					#gpio-cells = <0x02>;
 					gpio-controller;
@@ -5363,7 +5363,7 @@
 					};
 				};
 
-				pinctrl@c000 {
+				pm8150l_gpios: pinctrl@c000 {
 					phandle = <0x6d8>;
 					qcom,gpios-disallowed = <0x02 0x09 0x0c>;
 					#gpio-cells = <0x02>;
@@ -5834,7 +5834,7 @@
 					};
 				};
 
-				pinctrl@c000 {
+				pm8150b_gpios: pinctrl@c000 {
 					phandle = <0x645>;
 					qcom,gpios-disallowed = <0x03 0x04 0x0b>;
 					#gpio-cells = <0x02>;
@@ -6062,7 +6062,7 @@
 					compatible = "qcom,pm8941-rtc";
 				};
 
-				pinctrl@c000 {
+				pm8150_gpios: pinctrl@c000 {
 					phandle = <0x6a7>;
 					qcom,gpios-disallowed = <0x02 0x04 0x05 0x08>;
 					#gpio-cells = <0x02>;
@@ -6402,7 +6402,7 @@
 		};
 
 		sdhci@8804000 {
-			cd-gpios = <0x65 0x4d 0x01>;
+			cd-gpios = <&tlmm 77 0x01>;
 			pinctrl-1 = <0x402 0x408 0x40e 0x400>;
 			pinctrl-0 = <0x401 0x407 0x40d 0x400>;
 			pinctrl-names = "active\0sleep";
@@ -6483,7 +6483,7 @@
 				regulator-enable-ramp-delay = <0x00>;
 				enable-active-high;
 				regulator-boot-on;
-				gpio = <0x65 0x39 0x00>;
+				gpio = <&tlmm 57 0x00>;
 				phandle = <0x377>;
 			};
 
@@ -8649,8 +8649,8 @@
 			compatible = "qcom,cnss-qca6390";
 			reg = <0xb0000000 0x10000 0xb2e5510 0x5c0>;
 			reg-names = "smmu_iova_ipa\0tcs_cmd";
-			wlan-en-gpio = <0x65 0x14 0x00>;
-			qcom,bt-en-gpio = <0x65 0x15 0x00>;
+			wlan-en-gpio = <&tlmm 20 0x00>;
+			qcom,bt-en-gpio = <&tlmm 21 0x00>;
 			pinctrl-names = "wlan_en_active\0wlan_en_sleep";
 			pinctrl-0 = <0xa6>;
 			pinctrl-1 = <0xa7>;
@@ -8886,7 +8886,7 @@
 			regulator-name = "cam_front_avdd2v8";
 			regulator-enable-ramp-delay = <0x00>;
 			enable-active-high;
-			gpio = <0x65 0x46 0x00>;
+			gpio = <&tlmm 70 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0xb5>;
 			phandle = <0x3a9>;
@@ -8897,7 +8897,7 @@
 			regulator-name = "cam_vdig1v1";
 			regulator-enable-ramp-delay = <0x00>;
 			enable-active-high;
-			gpio = <0x65 0x29 0x00>;
+			gpio = <&tlmm 41 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0xb6>;
 			phandle = <0x3aa>;
@@ -8908,7 +8908,7 @@
 			regulator-name = "cam_front_vdig1v1";
 			regulator-enable-ramp-delay = <0x00>;
 			enable-active-high;
-			gpio = <0x65 0x2a 0x00>;
+			gpio = <&tlmm 42 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0xb7>;
 			phandle = <0x3ab>;
@@ -11360,8 +11360,8 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0x8c 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x95 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x96 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x97 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x98 0x04>;
 			msi-parent = <0x169>;
-			perst-gpio = <0x65 0x4f 0x00>;
-			wake-gpio = <0x65 0x51 0x00>;
+			perst-gpio = <&tlmm 79 0x00>;
+			wake-gpio = <&tlmm 81 0x00>;
 			pinctrl-names = "default\0sleep";
 			pinctrl-0 = <0x16a 0x16b 0x16c>;
 			pinctrl-1 = <0x16d 0x16b 0x16c>;
@@ -11451,8 +11451,8 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0x132 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x1b2 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x1b3 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x1b6 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x1b7 0x04>;
 			msi-parent = <0x171>;
-			perst-gpio = <0x65 0x52 0x00>;
-			wake-gpio = <0x65 0x54 0x00>;
+			perst-gpio = <&tlmm 82 0x00>;
+			wake-gpio = <&tlmm 84 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x172 0x173 0x174 0x175>;
 			gdsc-vdd-supply = <0x176>;
@@ -11537,8 +11537,8 @@
 			interrupt-map-mask = <0x00 0x00 0x00 0xffffffff>;
 			interrupt-map = <0x00 0x00 0x00 0x00 0x01 0x00 0xec 0x04 0x00 0x00 0x00 0x01 0x01 0x00 0x122 0x04 0x00 0x00 0x00 0x02 0x01 0x00 0x19f 0x04 0x00 0x00 0x00 0x03 0x01 0x00 0x1a0 0x04 0x00 0x00 0x00 0x04 0x01 0x00 0x1a1 0x04>;
 			msi-parent = <0x178>;
-			perst-gpio = <0x65 0x55 0x00>;
-			wake-gpio = <0x65 0x57 0x00>;
+			perst-gpio = <&tlmm 85 0x00>;
+			wake-gpio = <&tlmm 87 0x00>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x179 0x17a 0x17b>;
 			gdsc-vdd-supply = <0x17c>;
@@ -12580,7 +12580,7 @@
 			dma-coherent;
 		};
 
-		pinctrl@f000000 {
+		tlmm: pinctrl@f000000 {
 			compatible = "qcom,kona-pinctrl";
 			reg = <0xf000000 0x1000000>;
 			interrupts = <0x00 0xd0 0x04>;
@@ -21836,12 +21836,12 @@
 
 			qcom,mdss_dsi_ili9881d_720p_video {
 				phandle = <0x64f>;
-				qcom,mdss-dsi-panel-test-pin = <0x65 0x2e 0x00>;
-				qcom,platform-mipi-vdd = <0x65 0x1c 0x00>;
-				qcom,platform-mipi-mode-oe = <0x65 0x0b 0x00>;
-				qcom,platform-mipi-mode-sel = <0x65 0x0a 0x00>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
-				qcom,platform-te-gpio = <0x65 0x42 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0x00>;
+				qcom,platform-mipi-vdd = <&tlmm 28 0x00>;
+				qcom,platform-mipi-mode-oe = <&tlmm 11 0x00>;
+				qcom,platform-mipi-mode-sel = <&tlmm 10 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
+				qcom,platform-te-gpio = <&tlmm 66 0x00>;
 				qcom,mdss-brightness-max-level = <0xff>;
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -22230,7 +22230,7 @@
 
 			qcom,mdss_dsi_dual_sim_dsc_375_cmd {
 				phandle = <0x703>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -22793,7 +22793,7 @@
 
 			qcom,mdss_dsi_dual_sim_video {
 				phandle = <0x702>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -22855,7 +22855,7 @@
 
 			qcom,mdss_dsi_dual_sim_cmd {
 				phandle = <0x701>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -22981,7 +22981,7 @@
 
 			qcom,mdss_dsi_sim_dsc_10b_cmd {
 				phandle = <0x700>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -23119,7 +23119,7 @@
 
 			qcom,mdss_dsi_sim_dsc_375_cmd {
 				phandle = <0x6ff>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -23336,7 +23336,7 @@
 
 			qcom,mdss_dsi_sim_video {
 				phandle = <0x6fc>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -23399,7 +23399,7 @@
 
 			qcom,mdss_dsi_sim_cmd {
 				phandle = <0x6fb>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 				qcom,panel-supply-entries = <0x64a>;
 				qcom,dsi-select-clocks = "mux_byte_clk0\0mux_pixel_clk0";
@@ -24535,9 +24535,9 @@
 
 			qcom,mdss_dsi_sw43404_fhd_plus_cmd {
 				phandle = <0x6ef>;
-				qcom,mdss-dsi-panel-test-pin = <0x65 0x2e 0x00>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
-				qcom,platform-te-gpio = <0x65 0x42 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
+				qcom,platform-te-gpio = <&tlmm 66 0x00>;
 				qcom,mdss-brightness-max-level = <0xff>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-dsi-bl-min-level = <0x01>;
@@ -24628,8 +24628,8 @@
 
 			qcom,mdss_dsi_sw43404_amoled_wqhd_video {
 				phandle = <0x6ee>;
-				qcom,mdss-dsi-panel-test-pin = <0x65 0x2e 0x00>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
 				qcom,mdss-brightness-max-level = <0xff>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-dsi-bl-min-level = <0x01>;
@@ -24712,9 +24712,9 @@
 
 			qcom,mdss_dsi_sw43404_amoled_wqhd_cmd {
 				phandle = <0x6ed>;
-				qcom,mdss-dsi-panel-test-pin = <0x65 0x2e 0x00>;
-				qcom,platform-reset-gpio = <0x65 0x4b 0x00>;
-				qcom,platform-te-gpio = <0x65 0x42 0x00>;
+				qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0x00>;
+				qcom,platform-reset-gpio = <&tlmm 75 0x00>;
+				qcom,platform-te-gpio = <&tlmm 66 0x00>;
 				qcom,mdss-brightness-max-level = <0xff>;
 				qcom,mdss-dsi-bl-max-level = <0x3ff>;
 				qcom,mdss-dsi-bl-min-level = <0x01>;
@@ -24991,9 +24991,9 @@
 			pinctrl-1 = <0x414 0x416>;
 			pinctrl-0 = <0x413 0x415>;
 			pinctrl-names = "mdss_dp_active\0mdss_dp_sleep";
-			qcom,usbplug-cc-gpio = <0x65 0x41 0x00>;
-			qcom,aux-sel-gpio = <0x65 0x08 0x00>;
-			qcom,aux-en-gpio = <0x65 0x09 0x00>;
+			qcom,usbplug-cc-gpio = <&tlmm 65 0x00>;
+			qcom,aux-sel-gpio = <&tlmm 8 0x00>;
+			qcom,aux-en-gpio = <&tlmm 9 0x00>;
 			qcom,dp-gpio-aux-switch;
 			qcom,ext-disp = <0x651>;
 			qcom,dp-usbpd-detection = <0x649>;
@@ -25632,7 +25632,7 @@
 			pinctrl-names = "cam_default\0cam_suspend";
 			pinctrl-0 = <0x258 0x259>;
 			pinctrl-1 = <0x25a 0x25b>;
-			gpios = <0x65 0x65 0x00 0x65 0x66 0x00 0x65 0x67 0x00 0x65 0x68 0x00>;
+			gpios = <&tlmm 101 0x00 &tlmm 102 0x00 &tlmm 103 0x00 &tlmm 104 0x00>;
 			gpio-req-tbl-num = <0x00 0x01 0x02 0x03>;
 			gpio-req-tbl-flags = <0x01 0x01 0x01 0x01>;
 			gpio-req-tbl-label = "CCI_I2C_DATA0\0CCI_I2C_CLK0\0CCI_I2C_DATA1\0CCI_I2C_CLK1";
@@ -25650,7 +25650,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x60 0x00 0x65 0x4e 0x00>;
+				gpios = <&tlmm 96 0x00 &tlmm 78 0x00>;
 				pinctrl-1 = <0x478 0x486>;
 				pinctrl-0 = <0x477 0x485>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25691,7 +25691,7 @@
 				gpio-custom2 = <0x03>;
 				gpio-custom1 = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x60 0x00 0x65 0x77 0x00 0x65 0x6e 0x00>;
+				gpios = <&tlmm 96 0x00 &tlmm 119 0x00 &tlmm 110 0x00>;
 				pinctrl-1 = <0x478 0x486>;
 				pinctrl-0 = <0x477 0x485>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25726,7 +25726,7 @@
 				gpio-req-tbl-num = <0x00 0x01 0x02>;
 				gpio-standby = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5f 0x00 0x65 0x5c 0x00 0x65 0x2b 0x00>;
+				gpios = <&tlmm 95 0x00 &tlmm 92 0x00 &tlmm 43 0x00>;
 				pinctrl-1 = <0x476 0x484>;
 				pinctrl-0 = <0x475 0x483>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25753,8 +25753,8 @@
 			};
 
 			qcom,cam-sensor0 {
-				hdmi_bdg_reset_pin = <0x65 0x02 0x00>;
-				hdmi_bdg_irq_pin = <0x65 0x79 0x2002>;
+				hdmi_bdg_reset_pin = <&tlmm 2 0x00>;
+				hdmi_bdg_irq_pin = <&tlmm 121 0x2002>;
 				clock-rates = <0x16e3600>;
 				clock-cntl-level = "turbo";
 				clock-names = "cam_clk";
@@ -25767,7 +25767,7 @@
 				gpio-req-tbl-num = <0x00 0x01 0x02>;
 				gpio-custom1 = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5e 0x00 0x65 0x02 0x00 0x65 0x03 0x00>;
+				gpios = <&tlmm 94 0x00 &tlmm 2 0x00 &tlmm 3 0x00>;
 				pinctrl-1 = <0x474 0x482>;
 				pinctrl-0 = <0x473 0x481>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25807,7 +25807,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x60 0x00 0x65 0x4e 0x00>;
+				gpios = <&tlmm 96 0x00 &tlmm 78 0x00>;
 				pinctrl-1 = <0x478 0x486>;
 				pinctrl-0 = <0x477 0x485>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25840,7 +25840,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5f 0x00 0x65 0x5c 0x00>;
+				gpios = <&tlmm 95 0x00 &tlmm 92 0x00>;
 				pinctrl-1 = <0x476 0x484>;
 				pinctrl-0 = <0x475 0x483>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25873,7 +25873,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5e 0x00 0x65 0x5d 0x00>;
+				gpios = <&tlmm 94 0x00 &tlmm 93 0x00>;
 				pinctrl-1 = <0x474 0x482>;
 				pinctrl-0 = <0x473 0x481>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25906,7 +25906,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5f 0x00 0x65 0x5c 0x00>;
+				gpios = <&tlmm 95 0x00 &tlmm 92 0x00>;
 				pinctrl-1 = <0x476 0x484>;
 				pinctrl-0 = <0x475 0x483>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -25939,7 +25939,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x5e 0x00 0x65 0x5d 0x00>;
+				gpios = <&tlmm 94 0x00 &tlmm 93 0x00>;
 				pinctrl-1 = <0x474 0x482>;
 				pinctrl-0 = <0x473 0x481>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -26096,7 +26096,7 @@
 			pinctrl-names = "cam_default\0cam_suspend";
 			pinctrl-0 = <0x25c 0x25d>;
 			pinctrl-1 = <0x25e 0x25f>;
-			gpios = <0x65 0x69 0x00 0x65 0x6a 0x00 0x65 0x6b 0x00 0x65 0x6c 0x00>;
+			gpios = <&tlmm 105 0x00 &tlmm 106 0x00 &tlmm 107 0x00 &tlmm 108 0x00>;
 			gpio-req-tbl-num = <0x00 0x01 0x02 0x03>;
 			gpio-req-tbl-flags = <0x01 0x01 0x01 0x01>;
 			gpio-req-tbl-label = "CCI_I2C_DATA2\0CCI_I2C_CLK2\0CCI_I2C_DATA3\0CCI_I2C_CLK3";
@@ -26115,7 +26115,7 @@
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-standby = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x63 0x00 0x65 0x83 0x00>;
+				gpios = <&tlmm 99 0x00 &tlmm 131 0x00>;
 				pinctrl-1 = <0x47e 0x48c>;
 				pinctrl-0 = <0x47d 0x48b>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -26151,7 +26151,7 @@
 				gpio-req-tbl-num = <0x00 0x01 0x02>;
 				gpio-standby = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x62 0x00 0x65 0x82 0x00 0x65 0x3a 0x00>;
+				gpios = <&tlmm 98 0x00 &tlmm 130 0x00 &tlmm 58 0x00>;
 				pinctrl-1 = <0x47c 0x48a>;
 				pinctrl-0 = <0x47b 0x489>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -26178,8 +26178,8 @@
 			};
 
 			qcom,cam-sensor3 {
-				hdmi_bdg_reset_pin = <0x65 0x75 0x00>;
-				hdmi_bdg_irq_pin = <0x65 0x7b 0x2002>;
+				hdmi_bdg_reset_pin = <&tlmm 117 0x00>;
+				hdmi_bdg_irq_pin = <&tlmm 123 0x2002>;
 				clock-rates = <0x16e3600>;
 				clock-cntl-level = "turbo";
 				clock-names = "cam_clk";
@@ -26192,7 +26192,7 @@
 				gpio-req-tbl-num = <0x00 0x01 0x02>;
 				gpio-custom1 = <0x02>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x61 0x00 0x65 0x75 0x00 0x65 0x40 0x00>;
+				gpios = <&tlmm 97 0x00 &tlmm 117 0x00 &tlmm 64 0x00>;
 				pinctrl-1 = <0x47a 0x488>;
 				pinctrl-0 = <0x479 0x487>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -26231,7 +26231,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x61 0x00 0x65 0x6d 0x00>;
+				gpios = <&tlmm 97 0x00 &tlmm 109 0x00>;
 				pinctrl-1 = <0x47a 0x488>;
 				pinctrl-0 = <0x479 0x487>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -26262,7 +26262,7 @@
 				gpio-req-tbl-flags = <0x01 0x00>;
 				gpio-req-tbl-num = <0x00 0x01>;
 				gpio-reset = <0x01>;
-				gpios = <0x65 0x60 0x00 0x65 0x4e 0x00>;
+				gpios = <&tlmm 96 0x00 &tlmm 78 0x00>;
 				pinctrl-1 = <0x478 0x486>;
 				pinctrl-0 = <0x477 0x485>;
 				pinctrl-names = "cam_default\0cam_suspend";
@@ -27547,8 +27547,8 @@
 				pinctrl-names = "default";
 				lt,non-pluggable;
 				instance_id = <0x00>;
-				lt,reset-gpio = <0x65 0x02 0x00>;
-				lt,irq-gpio = <0x65 0x01 0x00>;
+				lt,reset-gpio = <&tlmm 2 0x00>;
+				lt,irq-gpio = <&tlmm 1 0x00>;
 				interrupt-names = "lt_irq";
 				interrupts = <0x01 0x00>;
 				interrupt-parent = <0x65>;
@@ -27595,10 +27595,10 @@
 				interrupt-names = "nfc_irq";
 				interrupts = <0x6f 0x00>;
 				interrupt-parent = <0x65>;
-				qcom,nq-clkreq = <0x65 0x07 0x00>;
-				qcom,nq-firm = <0x65 0x6e 0x00>;
-				qcom,nq-ven = <0x65 0x06 0x00>;
-				qcom,nq-irq = <0x65 0x6f 0x00>;
+				qcom,nq-clkreq = <&tlmm 7 0x00>;
+				qcom,nq-firm = <&tlmm 110 0x00>;
+				qcom,nq-ven = <&tlmm 6 0x00>;
+				qcom,nq-irq = <&tlmm 111 0x00>;
 				reg = <0x28>;
 				compatible = "qcom,nq-nci";
 			};
@@ -28025,9 +28025,9 @@
 			gm8775@2d {
 				gm8775,init-command = <0xaa4802 0xb6200180 0x2380347 0x458052c 0x6940700 0x8040905 0xa240b82 0xc130d01 0xe800f20 0x10201103 0x121b1353 0x14011523 0x16401700 0x18011923 0x1a401b00 0x1e465130 0x1f102a01>;
 				panel = <0x64d>;
-				lvds-bl = <0x65 0x3d 0x00>;
-				lcd-reset = <0x65 0x4b 0x00>;
-				lvds-pwren = <0x65 0x3c 0x00>;
+				lvds-bl = <&tlmm 61 0x00>;
+				lcd-reset = <&tlmm 75 0x00>;
+				lvds-pwren = <&tlmm 60 0x00>;
 				vcc3v3-supply = <0x377>;
 				reg = <0x2d>;
 				compatible = "qcom,gm8775_mipi_lvds";
@@ -28294,7 +28294,7 @@
 			nq@64 {
 				compatible = "rtc6226";
 				reg = <0x64>;
-				fmint-gpio = <0x65 0x33 0x00>;
+				fmint-gpio = <&tlmm 51 0x00>;
 				vdd-supply = <0x2cb>;
 				rtc6226,vdd-supply-voltage = "\02K\0\02K";
 				vio-supply = <0xaa>;
@@ -28388,10 +28388,10 @@
 				lontium,vact = <0x438>;
 				lontium,hact = <0x780>;
 				lontium,pclk = <0x7de2900>;
-				vdd-1v2en = <0x65 0x38 0x00>;
-				panel-gpio = <0x65 0x3f 0x00>;
-				bl-gpio = <0x65 0x1e 0x00>;
-				reset-gpio = <0x65 0x17 0x00>;
+				vdd-1v2en = <&tlmm 56 0x00>;
+				panel-gpio = <&tlmm 63 0x00>;
+				bl-gpio = <&tlmm 30 0x00>;
+				reset-gpio = <&tlmm 23 0x00>;
 				reg = <0x29>;
 				compatible = "lontium,lt8911exb1";
 			};
@@ -31164,9 +31164,9 @@
 				sound {
 					qcom,tert-mi2s-gpios = <0x6a5>;
 					qcom,msm-mbhc-usbc-audio-supported = <0x00>;
-					qcom,gpio_en_5v0 = <0x65 0x3a 0x00>;
-					qcom,gpio_en_3v3 = <0x65 0x39 0x00>;
-					qcom,gpio_vbuck5_en = <0x65 0x38 0x00>;
+					qcom,gpio_en_5v0 = <&tlmm 58 0x00>;
+					qcom,gpio_en_3v3 = <&tlmm 57 0x00>;
+					qcom,gpio_vbuck5_en = <&tlmm 56 0x00>;
 					qcom,msm_audio_ssr_devs = <0x5e9 0x5eb 0x681 0x5ec>;
 					qcom,codec-aux-devs = <0x680>;
 					qcom,codec-max-aux-devs = <0x00>;
@@ -32937,8 +32937,8 @@
 			qca,bt-vdd-rfa1-supply = <0xab>;
 			qca,bt-vdd-dig-supply = <0xa9>;
 			qca,bt-vdd-aon-supply = <0xa8>;
-			qca,bt-sw-ctrl-gpio = <0x65 0x7c 0x00>;
-			qca,bt-reset-gpio = <0x65 0x15 0x00>;
+			qca,bt-sw-ctrl-gpio = <&tlmm 124 0x00>;
+			qca,bt-reset-gpio = <&tlmm 21 0x00>;
 			pinctrl-0 = <0x4b0>;
 			pinctrl-names = "default";
 			compatible = "qca,qca6390";
