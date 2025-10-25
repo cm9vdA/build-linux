@@ -59,12 +59,11 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&led_pin>;
 
-		user_led: led {
-			label = "user_led";
+		power_led: power-led {
+			label = "power_led";
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&tlmm 48 GPIO_ACTIVE_HIGH>; // verify
 			default-state = "on";
-			panic-indicator;
 		};
 	};
 
@@ -238,6 +237,23 @@
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_host0_en>;
+	};
+
+	vcc5v0_host1: vcc5v0-host1 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_host1";
+
+		vin-supply = <&dc12v>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+
+		gpio = <&tlmm 119 GPIO_ACTIVE_HIGH>; // bsp
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_host1_en>;
 	};
 
 	vcc3v3_host0: vcc3v3-host0 {
@@ -936,6 +952,11 @@
 			function = "gpio";
 			output-high;
 		};
+		vcc5v0_host1_en: vcc5v0-host1-en {
+			pins = "gpio119"; // bsp
+			function = "gpio";
+			output-high;
+		};
 		vcc3v3_host0_en: vcc3v3-host0-en {
 			pins = "gpio112"; // bsp
 			function = "gpio";
@@ -965,11 +986,28 @@
 		"";
 
 	vol_up_pin_a: vol-up-pin {
-		pins = "gpio6";
+		pins = "gpio6"; // bsp
 		function = "normal";
 		input-enable;
 		bias-pull-up;
 		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
+	};
+};
+
+&pm8150l_lpg {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	user_led: led@3 {
+		reg = <3>;
+		color = <LED_COLOR_ID_BLUE>;
+		function = LED_FUNCTION_HEARTBEAT;
+		function-enumerator = <3>;
+		label = "user_led";
+		linux,default-trigger = "heartbeat";
+		default-state = "on";
 	};
 };
 
