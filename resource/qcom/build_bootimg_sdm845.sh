@@ -69,8 +69,11 @@ rm -rf ./lib/modules
 mkdir -p ./lib/firmware
 mkdir -p ./lib/modules
 
-cp -dpr ${TMP_KERNEL}/lib/modules ./lib/modules
+cp -dpr ${TMP_KERNEL}/lib/modules/* ./lib/modules
+rm -rf ./lib/modules/*/kernel/drivers/media/platform/qcom/venus/
 cp -dpr ${FIRMWARE_DIR}/* ./lib/firmware
+
+echo -e "blacklist venus_core\nblacklist venus_dec\nblacklist venus_enc" > ${TMP_RAMDISK}/etc/modprobe.d/blacklist-venus.conf
 
 echo "Stage 4: Pack Ramdisk..."
 cd ${TMP_RAMDISK}
@@ -79,8 +82,13 @@ find . | cpio -o -H newc | gzip >${TMP_DIR}/ramdisk.cpio.gz
 echo "Stage 5: Build boot.img"
 cd ${PWD_DIR}
 cat ${TMP_KERNEL}/Image.gz ${TMP_KERNEL}/*.dtb >${TMP_DIR}/kernel.img
+
+CMDLINE="earlycon root=PARTLABEL=rootfs rw console=tty0 console=ttyMSM0,115200n8"
+
 #linaro
-mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x80008000 --ramdisk_offset 0x81000000 --second_offset 0x80f00000 --tags_offset 0x80000100 --cmdline 'earlycon root=PARTLABEL=rootfs rw console=tty0 console=ttyMSM0,115200n8 clk_ignore_unused pd_ignore_unused' --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
+#mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x80008000 --ramdisk_offset 0x81000000 --second_offset 0x80f00000 --tags_offset 0x80000100 --cmdline "${CMDLINE}" --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
+# Armbian
+mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --second_offset 0x00f00000 --tags_offset 0x00000100 --cmdline "${CMDLINE}" --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 #posmarketos
 #mkbootimg --base 0x0 --kernel_offset 0x8000 --ramdisk_offset 0x1000000 --tags_offset 0x100 --pagesize 4096 --second_offset 0xf00000  --cmdline 'earlycon=qcom_geni root=PARTLABEL=rootfs console=tty0 console=ttyMSM0,115200n8 clk_ignore_unused pd_ignore_unused' --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 

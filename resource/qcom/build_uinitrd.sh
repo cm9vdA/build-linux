@@ -65,7 +65,7 @@ rm -rf ./lib/modules
 mkdir -p ./lib/firmware
 mkdir -p ./lib/modules
 
-cp -a ${TMP_KERNEL}/lib/modules ./lib/modules
+cp -a ${TMP_KERNEL}/lib/modules/* ./lib/modules
 cp -a ${FIRMWARE_DIR}/* ./lib/firmware
 
 echo "Stage 4: Pack Ramdisk..."

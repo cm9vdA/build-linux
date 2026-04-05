@@ -84,7 +84,7 @@ rm -rf ./lib/modules
 mkdir -p ./lib/firmware
 mkdir -p ./lib/modules
 
-cp -dpr ${TMP_KERNEL}/lib/modules ./lib/modules
+cp -dpr ${TMP_KERNEL}/lib/modules/* ./lib/modules
 sudo mount -o ro ${TMP_MODEM_IMG} ${TMP_MODEM}
 cp -dpr ${TMP_MODEM}/image/* ./lib/firmware
 sudo umount ${TMP_MODEM}
@@ -97,7 +97,9 @@ find . | cpio -o -H newc | gzip >${TMP_DIR}/ramdisk.cpio.gz
 echo "Stage 6: Build boot.img"
 cd ${PWD_DIR}
 cat ${TMP_KERNEL}/Image.gz ${TMP_KERNEL}/*.dtb >${TMP_DIR}/kernel.img
-mkbootimg --base 0 --pagesize 2048 --kernel_offset 0x80080000 --ramdisk_offset 0x82000000 --second_offset 0x00000000 --tags_offset 0x81e00000 --cmdline 'earlycon root=/dev/mmcblk0p14 console=ttyMSM0,115200 rw' --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
+
+CMDLINE="earlycon root=/dev/mmcblk0p14 console=ttyMSM0,115200 rw"
+mkbootimg --base 0 --pagesize 2048 --kernel_offset 0x80080000 --ramdisk_offset 0x82000000 --second_offset 0x00000000 --tags_offset 0x81e00000 --cmdline "${CMDLINE}" --kernel ${TMP_DIR}/kernel.img --ramdisk ${TMP_DIR}/ramdisk.cpio.gz -o ${PWD_DIR}/boot.img
 
 echo "Stage 7: Clean file"
 rm -rf ${TMP_DIR}
