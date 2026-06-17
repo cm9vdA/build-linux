@@ -1,0 +1,17 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="H845C"
+PACK_NAME="h845c"
+CPU_INFO="Qualcomm Snapdragon 845"
+VENDOR="qcom"
+BOARD_CODE="sdm845-h845c"
+BOARD_DEFCONFIG="defconfig hardening.config"
+BOARD_INC_DEFCONFIG="common sdm845"
+KERNEL_FMT=default
+KERNEL_NAME="mainline"
+#KERNEL_COMPATIBLE="https://gitlab.com/sdm845-mainline/linux.git"
+
+# Build Config
+NO_CROSS_COMPILE=0
