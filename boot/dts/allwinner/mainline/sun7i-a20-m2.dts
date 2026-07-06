@@ -30,46 +30,34 @@
 			};
 		};
 	};
+
+	// lcd_bl: lcd-bl {
+	// 	compatible = "gpio-backlight";
+	// 	gpios = <&pio 8 9 GPIO_ACTIVE_HIGH>; /* PI9 */
+	// };
 };
 
-#if 0
-/ {
-	spi_gpio: spi-gpio {
-		compatible = "spi-gpio";
-		#address-cells = <1>;
-		#size-cells = <0>;
-		cs-gpios = <&pio 8 9 GPIO_ACTIVE_LOW>; /* PI9 */
-		sck-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; /* PI8 */
-		mosi-gpios = <&pio 8 7 GPIO_ACTIVE_HIGH>; /* PI7 */
-		miso-gpios = <&pio 8 6 GPIO_ACTIVE_HIGH>; /* PI6 */
-		num-chipselects = <1>;
+&spi2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi2_pb_pins>,
+		    <&spi2_cs0_pb_pin>;
+	status = "okay";
+
+	display@0 {
+		status = "disabled";
+		compatible = "sitronix,st7735r";
+		reg = <0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&spi_gpio_pins_out &spi_gpio_pins_in>;
-
-		spidev@0 {
-			compatible = "spidev";
-			reg = <0>;						// CS编号
-			spi-max-frequency = <1000000>;	// 1MHz
-		};
+		spi-max-frequency = <32000000>;
+		dc-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; /* PI8 */
+		reset-gpios = <&pio 8 7 GPIO_ACTIVE_LOW>; /* PI7 */
+		rotate = <270>;
+		buswidth = <8>;
+		width = <128>;
+		height = <160>;
+		// backlight = <&lcd_bl>;
 	};
 };
-
-&pio {
-	spi_gpio_pins_out: spi_gpio_pins_out {
-		allwinner,pins = "PI7", "PI8", "PI9", "PI5";  // MOSI, SCLK, CS, RESET
-		allwinner,function = "gpio_out";
-		allwinner,drive = <1>;
-		allwinner,pull = <0>;
-	};
-
-	spi_gpio_pins_in: spi_gpio_pins_in {
-		allwinner,pins = "PI6";  // MISO
-		allwinner,function = "gpio_in";
-		allwinner,drive = <1>;
-		allwinner,pull = <0>;
-	};
-};
-#endif
 
 &cpu0 {
 	cpu-supply = <&reg_dcdc2>;
@@ -407,4 +395,8 @@
 *  PB13, RTP/CTP:Y+/WAKE
 *  PH24, LED
 *  PB04, IR
+*  PB14, MS
+*  PB15, CK
+*  PB16, DO
+*  PB17, DI
 */
