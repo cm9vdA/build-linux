@@ -31,10 +31,14 @@
 		};
 	};
 
-	// lcd_bl: lcd-bl {
-	// 	compatible = "gpio-backlight";
-	// 	gpios = <&pio 8 9 GPIO_ACTIVE_HIGH>; /* PI9 */
-	// };
+	lcd_bl: lcd-bl {
+		status = "disabled";
+		compatible = "gpio-backlight";
+		pinctrl-names = "default";
+		pinctrl-0 = <&lcd_bl_pin>;
+		gpios = <&pio 8 9 GPIO_ACTIVE_HIGH>; /* PI9 */
+		default-on;
+	};
 };
 
 &spi2 {
@@ -176,6 +180,7 @@
 };
 
 &i2c1 {
+	pinctrl-names = "default";
 	status = "okay";
 };
 
@@ -188,20 +193,27 @@
 	status = "okay";
 };
 
-/*
 &pio {
-	/omit-if-no-ref/
-	i2c4_pins: i2c4-pins {
-		pins = "PI2", "PI3";
-		function = "i2c4";
+	lcd {
+		lcd_bl_pin: lcd-bl-pin {
+			pins = "PI9";
+			function = "gpio_out";
+			drive-strength = <20>;
+		};
+
+		lcd_dc_pin: lcd-dc-pin {
+			pins = "PI8";
+			function = "gpio_out";
+			drive-strength = <20>;
+		};
+
+		lcd_rst_pin: lcd-rst-pin {
+			pins = "PI7";
+			function = "gpio_out";
+			drive-strength = <20>;
+		};
 	};
 };
-
-&i2c4 {
-	pinctrl-0 = <&i2c4_pins>;
-	status = "okay";
-};
-*/
 
 &ir0 {
 	pinctrl-names = "default";
@@ -308,7 +320,7 @@
 };
 
 // MAX3232: T2, R2
-&uart6{
+&uart6 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart6_pi_pins>;
 	status = "okay";
