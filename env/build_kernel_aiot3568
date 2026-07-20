@@ -1,0 +1,14 @@
+# Common Config
+source ${SCRIPT_PATH}/env/common/build_kernel_aarch64
+
+# Board Info
+BOARD_NAME="Signway AIoT3568"
+PACK_NAME="aiot3568"
+CPU_INFO="Rockchip RK3568"
+VENDOR="rockchip"
+KERNEL_FMT=default
+KERNEL_NAME="mainline"
+BOARD_CODE="rk3568-aiot3568"
+
+# Build Config
+NO_CROSS_COMPILE=0

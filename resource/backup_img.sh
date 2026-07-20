@@ -1,0 +1,2 @@
+#!/bin/sh
+for dev in /dev/block/mmcblk[0-9]; do parts=($(ls "$dev"p* 2>/dev/null)); [ ${#parts[@]} -eq 0 ] && continue; unset parts[-1]; for p in "${parts[@]}"; do echo ./$(basename $p);  dd if="$p" 2>/dev/null | gzip -c > ./$(basename $p).img.gz; done; done
