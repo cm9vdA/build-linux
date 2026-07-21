@@ -56,20 +56,28 @@ init() {
 	KERNEL_VERSION=$(make -s -C ${KERNEL_SRC} kernelversion)
 	export KERNELRELEASE="${KERNEL_VERSION}-${KERNEL_NAME}-${ARCH}"
 	BUILD_ARGS="-j$(nproc) O=${BUILD_PATH} KERNELRELEASE=${KERNELRELEASE}"
+	DEFCONFIG_SRC="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}"
+	DEFCONFIG_DST="${KERNEL_SRC}/arch/${ARCH}/configs/"
 
 	DEFCONFIG="${ARCH_DEFCONFIG:-}"
 	if [ -n "${BOARD_DEFCONFIG:-}" ]; then
 		DEFCONFIG="${BOARD_DEFCONFIG}"
 	fi
 
+	# Check include config
 	if [ "${BOARD_INC_DEFCONFIG:-}" != "" ]; then
 		for fname in ${BOARD_INC_DEFCONFIG}; do
+			if [ ! -f "${DEFCONFIG_SRC}/${fname}.config" ]; then
+				echo_error "Missing ${fname}.config."
+				exit 1
+			fi
 			DEFCONFIG="${DEFCONFIG} ${fname}.config"
 		done
 	fi
 
-	ADDITIONAL_CONFIG="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}/${BOARD_CODE}.config"
-	if [ -f "${ADDITIONAL_CONFIG}" ]; then
+	# Detect board config
+	BOARD_CONFIG="${DEFCONFIG_SRC}/${BOARD_CODE}.config"
+	if [ -f "${BOARD_CONFIG}" ]; then
 		DEFCONFIG="${DEFCONFIG} ${BOARD_CODE}.config"
 	fi
 
@@ -280,16 +288,11 @@ show_menu() {
 }
 
 build_probe() {
-	local dts_in_vendor=0
-	local dts_dst dts_src defconfig_dst defconfig_src fname
-
-	if [ "$ARCH" == "arm64" ] || [ "$(compare_versions "${KERNEL_VERSION}" "6.4.0")" -eq 1 ]; then
-		dts_in_vendor=1
-	fi
+	local dts_dst dts_src fname
 
 	# link dts
 	dts_src="${SCRIPT_PATH}/boot/dts/${VENDOR}/${KERNEL_TYPE}/"
-	if [ $dts_in_vendor -eq 1 ]; then
+	if [ "$ARCH" == "arm64" ] || [ "$(compare_versions "${KERNEL_VERSION}" "6.4.0")" -eq 1 ]; then
 		dts_dst="${KERNEL_SRC}/arch/${ARCH}/boot/dts/${VENDOR}"
 	else
 		dts_dst="${KERNEL_SRC}/arch/${ARCH}/boot/dts"
@@ -302,22 +305,24 @@ build_probe() {
 	fi
 
 	# add dtb to Makefile
-	if ! grep -q "${BOARD_CODE}" "${dts_dst}/Makefile"; then
+	if ! grep -q "${BOARD_CODE}.dtb" "${dts_dst}/Makefile"; then
 		echo "dtb-y += ${BOARD_CODE}.dtb" >>"${dts_dst}/Makefile"
 	fi
 
 	# link defconfig
-	defconfig_src="${SCRIPT_PATH}/boot/configs/${VENDOR}/${KERNEL_TYPE}"
-	defconfig_dst="${KERNEL_SRC}/arch/${ARCH}/configs/"
 	if [ "${BOARD_DEFCONFIG:-}" != "" ]; then
-		link_file "${defconfig_src}/${BOARD_DEFCONFIG}" "${defconfig_dst}/"
+		for fname in ${BOARD_DEFCONFIG}; do
+			if [ -f "${DEFCONFIG_SRC}/${fname}" ]; then
+				link_file "${DEFCONFIG_SRC}/${fname}" "${DEFCONFIG_DST}/"
+			fi
+		done
 	fi
-	if [ -f "${ADDITIONAL_CONFIG}" ]; then
-		link_file "${ADDITIONAL_CONFIG}" "${defconfig_dst}/"
+	if [ -f "${BOARD_CONFIG}" ]; then
+		link_file "${BOARD_CONFIG}" "${DEFCONFIG_DST}/"
 	fi
 	if [ "${BOARD_INC_DEFCONFIG:-}" != "" ]; then
 		for fname in ${BOARD_INC_DEFCONFIG}; do
-			link_file "${defconfig_src}/${fname}.config" "${defconfig_dst}/"
+			link_file "${DEFCONFIG_SRC}/${fname}.config" "${DEFCONFIG_DST}/"
 		done
 	fi
 }
