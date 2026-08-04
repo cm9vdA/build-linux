@@ -80,14 +80,14 @@ process() {
 
 build_atf() {
 	check_dependency "${DEPENDENCY_LIST}"
-
+	ATF_SRC=${WORKSPACE_PATH}/arm-trusted-firmware
 	[ -z "${ATF_PLAT:-}" ] && echo_warn "ATF_PLAT not set" && return
 	[ ! -d "${ATF_SRC:-}" ] && git clone https://github.com/ARM-software/arm-trusted-firmware.git "${ATF_SRC}"
 	cd "${ATF_SRC}"
 	unset BL31
 	make clean distclean
 	git pull
-	make CROSS_COMPILE=aarch64-linux-gnu- PLAT=${ATF_PLAT}
+	make CROSS_COMPILE=aarch64-linux-gnu- PLAT=${ATF_PLAT} ENABLE_LTO=0 DEBUG=0
 }
 
 build_probe() {
