@@ -1,0 +1,41 @@
+gpiochip0: GPIOs 0-31, parent: platform/fdd60000.gpio, gpio0:
+ gpio-0   (                    |pwm-type            ) out hi    
+ gpio-2   (                    |vsel                ) out lo    
+ gpio-5   (                    |vcc5v0_otg          ) out hi    
+ gpio-6   (                    |usb30-host1-pwr     ) out hi    
+ gpio-16  (                    |enable              ) out hi    
+ gpio-21  (                    |vcc3v3_mipi_panel   ) out lo    
+ gpio-23  (                    |enable              ) out hi    
+ gpio-28  (                    |vcc3v3_pcie         ) out lo    
+ gpio-29  (                    |enable              ) out hi    
+
+gpiochip1: GPIOs 32-63, parent: platform/fe740000.gpio, gpio1:
+
+gpiochip2: GPIOs 64-95, parent: platform/fe750000.gpio, gpio2:
+ gpio-73  (                    |reset               ) out hi    
+ gpio-78  (                    |bt_default_rts      ) in  lo    
+ gpio-79  (                    |bt_default_reset    ) out lo    
+ gpio-80  (                    |bt_default_wake_host) in  lo    
+ gpio-81  (                    |bt_default_wake     ) in  lo    
+ gpio-86  (                    |4G,vbat             ) out hi    
+ gpio-92  (                    |vcc3v3_edp_panel    ) out lo    
+ gpio-94  (                    |modem-pcie-pwr      ) out hi    
+
+gpiochip3: GPIOs 96-127, parent: platform/fe760000.gpio, gpio3:
+ gpio-97  (                    |led-green-gpio      ) out hi    
+ gpio-109 (                    |rs485-re            ) out lo    
+ gpio-110 (                    |gain1-ctl           ) out lo    
+ gpio-113 (                    |reset               ) out hi    
+ gpio-114 (                    |headset_gpio        ) in  lo    
+ gpio-115 (                    |hp-ctl              ) out lo    
+ gpio-118 (                    |usb20-host2-pwr     ) out hi    
+ gpio-120 (                    |mdio-reset          ) out hi    
+ gpio-121 (                    |uart-power          ) out hi    
+ gpio-122 (                    |fan-ctrl            ) out lo    
+ gpio-123 (                    |4G,reset            ) out lo    
+ gpio-126 (                    |usb20-con9-pwr      ) out hi    
+ gpio-127 (                    |usb20-con10-pwr     ) out hi    
+
+gpiochip4: GPIOs 128-159, parent: platform/fe770000.gpio, gpio4:
+
+gpiochip5: GPIOs 511-511, parent: platform/rk805-pinctrl, rk817-gpio, can sleep:

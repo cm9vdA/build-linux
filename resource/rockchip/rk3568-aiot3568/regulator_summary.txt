@@ -1,0 +1,82 @@
+ regulator                      use open bypass voltage current     min     max
+-------------------------------------------------------------------------------
+ regulator-dummy                  1    5      0     0mV     0mA     0mV     0mV 
+    fe070000.dsi.0-vsn                                              0mV     0mV
+    fe070000.dsi.0-vsp                                              0mV     0mV
+    fe070000.dsi.0-power                                            0mV     0mV
+    backlight-power                                                 0mV     0mV
+    regulator-dummy                                                 0mV     0mV
+ dc_12v                           1    5      0 12000mV     0mA 12000mV 12000mV 
+    dc_12v                                                          0mV     0mV
+    vcc3v3_pcie                   0    1      0  3300mV     0mA  3300mV  3300mV 
+       3c0000000.pcie-vpcie3v3                                      0mV     0mV
+    vcc3v3_sys                    1   22      0  3300mV     0mA  3300mV  3300mV 
+       vcc3v3_sys                                                   0mV     0mV
+       vcc3v3_mipi_panel          0    1      0  3300mV     0mA  3300mV  3300mV 
+          vcc3v3_mipi_panel                                         0mV     0mV
+       vcc3v3_edp_panel           0    1      0  3300mV     0mA  3300mV  3300mV 
+          vcc3v3_edp_panel                                          0mV     0mV
+       vdd_logic                  1    3      0   900mV     0mA   500mV  1350mV 
+          dmc-center                                              900mV  1350mV
+          bus-npu-bus                                             875mV  1350mV
+          vdd_logic                                                 0mV     0mV
+       vdd_gpu                    1    2      0   850mV     0mA   500mV  1350mV 
+          fde60000.gpu-mali                                       850mV  1350mV
+          vdd_gpu                                                   0mV     0mV
+       vcc_ddr                    1    1      0   500mV     0mA     0mV     0mV 
+          vcc_ddr                                                   0mV     0mV
+       vdd_npu                    1    2      0   850mV     0mA   500mV  1350mV 
+          fde40000.npu-rknpu                                      850mV  1350mV
+          vdd_npu                                                   0mV     0mV
+       vcc_1v8                    1    2      0  1800mV     0mA  1800mV  1800mV 
+          fdc20000.syscon:io-domains-vccio6                                     0mV     0mV
+          vcc_1v8                                                   0mV     0mV
+       vdda0v9_image              1    1      0   900mV     0mA   900mV   900mV 
+          vdda0v9_image                                             0mV     0mV
+       vdda_0v9                   1    1      0   900mV     0mA   900mV   900mV 
+          vdda_0v9                                                  0mV     0mV
+       vdda0v9_pmu                1    1      0   900mV     0mA   900mV   900mV 
+          vdda0v9_pmu                                               0mV     0mV
+       vccio_acodec               1    2      0  3300mV     0mA  3300mV  3300mV 
+          fdc20000.syscon:io-domains-vccio1                                     0mV     0mV
+          vccio_acodec                                              0mV     0mV
+       vccio_sd                   1    3      0  3300mV     0mA  1800mV  3300mV 
+          fe2b0000.dwmmc-vqmmc                                   3300mV  3300mV
+          fdc20000.syscon:io-domains-vccio3                                     0mV     0mV
+          vccio_sd                                                  0mV     0mV
+       vcc3v3_pmu                 1    2      0  3300mV     0mA  3300mV  3300mV 
+          fdc20000.syscon:io-domains-pmuio2                                     0mV     0mV
+          vcc3v3_pmu                                                0mV     0mV
+       vcca_1v8                   1    2      0  1800mV     0mA  1800mV  1800mV 
+          fe720000.saradc-vref                                      0mV     0mV
+          vcca_1v8                                                  0mV     0mV
+       vcca1v8_pmu                1    1      0  1800mV     0mA  1800mV  1800mV 
+          vcca1v8_pmu                                               0mV     0mV
+       vcca1v8_image              1    1      0  1800mV     0mA  1800mV  1800mV 
+          vcca1v8_image                                             0mV     0mV
+       vcc_3v3                    1    4      0  3300mV     0mA     0mV     0mV 
+          fdc20000.syscon:io-domains-vccio7                                     0mV     0mV
+          fdc20000.syscon:io-domains-vccio5                                     0mV     0mV
+          fdc20000.syscon:io-domains-vccio4                                     0mV     0mV
+          vcc_3v3                                                   0mV     0mV
+       vcc3v3_sd                  1    2      0  3300mV     0mA     0mV     0mV 
+          fe2b0000.dwmmc-vmmc                                    3300mV  3400mV
+          vcc3v3_sd                                                 0mV     0mV
+       vcc2v5-sys                 1    1      0  2500mV     0mA  2500mV  2500mV 
+          vcc2v5-sys                                                0mV     0mV
+       pcie30_avdd0v9             1    1      0   900mV     0mA   900mV   900mV 
+          pcie30_avdd0v9                                            0mV     0mV
+       pcie30_avdd1v8             1    1      0  1800mV     0mA  1800mV  1800mV 
+          pcie30_avdd1v8                                            0mV     0mV
+    vcc5v0_sys                    1    3      0  5000mV     0mA  5000mV  5000mV 
+       vcc5v0_sys                                                   0mV     0mV
+       vdd_cpu                    1    2      0  1025mV     0mA   712mV  1500mV 
+          cpu0-cpu                                               1025mV  1150mV
+          vdd_cpu                                                   0mV     0mV
+       vcc3v3_bu                  1    1      0  3300mV     0mA  3300mV  3300mV 
+          vcc3v3_bu                                                 0mV     0mV
+    vcc5v0_usb                    1    2      0  5000mV     0mA  5000mV  5000mV 
+       vcc5v0_usb                                                   0mV     0mV
+       vcc5v0_otg                 1    2      0  5000mV     0mA  5000mV  5000mV 
+          phy-fe8a0000.usb2-phy.1-vbus                                     0mV     0mV
+          vcc5v0_otg                                                0mV     0mV

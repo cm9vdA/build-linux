@@ -427,7 +427,7 @@
 		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x06 0x07 0x08>;
 		nvmem-cell-names = "leakage\0pvtm\0mbist-vmin";
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 0x186a0 0x02>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 100000 0x02>;
 		rockchip,pvtm-freq = <0x639c0>;
 		rockchip,pvtm-volt = <900000>;
 		rockchip,pvtm-ch = <0x00 0x05>;
@@ -881,7 +881,7 @@
 		clock-names = "sata\0pmalive\0rxoob";
 		interrupts = <0x00 0x5e 0x04>;
 		interrupt-names = "hostc";
-		phys = <0x20 0x01>;
+		phys = <&combphy0 0x01>;
 		phy-names = "sata-phy";
 		ports-implemented = <0x01>;
 		power-domains = <0x21 0x0f>;
@@ -929,7 +929,7 @@
 		status = "okay";
 		phandle = <0x178>;
 
-		dwc3@fcc00000 {
+		usb_host0_xhci: dwc3@fcc00000 {
 			compatible = "snps,dwc3";
 			reg = <0x00 0xfcc00000 0x00 0x400000>;
 			interrupts = <0x00 0xa9 0x04>;
@@ -965,12 +965,12 @@
 		status = "okay";
 		phandle = <0x17a>;
 
-		dwc3@fd000000 {
+		usb_host1_xhci: dwc3@fd000000 {
 			compatible = "snps,dwc3";
 			reg = <0x00 0xfd000000 0x00 0x400000>;
 			interrupts = <0x00 0xaa 0x04>;
 			dr_mode = "host";
-			phys = <0x26 0x22 0x04>;
+			phys = <0x26 &combphy1 0x04>;
 			phy-names = "usb2-phy\0usb3-phy";
 			phy_type = "utmi_wide";
 			power-domains = <0x21 0x0f>;
@@ -1247,7 +1247,7 @@
 		phandle = <0x32>;
 	};
 
-	clock-controller@fdd20000 {
+	cru: clock-controller@fdd20000 {
 		compatible = "rockchip,rk3568-cru";
 		reg = <0x00 0xfdd20000 0x00 0x1000>;
 		rockchip,grf = <0x33>;
@@ -1785,7 +1785,7 @@
 		rockchip,temp-hysteresis = <0x1388>;
 		rockchip,low-temp = <0x00>;
 		rockchip,low-temp-adjust-volt = <0x00 0x2bc 0xc350>;
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 0x186a0 0x02>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 100000 0x02>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0x63>;
 
@@ -1863,7 +1863,7 @@
 		opp-shared;
 		nvmem-cells = <0x07>;
 		nvmem-cell-names = "pvtm";
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 0x186a0 0x02>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 100000 0x02>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0x67>;
 
@@ -1922,7 +1922,7 @@
 			compatible = "simple-power-model";
 			leakage-range = <0x05 0x0f>;
 			ls = <0xffffa23e 0x5927 0x00>;
-			static-coefficient = <0x186a0>;
+			static-coefficient = <100000>;
 			dynamic-coefficient = <0x3b9>;
 			ts = <0xfffe56a6 0xf87a 0xfffffab5 0x14>;
 			thermal-zone = "gpu-thermal";
@@ -1935,7 +1935,7 @@
 		mbist-vmin = <0xc96a8 900000 0xe7ef0>;
 		nvmem-cells = <0x6b 0x07 0x08>;
 		nvmem-cell-names = "leakage\0pvtm\0mbist-vmin";
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 0x186a0 0x02>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 100000 0x02>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0x69>;
 
@@ -2197,7 +2197,7 @@
 		compatible = "operating-points-v2";
 		nvmem-cells = <0x07>;
 		nvmem-cell-names = "pvtm";
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 0x186a0 0x02>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x16378 0x01 0x16379 100000 0x02>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0x73>;
 
@@ -2268,7 +2268,7 @@
 		nvmem-cells = <0x77 0x07>;
 		nvmem-cell-names = "leakage\0pvtm";
 		rockchip,leakage-voltage-sel = <0x01 0x50 0x00 0x51 0xfe 0x01>;
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x186a0 0x01>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 100000 0x01>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0x74>;
 
@@ -2491,10 +2491,10 @@
 		clock_in_out = "output";
 		snps,reset-gpio = <&gpio3 RK_PD0 0x01>;
 		snps,reset-active-low;
-		snps,reset-delays-us = <0x00 0x4e20 0x186a0>;
-		assigned-clocks = <0x1f 0x189 0x1f 0x186 0x1f 0xc6>;
-		assigned-clock-parents = <0x1f 0x188>;
-		assigned-clock-rates = <0x00 0x2faf080 0x17d7840>;
+		snps,reset-delays-us = <0 20000 100000>;
+		assigned-clocks = <0x1f SCLK_GMAC1_RX_TX 0x1f SCLK_GMAC1 0x1f CLK_MAC1_OUT>;
+		assigned-clock-parents = <0x1f SCLK_GMAC1_RMII_SPEED>;
+		assigned-clock-rates = <0 50000000 25000000>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x84 0x85 0x86 0x87 0x88 0x89>;
 		tx_delay = <0x4f>;
@@ -3322,7 +3322,7 @@
 		rockchip,low-temp = <0x00>;
 		rockchip,low-temp-adjust-volt = <0x00 0x618 0x124f8>;
 		rockchip,leakage-voltage-sel = <0x01 0x50 0x00 0x51 0xfe 0x01>;
-		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 0x186a0 0x01>;
+		rockchip,pvtm-voltage-sel = <0x00 0x14820 0x00 0x14821 100000 0x01>;
 		rockchip,pvtm-ch = <0x00 0x05>;
 		phandle = <0xaf>;
 
@@ -3340,7 +3340,7 @@
 		phandle = <0x1c2>;
 	};
 
-	pcie@fe260000 {
+	pcie2x1: pcie@fe260000 {
 		compatible = "rockchip,rk3568-pcie\0snps,dw-pcie";
 		#address-cells = <0x03>;
 		#size-cells = <0x02>;
@@ -3359,7 +3359,7 @@
 		max-link-speed = <0x02>;
 		msi-map = <0x00 0xb6 0x00 0x1000>;
 		num-lanes = <0x01>;
-		phys = <0x23 0x02>;
+		phys = <&combphy2 0x02>;
 		phy-names = "pcie-phy";
 		power-domains = <0x21 0x0f>;
 		ranges = <0x800 0x00 0x00 0x03 0x00 0x00 0x800000 0x81000000 0x00 0x800000 0x03 0x800000 0x00 0x100000 0x83000000 0x00 0x900000 0x03 0x900000 0x00 0x3f700000>;
@@ -3484,7 +3484,7 @@
 		clock_in_out = "output";
 		snps,reset-gpio = <&gpio2 RK_PD3 0x01>;
 		snps,reset-active-low;
-		snps,reset-delays-us = <0x00 0x4e20 0x186a0>;
+		snps,reset-delays-us = <0x00 20000 100000>;
 		assigned-clocks = <0x1f 0x185 0x1f 0x182>;
 		assigned-clock-parents = <0x1f 0x183 0x1f 0xb6>;
 		assigned-clock-rates = <0x00 0x7735940>;
@@ -4525,7 +4525,7 @@
 		phandle = <0x1f8>;
 	};
 
-	phy@fe820000 {
+	combphy0: phy@fe820000 {
 		compatible = "rockchip,rk3568-naneng-combphy";
 		reg = <0x00 0xfe820000 0x00 0x100>;
 		#phy-cells = <0x01>;
@@ -4542,7 +4542,7 @@
 		phandle = <0x20>;
 	};
 
-	phy@fe830000 {
+	combphy1: phy@fe830000 {
 		compatible = "rockchip,rk3568-naneng-combphy";
 		reg = <0x00 0xfe830000 0x00 0x100>;
 		#phy-cells = <0x01>;
@@ -4558,7 +4558,7 @@
 		phandle = <0x22>;
 	};
 
-	phy@fe840000 {
+	combphy2: phy@fe840000 {
 		compatible = "rockchip,rk3568-naneng-combphy";
 		reg = <0x00 0xfe840000 0x00 0x100>;
 		#phy-cells = <0x01>;
@@ -4663,7 +4663,7 @@
 		phandle = <0x1fb>;
 	};
 
-	usb2-phy@fe8a0000 {
+	usb2phy0: usb2-phy@fe8a0000 {
 		compatible = "rockchip,rk3568-usb2phy";
 		reg = <0x00 0xfe8a0000 0x00 0x10000>;
 		interrupts = <0x00 0x87 0x04>;
@@ -4677,13 +4677,13 @@
 		status = "okay";
 		phandle = <0x25>;
 
-		host-port {
+		usb2phy0_host: host-port {
 			#phy-cells = <0x00>;
 			status = "okay";
 			phandle = <0x26>;
 		};
 
-		otg-port {
+		usb2phy0_otg: otg-port {
 			#phy-cells = <0x00>;
 			status = "okay";
 			vbus-supply = <0x121>;
@@ -4691,7 +4691,7 @@
 		};
 	};
 
-	usb2-phy@fe8b0000 {
+	usb2phy1: usb2-phy@fe8b0000 {
 		compatible = "rockchip,rk3568-usb2phy";
 		reg = <0x00 0xfe8b0000 0x00 0x10000>;
 		interrupts = <0x00 0x88 0x04>;
@@ -4702,13 +4702,13 @@
 		status = "okay";
 		phandle = <0x27>;
 
-		host-port {
+		usb2phy1_host: host-port {
 			#phy-cells = <0x00>;
 			status = "okay";
 			phandle = <0x29>;
 		};
 
-		otg-port {
+		usb2phy1_otg: otg-port {
 			#phy-cells = <0x00>;
 			status = "okay";
 			phandle = <0x28>;
