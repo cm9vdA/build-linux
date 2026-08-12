@@ -108,7 +108,7 @@
 
 	vcc_camera: vcc-camera-regulator {
 		compatible = "regulator-fixed";
-		gpio = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>; // bsp
 		pinctrl-names = "default";
 		pinctrl-0 = <&camera_rst>;
 		regulator-name = "vcc_camera";
@@ -959,7 +959,7 @@
 		irq_enable = <0>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&sensor_gpio>;
-		irq-gpio = <&gpio3 RK_PA2 IRQ_TYPE_EDGE_RISING>;
+		irq-gpio = <&gpio3 RK_PA2 IRQ_TYPE_LEVEL_LOW>;
 		poll_delay_ms = <10>;
 		layout = <1>;
 	};
