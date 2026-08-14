@@ -45,6 +45,7 @@ if [ "${RAMDISK_PKG#*.}" == "cpio.gz" ]; then
     gzip -dc ${RAMDISK_PKG} | cpio -i
 else
     dd if=${RAMDISK_PKG} of=${TMP_DIR}/uInitrd.cpio.gz bs=64 skip=1
+	# dumpimage -T ramdisk ${RAMDISK_PKG} -o ${TMP_DIR}/uInitrd.cpio.gz
     gzip -dc ${TMP_DIR}/uInitrd.cpio.gz | cpio -i
 fi
 
