@@ -92,4 +92,4 @@ mkbootimg --base 0 --pagesize 4096 --kernel_offset 0x00008000 --ramdisk_offset 0
 echo "Stage 6: Clean file"
 rm -rf ${TMP_DIR}
 
-echo "Please run \"sudo dd if=./boot.img of=/dev/sde11; sync\""
+echo "Please run \"sudo dd if=./boot.img of=/dev/sde11 bs=4M; sync\""
